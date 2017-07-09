@@ -420,7 +420,7 @@
 				DEVELOPMENT_TEAM = QQ3CD38Z54;
 				INFOPLIST_FILE = TrueThat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.truethat.TrueThat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.truethat.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -433,7 +433,7 @@
 				DEVELOPMENT_TEAM = QQ3CD38Z54;
 				INFOPLIST_FILE = TrueThat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.truethat.TrueThat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.truethat.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
