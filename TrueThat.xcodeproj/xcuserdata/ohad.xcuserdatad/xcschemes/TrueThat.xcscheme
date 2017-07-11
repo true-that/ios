@@ -38,16 +38,6 @@
                ReferencedContainer = "container:TrueThat.xcodeproj">
             </BuildableReference>
          </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6F4826471F1284F50066394D"
-               BuildableName = "TrueThatUITests.xctest"
-               BlueprintName = "TrueThatUITests"
-               ReferencedContainer = "container:TrueThat.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
