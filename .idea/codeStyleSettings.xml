@@ -31,6 +31,27 @@
             <pair source="c" header="h" />
           </extensions>
         </Objective-C-extensions>
+        <SwiftCodeStyleSettings>
+          <option name="GUARD_ELSE_ON_NEW_LINE" value="true" />
+        </SwiftCodeStyleSettings>
+        <codeStyleSettings language="Swift">
+          <option name="ELSE_ON_NEW_LINE" value="true" />
+          <option name="ALIGN_MULTILINE_CHAINED_METHODS" value="true" />
+          <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
+          <option name="CALL_PARAMETERS_WRAP" value="1" />
+          <option name="METHOD_PARAMETERS_WRAP" value="1" />
+          <option name="METHOD_CALL_CHAIN_WRAP" value="1" />
+          <option name="WRAP_FIRST_METHOD_IN_CALL_CHAIN" value="true" />
+          <option name="KEEP_SIMPLE_BLOCKS_IN_ONE_LINE" value="true" />
+          <indentOptions>
+            <option name="INDENT_SIZE" value="2" />
+            <option name="CONTINUATION_INDENT_SIZE" value="4" />
+            <option name="TAB_SIZE" value="2" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="ruby">
+          <option name="ALIGN_GROUP_FIELD_DECLARATIONS" value="true" />
+        </codeStyleSettings>
       </value>
     </option>
     <option name="USE_PER_PROJECT_SETTINGS" value="true" />
