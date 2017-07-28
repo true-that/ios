@@ -7,9 +7,9 @@ import Foundation
 import ReactiveSwift
 import Result
 
-class ReactableViewModel {
+class ReactableViewModel: Equatable {
   public let directorName = MutableProperty("Anonymous")
-  var model: Reactable!
+  var model: Reactable
 
   // MARK: Initialization
   init(with reactable: Reactable) {
@@ -18,4 +18,8 @@ class ReactableViewModel {
       directorName.value = displayName
     }
   }
+}
+
+func == (lhs: ReactableViewModel, rhs: ReactableViewModel) -> Bool {
+  return lhs.model == rhs.model
 }

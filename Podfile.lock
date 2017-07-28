@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.5.0)
+  - Nimble (6.0.1)
   - OHHTTPStubs (6.0.0):
     - OHHTTPStubs/Default (= 6.0.0)
   - OHHTTPStubs/Core (6.0.0)
@@ -26,6 +27,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.4)
+  - Nimble (~> 6.0.0)
   - OHHTTPStubs
   - OHHTTPStubs/Swift
   - ReactiveCocoa (~> 6.0)
@@ -35,6 +37,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
+  Nimble: 1527fd1bd2b4cf0636251a36bc8ab37e81da8347
   OHHTTPStubs: 752f9b11fd810a15162d50f11c06ff94f8e012eb
   ReactiveCocoa: ca689e37b6a922f0273918220d735c43368de550
   ReactiveSwift: 36339167e571774d936482d0f6512f5118a74731
@@ -43,6 +46,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   Swinject: 85e468ac75c5c2d234076f98c591d57d56bc64bc
 
-PODFILE CHECKSUM: 84789119be17850e51f3e82a7181d3c91fb5c081
+PODFILE CHECKSUM: 24e05ad9fe3b47b07af0b7807a5b0fe4c422beb7
 
 COCOAPODS: 1.2.1

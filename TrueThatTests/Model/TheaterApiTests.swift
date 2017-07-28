@@ -47,7 +47,7 @@ class TheaterApiTests: XCTestCase {
         fetchReactablesExpectation.fulfill()
       })
       .on(failed: {error in
-        XCTAssertTrue(false)
+        XCTFail("Should have succeeded")
         fetchReactablesExpectation.fulfill()
       })
     .start()
@@ -63,7 +63,7 @@ class TheaterApiTests: XCTestCase {
         fetchReactablesExpectation.fulfill()
       })
       .on(failed: {error in
-        XCTAssertTrue(false)
+        XCTFail("Should have succeeded")
         fetchReactablesExpectation.fulfill()
       })
       .start()
@@ -85,7 +85,7 @@ class TheaterApiTests: XCTestCase {
                             created: Date(), viewed: true)]
     _ = TheaterApi.fetchReactables(for: AuthModule().currentUser)
       .on(value: {value in
-        XCTAssertTrue(false)
+        XCTFail("Should have failed")
         fetchReactablesExpectation.fulfill()
       })
       .on(failed: {error in
@@ -104,7 +104,7 @@ class TheaterApiTests: XCTestCase {
     let fetchReactablesExpectation = expectation(description: "bad data fetch reactables")
     _ = TheaterApi.fetchReactables(for: AuthModule().currentUser)
       .on(value: {value in
-        XCTAssertTrue(false)
+        XCTFail("Should have failed")
         fetchReactablesExpectation.fulfill()
       })
       .on(failed: {error in

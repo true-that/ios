@@ -42,13 +42,14 @@ class TheaterViewModel {
   
   public func fetchingData() {
     _ = TheaterApi.fetchReactables(for: authModule.currentUser)
-      .on(value: { self.add(reactables: $0) })
+      .on(value: { self.adding(reactables: $0) })
       .on(failed: {error in
         print(error)
       })
+    .start()
   }
   
-  public func add(reactables: [Reactable]) {
+  private func adding(reactables: [Reactable]) {
     if (reactables.count > 0) {
       currentIndex = viewModels.count
       let newViewModels = reactables.map{ReactableViewModel(with: $0)}

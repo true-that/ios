@@ -66,9 +66,9 @@ class TheaterPageViewController: UIPageViewController {
                        direction: direction,
                        animated: true,
                        completion: { (finished) -> Void in
-//                          Setting the view controller programmatically does not fire
-//                          any delegate methods, so we have to manually notify the
-//                          'tutorialDelegate' of the new index.
+                        // Setting the view controller programmatically does not fire
+                        // any delegate methods, so we have to manually notify the
+                        // 'pagerDelegate' of the new index.
                          self.notifyTheaterDelegateOfNewIndex()
                        })
   }
@@ -77,10 +77,10 @@ class TheaterPageViewController: UIPageViewController {
    Notifies the delegate that the current page index was updated.
    */
   fileprivate func notifyTheaterDelegateOfNewIndex() {
-    if let firstViewController = viewControllers?.first,
-       let index = orderedViewControllers.index(of: firstViewController as! ReactableViewController) {
-      pagerDelegate?.theaterPageViewController(self, didUpdatePageIndex: index)
-      log.debug("new index \(index)")
+    if let currentViewController = viewControllers?.first,
+       let currentIndex = orderedViewControllers.index(of: currentViewController as! ReactableViewController) {
+      pagerDelegate?.theaterPageViewController(self, didUpdatePageIndex: currentIndex)
+      viewModel.currentIndex = currentIndex
     }
   }
 }
@@ -127,7 +127,6 @@ extension TheaterPageViewController: TheaterDelegate {
    - parameter index: the new index to scroll to
    */
   func display(at index: Int) {
-    log.debug("displaying at \(index)")
     if let firstViewController = viewControllers?.first,
       let currentIndex = orderedViewControllers.index(of: firstViewController as! ReactableViewController) {
       let direction: UIPageViewControllerNavigationDirection = index >= currentIndex ? .forward : .reverse
@@ -141,7 +140,7 @@ extension TheaterPageViewController: TheaterDelegate {
   ///
   /// - Parameter newViewModels: to create view controllers from
   func updatingData(with newViewModels: [ReactableViewModel]) {
-    log.debug("\(newViewModels.count) new reactables")
+    log.verbose("\(newViewModels.count) new reactables.")
     self.orderedViewControllers +=
       newViewModels.map{ReactableViewController.instantiate(with: $0)}
     self.pagerDelegate?.theaterPageViewController(

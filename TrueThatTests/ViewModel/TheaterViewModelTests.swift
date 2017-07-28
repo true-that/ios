@@ -9,21 +9,27 @@
 import XCTest
 @testable import TrueThat
 import OHHTTPStubs
-import ReactiveSwift
 import SwiftyJSON
+import Nimble
 
 
 class TheaterViewModelTests: XCTestCase {
   let timeout = 1.0
-  var reactables: [Reactable] = []
+  var fetchedReactables: [Reactable] = []
+  var viewModel: TheaterViewModel!
+  var viewModelDelegate: FakeTheaterDelegate!
   
   override func setUp() {
     super.setUp()
     stub(condition: isPath(TheaterApi.path)) {request -> OHHTTPStubsResponse in
-      let stubData = try! JSON(self.reactables.map{JSON(from: $0)}).rawData()
+      let stubData = try! JSON(self.fetchedReactables.map{JSON(from: $0)}).rawData()
+      self.fetchedReactables = []
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
                                  headers: ["Content-Type":"application/json"])
     }
+    viewModel = TheaterViewModel()
+    viewModelDelegate = FakeTheaterDelegate()
+    viewModel.delegate = viewModelDelegate
   }
   
   override func tearDown() {
@@ -31,87 +37,110 @@ class TheaterViewModelTests: XCTestCase {
     super.tearDown()
   }
   
-  func testSuccessfulFetch() {
-    let fetchReactablesExpectation = expectation(description: "fetch reactables")
-    reactables = [Reactable(id: 1, userReaction: .sad,
-                            director: User(id: 1, firstName: "copa", lastName: "cabana"),
-                            reactionCounters: [.sad: 1000, .happy: 1234],
-                            created: Date(), viewed: false),
-                  Reactable(id: 2, userReaction: .happy,
-                            director: User(id: 1, firstName: "barry", lastName: "manilow"),
-                            reactionCounters: [.sad: 2000, .happy: 100234],
-                            created: Date(), viewed: true)]
-    _ = TheaterApi.fetchReactables(for: AuthModule().currentUser)
-      .on(value: {
-        XCTAssertEqual(self.reactables, $0)
-        fetchReactablesExpectation.fulfill()
-      })
-      .on(failed: {error in
-        XCTAssertTrue(false)
-        fetchReactablesExpectation.fulfill()
-      })
-      .start()
-    waitForExpectations(timeout: timeout, handler: nil)
+  func testDisplayReactable() {
+    let reactable = Reactable(id: 1, userReaction: .sad,
+                              director: User(id: 1, firstName: "Monica", lastName: "Clinton"),
+                              reactionCounters: [.sad: 1000, .happy: 1234],
+                              created: Date(), viewed: false)
+    fetchedReactables = [reactable]
+    viewModel.fetchingData()
+    expect(self.viewModel.viewModels).toEventually(haveCount(1))
+    expect(self.viewModel.viewModels[0].model).to(equal(reactable))
+    expect(self.viewModelDelegate.currentIndex).to(equal(0))
+    expect(self.viewModelDelegate.lastUpdate).to(haveCount(1))
+    expect(self.viewModelDelegate.lastUpdate?[0].model).to(equal(reactable))
   }
   
   func testEmptyFetch() {
-    let fetchReactablesExpectation = expectation(description: "fetch reactables")
-    reactables = []
-    _ = TheaterApi.fetchReactables(for: AuthModule().currentUser)
-      .on(value: {
-        XCTAssertEqual(self.reactables, $0)
-        fetchReactablesExpectation.fulfill()
-      })
-      .on(failed: {error in
-        XCTAssertTrue(false)
-        fetchReactablesExpectation.fulfill()
-      })
-      .start()
-    waitForExpectations(timeout: timeout, handler: nil)
+    fetchedReactables = []
+    viewModel.fetchingData()
+    expect(self.viewModel.viewModels).toNotEventually(haveCount(1))
+    expect(self.viewModelDelegate.currentIndex == nil).toNotEventually(beFalse())
   }
   
-  func testBadResponse() {
-    stub(condition: isPath(TheaterApi.path)) {request -> OHHTTPStubsResponse in
-      return OHHTTPStubsResponse(error: BaseError.network)
-    }
-    let fetchReactablesExpectation = expectation(description: "bad response fetch reactables")
-    reactables = [Reactable(id: 1, userReaction: .sad,
-                            director: User(id: 1, firstName: "copa", lastName: "cabana"),
-                            reactionCounters: [.sad: 1000, .happy: 1234],
-                            created: Date(), viewed: false),
-                  Reactable(id: 2, userReaction: .happy,
-                            director: User(id: 1, firstName: "barry", lastName: "manilow"),
-                            reactionCounters: [.sad: 2000, .happy: 100234],
-                            created: Date(), viewed: true)]
-    _ = TheaterApi.fetchReactables(for: AuthModule().currentUser)
-      .on(value: {value in
-        XCTAssertTrue(false)
-        fetchReactablesExpectation.fulfill()
-      })
-      .on(failed: {error in
-        XCTAssertNotNil(error)
-        fetchReactablesExpectation.fulfill()
-      })
-      .start()
-    waitForExpectations(timeout: timeout, handler: nil)
+  func testNavigateNext() {
+    let reactable1 = Reactable(id: 1, userReaction: .sad,
+                              director: User(id: 1, firstName: "Monica", lastName: "Clinton"),
+                              reactionCounters: [.sad: 1000, .happy: 1234],
+                              created: Date(), viewed: false)
+    let reactable2 = Reactable(id: 2, userReaction: .happy,
+                              director: User(id: 1, firstName: "Bill", lastName: "Lewinsky"),
+                              reactionCounters: [.sad: 5000, .happy: 34],
+                              created: Date(), viewed: true)
+    fetchedReactables = [reactable1, reactable2]
+    viewModel.fetchingData()
+    expect(self.viewModel.viewModels).toEventually(haveCount(2))
+    expect(self.viewModel.viewModels[0].model).to(equal(reactable1))
+    expect(self.viewModel.viewModels[1].model).to(equal(reactable2))
+    expect(self.viewModelDelegate.currentIndex).to(equal(0))
+    expect(self.viewModelDelegate.lastUpdate).to(haveCount(2))
+    expect(self.viewModelDelegate.lastUpdate).to(equal(self.viewModel.viewModels))
+    // Navigating next
+    expect(self.viewModel.navigateNext()).to(equal(1))
+    expect(self.viewModel.currentIndex).to(equal(1))
+    // Should not update delegate index
+    expect(self.viewModelDelegate.currentIndex).to(equal(0))
+    // Cant navigate outside of limits
+    expect(self.viewModel.navigateNext()).to(beNil())
   }
   
-  func testBadData() {
-    stub(condition: isPath(TheaterApi.path)) {request -> OHHTTPStubsResponse in
-      return OHHTTPStubsResponse(data: Data(), statusCode:200,
-                                 headers: ["Content-Type":"application/json"])
+  func testNavigateNextFetchNewData() {
+    let reactable1 = Reactable(id: 1, userReaction: .sad,
+                               director: User(id: 1, firstName: "Monica", lastName: "Clinton"),
+                               reactionCounters: [.sad: 1000, .happy: 1234],
+                               created: Date(), viewed: false)
+    let reactable2 = Reactable(id: 2, userReaction: .happy,
+                               director: User(id: 1, firstName: "Bill", lastName: "Lewinsky"),
+                               reactionCounters: [.sad: 5000, .happy: 34],
+                               created: Date(), viewed: true)
+    fetchedReactables = [reactable1]
+    viewModel.fetchingData()
+    expect(self.viewModel.viewModels).toEventually(haveCount(1))
+    expect(self.viewModel.currentIndex).to(equal(0))
+    // Prepares new fetch
+    fetchedReactables = [reactable2]
+    // Navigating next (should not alter index)
+    expect(self.viewModel.navigateNext()).to(beNil())
+    expect(self.viewModel.currentIndex).to(equal(0))
+    expect(self.viewModel.viewModels).toEventually(haveCount(2))
+    // Should navigate as soon as new reactables are fetched
+    expect(self.viewModel.currentIndex).to(equal(1))
+    expect(self.viewModelDelegate.currentIndex).to(equal(1))
+    
+  }
+  
+  func testNavigatePrevious() {
+    let reactable1 = Reactable(id: 1, userReaction: .sad,
+                               director: User(id: 1, firstName: "Monica", lastName: "Clinton"),
+                               reactionCounters: [.sad: 1000, .happy: 1234],
+                               created: Date(), viewed: false)
+    let reactable2 = Reactable(id: 2, userReaction: .happy,
+                               director: User(id: 1, firstName: "Bill", lastName: "Lewinsky"),
+                               reactionCounters: [.sad: 5000, .happy: 34],
+                               created: Date(), viewed: true)
+    fetchedReactables = [reactable1, reactable2]
+    viewModel.fetchingData()
+    expect(self.viewModel.viewModels).toEventually(haveCount(2))
+    // Navigating next
+    expect(self.viewModel.navigateNext()).to(equal(1))
+    // NAvigating previous
+    expect(self.viewModel.navigatePrevious()).to(equal(0))
+    expect(self.viewModel.currentIndex).to(equal(0))
+    expect(self.viewModelDelegate.currentIndex).to(equal(0))
+    // Cant navigate outside of limits
+    expect(self.viewModel.navigatePrevious()).to(beNil())
+  }
+  
+  class FakeTheaterDelegate: TheaterDelegate {
+    var currentIndex: Int?
+    var lastUpdate: [ReactableViewModel]?
+    
+    func display(at index: Int) {
+      currentIndex = index
     }
-    let fetchReactablesExpectation = expectation(description: "bad data fetch reactables")
-    _ = TheaterApi.fetchReactables(for: AuthModule().currentUser)
-      .on(value: {value in
-        XCTAssertTrue(false)
-        fetchReactablesExpectation.fulfill()
-      })
-      .on(failed: {error in
-        XCTAssertNotNil(error)
-        fetchReactablesExpectation.fulfill()
-      })
-      .start()
-    waitForExpectations(timeout: timeout, handler: nil)
+    
+    func updatingData(with newViewModels: [ReactableViewModel]) {
+      lastUpdate = newViewModels
+    }
   }
 }

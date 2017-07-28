@@ -10,12 +10,14 @@ target 'TrueThat' do
   
   target 'TrueThatTests' do
     inherit! :search_paths
+    pod 'Nimble', '~> 6.0.0'
     pod 'OHHTTPStubs'
     pod 'OHHTTPStubs/Swift'
   end
   
   target 'TrueThatUITests' do
     inherit! :search_paths
+    pod 'Nimble', '~> 6.0.0'
     pod 'OHHTTPStubs'
     pod 'OHHTTPStubs/Swift'
   end
