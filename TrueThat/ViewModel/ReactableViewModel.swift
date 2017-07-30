@@ -9,6 +9,7 @@ import Result
 
 class ReactableViewModel: Equatable {
   public let directorName = MutableProperty("Anonymous")
+  
   var model: Reactable
 
   // MARK: Initialization

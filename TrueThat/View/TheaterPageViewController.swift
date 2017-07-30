@@ -26,32 +26,6 @@ class TheaterPageViewController: UIPageViewController {
       viewModel = TheaterViewModel()
       viewModel.delegate = self
     }
-    
-//    viewModel.reactableViewModels.producer.startWithValues{ reactableViewModels in
-//      log.debug("\(reactableViewModels.count) new reactables")
-//      let displayInitial = self.orderedViewControllers.count == 0
-//      self.orderedViewControllers +=
-//        reactableViewModels.map{ReactableViewController.instantiate(with: $0)}
-//      self.pagerDelegate?.theaterPageViewController(
-//        self, didUpdatePageCount: self.orderedViewControllers.count)
-//      if let initialViewController = self.orderedViewControllers.first, displayInitial {
-//        self.scrollToViewController(initialViewController)
-//      }
-//    }
-
-    viewModel.fetchingData()
-//    if (orderedViewControllers.count == 0) {
-//      viewModel.fetchingData()
-//      let newVC = ReactableViewController.instantiate(with: viewModel.reactables[0])
-//      orderedViewControllers += [newVC, ReactableViewController.instantiate(with: viewModel.reactables[1])]
-//    }
-//    
-//    if let initialViewController = orderedViewControllers.first {
-//      scrollToViewController(initialViewController)
-//    }
-//    
-//    pagerDelegate?.theaterPageViewController(
-//      self, didUpdatePageCount: orderedViewControllers.count)
   }
   
   /**
@@ -71,6 +45,11 @@ class TheaterPageViewController: UIPageViewController {
                         // 'pagerDelegate' of the new index.
                          self.notifyTheaterDelegateOfNewIndex()
                        })
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    viewModel.didAppear()
   }
 
   /**

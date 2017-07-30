@@ -16,6 +16,13 @@ class TheaterViewModel {
   var currentIndex = 0
   var authModule = AuthModule()
   
+  public func didAppear() {
+    if (viewModels.count == 0) {
+      fetchingData()
+    }
+  }
+  
+  
   public func navigatePrevious() -> Int? {
     let previousIndex = currentIndex - 1
     
