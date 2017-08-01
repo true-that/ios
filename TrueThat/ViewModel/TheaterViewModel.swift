@@ -10,18 +10,16 @@ import Foundation
 import ReactiveSwift
 
 class TheaterViewModel {
-//  var reactableViewModels = MutableProperty<[ReactableViewModel]>([ReactableViewModel]())
-  var viewModels = [ReactableViewModel]()
+  var reactables = [Reactable]()
   var delegate: TheaterDelegate!
   var currentIndex = 0
   var authModule = AuthModule()
   
   public func didAppear() {
-    if (viewModels.count == 0) {
+    if (reactables.count == 0) {
       fetchingData()
     }
   }
-  
   
   public func navigatePrevious() -> Int? {
     let previousIndex = currentIndex - 1
@@ -38,7 +36,7 @@ class TheaterViewModel {
     let nextIndex = currentIndex + 1
     
     // User is on the last view controller and swiped right.
-    guard viewModels.count != nextIndex else {
+    guard reactables.count != nextIndex else {
       fetchingData()
       return nil
     }
@@ -49,26 +47,43 @@ class TheaterViewModel {
   
   public func fetchingData() {
     _ = TheaterApi.fetchReactables(for: authModule.currentUser)
-      .on(value: { self.adding(reactables: $0) })
+      .on(value: { self.adding($0) })
       .on(failed: {error in
         print(error)
       })
     .start()
   }
   
-  private func adding(reactables: [Reactable]) {
-    if (reactables.count > 0) {
-      currentIndex = viewModels.count
-      let newViewModels = reactables.map{ReactableViewModel(with: $0)}
-      viewModels += newViewModels
-      delegate.updatingData(with: newViewModels)
-      delegate.display(at: currentIndex)
+  private func adding(_ newReactables: [Reactable]) {
+    if (newReactables.count > 0) {
+      let shouldScroll = reactables.count > 0
+      currentIndex = reactables.count
+      reactables += newReactables
+      delegate.updatingData(with: newReactables)
+      if (shouldScroll) {
+        delegate.scroll(to: currentIndex)
+      } else {
+        delegate.display(at: currentIndex)
+      }
     }
   }
 }
 
 protocol TheaterDelegate: class {
+  /// Displays the view controller at the given index. Should be used when no view controllers have
+  /// already been displayed.
+  ///
+  /// - Parameter index: to display
   func display(at index: Int)
   
-  func updatingData(with newViewModels: [ReactableViewModel])
+  /// Scrolls the view controller at the given index. Should be used when a view controller have
+  /// already been displayed.
+  ///
+  /// - Parameter index: to scroll to
+  func scroll(to index: Int)
+  
+  /// Updates the data source of the page view controller
+  ///
+  /// - Parameter newReactables: new data models to create view controllers from.
+  func updatingData(with newReactables: [Reactable])
 }

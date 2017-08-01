@@ -12,7 +12,7 @@ enum Emotion: String {
   public var description: String { return self.rawValue }
 }
 
-// Mark: Initialization
+// MARK: Initialization
 extension Emotion {
   static func toEmotion(_ name: String?) -> Emotion? {
     if let lowercased = name?.lowercased() {
@@ -26,5 +26,17 @@ extension Emotion {
       }
     }
     return nil
+  }
+}
+
+// MARK: Emojis
+extension Emotion {
+  public var emoji: String {
+    switch self {
+    case .happy:
+      return "😁"
+    case .sad:
+      return "☹️"
+    }
   }
 }

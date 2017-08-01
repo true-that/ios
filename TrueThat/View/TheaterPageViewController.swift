@@ -9,14 +9,17 @@
 import UIKit
 import ReactiveSwift
 import ReactiveCocoa
+import SwiftyBeaver
 
 class TheaterPageViewController: UIPageViewController {
   var viewModel: TheaterViewModel!
+  var log = SwiftyBeaver.self
   weak var pagerDelegate: TheaterPageViewControllerDelegate?
 
   var orderedViewControllers = [ReactableViewController]()
 
   override func viewDidLoad() {
+    log.verbose("viewDidLoad")
     super.viewDidLoad()
 
     dataSource = self
@@ -28,39 +31,32 @@ class TheaterPageViewController: UIPageViewController {
     }
   }
   
-  /**
-   Scrolls to the given 'viewController' page.
-
-   - parameter viewController: the view controller to show.
-   - parameter direction: to which to scroll (useful for animated scrolling).
-   */
-  fileprivate func scrollToViewController(_ viewController: UIViewController,
-                                      direction: UIPageViewControllerNavigationDirection = .forward) {
-    setViewControllers([viewController],
-                       direction: direction,
-                       animated: true,
-                       completion: { (finished) -> Void in
-                        // Setting the view controller programmatically does not fire
-                        // any delegate methods, so we have to manually notify the
-                        // 'pagerDelegate' of the new index.
-                         self.notifyTheaterDelegateOfNewIndex()
-                       })
-  }
-  
   override func viewDidAppear(_ animated: Bool) {
+    log.verbose("viewDidAppear")
     super.viewDidAppear(animated)
     viewModel.didAppear()
+  }
+  
+  public func inject(log: SwiftyBeaver.Type) {
+    self.log = log
   }
 
   /**
    Notifies the delegate that the current page index was updated.
    */
   fileprivate func notifyTheaterDelegateOfNewIndex() {
-    if let currentViewController = viewControllers?.first,
-       let currentIndex = orderedViewControllers.index(of: currentViewController as! ReactableViewController) {
+    if currentViewController != nil,
+       let currentIndex = orderedViewControllers.index(of: currentViewController!) {
       pagerDelegate?.theaterPageViewController(self, didUpdatePageIndex: currentIndex)
       viewModel.currentIndex = currentIndex
     }
+  }
+  
+  public var currentViewController: ReactableViewController? {
+    if let currentViewController = viewControllers?.first {
+      return (currentViewController as? ReactableViewController)!
+    }
+    return nil
   }
 }
 
@@ -99,18 +95,27 @@ extension TheaterPageViewController: UIPageViewControllerDelegate {
 // MARK: TheaterDelegate
 
 extension TheaterPageViewController: TheaterDelegate {
-  /**
-   Scrolls to the view controller at the given index. Automatically calculates
-   the direction.
-   
-   - parameter index: the new index to scroll to
-   */
   func display(at index: Int) {
-    if let firstViewController = viewControllers?.first,
-      let currentIndex = orderedViewControllers.index(of: firstViewController as! ReactableViewController) {
-      let direction: UIPageViewControllerNavigationDirection = index >= currentIndex ? .forward : .reverse
-      let nextViewController = orderedViewControllers[index]
-      scrollToViewController(nextViewController, direction: direction)
+    if index >= 0 && index < orderedViewControllers.count {
+      log.verbose("Displaying the \(index)-th reactable.")
+      setViewControllers([orderedViewControllers[index]],
+                         direction: index >= viewModel.currentIndex ? .forward : .reverse,
+                         animated: true,
+                         completion: { (finished) -> Void in
+                          // Setting the view controller programmatically does not fire
+                          // any delegate methods, so we have to manually notify the
+                          // 'pagerDelegate' of the new index.
+                          self.notifyTheaterDelegateOfNewIndex()
+      })
+    } else {
+      log.error("Trying to display \(index)-th reactable while only hanving \(orderedViewControllers.count).")
+    }
+  }
+  
+  func scroll(to index: Int) {
+    if currentViewController != nil {
+      log.verbose("Scrolling to \(index)-th reactable.")
+      display(at: index)
     }
   }
 
@@ -118,10 +123,10 @@ extension TheaterPageViewController: TheaterDelegate {
   /// Updates the view controllers of this pager.
   ///
   /// - Parameter newViewModels: to create view controllers from
-  func updatingData(with newViewModels: [ReactableViewModel]) {
-    log.verbose("\(newViewModels.count) new reactables.")
+  func updatingData(with newReactables: [Reactable]) {
+    log.verbose("\(newReactables.count) new reactables.")
     self.orderedViewControllers +=
-      newViewModels.map{ReactableViewController.instantiate(with: $0)}
+      newReactables.map{ReactableViewController.instantiate(with: $0)}
     self.pagerDelegate?.theaterPageViewController(
       self, didUpdatePageCount: self.orderedViewControllers.count)
   }

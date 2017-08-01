@@ -11,8 +11,8 @@ import SwiftyJSON
 class Scene: Reactable {
   var imageUrl: String?
   
-  init(id: Int64?, userReaction: Emotion?, director: User?, imageUrl: String?,
-       reactionCounters: [Emotion: Int64]?, created: Date?, viewed: Bool?) {
+  init(id: Int64?, userReaction: Emotion?, director: User?, reactionCounters: [Emotion: Int64]?,
+       created: Date?, viewed: Bool?, imageUrl: String?) {
     super.init(id: id, userReaction: userReaction, director: director,
                reactionCounters: reactionCounters, created: created, viewed: viewed)
     self.imageUrl = imageUrl

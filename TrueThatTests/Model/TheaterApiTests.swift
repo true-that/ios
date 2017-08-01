@@ -11,11 +11,14 @@ import XCTest
 import OHHTTPStubs
 import ReactiveSwift
 import SwiftyJSON
+import Nimble
 
 
 class TheaterApiTests: XCTestCase {
   let timeout = 1.0
   var reactables: [Reactable] = []
+  var actual: [Reactable]?
+  var error: NSError?
   
   override func setUp() {
     super.setUp()
@@ -24,6 +27,8 @@ class TheaterApiTests: XCTestCase {
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
                                  headers: ["Content-Type":"application/json"])
     }
+    actual = nil
+    error = nil
   }
   
   override func tearDown() {
@@ -31,8 +36,18 @@ class TheaterApiTests: XCTestCase {
     super.tearDown()
   }
   
+  func fetch() {
+    _ = TheaterApi.fetchReactables(for: AuthModule().currentUser)
+      .on(value: {
+        self.actual = $0
+      })
+      .on(failed: {error in
+        self.error = error
+      })
+      .start()
+  }
+  
   func testSuccessfulFetch() {
-    let fetchReactablesExpectation = expectation(description: "fetch reactables")
     reactables = [Reactable(id: 1, userReaction: .sad,
                             director: User(id: 1, firstName: "copa", lastName: "cabana"),
                             reactionCounters: [.sad: 1000, .happy: 1234],
@@ -41,40 +56,34 @@ class TheaterApiTests: XCTestCase {
                             director: User(id: 1, firstName: "barry", lastName: "manilow"),
                             reactionCounters: [.sad: 2000, .happy: 100234],
                             created: Date(), viewed: true)]
-      _ = TheaterApi.fetchReactables(for: AuthModule().currentUser)
-      .on(value: {
-        XCTAssertEqual(self.reactables, $0)
-        fetchReactablesExpectation.fulfill()
-      })
-      .on(failed: {error in
-        XCTFail("Should have succeeded")
-        fetchReactablesExpectation.fulfill()
-      })
-    .start()
-    waitForExpectations(timeout: timeout, handler: nil)
+    fetch()
+    expect(self.actual).toEventually(equal(reactables))
+  }
+  
+  func testFetchMultipleTypes() {
+    reactables = [Reactable(id: 1, userReaction: .sad,
+                            director: User(id: 1, firstName: "copa", lastName: "cabana"),
+                            reactionCounters: [.sad: 1000, .happy: 1234],
+                            created: Date(), viewed: false),
+                  Scene(id: 2, userReaction: .happy,
+                            director: User(id: 1, firstName: "barry", lastName: "manilow"),
+                            reactionCounters: [.sad: 2000, .happy: 100234],
+                            created: Date(), viewed: true, imageUrl: "http://truethat-ipo.jpg")]
+    fetch()
+    expect(self.actual).toEventually(equal(reactables))
+    expect(self.actual![1]).toEventually(beAnInstanceOf(Scene.self))
   }
   
   func testEmptyFetch() {
-    let fetchReactablesExpectation = expectation(description: "fetch reactables")
     reactables = []
-    _ = TheaterApi.fetchReactables(for: AuthModule().currentUser)
-      .on(value: {
-        XCTAssertEqual(self.reactables, $0)
-        fetchReactablesExpectation.fulfill()
-      })
-      .on(failed: {error in
-        XCTFail("Should have succeeded")
-        fetchReactablesExpectation.fulfill()
-      })
-      .start()
-    waitForExpectations(timeout: timeout, handler: nil)
+    fetch()
+    expect(self.actual).toEventually(equal(reactables))
   }
   
   func testBadResponse() {
     stub(condition: isPath(TheaterApi.path)) {request -> OHHTTPStubsResponse in
       return OHHTTPStubsResponse(error: BaseError.network)
     }
-    let fetchReactablesExpectation = expectation(description: "bad response fetch reactables")
     reactables = [Reactable(id: 1, userReaction: .sad,
                             director: User(id: 1, firstName: "copa", lastName: "cabana"),
                             reactionCounters: [.sad: 1000, .happy: 1234],
@@ -83,17 +92,8 @@ class TheaterApiTests: XCTestCase {
                             director: User(id: 1, firstName: "barry", lastName: "manilow"),
                             reactionCounters: [.sad: 2000, .happy: 100234],
                             created: Date(), viewed: true)]
-    _ = TheaterApi.fetchReactables(for: AuthModule().currentUser)
-      .on(value: {value in
-        XCTFail("Should have failed")
-        fetchReactablesExpectation.fulfill()
-      })
-      .on(failed: {error in
-        XCTAssertNotNil(error)
-        fetchReactablesExpectation.fulfill()
-      })
-      .start()
-    waitForExpectations(timeout: timeout, handler: nil)
+    fetch()
+    expect(self.error).toEventuallyNot(beNil())
   }
   
   func testBadData() {
@@ -101,17 +101,7 @@ class TheaterApiTests: XCTestCase {
       return OHHTTPStubsResponse(data: Data(), statusCode:200,
                                  headers: ["Content-Type":"application/json"])
     }
-    let fetchReactablesExpectation = expectation(description: "bad data fetch reactables")
-    _ = TheaterApi.fetchReactables(for: AuthModule().currentUser)
-      .on(value: {value in
-        XCTFail("Should have failed")
-        fetchReactablesExpectation.fulfill()
-      })
-      .on(failed: {error in
-        XCTAssertNotNil(error)
-        fetchReactablesExpectation.fulfill()
-      })
-      .start()
-    waitForExpectations(timeout: timeout, handler: nil)
+    fetch()
+    expect(self.error).toEventuallyNot(beNil())
   }
 }

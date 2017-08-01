@@ -9,20 +9,24 @@ import ReactiveSwift
 
 class ReactableViewController: UIViewController {
   // MARK: Properties
-  public var viewModel: ReactableViewModel?
-  
-  // MARK: Initialization
-  static func instantiate(with viewModel: ReactableViewModel) -> ReactableViewController {
-    let viewController = UIStoryboard(name: "Main", bundle: nil)
-      .instantiateViewController(withIdentifier: "ReactableViewController")
-      as! ReactableViewController
-    viewController.viewModel = viewModel
-    return viewController
-  }
+  public var viewModel: ReactableViewModel!
 
   @IBOutlet weak var directorLabel: UILabel!
+  @IBOutlet weak var timeAgoLabel: UILabel!
+  @IBOutlet weak var reactionEmojiLabel: UILabel!
+  @IBOutlet weak var reactionsCountLabel: UILabel!
 
-  // MARK: Life Cycle
+  // MARK: Initialization
+  static func instantiate(with reactable: Reactable) -> ReactableViewController {
+    let viewController = UIStoryboard(name: "Main", bundle: nil)
+      .instantiateViewController(withIdentifier: "ReactableScene")
+      as! ReactableViewController
+    viewController.viewModel = ReactableViewModel.instantiate(with: reactable)
+    viewController.viewModel.delegate = viewController
+    return viewController
+  }
+  
+  // MARK: Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -30,6 +34,24 @@ class ReactableViewController: UIViewController {
       return
     }
     
+    // Performs data binding
     directorLabel.reactive.text <~ viewModel.directorName
+    timeAgoLabel.reactive.text <~ viewModel.timeAgo
+    reactionEmojiLabel.reactive.text <~ viewModel.reactionEmoji
+    reactionsCountLabel.reactive.text <~ viewModel.reactionsCount
+    
+    // Loads view model
+    viewModel.didLoad()
+  }
+}
+
+// MARK: Scene media extension
+extension ReactableViewController: SceneMediaDelegate {
+  func loadSceneImage() {
+    let mediaViewController = SceneMediaViewController.instantiate(with: viewModel.model as! Scene)
+    self.addChildViewController(mediaViewController)
+    self.view.addSubview(mediaViewController.view)
+    // Send media to back
+    mediaViewController.view.layer.zPosition = -1
   }
 }

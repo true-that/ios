@@ -26,12 +26,7 @@ class BaseModel: Equatable, CustomStringConvertible {
   public var description: String { return "\(toDictionary())" }
 }
 
-extension JSON {
-  init(from model: BaseModel) {
-    self.init(dictionary: model.toDictionary())
-  }
-}
-
+// MARK: operator overloading
 func == (lhs: BaseModel, rhs: BaseModel) -> Bool {
   return JSON(from: lhs) == JSON(from: rhs)
 }

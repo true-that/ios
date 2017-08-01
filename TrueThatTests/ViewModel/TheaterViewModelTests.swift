@@ -14,7 +14,6 @@ import Nimble
 
 
 class TheaterViewModelTests: XCTestCase {
-  let timeout = 1.0
   var fetchedReactables: [Reactable] = []
   var viewModel: TheaterViewModel!
   var viewModelDelegate: FakeTheaterDelegate!
@@ -44,17 +43,17 @@ class TheaterViewModelTests: XCTestCase {
                               created: Date(), viewed: false)
     fetchedReactables = [reactable]
     viewModel.fetchingData()
-    expect(self.viewModel.viewModels).toEventually(haveCount(1))
-    expect(self.viewModel.viewModels[0].model).to(equal(reactable))
+    expect(self.viewModel.reactables).toEventually(haveCount(1))
+    expect(self.viewModel.reactables[0]).to(equal(reactable))
     expect(self.viewModelDelegate.currentIndex).to(equal(0))
     expect(self.viewModelDelegate.lastUpdate).to(haveCount(1))
-    expect(self.viewModelDelegate.lastUpdate?[0].model).to(equal(reactable))
+    expect(self.viewModelDelegate.lastUpdate?[0]).to(equal(reactable))
   }
   
   func testEmptyFetch() {
     fetchedReactables = []
     viewModel.fetchingData()
-    expect(self.viewModel.viewModels).toNotEventually(haveCount(1))
+    expect(self.viewModel.reactables).toNotEventually(haveCount(1))
     expect(self.viewModelDelegate.currentIndex == nil).toNotEventually(beFalse())
   }
   
@@ -69,12 +68,12 @@ class TheaterViewModelTests: XCTestCase {
                               created: Date(), viewed: true)
     fetchedReactables = [reactable1, reactable2]
     viewModel.fetchingData()
-    expect(self.viewModel.viewModels).toEventually(haveCount(2))
-    expect(self.viewModel.viewModels[0].model).to(equal(reactable1))
-    expect(self.viewModel.viewModels[1].model).to(equal(reactable2))
+    expect(self.viewModel.reactables).toEventually(haveCount(2))
+    expect(self.viewModel.reactables[0]).to(equal(reactable1))
+    expect(self.viewModel.reactables[1]).to(equal(reactable2))
     expect(self.viewModelDelegate.currentIndex).to(equal(0))
     expect(self.viewModelDelegate.lastUpdate).to(haveCount(2))
-    expect(self.viewModelDelegate.lastUpdate).to(equal(self.viewModel.viewModels))
+    expect(self.viewModelDelegate.lastUpdate).to(equal(self.viewModel.reactables))
     // Navigating next
     expect(self.viewModel.navigateNext()).to(equal(1))
     expect(self.viewModel.currentIndex).to(equal(1))
@@ -95,14 +94,14 @@ class TheaterViewModelTests: XCTestCase {
                                created: Date(), viewed: true)
     fetchedReactables = [reactable1]
     viewModel.fetchingData()
-    expect(self.viewModel.viewModels).toEventually(haveCount(1))
+    expect(self.viewModel.reactables).toEventually(haveCount(1))
     expect(self.viewModel.currentIndex).to(equal(0))
     // Prepares new fetch
     fetchedReactables = [reactable2]
     // Navigating next (should not alter index)
     expect(self.viewModel.navigateNext()).to(beNil())
     expect(self.viewModel.currentIndex).to(equal(0))
-    expect(self.viewModel.viewModels).toEventually(haveCount(2))
+    expect(self.viewModel.reactables).toEventually(haveCount(2))
     // Should navigate as soon as new reactables are fetched
     expect(self.viewModel.currentIndex).to(equal(1))
     expect(self.viewModelDelegate.currentIndex).to(equal(1))
@@ -120,7 +119,7 @@ class TheaterViewModelTests: XCTestCase {
                                created: Date(), viewed: true)
     fetchedReactables = [reactable1, reactable2]
     viewModel.fetchingData()
-    expect(self.viewModel.viewModels).toEventually(haveCount(2))
+    expect(self.viewModel.reactables).toEventually(haveCount(2))
     // Navigating next
     expect(self.viewModel.navigateNext()).to(equal(1))
     // NAvigating previous
@@ -133,14 +132,18 @@ class TheaterViewModelTests: XCTestCase {
   
   class FakeTheaterDelegate: TheaterDelegate {
     var currentIndex: Int?
-    var lastUpdate: [ReactableViewModel]?
+    var lastUpdate: [Reactable]?
     
     func display(at index: Int) {
       currentIndex = index
     }
     
-    func updatingData(with newViewModels: [ReactableViewModel]) {
-      lastUpdate = newViewModels
+    func scroll(to index: Int) {
+      display(at: index)
+    }
+    
+    func updatingData(with newReactables: [Reactable]) {
+      lastUpdate = newReactables
     }
   }
 }

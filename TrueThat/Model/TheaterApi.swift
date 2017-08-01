@@ -29,10 +29,13 @@ class TheaterApi {
     return SignalProducer { observer, disposable in
       var request = try! URLRequest(url: TheaterApi.fullUrl, method: .post)
       request.httpBody = try! JSON(from: user).rawData()
+      // TODO: cancel request when view disappears 
       Alamofire.request(request).responseJSON(completionHandler: {response in
+        print (response.result)
         switch response.result {
         case .success:
-          observer.send(value: JSON(response.result.value!).arrayValue.map{Reactable(json: $0)})
+          observer.send(value: JSON(response.result.value!).arrayValue
+            .map{Reactable.instantiate(with: $0)!})
           observer.sendCompleted()
         case .failure:
           observer.send(error: response.result.error as NSError!)

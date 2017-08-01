@@ -10,10 +10,41 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Scene Media View Controller-->
+        <scene sceneID="VpM-vi-yrd">
+            <objects>
+                <viewController storyboardIdentifier="SceneMediaScene" id="f7Q-OX-uqI" customClass="SceneMediaViewController" customModule="TrueThat" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ts5-oF-EfL"/>
+                        <viewControllerLayoutGuide type="bottom" id="BBg-ac-jRS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="obe-C3-P7Q">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ON2-sC-LEK">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="ON2-sC-LEK" firstAttribute="leading" secondItem="obe-C3-P7Q" secondAttribute="leading" id="Fag-To-pBs"/>
+                            <constraint firstAttribute="trailing" secondItem="ON2-sC-LEK" secondAttribute="trailing" id="HWr-T0-YKM"/>
+                            <constraint firstItem="ON2-sC-LEK" firstAttribute="bottom" secondItem="BBg-ac-jRS" secondAttribute="top" id="V60-7N-WuP"/>
+                            <constraint firstItem="ON2-sC-LEK" firstAttribute="top" secondItem="obe-C3-P7Q" secondAttribute="top" id="hjc-UW-ss2"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="sceneImage" destination="ON2-sC-LEK" id="rOz-ns-7S9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BCA-K7-oQA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-631.20000000000005" y="396.25187406296857"/>
+        </scene>
         <!--Reactable View Controller-->
         <scene sceneID="eNa-5d-aeo">
             <objects>
-                <viewController storyboardIdentifier="ReactableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="JbR-MZ-haS" customClass="ReactableViewController" customModule="TrueThat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ReactableScene" useStoryboardIdentifierAsRestorationIdentifier="YES" id="JbR-MZ-haS" customClass="ReactableViewController" customModule="TrueThat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="76r-xD-bTE"/>
                         <viewControllerLayoutGuide type="bottom" id="3x3-fZ-aHw"/>
@@ -22,24 +53,56 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Director" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wN6-0w-EPV">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Director" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wN6-0w-EPV" userLabel="Director Name">
                                 <rect key="frame" x="16" y="20" width="62" height="21"/>
-                                <accessibility key="accessibilityConfiguration" label="directorName">
+                                <accessibility key="accessibilityConfiguration" label="directorNameLabel">
                                     <accessibilityTraits key="traits" staticText="YES" notEnabled="YES"/>
                                 </accessibility>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="😁" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q0j-Jb-J4F">
+                                <rect key="frame" x="16" y="623" width="25" height="24"/>
+                                <accessibility key="accessibilityConfiguration" label="reactionEmojiLabel"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1h ago" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kCa-cD-GP5">
+                                <rect key="frame" x="86" y="20" width="38" height="21"/>
+                                <accessibility key="accessibilityConfiguration" label="timeAgoLabel"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.2K" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kl4-4Z-qAE" userLabel="Reactions Count">
+                                <rect key="frame" x="49" y="625" width="33" height="21"/>
+                                <accessibility key="accessibilityConfiguration" label="reactionsCountLabel"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <accessibility key="accessibilityConfiguration" label="ReactableView"/>
                         <constraints>
+                            <constraint firstItem="kCa-cD-GP5" firstAttribute="bottom" secondItem="wN6-0w-EPV" secondAttribute="bottom" id="0pX-qC-9cb"/>
                             <constraint firstItem="wN6-0w-EPV" firstAttribute="top" secondItem="76r-xD-bTE" secondAttribute="bottom" id="8ED-mX-W6X"/>
+                            <constraint firstItem="Kl4-4Z-qAE" firstAttribute="leading" secondItem="Q0j-Jb-J4F" secondAttribute="trailing" constant="8" symbolic="YES" id="C5U-5e-cxB"/>
+                            <constraint firstItem="Q0j-Jb-J4F" firstAttribute="leading" secondItem="wN6-0w-EPV" secondAttribute="leading" id="Cbd-n1-r9R"/>
+                            <constraint firstItem="kCa-cD-GP5" firstAttribute="top" secondItem="wN6-0w-EPV" secondAttribute="top" id="HlN-pe-rxI"/>
+                            <constraint firstItem="Kl4-4Z-qAE" firstAttribute="centerY" secondItem="Q0j-Jb-J4F" secondAttribute="centerY" id="K1g-Ai-viE"/>
+                            <constraint firstItem="kCa-cD-GP5" firstAttribute="leading" secondItem="wN6-0w-EPV" secondAttribute="trailing" constant="8" symbolic="YES" id="KB3-J5-Okz"/>
+                            <constraint firstAttribute="bottom" secondItem="Q0j-Jb-J4F" secondAttribute="bottom" constant="20" symbolic="YES" id="Nvy-mx-Tp7"/>
                             <constraint firstItem="wN6-0w-EPV" firstAttribute="leading" secondItem="ieF-0C-5DO" secondAttribute="leadingMargin" id="pYo-XE-uo5"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="directorLabel" destination="wN6-0w-EPV" id="Vrh-QA-GYx"/>
+                        <outlet property="reactionEmojiLabel" destination="Q0j-Jb-J4F" id="Mrt-c8-8f1"/>
+                        <outlet property="reactionsCountLabel" destination="Kl4-4Z-qAE" id="OC8-27-7EP"/>
+                        <outlet property="timeAgoLabel" destination="kCa-cD-GP5" id="vB7-mo-TzI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yog-Fl-QT0" userLabel="First Responder" sceneMemberID="firstResponder"/>

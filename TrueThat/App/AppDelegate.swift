@@ -9,7 +9,7 @@
 import UIKit
 import Swinject
 import SwiftyBeaver
-let log = SwiftyBeaver.self
+let globalLog = SwiftyBeaver.self
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    
+    globalLog.addDestination(ConsoleDestination())
     // Override point for customization after application launch.
     return true
   }
