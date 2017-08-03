@@ -7,25 +7,13 @@
 //
 
 import UIKit
-import Swinject
-import SwiftyBeaver
-let globalLog = SwiftyBeaver.self
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
-  let container = Container() { container in
-    // Model
-    
-    // View Model
-    
-    // View
-  }
-
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    globalLog.addDestination(ConsoleDestination())
     // Override point for customization after application launch.
     return true
   }

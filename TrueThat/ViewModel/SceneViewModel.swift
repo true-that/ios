@@ -34,5 +34,7 @@ class SceneViewModel: ReactableViewModel {
 }
 
 protocol SceneMediaDelegate {
+  
+  /// Notifies the view controller to load an image from `imageUrl`.
   func loadSceneImage()
 }

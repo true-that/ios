@@ -12,7 +12,7 @@ import Alamofire
 import SwiftyJSON
 
 /// [backend endpoint]: https://github.com/true-that/backend/blob/master/src/main/java/com/truethat/backend/servlet/TheaterServlet.java
-/// Api interface from our [backend endpoint] to fetch reactables.
+/// Api interface from our [backend endpoint] to fetch {Reactable}s.
 class TheaterApi {
   /// Subpath relative to base backend endpoint.
   static public let path = "/theater"
@@ -21,7 +21,7 @@ class TheaterApi {
   static var fullUrl: String {
     return Bundle.main.infoDictionary!["API_BASE_URL_ENDPOINT"] as! String + TheaterApi.path
   }
-  /// Fetching reactables from our backend endpoint
+  /// Fetching {Reactable}s from our backend endpoint
   ///
   /// - Parameter user: for which to fetch reactables.
   /// - Returns: A reactive producer that invokes success and failure callbacks.

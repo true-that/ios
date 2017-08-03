@@ -27,7 +27,6 @@ PODS:
   - Result (3.2.3)
   - SwiftyBeaver (1.3.0)
   - SwiftyJSON (3.1.4)
-  - Swinject (2.1.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.4)
@@ -39,7 +38,6 @@ DEPENDENCIES:
   - ReactiveCocoa (~> 6.0)
   - SwiftyBeaver
   - SwiftyJSON
-  - Swinject (~> 2.1.0)
 
 SPEC CHECKSUMS:
   Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
@@ -52,8 +50,7 @@ SPEC CHECKSUMS:
   Result: 128640a6347e8d2ae48b142556739a2d13f90ce6
   SwiftyBeaver: d4b551ba34b4206c52cc4684ae90444b8aaa5afd
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
-  Swinject: 85e468ac75c5c2d234076f98c591d57d56bc64bc
 
-PODFILE CHECKSUM: 4f8b7417f068a76e5ce99e4501cf4db4cf9596bb
+PODFILE CHECKSUM: 97b06a880a4415bb3e039d5d24f70a30fc60b55d
 
 COCOAPODS: 1.2.1

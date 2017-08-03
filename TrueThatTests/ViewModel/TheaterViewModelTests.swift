@@ -13,7 +13,7 @@ import SwiftyJSON
 import Nimble
 
 
-class TheaterViewModelTests: XCTestCase {
+class TheaterViewModelTests: BaseViewModelTests {
   var fetchedReactables: [Reactable] = []
   var viewModel: TheaterViewModel!
   var viewModelDelegate: FakeTheaterDelegate!

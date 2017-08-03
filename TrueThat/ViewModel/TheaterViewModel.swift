@@ -13,14 +13,17 @@ class TheaterViewModel {
   var reactables = [Reactable]()
   var delegate: TheaterDelegate!
   var currentIndex = 0
-  var authModule = AuthModule()
   
+  /// Invoked when theater view controller is appeared.
   public func didAppear() {
     if (reactables.count == 0) {
       fetchingData()
     }
   }
   
+  /// Updates `currentIndex` to previous reactable, if not already at the first one.
+  ///
+  /// - Returns: the updated `currentIndex`, or nil if no update was made.
   public func navigatePrevious() -> Int? {
     let previousIndex = currentIndex - 1
     
@@ -32,6 +35,9 @@ class TheaterViewModel {
     return currentIndex
   }
   
+  /// Updates `currentIndex` to previous reactable, if not already at the last one.
+  ///
+  /// - Returns: the updated `currentIndex`, or nil if no update was made.
   public func navigateNext() -> Int? {
     let nextIndex = currentIndex + 1
     
@@ -45,15 +51,19 @@ class TheaterViewModel {
     return currentIndex
   }
   
+  /// Fetch new reactables from our backend.
   public func fetchingData() {
-    _ = TheaterApi.fetchReactables(for: authModule.currentUser)
+    _ = TheaterApi.fetchReactables(for: App.authModule.currentUser)
       .on(value: { self.adding($0) })
       .on(failed: {error in
         print(error)
       })
-    .start()
+      .start()
   }
   
+  /// Append the fetched reactables to `reactables` and notify the view controller.
+  ///
+  /// - Parameter newReactables: freshly baked reactables, obvuala!
   private func adding(_ newReactables: [Reactable]) {
     if (newReactables.count > 0) {
       let shouldScroll = reactables.count > 0

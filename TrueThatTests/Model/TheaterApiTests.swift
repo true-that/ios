@@ -1,5 +1,5 @@
 //
-//  TheaterApiSpec.swift
+//  TheaterApiTests.swift
 //  TrueThat
 //
 //  Created by Ohad Navon on 13/07/2017.
@@ -15,7 +15,6 @@ import Nimble
 
 
 class TheaterApiTests: XCTestCase {
-  let timeout = 1.0
   var reactables: [Reactable] = []
   var actual: [Reactable]?
   var error: NSError?

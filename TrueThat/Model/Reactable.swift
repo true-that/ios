@@ -82,4 +82,12 @@ class Reactable: BaseModel {
     
     return dictionary
   }
+  
+  // MARK: Interaction
+  
+  /// - Parameter user: for which to inquire.
+  /// - Returns: Whether `user` can react to this reactable.
+  func canReact(user: User) -> Bool {
+    return userReaction == nil && (director == nil || user != director)
+  }
 }

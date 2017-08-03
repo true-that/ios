@@ -13,13 +13,13 @@ import SwiftyBeaver
 
 class TheaterPageViewController: UIPageViewController {
   var viewModel: TheaterViewModel!
-  var log = SwiftyBeaver.self
   weak var pagerDelegate: TheaterPageViewControllerDelegate?
 
+  /// View controllers that are displayed in this page, ordered by order of appearance.
   var orderedViewControllers = [ReactableViewController]()
 
   override func viewDidLoad() {
-    log.verbose("viewDidLoad")
+    App.log.verbose("viewDidLoad")
     super.viewDidLoad()
 
     dataSource = self
@@ -32,18 +32,12 @@ class TheaterPageViewController: UIPageViewController {
   }
   
   override func viewDidAppear(_ animated: Bool) {
-    log.verbose("viewDidAppear")
+    App.log.verbose("viewDidAppear")
     super.viewDidAppear(animated)
     viewModel.didAppear()
   }
-  
-  public func inject(log: SwiftyBeaver.Type) {
-    self.log = log
-  }
 
-  /**
-   Notifies the delegate that the current page index was updated.
-   */
+  /// Notifies the delegate that the current page index was updated.
   fileprivate func notifyTheaterDelegateOfNewIndex() {
     if currentViewController != nil,
        let currentIndex = orderedViewControllers.index(of: currentViewController!) {
@@ -52,6 +46,7 @@ class TheaterPageViewController: UIPageViewController {
     }
   }
   
+  /// Currently displayed reactable.
   public var currentViewController: ReactableViewController? {
     if let currentViewController = viewControllers?.first {
       return (currentViewController as? ReactableViewController)!
@@ -61,10 +56,10 @@ class TheaterPageViewController: UIPageViewController {
 }
 
 // MARK: UIPageViewControllerDataSource
-
 extension TheaterPageViewController: UIPageViewControllerDataSource {
   func pageViewController(_ pageViewController: UIPageViewController,
                           viewControllerAfter viewController: UIViewController) -> UIViewController? {
+    // If we are at the first view, then return.
     guard let previousIndex = viewModel.navigatePrevious() else {
       return nil
     }
@@ -74,6 +69,7 @@ extension TheaterPageViewController: UIPageViewControllerDataSource {
 
   func pageViewController(_ pageViewController: UIPageViewController,
                           viewControllerBefore viewController: UIViewController) -> UIViewController? {
+    // If there are no more views to display, then return.
     guard let nextIndex = viewModel.navigateNext() else {
       return nil
     }
@@ -82,7 +78,6 @@ extension TheaterPageViewController: UIPageViewControllerDataSource {
 }
 
 // MARK: UIPageViewControllerDelegate
-
 extension TheaterPageViewController: UIPageViewControllerDelegate {
   func pageViewController(_ pageViewController: UIPageViewController,
                           didFinishAnimating finished: Bool,
@@ -93,11 +88,10 @@ extension TheaterPageViewController: UIPageViewControllerDelegate {
 }
 
 // MARK: TheaterDelegate
-
 extension TheaterPageViewController: TheaterDelegate {
   func display(at index: Int) {
     if index >= 0 && index < orderedViewControllers.count {
-      log.verbose("Displaying the \(index)-th reactable.")
+      App.log.verbose("Displaying the \(index)-th reactable.")
       setViewControllers([orderedViewControllers[index]],
                          direction: index >= viewModel.currentIndex ? .forward : .reverse,
                          animated: true,
@@ -108,13 +102,13 @@ extension TheaterPageViewController: TheaterDelegate {
                           self.notifyTheaterDelegateOfNewIndex()
       })
     } else {
-      log.error("Trying to display \(index)-th reactable while only hanving \(orderedViewControllers.count).")
+      App.log.error("Trying to display \(index)-th reactable while only hanving \(orderedViewControllers.count).")
     }
   }
   
   func scroll(to index: Int) {
     if currentViewController != nil {
-      log.verbose("Scrolling to \(index)-th reactable.")
+      App.log.verbose("Scrolling to \(index)-th reactable.")
       display(at: index)
     }
   }
@@ -124,7 +118,7 @@ extension TheaterPageViewController: TheaterDelegate {
   ///
   /// - Parameter newViewModels: to create view controllers from
   func updatingData(with newReactables: [Reactable]) {
-    log.verbose("\(newReactables.count) new reactables.")
+    App.log.verbose("\(newReactables.count) new reactables.")
     self.orderedViewControllers +=
       newReactables.map{ReactableViewController.instantiate(with: $0)}
     self.pagerDelegate?.theaterPageViewController(

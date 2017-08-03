@@ -38,6 +38,14 @@
 		6F7DFC211F30A7B7003DE099 /* Tags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC201F30A7B7003DE099 /* Tags.swift */; };
 		6F7DFC231F3121CA003DE099 /* SceneMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC221F3121CA003DE099 /* SceneMediaViewController.swift */; };
 		6F7DFC251F3140D4003DE099 /* ReactionDetectionModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC241F3140D4003DE099 /* ReactionDetectionModule.swift */; };
+		6F7DFC2A1F314DE6003DE099 /* FakeReactionDetectionModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC291F314DE6003DE099 /* FakeReactionDetectionModule.swift */; };
+		6F7DFC2C1F314E5A003DE099 /* InteractionApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC2B1F314E5A003DE099 /* InteractionApi.swift */; };
+		6F7DFC2E1F314EE8003DE099 /* InteractionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC2D1F314EE8003DE099 /* InteractionEvent.swift */; };
+		6F7DFC301F314EF5003DE099 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC2F1F314EF5003DE099 /* EventType.swift */; };
+		6F7DFC321F3154D9003DE099 /* InteractionEventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC311F3154D9003DE099 /* InteractionEventTests.swift */; };
+		6F7DFC341F3157E5003DE099 /* InteractionApiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC331F3157E5003DE099 /* InteractionApiTests.swift */; };
+		6F921D801F32988800FFE76F /* BaseViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F921D7F1F32988800FFE76F /* BaseViewModelTests.swift */; };
+		6F921D821F32997A00FFE76F /* BaseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F921D811F32997A00FFE76F /* BaseUITests.swift */; };
 		6FC51F121F172B3A00F09A67 /* TheaterApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC51F111F172B3A00F09A67 /* TheaterApi.swift */; };
 		6FC9A2B01F2A076400E4BCF1 /* ReactableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC9A2AF1F2A076400E4BCF1 /* ReactableTests.swift */; };
 		6FC9A2B21F2A126600E4BCF1 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC9A2B11F2A126600E4BCF1 /* Scene.swift */; };
@@ -46,6 +54,7 @@
 		6FEC85DA1F27557800DC46B5 /* Dictionary+Entensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FEC85D91F27557800DC46B5 /* Dictionary+Entensions.swift */; };
 		6FEC85DB1F27557800DC46B5 /* Dictionary+Entensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FEC85D91F27557800DC46B5 /* Dictionary+Entensions.swift */; };
 		6FEC85DC1F27557800DC46B5 /* Dictionary+Entensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FEC85D91F27557800DC46B5 /* Dictionary+Entensions.swift */; };
+		6FF9C9591F328EEF00C2FC3F /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF9C9581F328EEF00C2FC3F /* App.swift */; };
 		D677A3F7683EA76A440EBD08 /* Pods_TrueThatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C74B33475F7129BCE7F5AFD /* Pods_TrueThatTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -105,12 +114,21 @@
 		6F7DFC201F30A7B7003DE099 /* Tags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tags.swift; sourceTree = "<group>"; };
 		6F7DFC221F3121CA003DE099 /* SceneMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneMediaViewController.swift; sourceTree = "<group>"; };
 		6F7DFC241F3140D4003DE099 /* ReactionDetectionModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionDetectionModule.swift; sourceTree = "<group>"; };
+		6F7DFC291F314DE6003DE099 /* FakeReactionDetectionModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeReactionDetectionModule.swift; sourceTree = "<group>"; };
+		6F7DFC2B1F314E5A003DE099 /* InteractionApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractionApi.swift; sourceTree = "<group>"; };
+		6F7DFC2D1F314EE8003DE099 /* InteractionEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractionEvent.swift; sourceTree = "<group>"; };
+		6F7DFC2F1F314EF5003DE099 /* EventType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventType.swift; sourceTree = "<group>"; };
+		6F7DFC311F3154D9003DE099 /* InteractionEventTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractionEventTests.swift; sourceTree = "<group>"; };
+		6F7DFC331F3157E5003DE099 /* InteractionApiTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractionApiTests.swift; sourceTree = "<group>"; };
+		6F921D7F1F32988800FFE76F /* BaseViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModelTests.swift; sourceTree = "<group>"; };
+		6F921D811F32997A00FFE76F /* BaseUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseUITests.swift; sourceTree = "<group>"; };
 		6FC51F111F172B3A00F09A67 /* TheaterApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheaterApi.swift; sourceTree = "<group>"; };
 		6FC9A2AF1F2A076400E4BCF1 /* ReactableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactableTests.swift; sourceTree = "<group>"; };
 		6FC9A2B11F2A126600E4BCF1 /* Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		6FD593061F29E50500CC9FA6 /* UserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTests.swift; sourceTree = "<group>"; };
 		6FDD5DAE1F1768C200A56604 /* TheaterApiTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheaterApiTests.swift; sourceTree = "<group>"; };
 		6FEC85D91F27557800DC46B5 /* Dictionary+Entensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Dictionary+Entensions.swift"; path = "../Dictionary+Entensions.swift"; sourceTree = "<group>"; };
+		6FF9C9581F328EEF00C2FC3F /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		7C529EE61E4EDE5C6839B6F2 /* Pods-TrueThat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrueThat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrueThat/Pods-TrueThat.debug.xcconfig"; sourceTree = "<group>"; };
 		A4D9BE0FBC6E9A6E5D064AA0 /* Pods_TrueThat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrueThat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A910FCC46AF9A520F6382C6B /* Pods-TrueThatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrueThatUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrueThatUITests/Pods-TrueThatUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -152,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				3407BC14CD35B51CB02C6DDE /* AppDelegate.swift */,
+				6FF9C9581F328EEF00C2FC3F /* App.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -187,6 +206,9 @@
 				6FC51F111F172B3A00F09A67 /* TheaterApi.swift */,
 				6FC9A2B11F2A126600E4BCF1 /* Scene.swift */,
 				6F4AC8C41F2A2593005C7C67 /* BaseModel.swift */,
+				6F7DFC2B1F314E5A003DE099 /* InteractionApi.swift */,
+				6F7DFC2D1F314EE8003DE099 /* InteractionEvent.swift */,
+				6F7DFC2F1F314EF5003DE099 /* EventType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -194,6 +216,7 @@
 		6F0DAC831F293F9300A3389D /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				6F7DFC281F314DD9003DE099 /* Fakes */,
 				6F0DAC841F293FAD00A3389D /* AuthModule.swift */,
 				6F7DFC241F3140D4003DE099 /* ReactionDetectionModule.swift */,
 			);
@@ -216,6 +239,7 @@
 				6F3092CF1F2DE91500BD211A /* Extensions */,
 				6F3092D21F2DE9D900BD211A /* TrueThatTests-Bridging-Header.h */,
 				6F3092D51F2DEA9100BD211A /* TheaterPagerViewControllerTests.swift */,
+				6F921D811F32997A00FFE76F /* BaseUITests.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -292,6 +316,7 @@
 			children = (
 				6F4AC8C91F2AA5EB005C7C67 /* TheaterViewModelTests.swift */,
 				6F79811B1F2FE8FC00A055DD /* ReactableViewModelTests.swift */,
+				6F921D7F1F32988800FFE76F /* BaseViewModelTests.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -322,6 +347,14 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
+		6F7DFC281F314DD9003DE099 /* Fakes */ = {
+			isa = PBXGroup;
+			children = (
+				6F7DFC291F314DE6003DE099 /* FakeReactionDetectionModule.swift */,
+			);
+			path = Fakes;
+			sourceTree = "<group>";
+		};
 		6FC51F0D1F165AC300F09A67 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -336,6 +369,8 @@
 				6FDD5DAE1F1768C200A56604 /* TheaterApiTests.swift */,
 				6FD593061F29E50500CC9FA6 /* UserTests.swift */,
 				6FC9A2AF1F2A076400E4BCF1 /* ReactableTests.swift */,
+				6F7DFC311F3154D9003DE099 /* InteractionEventTests.swift */,
+				6F7DFC331F3157E5003DE099 /* InteractionApiTests.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -669,11 +704,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F6255731F17EA8700F895CE /* TheaterViewModel.swift in Sources */,
+				6F7DFC2E1F314EE8003DE099 /* InteractionEvent.swift in Sources */,
+				6F7DFC2C1F314E5A003DE099 /* InteractionApi.swift in Sources */,
 				3407B46F774FBD5E91084605 /* AppDelegate.swift in Sources */,
 				6F4AC8C51F2A2593005C7C67 /* BaseModel.swift in Sources */,
 				6F0DAC851F293FAD00A3389D /* AuthModule.swift in Sources */,
 				6F4AC8C71F2AA56E005C7C67 /* BaseError.swift in Sources */,
 				6FC9A2B21F2A126600E4BCF1 /* Scene.swift in Sources */,
+				6F7DFC301F314EF5003DE099 /* EventType.swift in Sources */,
+				6FF9C9591F328EEF00C2FC3F /* App.swift in Sources */,
 				6F7981181F2FD99F00A055DD /* NumberHelper.swift in Sources */,
 				6F7DFC211F30A7B7003DE099 /* Tags.swift in Sources */,
 				6F79811E1F30830900A055DD /* JSON+Extensions.swift in Sources */,
@@ -685,6 +724,7 @@
 				6FEC85DA1F27557800DC46B5 /* Dictionary+Entensions.swift in Sources */,
 				3407B4090A32C56AD109751A /* Emotion.swift in Sources */,
 				6F7DFC251F3140D4003DE099 /* ReactionDetectionModule.swift in Sources */,
+				6F7DFC2A1F314DE6003DE099 /* FakeReactionDetectionModule.swift in Sources */,
 				3407B4C86DDB864914D0FB4D /* User.swift in Sources */,
 				3407B32EDEB4EF28BF7C5961 /* ReactableViewModel.swift in Sources */,
 				6F7DFC231F3121CA003DE099 /* SceneMediaViewController.swift in Sources */,
@@ -698,12 +738,16 @@
 			files = (
 				6FD593071F29E50500CC9FA6 /* UserTests.swift in Sources */,
 				6F7981161F2FD29100A055DD /* DateHelperTests.swift in Sources */,
+				6F921D821F32997A00FFE76F /* BaseUITests.swift in Sources */,
+				6F921D801F32988800FFE76F /* BaseViewModelTests.swift in Sources */,
 				6F4AC8CA1F2AA5EB005C7C67 /* TheaterViewModelTests.swift in Sources */,
 				6F3092D11F2DE91F00BD211A /* KIF+Extensions.swift in Sources */,
 				6FC9A2B01F2A076400E4BCF1 /* ReactableTests.swift in Sources */,
+				6F7DFC341F3157E5003DE099 /* InteractionApiTests.swift in Sources */,
 				6FEC85DB1F27557800DC46B5 /* Dictionary+Entensions.swift in Sources */,
 				6F79811A1F2FDC2D00A055DD /* NumberHelperTests.swift in Sources */,
 				6F3092D61F2DEA9100BD211A /* TheaterPagerViewControllerTests.swift in Sources */,
+				6F7DFC321F3154D9003DE099 /* InteractionEventTests.swift in Sources */,
 				6F79811C1F2FE8FC00A055DD /* ReactableViewModelTests.swift in Sources */,
 				6FDD5DAF1F1768C200A56604 /* TheaterApiTests.swift in Sources */,
 			);

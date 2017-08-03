@@ -9,6 +9,10 @@
 import SwiftyJSON
 
 extension JSON {
+  
+  /// Creates a JSON from `BaseModel.toDictionary()`.
+  ///
+  /// - Parameter model: to create a json from.
   init(from model: BaseModel) {
     var dictionary = model.toDictionary()
     dictionary["type"] = String(describing: type(of: model))

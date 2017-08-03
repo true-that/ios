@@ -14,8 +14,10 @@ class ReactableViewModel {
   public let reactionsCount = MutableProperty("")
   
   var model: Reactable
+  
+  /// As the type is determined in run time, we keet at as `Any`.
   var delegate: Any!
-
+  
   // MARK: Initialization
   init(with reactable: Reactable) {
     model = reactable
@@ -27,6 +29,7 @@ class ReactableViewModel {
     }
     if model.reactionCounters != nil {
       reactionsCount.value = NumberHelper.truncate(Array(model.reactionCounters!.values).reduce(0, +))
+      // If user already reacted use this emoji, otherwise use the most common one.
       if model.userReaction != nil {
         reactionEmoji.value = model.userReaction!.emoji
       } else {
@@ -35,6 +38,8 @@ class ReactableViewModel {
     }
   }
   
+  /// - Parameter reactable: to create a view model from.
+  /// - Returns: the proper view model based on `reactable` type.
   static func instantiate(with reactable: Reactable) -> ReactableViewModel {
     switch reactable {
     case is Scene:
@@ -45,5 +50,47 @@ class ReactableViewModel {
   }
   
   // MARK: Lifecycle
+  
+  /// Triggered when its corresponding {ReactableViewController} is loaded.
   public func didLoad() {}
+  
+  /// Triggered when its corresponding {ReactableViewController} is disappeared.
+  public func didDisappear() {
+    if (App.detecionModule.delegate is ReactableViewModel &&
+        App.detecionModule.delegate as! ReactableViewModel === self) {
+      App.detecionModule.delegate = nil
+    }
+  }
+  
+  /// Triggered when the media of {model} is downloaded and displayed.
+  public func didDisplay() {
+    if model.viewed != true {
+      InteractionApi.save(interaction: InteractionEvent(
+        timestamp: Date(), userId: App.authModule.currentUser.id, reaction: nil,
+        eventType: .view, reactableId: model.id))
+        .on(failed: {error in
+          print(error)
+        })
+        .start()
+    }
+    // Sets the detection delegate to this reactable.
+    App.detecionModule.delegate = self
+  }
+}
+
+extension ReactableViewModel: ReactionDetectionDelegate {
+  func onDetected(reaction: Emotion) {
+    if (model.canReact(user: App.authModule.currentUser)) {
+      InteractionApi.save(interaction: InteractionEvent(
+        timestamp: Date(), userId: App.authModule.currentUser.id, reaction: reaction,
+        eventType: .reaction, reactableId: model.id))
+        .on(value: {event in
+          self.model.userReaction = reaction
+        })
+        .on(failed: {error in
+          print(error)
+        })
+        .start()
+    }
+  }
 }

@@ -8,6 +8,9 @@
 
 import Foundation
 
+/// Errors enumeration.
+///
+/// - network: a generic network error.
 enum BaseError: Error {
   case network
 }

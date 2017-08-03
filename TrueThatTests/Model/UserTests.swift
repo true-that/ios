@@ -9,10 +9,11 @@
 import XCTest
 import SwiftyJSON
 @testable import TrueThat
+import Nimble
 
 class UserTests: XCTestCase {
   func testJsonSerialization() {
     let user = User(id: 1, firstName: "aba", lastName: "ganuv")
-    XCTAssertEqual(user, User(json: JSON(from: user)))
+    expect(user).to(equal(User(json: JSON(from: user))))
   }
 }

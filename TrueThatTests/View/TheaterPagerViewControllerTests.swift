@@ -14,7 +14,7 @@ import Nimble
 import SwiftyBeaver
 let log = SwiftyBeaver.self
 
-class TheaterPagerViewControllerTests : KIFTestCase {
+class TheaterPagerViewControllerTests : BaseUITests {
   var fetchedReactables: [Reactable] = []
   var viewController: TheaterPageViewController!
   
@@ -29,9 +29,6 @@ class TheaterPagerViewControllerTests : KIFTestCase {
     }
     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
     viewController = storyboard.instantiateViewController(withIdentifier: "TheaterScene") as! TheaterPageViewController
-    
-    // Inject dependencies
-    viewController.inject(log: log)
     
     UIApplication.shared.keyWindow!.rootViewController = viewController
     

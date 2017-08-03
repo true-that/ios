@@ -43,9 +43,14 @@ class ReactableViewController: UIViewController {
     // Loads view model
     viewModel.didLoad()
   }
+  
+  override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    viewModel.didDisappear()
+  }
 }
 
-// MARK: Scene media extension
+// MARK: SceneMediaDelegate
 extension ReactableViewController: SceneMediaDelegate {
   func loadSceneImage() {
     let mediaViewController = SceneMediaViewController.instantiate(with: viewModel.model as! Scene)
@@ -53,5 +58,12 @@ extension ReactableViewController: SceneMediaDelegate {
     self.view.addSubview(mediaViewController.view)
     // Send media to back
     mediaViewController.view.layer.zPosition = -1
+  }
+}
+
+// MARK: SceneMediaViewControllerDelegate
+extension ReactableViewController: SceneMediaViewControllerDelegate {
+  func didDownloadMedia() {
+    viewModel.didDisplay()
   }
 }

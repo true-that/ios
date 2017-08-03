@@ -9,6 +9,8 @@
 import SwiftyJSON
 
 class Scene: Reactable {
+  
+  /// As stored in our backend.
   var imageUrl: String?
   
   init(id: Int64?, userReaction: Emotion?, director: User?, reactionCounters: [Emotion: Int64]?,

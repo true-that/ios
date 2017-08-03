@@ -8,6 +8,9 @@
 
 import Foundation
 
+/// Manages authentication and autherization for the application.
 class AuthModule {
+  
+  /// Current authenticated user.
   var currentUser = User(id: 1, firstName: "John", lastName: "Snow")
 }
