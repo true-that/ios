@@ -10,8 +10,13 @@ import KIF
 @testable import TrueThat
 
 class BaseUITests : KIFTestCase {
+  public var fakeDetectionModule: FakeReactionDetectionModule!
+  public var authModule: AuthModule!
   override func setUp() {
     super.setUp()
-    App.detecionModule = FakeReactionDetectionModule()
+    fakeDetectionModule = FakeReactionDetectionModule()
+    authModule = AuthModule()
+    App.detecionModule = fakeDetectionModule
+    App.authModule = authModule
   }
 }

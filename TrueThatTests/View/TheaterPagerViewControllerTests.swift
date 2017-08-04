@@ -11,8 +11,6 @@ import KIF
 import OHHTTPStubs
 import SwiftyJSON
 import Nimble
-import SwiftyBeaver
-let log = SwiftyBeaver.self
 
 class TheaterPagerViewControllerTests : BaseUITests {
   var fetchedReactables: [Reactable] = []
@@ -33,7 +31,7 @@ class TheaterPagerViewControllerTests : BaseUITests {
     UIApplication.shared.keyWindow!.rootViewController = viewController
     
     // Test and load the View
-    XCTAssertNotNil(viewController.view)
+    expect(self.viewController.view).toNot(beNil())
   }
   
   func assertDisplayed(reactable: Reactable) {

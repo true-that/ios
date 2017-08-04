@@ -79,7 +79,7 @@ class ReactableViewModel {
 }
 
 extension ReactableViewModel: ReactionDetectionDelegate {
-  func onDetected(reaction: Emotion) {
+  func didDetect(reaction: Emotion) {
     if (model.canReact(user: App.authModule.currentUser)) {
       InteractionApi.save(interaction: InteractionEvent(
         timestamp: Date(), userId: App.authModule.currentUser.id, reaction: reaction,

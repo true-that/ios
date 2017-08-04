@@ -50,6 +50,6 @@ class User: BaseModel {
 extension User {
   /// Display name for UI.
   var displayName: String {
-    return firstName! + " " + lastName!
+    return StringHelper.toTitleCase(firstName! + " " + lastName!)
   }
 }

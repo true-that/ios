@@ -31,5 +31,5 @@ protocol ReactionDetectionDelegate {
   /// Callback for detected reactions handling.
   ///
   /// - Parameter reaction: that was detected.
-  func onDetected(reaction: Emotion)
+  func didDetect(reaction: Emotion)
 }

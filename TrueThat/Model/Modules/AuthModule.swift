@@ -13,4 +13,9 @@ class AuthModule {
   
   /// Current authenticated user.
   var currentUser = User(id: 1, firstName: "John", lastName: "Snow")
+  
+  public func signUp(fullName: String) {
+    currentUser.firstName = StringHelper.extractFirstName(of: fullName)
+    currentUser.lastName = StringHelper.extractLastName(of: fullName)
+  }
 }
