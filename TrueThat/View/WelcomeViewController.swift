@@ -25,6 +25,10 @@ class WelcomeViewController: UIViewController {
     signInLabel.textColor = Color.theme.value
     errorLabel.textColor = Color.error.value
     
+    // Styling
+    signUpImage.layer.cornerRadius = 4.0
+    signUpImage.clipsToBounds = true
+    
     // Visibility
     errorLabel.isHidden = true
     

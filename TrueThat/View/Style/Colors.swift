@@ -11,10 +11,9 @@ import UIKit
 enum Color {
   
   case theme
+  case secondary
   case shadow
-  
   case lightText
-  
   case success
   case error
   case custom(hexString: String, alpha: Double)
@@ -31,11 +30,13 @@ extension Color {
     
     switch self {
     case .theme:
-      instanceColor = UIColor(hexString: "#ff5500")
+      instanceColor = UIColor(hexString: "#eb5971")
+    case .secondary:
+      instanceColor = UIColor(hexString: "#eb8b46")
     case .shadow:
       instanceColor = UIColor(hexString: "#000000")
     case .lightText:
-      instanceColor = UIColor(hexString: "#e45500")
+      instanceColor = UIColor(hexString: "#f8e6f2")
     case .success:
       instanceColor = UIColor(hexString: "#22aa66")
     case .error:
