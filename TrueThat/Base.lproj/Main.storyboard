@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -208,7 +209,7 @@
         <!--Welcome View Controller-->
         <scene sceneID="wB4-R4-97b">
             <objects>
-                <viewController id="K9Y-NH-K0F" customClass="WelcomeViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WelcomeScene" id="K9Y-NH-K0F" customClass="WelcomeViewController" customModule="TrueThat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LAE-Vm-s7k"/>
                         <viewControllerLayoutGuide type="bottom" id="t0K-9a-dAi"/>
@@ -216,12 +217,64 @@
                     <view key="view" contentMode="scaleToFill" id="Xpt-1g-FhM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ofx-KU-14c">
+                                <rect key="frame" x="122.5" y="92" width="131.5" height="67"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="StF-dm-FL5">
+                                        <rect key="frame" x="0.0" y="0.0" width="48.5" height="67"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PZ7-V7-zAg">
+                                        <rect key="frame" x="64.5" y="0.0" width="67" height="67"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="PZ7-V7-zAg" secondAttribute="height" multiplier="1:1" id="lkg-mO-EX2"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="NI3-GX-sAa">
+                                <rect key="frame" x="87" y="541" width="200" height="35"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Already one of us?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bac-Lc-K7G">
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We are so so sorry, we had an error" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z7i-HG-T2t">
+                                        <rect key="frame" x="0.0" y="20.5" width="200" height="14.5"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" staticText="YES" notEnabled="YES"/>
+                                        </accessibility>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ofx-KU-14c" firstAttribute="centerX" secondItem="Xpt-1g-FhM" secondAttribute="centerX" id="KB7-dL-JMo"/>
+                            <constraint firstItem="ofx-KU-14c" firstAttribute="top" secondItem="LAE-Vm-s7k" secondAttribute="bottom" constant="72" id="ekt-qU-r5J"/>
+                            <constraint firstItem="NI3-GX-sAa" firstAttribute="centerX" secondItem="Xpt-1g-FhM" secondAttribute="centerX" id="osO-iY-5vk"/>
+                            <constraint firstItem="t0K-9a-dAi" firstAttribute="top" secondItem="NI3-GX-sAa" secondAttribute="bottom" constant="91" id="tyT-FO-wPD"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="errorLabel" destination="Z7i-HG-T2t" id="TTC-7d-Et3"/>
+                        <outlet property="signInLabel" destination="bac-Lc-K7G" id="L3V-y2-tOs"/>
+                        <outlet property="signUpImage" destination="PZ7-V7-zAg" id="V6r-Jq-7YR"/>
+                        <outlet property="signUpLabel" destination="StF-dm-FL5" id="Jkx-LI-QsG"/>
+                        <outlet property="signUpStackView" destination="ofx-KU-14c" id="TKx-Xg-nJH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tqw-v7-JgS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-705" y="-974"/>
+            <point key="canvasLocation" x="-706.39999999999998" y="-974.6626686656673"/>
         </scene>
     </scenes>
 </document>

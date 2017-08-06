@@ -14,9 +14,19 @@ class App {
   
   public static var detecionModule = ReactionDetectionModule()
   
-  public static var log: SwiftyBeaver.Type {
-    let log = SwiftyBeaver.self
-    log.addDestination(ConsoleDestination())
-    return log
+  public static var log = SingletonLog.shared.log
+  
+  final class SingletonLog {
+    
+    // Can't init is singleton
+    private init() {
+      log = SwiftyBeaver.self
+      log.addDestination(ConsoleDestination())
+    }
+    
+    // MARK: Shared Instance
+    static let shared = SingletonLog()
+    
+    var log: SwiftyBeaver.Type
   }
 }

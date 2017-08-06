@@ -31,11 +31,11 @@ extension Color {
     
     switch self {
     case .theme:
-      instanceColor = UIColor(hexString: "#c21f5b")
+      instanceColor = UIColor(hexString: "#ff5500")
     case .shadow:
       instanceColor = UIColor(hexString: "#000000")
     case .lightText:
-      instanceColor = UIColor(hexString: "#f8e6f2")
+      instanceColor = UIColor(hexString: "#e45500")
     case .success:
       instanceColor = UIColor(hexString: "#22aa66")
     case .error:

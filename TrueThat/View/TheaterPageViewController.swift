@@ -9,7 +9,6 @@
 import UIKit
 import ReactiveSwift
 import ReactiveCocoa
-import SwiftyBeaver
 
 class TheaterPageViewController: UIPageViewController {
   var viewModel: TheaterViewModel!

@@ -18,5 +18,6 @@ class BaseUITests : KIFTestCase {
     authModule = AuthModule()
     App.detecionModule = fakeDetectionModule
     App.authModule = authModule
+    KIFTestActor.setDefaultTimeout(1.0)
   }
 }

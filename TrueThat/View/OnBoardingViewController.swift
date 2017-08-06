@@ -9,7 +9,6 @@
 import UIKit
 import ReactiveSwift
 import ReactiveCocoa
-import SwiftyBeaver
 
 class OnBoardingViewController: UIViewController {
   // MARK: Properties
@@ -22,6 +21,7 @@ class OnBoardingViewController: UIViewController {
   @IBOutlet weak var nameTextField: UITextField!
   // MARK: Lifecycle
   override func viewDidLoad() {
+    App.log.verbose("viewDidLoad")
     super.viewDidLoad()
     
     if viewModel == nil {
@@ -48,12 +48,14 @@ class OnBoardingViewController: UIViewController {
   }
   
   override func viewDidAppear(_ animated: Bool) {
+    App.log.verbose("viewDidAppear")
     super.viewDidAppear(animated)
     viewModel.didAppear()
     App.detecionModule.start()
   }
   
   override func viewDidDisappear(_ animated: Bool) {
+    App.log.verbose("viewDidDisappear")
     super.viewDidDisappear(animated)
     App.detecionModule.stop()
   }

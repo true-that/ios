@@ -8,8 +8,6 @@
 
 import KIF
 @testable import TrueThat
-import OHHTTPStubs
-import SwiftyJSON
 import Nimble
 
 class OnBoardingViewControllerTests : BaseUITests {
