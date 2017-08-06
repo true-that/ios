@@ -1,15 +1,15 @@
 //
-//  BaseUITests.swift
+//  BaseTests.swift
 //  TrueThat
 //
 //  Created by Ohad Navon on 03/08/2017.
 //  Copyright © 2017 TrueThat. All rights reserved.
 //
 
-import KIF
+import XCTest
 @testable import TrueThat
 
-class BaseUITests : KIFTestCase {
+class BaseTests: XCTestCase {
   public var fakeDetectionModule: FakeReactionDetectionModule!
   public var fakeAuthModule: FakeAuthModule!
   public var fakeDeviceModule: DeviceModule!
@@ -23,6 +23,5 @@ class BaseUITests : KIFTestCase {
     App.detecionModule = fakeDetectionModule
     App.authModule = fakeAuthModule
     App.deviceModule = fakeDeviceModule
-    KIFTestActor.setDefaultTimeout(1.0)
   }
 }

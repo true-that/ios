@@ -1,5 +1,5 @@
 //
-//  TheaterViewModel.swift
+//  ReactablesPageViewModel.swift
 //  TrueThat
 //
 //  Created by Ohad Navon on 13/07/2017.
@@ -9,17 +9,10 @@
 import Foundation
 import ReactiveSwift
 
-class TheaterViewModel {
+class ReactablesPageViewModel {
   var reactables = [Reactable]()
-  var delegate: TheaterDelegate!
+  var delegate: ReactablesPageDelegate!
   var currentIndex = 0
-  
-  /// Invoked when theater view controller is appeared.
-  public func didAppear() {
-    if (reactables.count == 0) {
-      fetchingData()
-    }
-  }
   
   /// Updates `currentIndex` to previous reactable, if not already at the first one.
   ///
@@ -53,10 +46,10 @@ class TheaterViewModel {
   
   /// Fetch new reactables from our backend.
   public func fetchingData() {
-    _ = TheaterApi.fetchReactables(for: App.authModule.currentUser)
+    _ = TheaterApi.fetchReactables(for: App.authModule.current!)
       .on(value: { self.adding($0) })
       .on(failed: {error in
-        print(error)
+        App.log.error("Failed fetch request: \(error)")
       })
       .start()
   }
@@ -79,7 +72,7 @@ class TheaterViewModel {
   }
 }
 
-protocol TheaterDelegate: class {
+protocol ReactablesPageDelegate: class {
   /// Displays the view controller at the given index. Should be used when no view controllers have
   /// already been displayed.
   ///

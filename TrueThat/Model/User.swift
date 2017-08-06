@@ -11,17 +11,24 @@ import SwiftyJSON
 class User: BaseModel {
   /// As stored in our backend.
   var id: Int64?
-  /// How his mother calls him.
+  /// How her mother calls her.
   var firstName: String?
   /// How his friends calls him.
   var lastName: String?
+  /// For future authentication.
+  var deviceId: String?
+  /// Whether this user instance is authenticated from a client perspective.
+  public var isAuthOk: Bool {
+    return id != nil && firstName != nil && lastName != nil
+  }
   
   // Mark: Initialization
-  init (id: Int64?, firstName: String?, lastName: String?) {
+  init (id: Int64?, firstName: String?, lastName: String?, deviceId: String?) {
     super.init()
     self.id = id
     self.firstName = firstName
     self.lastName = lastName
+    self.deviceId = deviceId
   }
   
   required init(json: JSON) {

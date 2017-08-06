@@ -66,7 +66,7 @@ class ReactableViewModel {
   public func didDisplay() {
     if model.viewed != true {
       InteractionApi.save(interaction: InteractionEvent(
-        timestamp: Date(), userId: App.authModule.currentUser.id, reaction: nil,
+        timestamp: Date(), userId: App.authModule.current!.id, reaction: nil,
         eventType: .view, reactableId: model.id))
         .on(failed: {error in
           print(error)
@@ -80,9 +80,9 @@ class ReactableViewModel {
 
 extension ReactableViewModel: ReactionDetectionDelegate {
   func didDetect(reaction: Emotion) {
-    if (model.canReact(user: App.authModule.currentUser)) {
+    if (model.canReact(user: App.authModule.current!)) {
       InteractionApi.save(interaction: InteractionEvent(
-        timestamp: Date(), userId: App.authModule.currentUser.id, reaction: reaction,
+        timestamp: Date(), userId: App.authModule.current!.id, reaction: reaction,
         eventType: .reaction, reactableId: model.id))
         .on(value: {event in
           self.model.userReaction = reaction

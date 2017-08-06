@@ -30,13 +30,8 @@ class TheaterApiTests: XCTestCase {
     error = nil
   }
   
-  override func tearDown() {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    super.tearDown()
-  }
-  
   func fetch() {
-    _ = TheaterApi.fetchReactables(for: AuthModule().currentUser)
+    _ = TheaterApi.fetchReactables(for: App.authModule.current!)
       .on(value: {
         self.actual = $0
       })
@@ -48,11 +43,11 @@ class TheaterApiTests: XCTestCase {
   
   func testSuccessfulFetch() {
     reactables = [Reactable(id: 1, userReaction: .sad,
-                            director: User(id: 1, firstName: "copa", lastName: "cabana"),
+                            director: User(id: 1, firstName: "copa", lastName: "cabana", deviceId: "android"),
                             reactionCounters: [.sad: 1000, .happy: 1234],
                             created: Date(), viewed: false),
                   Reactable(id: 2, userReaction: .happy,
-                            director: User(id: 1, firstName: "barry", lastName: "manilow"),
+                            director: User(id: 1, firstName: "barry", lastName: "manilow", deviceId: "android"),
                             reactionCounters: [.sad: 2000, .happy: 100234],
                             created: Date(), viewed: true)]
     fetch()
@@ -61,11 +56,11 @@ class TheaterApiTests: XCTestCase {
   
   func testFetchMultipleTypes() {
     reactables = [Reactable(id: 1, userReaction: .sad,
-                            director: User(id: 1, firstName: "copa", lastName: "cabana"),
+                            director: User(id: 1, firstName: "copa", lastName: "cabana", deviceId: "android"),
                             reactionCounters: [.sad: 1000, .happy: 1234],
                             created: Date(), viewed: false),
                   Scene(id: 2, userReaction: .happy,
-                            director: User(id: 1, firstName: "barry", lastName: "manilow"),
+                            director: User(id: 1, firstName: "barry", lastName: "manilow", deviceId: "android"),
                             reactionCounters: [.sad: 2000, .happy: 100234],
                             created: Date(), viewed: true, imageUrl: "http://truethat-ipo.jpg")]
     fetch()
@@ -84,11 +79,11 @@ class TheaterApiTests: XCTestCase {
       return OHHTTPStubsResponse(error: BaseError.network)
     }
     reactables = [Reactable(id: 1, userReaction: .sad,
-                            director: User(id: 1, firstName: "copa", lastName: "cabana"),
+                            director: User(id: 1, firstName: "copa", lastName: "cabana", deviceId: "android"),
                             reactionCounters: [.sad: 1000, .happy: 1234],
                             created: Date(), viewed: false),
                   Reactable(id: 2, userReaction: .happy,
-                            director: User(id: 1, firstName: "barry", lastName: "manilow"),
+                            director: User(id: 1, firstName: "barry", lastName: "manilow", deviceId: "android"),
                             reactionCounters: [.sad: 2000, .happy: 100234],
                             created: Date(), viewed: true)]
     fetch()

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WelcomeViewController: UIViewController {
+class WelcomeViewController: BaseViewController {
   
   @IBOutlet weak var signUpLabel: UILabel!
   @IBOutlet weak var signUpImage: UIImageView!
@@ -17,8 +17,10 @@ class WelcomeViewController: UIViewController {
   @IBOutlet weak var errorLabel: UILabel!
   
   override func viewDidLoad() {
-    App.log.verbose("viewDidLoad")
     super.viewDidLoad()
+    
+    // Skip auth
+    doAuth = false
     
     // Colors
     signUpLabel.textColor = Color.theme.value
@@ -26,14 +28,11 @@ class WelcomeViewController: UIViewController {
     errorLabel.textColor = Color.error.value
     
     // Styling
-    signUpImage.layer.cornerRadius = 4.0
+    signUpImage.layer.cornerRadius = 6.0
     signUpImage.clipsToBounds = true
+    signUpImage.image = UIImage(named: "AppIcon60x60.png")
     
-    // Visibility
-    errorLabel.isHidden = true
-    
-    
-    // OnClick hooks
+    // Tap gesture hooks
     signUpStackView.isUserInteractionEnabled = true
     signUpStackView.accessibilityLabel = "sign up"
     signUpStackView.addGestureRecognizer(
@@ -43,8 +42,13 @@ class WelcomeViewController: UIViewController {
       UITapGestureRecognizer(target: self, action: #selector(self.signIn)))
   }
   
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    // Hide warning
+    errorLabel.isHidden = true
+  }
+  
   @objc private func signUp() {
-    App.log.verbose("They all sign up eventually")
     self.present(
       UIStoryboard(name: "Main", bundle: self.nibBundle).instantiateViewController(
         withIdentifier: "OnBoardingScene"),
@@ -52,6 +56,20 @@ class WelcomeViewController: UIViewController {
   }
   
   @objc private func signIn() {
-    
+    App.authModule.signIn()
+  }
+  
+  override func didAuthOk() {
+    super.didAuthOk()
+    self.present(
+      UIStoryboard(name: "Main", bundle: self.nibBundle).instantiateViewController(
+        withIdentifier: "TheaterScene"),
+      animated: true, completion: nil)
+  }
+
+  override func didAuthFail() {
+    App.log.verbose("\(logTag): didAuthFail")
+    // Show warning
+    errorLabel.isHidden = false
   }
 }

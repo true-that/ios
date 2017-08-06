@@ -13,7 +13,7 @@ import SwiftyJSON
 import Nimble
 
 
-class ReactableViewModelTests: BaseViewModelTests {
+class ReactableViewModelTests: BaseTests {
   var viewModel: ReactableViewModel!
   var eventCount = 0
   
@@ -31,7 +31,7 @@ class ReactableViewModelTests: BaseViewModelTests {
   
   func testDisplayReactable() {
     let reactable = Reactable(id: 1, userReaction: .sad,
-                              director: User(id: 1, firstName: "Mr", lastName: "Robot"),
+                              director: User(id: 1, firstName: "Mr", lastName: "Robot", deviceId: "iphone"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
                               created: Date(), viewed: false)
     viewModel = ReactableViewModel(with: reactable)
@@ -44,7 +44,7 @@ class ReactableViewModelTests: BaseViewModelTests {
   
   func testDisplayReactable_commonReactionDisplayed() {
     let reactable = Reactable(id: 1, userReaction: nil,
-                              director: User(id: 1, firstName: "Wallstreet", lastName: "Wolf"),
+                              director: User(id: 1, firstName: "Ms", lastName: "Robot", deviceId: "iphone2"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
                               created: Date(timeIntervalSinceNow: -60), viewed: false)
     viewModel = ReactableViewModel(with: reactable)
@@ -57,7 +57,7 @@ class ReactableViewModelTests: BaseViewModelTests {
   
   func testInteractionEvents() {
     let reactable = Reactable(id: 1, userReaction: nil,
-                              director: User(id: 1, firstName: "Wallstreet", lastName: "Wolf"),
+                              director: User(id: 1, firstName: "Ms", lastName: "Robot", deviceId: "iphone2"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
                               created: Date(timeIntervalSinceNow: -60), viewed: false)
     viewModel = ReactableViewModel(with: reactable)
@@ -69,7 +69,7 @@ class ReactableViewModelTests: BaseViewModelTests {
   
   func testCantInteractAfterDisappear() {
     let reactable = Reactable(id: 1, userReaction: nil,
-                              director: User(id: 1, firstName: "Wallstreet", lastName: "Wolf"),
+                              director: User(id: 1, firstName: "Ms", lastName: "Robot", deviceId: "iphone2"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
                               created: Date(timeIntervalSinceNow: -60), viewed: true)
     viewModel = ReactableViewModel(with: reactable)

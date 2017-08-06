@@ -1,8 +1,9 @@
 platform :ios, '10.0'
+use_frameworks!
 
 target 'TrueThat' do
-  use_frameworks!
   pod 'Alamofire', '~> 4.4'
+  pod 'KeychainAccess'
   pod 'Kingfisher', '~> 3.0'
   pod 'ReactiveCocoa', '~> 6.0'
   pod 'SwiftyBeaver'

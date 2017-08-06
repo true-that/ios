@@ -9,6 +9,8 @@
 import KIF
 @testable import TrueThat
 import Nimble
+import OHHTTPStubs
+import SwiftyJSON
 
 class OnBoardingViewControllerTests : BaseUITests {
   let fullName = "Swa la lala"
@@ -16,6 +18,7 @@ class OnBoardingViewControllerTests : BaseUITests {
   
   override func setUp() {
     super.setUp()
+    fakeAuthModule.signOut()
     
     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
     viewController = storyboard.instantiateViewController(withIdentifier: "OnBoardingScene") as! OnBoardingViewController
@@ -27,8 +30,14 @@ class OnBoardingViewControllerTests : BaseUITests {
   }
   
   func testSuccessfulOnBoarding() {
-    let firstName = StringHelper.extractFirstName(of: fullName)
-    let lastName = StringHelper.extractLastName(of: fullName)
+    let user = User(id: 1, firstName: "swa", lastName: "la lala",
+                    deviceId: App.deviceModule.deviceId)
+    // Sets up stub backend response
+    stub(condition: isPath(AuthApi.path)) {request -> OHHTTPStubsResponse in
+      let stubData = try! JSON(user.toDictionary()).rawData()
+      return OHHTTPStubsResponse(data: stubData, statusCode: 200,
+                                 headers: ["Content-Type":"application/json"])
+    }
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
     // Should focus text field
@@ -36,7 +45,7 @@ class OnBoardingViewControllerTests : BaseUITests {
     // Warning should be hidden
     expect(self.viewController.warningLabel.isHidden).to(beTrue())
     // Type first name
-    tester().enterText(intoCurrentFirstResponder: firstName)
+    tester().enterText(intoCurrentFirstResponder: user.firstName!)
     // Try to hit done
     tester().tapView(withAccessibilityLabel: "Join")
     // Should still have focus
@@ -49,7 +58,7 @@ class OnBoardingViewControllerTests : BaseUITests {
     // Regain focus on name field
     tester().tapView(withAccessibilityLabel: "full name field")
     // type last name
-    tester().enterText(intoCurrentFirstResponder: " " + lastName)
+    tester().enterText(intoCurrentFirstResponder: " " + user.lastName!)
     // Visual indicator of a valid full name
     expect(self.viewController.nameTextField.layer.borderColor).to(equal(Color.success.value.cgColor))
     expect(self.viewController.warningLabel.isHidden).to(beTrue())
@@ -62,7 +71,6 @@ class OnBoardingViewControllerTests : BaseUITests {
     expect(self.viewController.completionLabel.isHidden).to(beFalse())
     // Complete on boarding
     fakeDetectionModule.detect(OnBoardingViewModel.reactionForDone)
-    expect(self.authModule.currentUser.displayName)
-      .to(equal(StringHelper.toTitleCase(self.fullName)))
+    expect(self.fakeAuthModule.current).toEventually(equal(user))
   }
 }

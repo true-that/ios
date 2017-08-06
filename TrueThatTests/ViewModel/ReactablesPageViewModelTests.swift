@@ -1,5 +1,5 @@
 //
-//  TheaterViewModelTests.swift
+//  ReactablesPageViewModelTests.swift
 //  TrueThat
 //
 //  Created by Ohad Navon on 28/07/2017.
@@ -13,9 +13,9 @@ import SwiftyJSON
 import Nimble
 
 
-class TheaterViewModelTests: BaseViewModelTests {
+class ReactablesPageViewModelTests: BaseTests {
   var fetchedReactables: [Reactable] = []
-  var viewModel: TheaterViewModel!
+  var viewModel: ReactablesPageViewModel!
   var viewModelDelegate: FakeTheaterDelegate!
   
   override func setUp() {
@@ -26,7 +26,7 @@ class TheaterViewModelTests: BaseViewModelTests {
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
                                  headers: ["Content-Type":"application/json"])
     }
-    viewModel = TheaterViewModel()
+    viewModel = ReactablesPageViewModel()
     viewModelDelegate = FakeTheaterDelegate()
     viewModel.delegate = viewModelDelegate
   }
@@ -38,7 +38,7 @@ class TheaterViewModelTests: BaseViewModelTests {
   
   func testDisplayReactable() {
     let reactable = Reactable(id: 1, userReaction: .sad,
-                              director: User(id: 1, firstName: "Monica", lastName: "Clinton"),
+                              director: User(id: 1, firstName: "Todo", lastName: "Bom", deviceId: "android"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
                               created: Date(), viewed: false)
     fetchedReactables = [reactable]
@@ -59,11 +59,11 @@ class TheaterViewModelTests: BaseViewModelTests {
   
   func testNavigateNext() {
     let reactable1 = Reactable(id: 1, userReaction: .sad,
-                              director: User(id: 1, firstName: "Monica", lastName: "Clinton"),
+                              director: User(id: 1, firstName: "Todo", lastName: "Bom", deviceId: "android"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
                               created: Date(), viewed: false)
     let reactable2 = Reactable(id: 2, userReaction: .happy,
-                              director: User(id: 1, firstName: "Bill", lastName: "Lewinsky"),
+                              director: User(id: 1, firstName: "Dubi", lastName: "Gal", deviceId: "iphone"),
                               reactionCounters: [.sad: 5000, .happy: 34],
                               created: Date(), viewed: true)
     fetchedReactables = [reactable1, reactable2]
@@ -85,11 +85,11 @@ class TheaterViewModelTests: BaseViewModelTests {
   
   func testNavigateNextFetchNewData() {
     let reactable1 = Reactable(id: 1, userReaction: .sad,
-                               director: User(id: 1, firstName: "Monica", lastName: "Clinton"),
+                               director: User(id: 1, firstName: "Todo", lastName: "Bom", deviceId: "android"),
                                reactionCounters: [.sad: 1000, .happy: 1234],
                                created: Date(), viewed: false)
     let reactable2 = Reactable(id: 2, userReaction: .happy,
-                               director: User(id: 1, firstName: "Bill", lastName: "Lewinsky"),
+                               director: User(id: 1, firstName: "Dubi", lastName: "Gal", deviceId: "iphone"),
                                reactionCounters: [.sad: 5000, .happy: 34],
                                created: Date(), viewed: true)
     fetchedReactables = [reactable1]
@@ -110,11 +110,11 @@ class TheaterViewModelTests: BaseViewModelTests {
   
   func testNavigatePrevious() {
     let reactable1 = Reactable(id: 1, userReaction: .sad,
-                               director: User(id: 1, firstName: "Monica", lastName: "Clinton"),
+                               director: User(id: 1, firstName: "Todo", lastName: "Bom", deviceId: "android"),
                                reactionCounters: [.sad: 1000, .happy: 1234],
                                created: Date(), viewed: false)
     let reactable2 = Reactable(id: 2, userReaction: .happy,
-                               director: User(id: 1, firstName: "Bill", lastName: "Lewinsky"),
+                               director: User(id: 1, firstName: "Dubi", lastName: "Gal", deviceId: "iphone"),
                                reactionCounters: [.sad: 5000, .happy: 34],
                                created: Date(), viewed: true)
     fetchedReactables = [reactable1, reactable2]

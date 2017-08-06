@@ -31,7 +31,6 @@ class TheaterApi {
       request.httpBody = try! JSON(from: user).rawData()
       // TODO: cancel request when view disappears 
       Alamofire.request(request).responseJSON(completionHandler: {response in
-        print (response.result)
         switch response.result {
         case .success:
           observer.send(value: JSON(response.result.value!).arrayValue

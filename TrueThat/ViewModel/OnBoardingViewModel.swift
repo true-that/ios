@@ -15,7 +15,7 @@ class OnBoardingViewModel {
   public static let reactionForDone = Emotion.happy
   public let warningLabelHidden = MutableProperty(true)
   public let completionLabelHidden = MutableProperty(true)
-  public let nameTextFieldBorderColor = MutableProperty(Color.shadow.withAlpha(0.2))
+  public let nameTextFieldBorderColor = MutableProperty(Color.shadow)
   public let nameTextField = MutableProperty("")
   var delegate: OnBoardingDelegate!
   
@@ -41,9 +41,9 @@ class OnBoardingViewModel {
   func nameFieldTextDidChange() {
     if StringHelper.isValid(fullName: nameTextField.value) {
       warningLabelHidden.value = true
-      nameTextFieldBorderColor.value = Color.success.value
+      nameTextFieldBorderColor.value = Color.success
     } else {
-      nameTextFieldBorderColor.value = Color.error.value
+      nameTextFieldBorderColor.value = Color.error
     }
   }
   

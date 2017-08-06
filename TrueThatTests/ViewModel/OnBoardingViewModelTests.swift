@@ -11,13 +11,14 @@ import XCTest
 import Nimble
 
 
-class OnBoardingViewModelTests: BaseViewModelTests {
+class OnBoardingViewModelTests: BaseTests {
   let fullName = "Jack Sparrow"
   var viewModel: OnBoardingViewModel!
   var viewModelDelegate: OnBoardingTestDelegate!
   
   override func setUp() {
     super.setUp()
+    fakeAuthModule.signOut()
     viewModel = OnBoardingViewModel()
     viewModelDelegate = OnBoardingTestDelegate(viewModel)
     viewModel.delegate = viewModelDelegate
@@ -32,7 +33,7 @@ class OnBoardingViewModelTests: BaseViewModelTests {
     // Warning should be hidden
     expect(self.viewModel.warningLabelHidden.value).to(beTrue())
     // Show visual indicator of a valid name
-    expect(self.viewModel.nameTextFieldBorderColor.value).to(equal(Color.success.value))
+    expect(self.viewModel.nameTextFieldBorderColor.value.value).to(equal(Color.success.value))
   }
   
   func testSuccessfulOnBoarding() {
@@ -86,7 +87,7 @@ class OnBoardingViewModelTests: BaseViewModelTests {
     // Cant hit done
     expect(self.viewModel.nameFieldDidReturn()).to(beFalse())
     // Visual indicator of illegal name
-    expect(self.viewModel.nameTextFieldBorderColor.value).to(equal(Color.error.value))
+    expect(self.viewModel.nameTextFieldBorderColor.value.value).to(equal(Color.error.value))
     // Show warning
     expect(self.viewModel.warningLabelHidden.value).to(beFalse())
     // Dont start detection just yet
@@ -94,7 +95,7 @@ class OnBoardingViewModelTests: BaseViewModelTests {
     // Type last name
     viewModel.nameTextField.value += " " + lastName
     // Visual indicator of valid full name
-    expect(self.viewModel.nameTextFieldBorderColor.value).to(equal(Color.success.value))
+    expect(self.viewModel.nameTextFieldBorderColor.value.value).to(equal(Color.success.value))
     // Hide warning
     expect(self.viewModel.warningLabelHidden.value).to(beTrue())
     // Hit done and move to final stage

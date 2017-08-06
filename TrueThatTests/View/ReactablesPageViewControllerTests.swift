@@ -1,5 +1,5 @@
 //
-//  TheaterPagerViewControllerTests.swift
+//  ReactablesPageViewControllerTests.swift
 //  TrueThat
 //
 //  Created by Ohad Navon on 30/07/2017.
@@ -12,9 +12,9 @@ import OHHTTPStubs
 import SwiftyJSON
 import Nimble
 
-class TheaterPagerViewControllerTests : BaseUITests {
+class ReactablesPageViewControllerTests : BaseUITests {
   var fetchedReactables: [Reactable] = []
-  var viewController: TheaterPageViewController!
+  var viewController: ReactablesPageViewController!
   
   override func setUp() {
     super.setUp()
@@ -26,7 +26,7 @@ class TheaterPagerViewControllerTests : BaseUITests {
                                  headers: ["Content-Type":"application/json"])
     }
     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-    viewController = storyboard.instantiateViewController(withIdentifier: "TheaterScene") as! TheaterPageViewController
+    viewController = storyboard.instantiateViewController(withIdentifier: "ReactablesPageScene") as! ReactablesPageViewController
     
     UIApplication.shared.keyWindow!.rootViewController = viewController
     
@@ -48,28 +48,30 @@ class TheaterPagerViewControllerTests : BaseUITests {
   
   func testDisplayReactable() {
     let reactable = Reactable(id: 1, userReaction: .sad,
-                              director: User(id: 1, firstName: "The", lastName: "Flinstons"),
+                              director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
                               created: Date(), viewed: false)
     fetchedReactables = [reactable]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
+    viewController.didAuthOk()
     assertDisplayed(reactable: reactable)
   }
   
   func testMultipleTypes() {
     let reactable = Reactable(id: 1, userReaction: .sad,
-                               director: User(id: 1, firstName: "Breaking", lastName: "Bad"),
+                               director: User(id: 1, firstName: "Breaking", lastName: "Bad", deviceId: "iphone"),
                                reactionCounters: [.sad: 1000, .happy: 1234],
                                created: Date(), viewed: false)
     let scene = Scene(id: 2, userReaction: .happy,
-                      director: User(id: 1, firstName: "Mr", lastName: "White"),
+                      director: User(id: 1, firstName: "Mr", lastName: "White", deviceId: "iphone2"),
                       reactionCounters: [.sad: 5000, .happy: 34], created: Date(),
                       viewed: true,
                       imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/A_white_irish_goat.jpg/220px-A_white_irish_goat.jpg")
     fetchedReactables = [reactable, scene]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
+    viewController.didAuthOk()
     // Should display first reactable
     assertDisplayed(reactable: reactable)
     // Navigate to next reactable
@@ -79,16 +81,17 @@ class TheaterPagerViewControllerTests : BaseUITests {
   
   func testReactablesNavigation() {
     let reactable1 = Reactable(id: 1, userReaction: .sad,
-                               director: User(id: 1, firstName: "Breaking", lastName: "Bad"),
+                               director: User(id: 1, firstName: "Breaking", lastName: "Bad", deviceId: "iphone"),
                                reactionCounters: [.sad: 1000, .happy: 1234],
                                created: Date(), viewed: false)
     let reactable2 = Reactable(id: 2, userReaction: .happy,
-                               director: User(id: 1, firstName: "Mr", lastName: "White"),
+                               director: User(id: 1, firstName: "Mr", lastName: "White", deviceId: "iphone2"),
                                reactionCounters: [.sad: 5000, .happy: 34],
                                created: Date(), viewed: true)
     fetchedReactables = [reactable1, reactable2]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
+    viewController.didAuthOk()
     // Should display first reactable
     assertDisplayed(reactable: reactable1)
     // Navigate to next reactable
@@ -101,16 +104,17 @@ class TheaterPagerViewControllerTests : BaseUITests {
   
   func testFetchNewReactables() {
     let reactable1 = Reactable(id: 1, userReaction: .sad,
-                               director: User(id: 1, firstName: "Breaking", lastName: "Bad"),
+                               director: User(id: 1, firstName: "Breaking", lastName: "Bad", deviceId: "iphone"),
                                reactionCounters: [.sad: 1000, .happy: 1234],
                                created: Date(), viewed: false)
     let reactable2 = Reactable(id: 2, userReaction: .happy,
-                               director: User(id: 1, firstName: "Mr", lastName: "White"),
+                               director: User(id: 1, firstName: "Mr", lastName: "White", deviceId: "iphone2"),
                                reactionCounters: [.sad: 5000, .happy: 34],
                                created: Date(), viewed: true)
     fetchedReactables = [reactable1]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
+    viewController.didAuthOk()
     // Should display first reactable
     assertDisplayed(reactable: reactable1)
     // Navigate to next reactable

@@ -1,5 +1,5 @@
 //
-//  TheaterPageViewController.swift
+//  ReactablesPageViewController.swift
 //  TrueThat
 //
 //  Created by Ohad Navon on 09/07/2017.
@@ -10,37 +10,55 @@ import UIKit
 import ReactiveSwift
 import ReactiveCocoa
 
-class TheaterPageViewController: UIPageViewController {
-  var viewModel: TheaterViewModel!
-  weak var pagerDelegate: TheaterPageViewControllerDelegate?
+class ReactablesPageViewController: UIPageViewController {
+  var viewModel: ReactablesPageViewModel!
+  var doDetection = false
+  weak var pagerDelegate: ReactablesPageViewControllerDelegate?
 
   /// View controllers that are displayed in this page, ordered by order of appearance.
   var orderedViewControllers = [ReactableViewController]()
+  
+  static func instantiate(doDetection: Bool) -> ReactablesPageViewController {
+    let viewController = UIStoryboard(name: "Main", bundle: nil)
+      .instantiateViewController(withIdentifier: "ReactablesPageScene")
+      as! ReactablesPageViewController
+    viewController.doDetection = doDetection
+    return viewController
+  }
 
   override func viewDidLoad() {
-    App.log.verbose("viewDidLoad")
     super.viewDidLoad()
 
     dataSource = self
     delegate = self
     
     if (viewModel == nil) {
-      viewModel = TheaterViewModel()
+      viewModel = ReactablesPageViewModel()
       viewModel.delegate = self
     }
   }
   
   override func viewDidAppear(_ animated: Bool) {
-    App.log.verbose("viewDidAppear")
     super.viewDidAppear(animated)
-    viewModel.didAppear()
+    App.detecionModule.start()
+  }
+  
+  override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    App.detecionModule.stop()
+  }
+  
+  func didAuthOk() {
+    if (viewModel.reactables.count == 0) {
+      viewModel.fetchingData()
+    }
   }
 
   /// Notifies the delegate that the current page index was updated.
-  fileprivate func notifyTheaterDelegateOfNewIndex() {
+  fileprivate func notifyReactablesPageDelegateOfNewIndex() {
     if currentViewController != nil,
        let currentIndex = orderedViewControllers.index(of: currentViewController!) {
-      pagerDelegate?.theaterPageViewController(self, didUpdatePageIndex: currentIndex)
+      pagerDelegate?.ReactablesPageViewController(self, didUpdatePageIndex: currentIndex)
       viewModel.currentIndex = currentIndex
     }
   }
@@ -55,7 +73,7 @@ class TheaterPageViewController: UIPageViewController {
 }
 
 // MARK: UIPageViewControllerDataSource
-extension TheaterPageViewController: UIPageViewControllerDataSource {
+extension ReactablesPageViewController: UIPageViewControllerDataSource {
   func pageViewController(_ pageViewController: UIPageViewController,
                           viewControllerAfter viewController: UIViewController) -> UIViewController? {
     // If we are at the first view, then return.
@@ -77,17 +95,17 @@ extension TheaterPageViewController: UIPageViewControllerDataSource {
 }
 
 // MARK: UIPageViewControllerDelegate
-extension TheaterPageViewController: UIPageViewControllerDelegate {
+extension ReactablesPageViewController: UIPageViewControllerDelegate {
   func pageViewController(_ pageViewController: UIPageViewController,
                           didFinishAnimating finished: Bool,
                           previousViewControllers: [UIViewController],
                           transitionCompleted completed: Bool) {
-    notifyTheaterDelegateOfNewIndex()
+    notifyReactablesPageDelegateOfNewIndex()
   }
 }
 
-// MARK: TheaterDelegate
-extension TheaterPageViewController: TheaterDelegate {
+// MARK: ReactablesPageDelegate
+extension ReactablesPageViewController: ReactablesPageDelegate {
   func display(at index: Int) {
     if index >= 0 && index < orderedViewControllers.count {
       App.log.verbose("Displaying the \(index)-th reactable.")
@@ -98,7 +116,7 @@ extension TheaterPageViewController: TheaterDelegate {
                           // Setting the view controller programmatically does not fire
                           // any delegate methods, so we have to manually notify the
                           // 'pagerDelegate' of the new index.
-                          self.notifyTheaterDelegateOfNewIndex()
+                          self.notifyReactablesPageDelegateOfNewIndex()
       })
     } else {
       App.log.error("Trying to display \(index)-th reactable while only hanving \(orderedViewControllers.count).")
@@ -120,29 +138,29 @@ extension TheaterPageViewController: TheaterDelegate {
     App.log.verbose("\(newReactables.count) new reactables.")
     self.orderedViewControllers +=
       newReactables.map{ReactableViewController.instantiate(with: $0)}
-    self.pagerDelegate?.theaterPageViewController(
+    self.pagerDelegate?.ReactablesPageViewController(
       self, didUpdatePageCount: self.orderedViewControllers.count)
   }
 }
 
-protocol TheaterPageViewControllerDelegate: class {
+protocol ReactablesPageViewControllerDelegate: class {
 
   /**
    Called when the number of pages is updated.
 
-   - parameter theaterPageViewController: the TheaterPageViewController instance
+   - parameter ReactablesPageViewController: the ReactablesPageViewController instance
    - parameter count: the total number of pages.
    */
-  func theaterPageViewController(_ theaterPageViewController: TheaterPageViewController,
+  func ReactablesPageViewController(_ ReactablesPageViewController: ReactablesPageViewController,
                                  didUpdatePageCount count: Int)
 
   /**
    Called when the current index is updated.
 
-   - parameter theaterPageViewController: the TheaterPageViewController instance
+   - parameter ReactablesPageViewController: the ReactablesPageViewController instance
    - parameter index: the index of the currently visible page.
    */
-  func theaterPageViewController(_ theaterPageViewController: TheaterPageViewController,
+  func ReactablesPageViewController(_ ReactablesPageViewController: ReactablesPageViewController,
                                  didUpdatePageIndex index: Int)
 
 }

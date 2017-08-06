@@ -10,9 +10,11 @@ import Foundation
 import SwiftyBeaver
 
 class App {
-  public static var authModule = AuthModule()
+  public static var authModule: AuthModule = DefaultAuthModule()
   
   public static var detecionModule = ReactionDetectionModule()
+  
+  public static var deviceModule: DeviceModule! = HardwareDeviceModule()
   
   public static var log = SingletonLog.shared.log
   

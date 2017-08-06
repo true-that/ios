@@ -10,7 +10,7 @@ import UIKit
 import ReactiveSwift
 import ReactiveCocoa
 
-class OnBoardingViewController: UIViewController {
+class OnBoardingViewController: BaseViewController {
   // MARK: Properties
   var viewModel: OnBoardingViewModel!
   
@@ -21,13 +21,16 @@ class OnBoardingViewController: UIViewController {
   @IBOutlet weak var nameTextField: UITextField!
   // MARK: Lifecycle
   override func viewDidLoad() {
-    App.log.verbose("viewDidLoad")
     super.viewDidLoad()
     
     if viewModel == nil {
       viewModel = OnBoardingViewModel()
       viewModel.delegate = self
     }
+    
+    // Skip auth
+    doAuth = false
+    
     // Sets up colors
     warningLabel.textColor = Color.error.value
     whatsYourNameLabel.textColor = Color.theme.value
@@ -35,8 +38,9 @@ class OnBoardingViewController: UIViewController {
     completionLabel.textColor = Color.theme.value
     nameTextField.textColor = Color.theme.value
     nameTextField.layer.borderWidth = 1.0
+    nameTextField.layer.cornerRadius = 3.0
     viewModel.nameTextFieldBorderColor.producer
-      .on(value: {self.nameTextField.layer.borderColor = $0.cgColor})
+      .on(value: {self.nameTextField.layer.borderColor = $0.value.cgColor})
       .start()
     nameTextField.delegate = self
     
@@ -48,14 +52,12 @@ class OnBoardingViewController: UIViewController {
   }
   
   override func viewDidAppear(_ animated: Bool) {
-    App.log.verbose("viewDidAppear")
     super.viewDidAppear(animated)
     viewModel.didAppear()
     App.detecionModule.start()
   }
   
   override func viewDidDisappear(_ animated: Bool) {
-    App.log.verbose("viewDidDisappear")
     super.viewDidDisappear(animated)
     App.detecionModule.stop()
   }
