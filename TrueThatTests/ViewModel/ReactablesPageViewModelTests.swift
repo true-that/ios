@@ -16,7 +16,7 @@ import Nimble
 class ReactablesPageViewModelTests: BaseTests {
   var fetchedReactables: [Reactable] = []
   var viewModel: ReactablesPageViewModel!
-  var viewModelDelegate: FakeTheaterDelegate!
+  var viewModelDelegate: FakeReactablesPageDelegate!
   
   override func setUp() {
     super.setUp()
@@ -27,7 +27,7 @@ class ReactablesPageViewModelTests: BaseTests {
                                  headers: ["Content-Type":"application/json"])
     }
     viewModel = ReactablesPageViewModel()
-    viewModelDelegate = FakeTheaterDelegate()
+    viewModelDelegate = FakeReactablesPageDelegate()
     viewModel.delegate = viewModelDelegate
   }
   
@@ -130,7 +130,7 @@ class ReactablesPageViewModelTests: BaseTests {
     expect(self.viewModel.navigatePrevious()).to(beNil())
   }
   
-  class FakeTheaterDelegate: TheaterDelegate {
+  class FakeReactablesPageDelegate: ReactablesPageDelegate {
     var currentIndex: Int?
     var lastUpdate: [Reactable]?
     

@@ -4,12 +4,15 @@
 //
 
 import SwiftyJSON
-
+import Alamofire
 
 /// [backend]: https://github.com/true-that/backend/blob/master/src/main/java/com/truethat/backend/model/Reactable.java
 /// Reactables add spice to our users life, they are the an abstract pieces of media consumed by our
 /// users. See [backend]
 class Reactable: BaseModel {
+  
+  /// Reactable part name when uploading a directed reactable
+  static let reactablePart = "reactable"
   /// As stored in our backend.
   var id: Int64?
   /// The current user reaction to it.
@@ -54,6 +57,7 @@ class Reactable: BaseModel {
     case String(describing: Scene.self):
       return Scene(json: json)
     default:
+      App.log.warning("Failed to deserialize Reactable. Missing type (=\(json["type"].stringValue))?")
       return nil
     }
   }
@@ -79,6 +83,8 @@ class Reactable: BaseModel {
     if (viewed != nil) {
       dictionary["viewed"] = viewed!
     }
+    // Adds type
+    dictionary["type"] = String(describing: type(of: self))
     
     return dictionary
   }
@@ -89,5 +95,13 @@ class Reactable: BaseModel {
   /// - Returns: Whether `user` can react to this reactable.
   func canReact(user: User) -> Bool {
     return userReaction == nil && (director == nil || user != director)
+  }
+  
+  // MARK: Network
+  func appendTo(multipartFormData: MultipartFormData) {
+    let reactableData = try? JSON(toDictionary()).rawData()
+    if reactableData != nil {
+      multipartFormData.append(reactableData!, withName: Reactable.reactablePart)
+    }
   }
 }

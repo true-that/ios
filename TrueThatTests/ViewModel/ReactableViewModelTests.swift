@@ -79,4 +79,3 @@ class ReactableViewModelTests: BaseTests {
     expect(self.eventCount).toNotEventually(equal(1))
   }
 }
-

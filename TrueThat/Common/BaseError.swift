@@ -13,4 +13,6 @@ import Foundation
 /// - network: a generic network error.
 enum BaseError: Error {
   case network
+  
+  static let domain = "com.truethat.ios"
 }

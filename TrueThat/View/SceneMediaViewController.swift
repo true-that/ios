@@ -12,7 +12,7 @@ import Kingfisher
 class SceneMediaViewController: UIViewController {
   // MARK: Properties
   var imageUrl: String?
-  var delegate: SceneMediaViewControllerDelegate!
+  var delegate: SceneMediaViewControllerDelegate?
   @IBOutlet weak var sceneImage: UIImageView!
   
   // MARK: Initialization
@@ -31,7 +31,7 @@ class SceneMediaViewController: UIViewController {
       sceneImage.kf.setImage(with: URL(string: imageUrl!), completionHandler: {
         image, error, cacheType, imageUrl in
         if image != nil {
-          self.delegate.didDownloadMedia()
+          self.delegate?.didDownloadMedia()
         }
       })
     }
