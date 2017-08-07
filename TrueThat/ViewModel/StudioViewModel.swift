@@ -22,24 +22,28 @@ class StudioViewModel {
   public func didAppear() {
     switch state {
     case .directing:
-      self.directing()
+      self.willDirect()
     case .approving:
-      self.approving()
+      self.willApprove()
     case .sent:
       self.didSend()
     case .published:
       // Already published, and so resume directing
-      self.directing()
+      self.willDirect()
     }
   }
   
+  /// Invoked after a photo is captured and its data is available
+  ///
+  /// - Parameter imageData: of the fresh out of the oven image
   public func didCapture(imageData: Data) {
     directed = Scene(id: nil, userReaction: nil, director: App.authModule.current!,
                      reactionCounters: nil, created: Date(), viewed: nil, imageData: imageData)
-    approving()
+    willApprove()
   }
   
-  func directing() {
+  /// The state when directing had not been started yet (usually when the camera preview is live).
+  func willDirect() {
     App.log.verbose("Studio state: \(State.directing)")
     state = State.directing
     directed = nil
@@ -50,7 +54,8 @@ class StudioViewModel {
     delegate?.restorePreview()
   }
   
-  func approving() {
+  /// After a reactable is directed, it awaits for final approval from the user.
+  func willApprove() {
     App.log.verbose("Studio state: \(State.approving)")
     state = State.approving
     captureButtonHidden.value = true
@@ -59,6 +64,7 @@ class StudioViewModel {
     sendButtonHidden.value = false
   }
   
+  /// After the user approved the reactable it is sent to our backend.
   func didSend() {
     App.log.verbose("Studio state: \(State.sent)")
     state = State.sent
@@ -69,7 +75,7 @@ class StudioViewModel {
     
     if directed == nil {
       App.log.warning("Trying to send a non-existent reactable.")
-      directing()
+      willApprove()
       return
     }
     _ = StudioApi.save(reactable: directed!)
@@ -79,29 +85,40 @@ class StudioViewModel {
           self.didPublish()
         } else {
           App.log.error("Reactable saved without ID.")
-          self.approving()
+          self.willApprove()
         }
       })
       .on(failed: {error in
         App.log.error("Failed to save reactable: \(error)")
-        self.approving()
+        self.willApprove()
       })
       .start()
   }
   
+  /// After the reactable is successfully published, then leave the studio.
   func didPublish() {
     App.log.verbose("Studio state: \(State.published)")
     state = State.published
     delegate?.leaveStudio()
   }
   
+  /// Studio various states
+  ///
+  /// - directing: when the user directs (creates and edits) a reactable.
+  /// - approving: when a reactable is made and awaits for final approval from the user.
+  /// - sent: when the user approved and sent the reactable to our backend.
+  /// - published: when the reactable is successfully saved.
   enum State {
     case directing, approving, sent, published
   }
 }
 
+/// For interaction with relevant view controller.
 protocol StudioViewModelDelegate {
+  
+  /// Restore camera preview
   func restorePreview()
   
+  /// Leave studio, usually following reactable has been successfully saved.
   func leaveStudio()
 }
