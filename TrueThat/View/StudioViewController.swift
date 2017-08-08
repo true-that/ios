@@ -42,8 +42,17 @@ class StudioViewController: BaseViewController {
     #else
       initCamera()
     #endif
+    
+    // Navigation swipe gestures
+    let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.navigateToRepertoire))
+    swipeUp.direction = .up
+    self.view.addGestureRecognizer(swipeUp)
+    let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.navigateToTheater))
+    swipeDown.direction = .down
+    self.view.addGestureRecognizer(swipeDown)
   }
   
+  // MARK: Initialization
   private func initCamera() {
     // Get an instance of the AVCaptureDevice class to initialize a device object and provide the
     // video as the media type parameter
@@ -120,6 +129,23 @@ class StudioViewController: BaseViewController {
     cancelButton.reactive.isHidden <~ viewModel.cancelButtonHidden
     sendButton.reactive.isHidden <~ viewModel.sendButtonHidden
   }
+  
+  // MARK: View Controller Navigation
+  @objc private func navigateToTheater() {
+    self.present(
+      UIStoryboard(name: "Main", bundle: self.nibBundle).instantiateViewController(
+        withIdentifier: "TheaterScene"),
+      animated: true, completion: nil)
+  }
+  
+  @objc private func navigateToRepertoire() {
+    self.present(
+      UIStoryboard(name: "Main", bundle: self.nibBundle).instantiateViewController(
+        withIdentifier: "RepertoireScene"),
+      animated: true, completion: nil)
+  }
+  
+  // MARK: Camera
   
   /// Starts capture sequence for the device harware camera.
   @objc private func capturePhoto() {

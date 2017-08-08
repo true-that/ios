@@ -50,4 +50,25 @@ class RepertoireViewControllerTests : BaseUITests {
     assertDisplayed(reactable: reactable)
   }
   
+  func testNavigation() {
+    // Trigger viewDidAppear
+    viewController.beginAppearanceTransition(true, animated: false)
+    // Swipe up
+    tester().swipeView(withAccessibilityLabel: "repertoire view", in: .down)
+    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(StudioViewController.self))
+  }
+  
+  func testNavigationWhenReactableDisplayed() {
+    let reactable = Reactable(id: 1, userReaction: .sad,
+                              director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
+                              reactionCounters: [.sad: 1000, .happy: 1234],
+                              created: Date(), viewed: false)
+    fetchedReactables = [reactable]
+    // Trigger viewDidAppear
+    viewController.beginAppearanceTransition(true, animated: false)
+    assertDisplayed(reactable: reactable)
+    // Swipe up
+    tester().swipeView(withAccessibilityLabel: "ReactableView", in: .down)
+    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(StudioViewController.self))
+  }
 }

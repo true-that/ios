@@ -23,6 +23,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <accessibility key="accessibilityConfiguration" label="theater view"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w6e-pg-08W" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -87,6 +88,7 @@
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <accessibility key="accessibilityConfiguration" label="studio view"/>
                         <constraints>
                             <constraint firstItem="rBY-6H-7sg" firstAttribute="centerX" secondItem="EfB-Hi-I0h" secondAttribute="centerX" id="3qa-u5-7EV"/>
                             <constraint firstItem="qAp-Hd-bpU" firstAttribute="bottom" secondItem="rBY-6H-7sg" secondAttribute="bottom" id="KZW-8j-27w"/>
@@ -121,6 +123,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <accessibility key="accessibilityConfiguration" label="repertoire view"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KsC-AN-BMM" userLabel="First Responder" sceneMemberID="firstResponder"/>

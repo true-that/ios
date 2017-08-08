@@ -22,11 +22,24 @@ class TheaterViewController: BaseViewController {
     reactablesPage.fetchingDelegate = self
     self.addChildViewController(reactablesPage)
     self.view.addSubview(reactablesPage.view)
+    
+    // Navigation swipe gesture
+    let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.navigateToStudio))
+    swipeUp.direction = .up
+    self.view.addGestureRecognizer(swipeUp)
   }
   
   override func didAuthOk() {
     super.didAuthOk()
     reactablesPage.didAuthOk()
+  }
+  
+  // MARK: View Controller Navigation
+  @objc private func navigateToStudio() {
+    self.present(
+      UIStoryboard(name: "Main", bundle: self.nibBundle).instantiateViewController(
+        withIdentifier: "StudioScene"),
+      animated: true, completion: nil)
   }
 }
 

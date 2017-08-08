@@ -78,4 +78,20 @@ class StudioViewControllerTests : BaseUITests {
     expect(UITestsHelper.currentViewController!)
       .toEventually(beAnInstanceOf(TheaterViewController.self))
   }
+  
+  func testNavigationToTheater() {
+    // Trigger viewDidAppear
+    viewController.beginAppearanceTransition(true, animated: false)
+    // Swipe up
+    tester().swipeView(withAccessibilityLabel: "studio view", in: .down)
+    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(TheaterViewController.self))
+  }
+  
+  func testNavigationToRepertoire() {
+    // Trigger viewDidAppear
+    viewController.beginAppearanceTransition(true, animated: false)
+    // Swipe up
+    tester().swipeView(withAccessibilityLabel: "studio view", in: .up)
+    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(RepertoireViewController.self))
+  }
 }
