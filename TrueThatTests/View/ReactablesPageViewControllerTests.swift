@@ -60,6 +60,32 @@ class ReactablesPageViewControllerTests : BaseUITests {
     assertDisplayed(reactable: reactable)
   }
   
+  // Should not fetch reactables before view appeared
+  func testNotDisplayBeforePresent() {
+    let reactable = Reactable(id: 1, userReaction: .sad,
+                              director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
+                              reactionCounters: [.sad: 1000, .happy: 1234],
+                              created: Date(), viewed: false)
+    fetchedReactables = [reactable]
+    // Trigger viewDidAppear
+    UIApplication.shared.keyWindow!.rootViewController = nil
+    viewController.didAuthOk()
+    expect(self.viewController.currentViewController == nil).toNotEventually(beFalse())
+  }
+  
+  // Should not fetch reactables before user is authenticated
+  func testNotDisplayBeforeAuthOk() {
+    let reactable = Reactable(id: 1, userReaction: .sad,
+                              director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
+                              reactionCounters: [.sad: 1000, .happy: 1234],
+                              created: Date(), viewed: false)
+    fetchedReactables = [reactable]
+    // Trigger viewDidAppear
+    App.authModule.signOut()
+    viewController.beginAppearanceTransition(true, animated: false)
+    expect(self.viewController.currentViewController == nil).toNotEventually(beFalse())
+  }
+  
   func testMultipleTypes() {
     let reactable = Reactable(id: 1, userReaction: .sad,
                                director: User(id: 1, firstName: "Breaking", lastName: "Bad", deviceId: "iphone"),
