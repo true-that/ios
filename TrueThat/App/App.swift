@@ -12,7 +12,7 @@ import SwiftyBeaver
 class App {
   public static var authModule: AuthModule = DefaultAuthModule()
   
-  public static var detecionModule = ReactionDetectionModule()
+  public static var detecionModule: ReactionDetectionModule = AffectivaReactionDetectionModule()
   
   public static var deviceModule: DeviceModule! = HardwareDeviceModule()
   

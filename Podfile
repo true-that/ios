@@ -2,6 +2,7 @@ platform :ios, '10.0'
 use_frameworks!
 
 target 'TrueThat' do
+  pod 'AffdexSDK-iOS'
   pod 'Alamofire', '~> 4.4'
   pod 'KeychainAccess'
   pod 'Kingfisher', '~> 3.0'
@@ -22,5 +23,16 @@ target 'TrueThat' do
     pod 'Nimble', '~> 7.0.1', :inhibit_warnings => true
     pod 'OHHTTPStubs'
     pod 'OHHTTPStubs/Swift'
+  end
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    if (target.name == "AWSCore") || (target.name == 'AWSKinesis')
+      puts target.name
+      target.build_configurations.each do |config|
+        config.build_settings['BITCODE_GENERATION_MODE'] = 'bitcode'
+      end
+    end
   end
 end

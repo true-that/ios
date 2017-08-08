@@ -14,6 +14,7 @@ class FakeReactionDetectionModule: ReactionDetectionModule {
   ///
   /// - Parameter reaction: that was detected.
   public func detect(_ reaction: Emotion) {
+    App.log.verbose("Detected \(reaction)")
     delegate?.didDetect(reaction: reaction)
   }
 }
