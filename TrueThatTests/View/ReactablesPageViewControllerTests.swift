@@ -9,6 +9,7 @@
 import KIF
 @testable import TrueThat
 import OHHTTPStubs
+import ReactiveSwift
 import SwiftyJSON
 import Nimble
 
@@ -27,6 +28,7 @@ class ReactablesPageViewControllerTests : BaseUITests {
     }
     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
     viewController = storyboard.instantiateViewController(withIdentifier: "ReactablesPageScene") as! ReactablesPageViewController
+    viewController.fetchingDelegate = FetchReactablesTestsDelegate()
     
     UIApplication.shared.keyWindow!.rootViewController = viewController
     
@@ -121,5 +123,11 @@ class ReactablesPageViewControllerTests : BaseUITests {
     fetchedReactables = [reactable2]
     tester().swipeView(withAccessibilityLabel: "ReactableView", in: .right)
     assertDisplayed(reactable: reactable2)
+  }
+  
+  class FetchReactablesTestsDelegate: FetchReactablesDelegate {
+    func fetchingProducer() -> SignalProducer<[Reactable], NSError> {
+      return TheaterApi.fetchReactables(for: App.authModule.current!)
+    }
   }
 }

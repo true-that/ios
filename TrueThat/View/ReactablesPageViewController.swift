@@ -14,6 +14,7 @@ class ReactablesPageViewController: UIPageViewController {
   var viewModel: ReactablesPageViewModel!
   var doDetection = false
   weak var pagerDelegate: ReactablesPageViewControllerDelegate?
+  var fetchingDelegate: FetchReactablesDelegate!
 
   /// View controllers that are displayed in this page, ordered by order of appearance.
   var orderedViewControllers = [ReactableViewController]()
@@ -41,6 +42,9 @@ class ReactablesPageViewController: UIPageViewController {
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     App.detecionModule.start()
+    if App.authModule.isAuthOk {
+      fetchIfEmpty()
+    }
   }
   
   override func viewDidDisappear(_ animated: Bool) {
@@ -49,7 +53,13 @@ class ReactablesPageViewController: UIPageViewController {
   }
   
   func didAuthOk() {
-    if (viewModel.reactables.count == 0) {
+    if presentingViewController != nil {
+      fetchIfEmpty()
+    }
+  }
+  
+  func fetchIfEmpty() {
+    if viewModel.reactables.count == 0 {
       viewModel.fetchingData()
     }
   }
@@ -141,6 +151,10 @@ extension ReactablesPageViewController: ReactablesPageDelegate {
     self.pagerDelegate?.ReactablesPageViewController(
       self, didUpdatePageCount: self.orderedViewControllers.count)
   }
+  
+  @discardableResult func fetchingProducer() -> SignalProducer<[Reactable], NSError> {
+    return fetchingDelegate.fetchingProducer()
+  }
 }
 
 protocol ReactablesPageViewControllerDelegate: class {
@@ -163,4 +177,9 @@ protocol ReactablesPageViewControllerDelegate: class {
   func ReactablesPageViewController(_ ReactablesPageViewController: ReactablesPageViewController,
                                  didUpdatePageIndex index: Int)
 
+}
+
+protocol FetchReactablesDelegate {
+  /// - Returns: a signal producer to fetch reactables from our backend.
+  @discardableResult func fetchingProducer() -> SignalProducer<[Reactable], NSError>
 }

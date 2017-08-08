@@ -9,6 +9,7 @@
 import XCTest
 @testable import TrueThat
 import OHHTTPStubs
+import ReactiveSwift
 import SwiftyJSON
 import Nimble
 
@@ -144,6 +145,10 @@ class ReactablesPageViewModelTests: BaseTests {
     
     func updatingData(with newReactables: [Reactable]) {
       lastUpdate = newReactables
+    }
+    
+    @discardableResult func fetchingProducer() -> SignalProducer<[Reactable], NSError> {
+      return TheaterApi.fetchReactables(for: App.authModule.current!)
     }
   }
 }

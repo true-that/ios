@@ -1,8 +1,8 @@
 //
-//  TheaterViewController.swift
+//  RepertoireViewController.swift
 //  TrueThat
 //
-//  Created by Ohad Navon on 06/08/2017.
+//  Created by Ohad Navon on 07/08/2017.
 //  Copyright © 2017 TrueThat. All rights reserved.
 //
 
@@ -11,7 +11,7 @@ import ReactiveSwift
 import ReactiveCocoa
 import SwiftyBeaver
 
-class TheaterViewController: BaseViewController {
+class RepertoireViewController: BaseViewController {
   var reactablesPage: ReactablesPageViewController!
   
   override func viewDidLoad() {
@@ -31,8 +31,8 @@ class TheaterViewController: BaseViewController {
 }
 
 // MARK: FetchReactablesDelegate
-extension TheaterViewController: FetchReactablesDelegate {
+extension RepertoireViewController: FetchReactablesDelegate {
   @discardableResult func fetchingProducer() -> SignalProducer<[Reactable], NSError> {
-    return TheaterApi.fetchReactables(for: App.authModule.current!)
+    return RepertoireApi.fetchReactables(for: App.authModule.current!)
   }
 }

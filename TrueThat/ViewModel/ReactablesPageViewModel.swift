@@ -46,7 +46,7 @@ class ReactablesPageViewModel {
   
   /// Fetch new reactables from our backend.
   public func fetchingData() {
-    _ = TheaterApi.fetchReactables(for: App.authModule.current!)
+    delegate.fetchingProducer()
       .on(value: { self.adding($0) })
       .on(failed: {error in
         App.log.error("Failed fetch request: \(error)")
@@ -72,7 +72,7 @@ class ReactablesPageViewModel {
   }
 }
 
-protocol ReactablesPageDelegate: class {
+protocol ReactablesPageDelegate {
   /// Displays the view controller at the given index. Should be used when no view controllers have
   /// already been displayed.
   ///
@@ -89,4 +89,7 @@ protocol ReactablesPageDelegate: class {
   ///
   /// - Parameter newReactables: new data models to create view controllers from.
   func updatingData(with newReactables: [Reactable])
+  
+  /// - Returns: a signal producer to fetch reactables from our backend.
+  @discardableResult func fetchingProducer() -> SignalProducer<[Reactable], NSError>
 }
