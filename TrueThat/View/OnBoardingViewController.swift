@@ -78,6 +78,17 @@ extension OnBoardingViewController: OnBoardingDelegate {
   }
 }
 
+// MARK: AuthDelegate
+extension OnBoardingViewController {
+  override func didAuthOk() {
+    super.didAuthOk()
+    self.present(
+      UIStoryboard(name: "Main", bundle: self.nibBundle).instantiateViewController(
+        withIdentifier: "TheaterScene"),
+      animated: true, completion: nil)
+  }
+}
+
 // MARK: UITextFieldDelegate
 extension OnBoardingViewController: UITextFieldDelegate {
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

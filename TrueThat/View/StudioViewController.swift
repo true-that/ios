@@ -223,6 +223,7 @@ extension StudioViewController: AVCapturePhotoCaptureDelegate {
     guard error == nil,
       let photoSampleBuffer = photoSampleBuffer else {
         App.log.error("Error capturing photo: \(String(describing: error))")
+        viewModel.willDirect()
         return
     }
     

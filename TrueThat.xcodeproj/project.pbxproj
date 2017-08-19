@@ -17,6 +17,7 @@
 		3407B8BA11DD82F89A064BB1 /* Reactable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3407B61AD1CDCD949A8DD2C4 /* Reactable.swift */; };
 		3407BEFBE7E749559ECAA941 /* ReactablesPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3407B4EB81D58211759AE8B8 /* ReactablesPageViewController.swift */; };
 		3407BFBE59D04413006DD617 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3407B9CA9B12A5DEF0AC9484 /* LaunchScreen.storyboard */; };
+		4902D3170ABD8DE16E8EB0E7 /* Pods_TrueThatUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDFF4F0A62E10A4EC51735FE /* Pods_TrueThatUITests.framework */; };
 		6F05A37D1F385A15008D595A /* StudioViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F05A37C1F385A15008D595A /* StudioViewControllerTests.swift */; };
 		6F05A37F1F38B048008D595A /* RepertoireViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F05A37E1F38B048008D595A /* RepertoireViewController.swift */; };
 		6F05A3811F38B26C008D595A /* RepertoireApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F05A3801F38B26C008D595A /* RepertoireApi.swift */; };
@@ -71,6 +72,7 @@
 		6FC956711F36FEA100B772D3 /* TheaterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC956701F36FEA100B772D3 /* TheaterViewController.swift */; };
 		6FC9A2B01F2A076400E4BCF1 /* ReactableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC9A2AF1F2A076400E4BCF1 /* ReactableTests.swift */; };
 		6FC9A2B21F2A126600E4BCF1 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC9A2B11F2A126600E4BCF1 /* Scene.swift */; };
+		6FCAD6611F39B95000DD04FC /* AffectivaReactionDetectionModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FCAD6601F39B95000DD04FC /* AffectivaReactionDetectionModule.swift */; };
 		6FD593071F29E50500CC9FA6 /* UserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD593061F29E50500CC9FA6 /* UserTests.swift */; };
 		6FDBDA411F36C9E600764F0F /* WelcomeViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBDA401F36C9E600764F0F /* WelcomeViewControllerTests.swift */; };
 		6FDBDA431F36CB2E00764F0F /* UITestsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBDA421F36CB2E00764F0F /* UITestsHelper.swift */; };
@@ -179,6 +181,7 @@
 		6FC956741F370C5E00B772D3 /* TrueThat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TrueThat.entitlements; sourceTree = "<group>"; };
 		6FC9A2AF1F2A076400E4BCF1 /* ReactableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactableTests.swift; sourceTree = "<group>"; };
 		6FC9A2B11F2A126600E4BCF1 /* Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
+		6FCAD6601F39B95000DD04FC /* AffectivaReactionDetectionModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffectivaReactionDetectionModule.swift; sourceTree = "<group>"; };
 		6FD593061F29E50500CC9FA6 /* UserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTests.swift; sourceTree = "<group>"; };
 		6FDBDA401F36C9E600764F0F /* WelcomeViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewControllerTests.swift; sourceTree = "<group>"; };
 		6FDBDA421F36CB2E00764F0F /* UITestsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITestsHelper.swift; sourceTree = "<group>"; };
@@ -191,6 +194,8 @@
 		6FE04F711F334F4800D5BF39 /* StringHelperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringHelperTests.swift; sourceTree = "<group>"; };
 		6FEC85D91F27557800DC46B5 /* Dictionary+Entensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Dictionary+Entensions.swift"; path = "../Dictionary+Entensions.swift"; sourceTree = "<group>"; };
 		6FF9C9581F328EEF00C2FC3F /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		7066267C9E881A46D526204D /* Pods-TrueThatUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrueThatUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrueThatUITests/Pods-TrueThatUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		762984DC1DD60CDFAC99C755 /* Pods-TrueThatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrueThatUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrueThatUITests/Pods-TrueThatUITests.release.xcconfig"; sourceTree = "<group>"; };
 		7C529EE61E4EDE5C6839B6F2 /* Pods-TrueThat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrueThat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrueThat/Pods-TrueThat.debug.xcconfig"; sourceTree = "<group>"; };
 		A4D9BE0FBC6E9A6E5D064AA0 /* Pods_TrueThat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrueThat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD0E1053E9E48ECEA373E5A0 /* Pods-TrueThatTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrueThatTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrueThatTests/Pods-TrueThatTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -203,6 +208,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4902D3170ABD8DE16E8EB0E7 /* Pods_TrueThatUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,6 +295,7 @@
 				6F15228A1F37178600BD0DC2 /* DeviceModule.swift */,
 				6F15228C1F3717D400BD0DC2 /* HardwareDeviceModule.swift */,
 				6F15228E1F371C8900BD0DC2 /* DefaultAuthModule.swift */,
+				6FCAD6601F39B95000DD04FC /* AffectivaReactionDetectionModule.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -527,6 +534,8 @@
 				1596D08BF16C6E40DA04DBC5 /* Pods-TrueThat.release.xcconfig */,
 				D921F16FA2AF7BDFF32C5E16 /* Pods-TrueThatTests.debug.xcconfig */,
 				BD0E1053E9E48ECEA373E5A0 /* Pods-TrueThatTests.release.xcconfig */,
+				7066267C9E881A46D526204D /* Pods-TrueThatUITests.debug.xcconfig */,
+				762984DC1DD60CDFAC99C755 /* Pods-TrueThatUITests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -538,9 +547,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6F21E4EA1F1657A1004FFA6F /* Build configuration list for PBXNativeTarget "TrueThatUITests" */;
 			buildPhases = (
+				29DE52AD942583A5B2241669 /* [CP] Check Pods Manifest.lock */,
 				6F21E4DF1F1657A1004FFA6F /* Sources */,
 				6F21E4E01F1657A1004FFA6F /* Frameworks */,
 				6F21E4E11F1657A1004FFA6F /* Resources */,
+				C34788F43F1EDFF153700588 /* [CP] Embed Pods Frameworks */,
+				B6DCD1D4A2F89A8AF22FBB8C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -611,7 +623,7 @@
 					};
 					6F4826281F1284F50066394D = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = QQ3CD38Z54;
+						DevelopmentTeam = 9U6QZAC8R3;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -676,6 +688,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		29DE52AD942583A5B2241669 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		60A8403D828E8728299CDEA5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -751,6 +778,36 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TrueThatTests/Pods-TrueThatTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B6DCD1D4A2F89A8AF22FBB8C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TrueThatUITests/Pods-TrueThatUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C34788F43F1EDFF153700588 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TrueThatUITests/Pods-TrueThatUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		F5755CC1102CDFCB2DF36AE4 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -821,6 +878,7 @@
 				6F7DFC2A1F314DE6003DE099 /* FakeReactionDetectionModule.swift in Sources */,
 				6FE04F631F331DA500D5BF39 /* OnBoardingViewModel.swift in Sources */,
 				6F05A37F1F38B048008D595A /* RepertoireViewController.swift in Sources */,
+				6FCAD6611F39B95000DD04FC /* AffectivaReactionDetectionModule.swift in Sources */,
 				6F1522911F371C9300BD0DC2 /* FakeAuthModule.swift in Sources */,
 				3407B4C86DDB864914D0FB4D /* User.swift in Sources */,
 				3407B32EDEB4EF28BF7C5961 /* ReactableViewModel.swift in Sources */,
@@ -901,6 +959,7 @@
 /* Begin XCBuildConfiguration section */
 		6F21E4EB1F1657A1004FFA6F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7066267C9E881A46D526204D /* Pods-TrueThatUITests.debug.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = QQ3CD38Z54;
 				INFOPLIST_FILE = TrueThatUITests/Info.plist;
@@ -914,6 +973,7 @@
 		};
 		6F21E4EC1F1657A1004FFA6F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 762984DC1DD60CDFAC99C755 /* Pods-TrueThatUITests.release.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = QQ3CD38Z54;
 				INFOPLIST_FILE = TrueThatUITests/Info.plist;
@@ -1024,14 +1084,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7C529EE61E4EDE5C6839B6F2 /* Pods-TrueThat.debug.xcconfig */;
 			buildSettings = {
-				API_BASE_URL_ENDPOINT = "http://localhost:8080";
+				API_BASE_URL_ENDPOINT = "http://169.254.212.208:8080";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TrueThat/TrueThat.entitlements;
-				DEVELOPMENT_TEAM = QQ3CD38Z54;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 9U6QZAC8R3;
 				INFOPLIST_FILE = TrueThat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.truethat.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = com.truethat.appstore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -1043,11 +1106,14 @@
 				API_BASE_URL_ENDPOINT = "https://truethat-app.appspot.com";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TrueThat/TrueThat.entitlements;
-				DEVELOPMENT_TEAM = QQ3CD38Z54;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 9U6QZAC8R3;
 				INFOPLIST_FILE = TrueThat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.truethat.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = com.truethat.appstore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

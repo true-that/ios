@@ -76,6 +76,7 @@ extension OnBoardingViewModel: ReactionDetectionDelegate {
   func didDetect(reaction: Emotion) {
     if reaction == OnBoardingViewModel.reactionForDone {
       delegate.finishOnBoarding(with: nameTextField.value)
+      App.detecionModule.delegate = nil
     }
   }
 }

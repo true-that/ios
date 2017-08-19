@@ -72,5 +72,7 @@ class OnBoardingViewControllerTests : BaseUITests {
     // Complete on boarding
     fakeDetectionModule.detect(OnBoardingViewModel.reactionForDone)
     expect(self.fakeAuthModule.current).toEventually(equal(user))
+    // Should navigate to theater
+    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(TheaterViewController.self))
   }
 }

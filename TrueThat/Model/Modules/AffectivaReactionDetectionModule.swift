@@ -52,7 +52,7 @@ extension AffectivaReactionDetectionModule: AFDXDetectorDelegate {
         } else if affdexFace.emotions.sadness > AffectivaReactionDetectionModule.emotionThreshold {
           detected = .sad
         }
-        if detected != nil {
+        if detected != nil && delegate != nil {
           App.log.verbose("Detected \(detected!)")
           delegate?.didDetect(reaction: detected!)
         }
