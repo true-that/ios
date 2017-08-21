@@ -42,27 +42,27 @@ class RepertoireApiTests: XCTestCase {
   }
   
   func testSuccessfulFetch() {
-    reactables = [Reactable(id: 1, userReaction: .sad,
+    reactables = [Reactable(id: 1, userReaction: .SAD,
                             director: App.authModule.current,
-                            reactionCounters: [.sad: 1000, .happy: 1234],
+                            reactionCounters: [.SAD: 1000, .HAPPY: 1234],
                             created: Date(), viewed: false),
-                  Reactable(id: 2, userReaction: .happy,
+                  Reactable(id: 2, userReaction: .HAPPY,
                             director: App.authModule.current,
-                            reactionCounters: [.sad: 2000, .happy: 100234],
+                            reactionCounters: [.SAD: 2000, .HAPPY: 100234],
                             created: Date(), viewed: true)]
     fetch()
     expect(self.actual).toEventually(equal(reactables))
   }
   
   func testFetchMultipleTypes() {
-    reactables = [Reactable(id: 1, userReaction: .sad,
+    reactables = [Reactable(id: 1, userReaction: .SAD,
                             director: App.authModule.current,
-                            reactionCounters: [.sad: 1000, .happy: 1234],
+                            reactionCounters: [.SAD: 1000, .HAPPY: 1234],
                             created: Date(), viewed: false),
-                  Scene(id: 2, userReaction: .happy,
+                  Scene(id: 2, userReaction: .HAPPY,
                         director: App.authModule.current,
-                        reactionCounters: [.sad: 2000, .happy: 100234],
-                        created: Date(), viewed: true, imageUrl: "http://truethat-ipo.jpg")]
+                        reactionCounters: [.SAD: 2000, .HAPPY: 100234],
+                        created: Date(), viewed: true, imageSignedUrl: "http://truethat-ipo.jpg")]
     fetch()
     expect(self.actual).toEventually(equal(reactables))
     expect(self.actual![1]).toEventually(beAnInstanceOf(Scene.self))
@@ -78,13 +78,13 @@ class RepertoireApiTests: XCTestCase {
     stub(condition: isPath(RepertoireApi.path)) {request -> OHHTTPStubsResponse in
       return OHHTTPStubsResponse(error: BaseError.network)
     }
-    reactables = [Reactable(id: 1, userReaction: .sad,
+    reactables = [Reactable(id: 1, userReaction: .SAD,
                             director: App.authModule.current,
-                            reactionCounters: [.sad: 1000, .happy: 1234],
+                            reactionCounters: [.SAD: 1000, .HAPPY: 1234],
                             created: Date(), viewed: false),
-                  Reactable(id: 2, userReaction: .happy,
+                  Reactable(id: 2, userReaction: .HAPPY,
                             director: App.authModule.current,
-                            reactionCounters: [.sad: 2000, .happy: 100234],
+                            reactionCounters: [.SAD: 2000, .HAPPY: 100234],
                             created: Date(), viewed: true)]
     fetch()
     expect(self.error).toEventuallyNot(beNil())

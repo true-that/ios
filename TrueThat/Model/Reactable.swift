@@ -97,7 +97,24 @@ class Reactable: BaseModel {
     return userReaction == nil && (director == nil || user != director)
   }
   
+  /// Updates reaction counters of this reactable with `reaction`
+  ///
+  /// - Parameter reaction: to update with
+  func updateReactionCounters(with reaction: Emotion) {
+    if reactionCounters == nil {
+      reactionCounters = [reaction: 1]
+    } else if reactionCounters![reaction] == nil {
+      reactionCounters![reaction] = 1
+    } else {
+      reactionCounters![reaction] = 1 + reactionCounters![reaction]!
+    }
+  }
+  
   // MARK: Network
+  
+  /// Appends reactable data to a multipart request
+  ///
+  /// - Parameter multipartFormData: to append to
   func appendTo(multipartFormData: MultipartFormData) {
     let reactableData = try? JSON(toDictionary()).rawData()
     if reactableData != nil {

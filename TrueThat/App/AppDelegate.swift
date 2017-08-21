@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +16,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
+    #if DEBUG
+      let configuration = URLSessionConfiguration.default
+      configuration.timeoutIntervalForRequest = 1
+      configuration.timeoutIntervalForResource = 10
+      configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
+      _ = Alamofire.SessionManager(configuration: configuration)
+    #endif
+    
     return true
   }
 

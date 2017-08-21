@@ -44,6 +44,14 @@ class ReactableViewController: UIViewController {
     viewModel.didLoad()
   }
   
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    // Trigger didDisplay if not waiting for additional content
+    if type(of: viewModel.model) == Reactable.self {
+      viewModel.didDisplay()
+    }
+  }
+  
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
     viewModel.didDisappear()
@@ -56,8 +64,12 @@ extension ReactableViewController: SceneMediaDelegate {
     let mediaViewController = SceneMediaViewController.instantiate(with: viewModel.model as! Scene)
     self.addChildViewController(mediaViewController)
     self.view.addSubview(mediaViewController.view)
+    mediaViewController.view.frame = self.view.bounds
+    mediaViewController.view.autoresizingMask = UIViewAutoresizing.flexibleWidth
+    mediaViewController.view.translatesAutoresizingMaskIntoConstraints = true
+    mediaViewController.delegate = self
     // Send media to back
-    mediaViewController.view.layer.zPosition = -1
+    self.view.sendSubview(toBack: mediaViewController.view)
   }
 }
 

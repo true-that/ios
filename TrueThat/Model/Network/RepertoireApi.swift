@@ -39,7 +39,7 @@ class RepertoireApi {
         case .failure:
           observer.send(error: response.result.error as NSError!)
         }
-      })
+      }).log()
     }
   }
 }

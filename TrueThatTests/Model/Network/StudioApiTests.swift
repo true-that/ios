@@ -14,11 +14,11 @@ import SwiftyJSON
 import Nimble
 
 class StudioApiTests: XCTestCase {
-  var responded = Scene(id: 1, userReaction: .happy,
+  var responded = Scene(id: 1, userReaction: .HAPPY,
                         director: User(id: 1, firstName: "bon", lastName: "apetit",
                                        deviceId: "say-waat"),
-                        reactionCounters: [.happy: 1], created: Date(), viewed: true,
-                        imageUrl: "www.mcdonald.com")
+                        reactionCounters: [.HAPPY: 1], created: Date(), viewed: true,
+                        imageSignedUrl: "www.mcdonald.com")
   
   override func setUp() {
     super.setUp()
@@ -30,10 +30,10 @@ class StudioApiTests: XCTestCase {
   }
   
   func testSuccessfulSave() {
-    let toSave = Scene(id: 1, userReaction: .happy,
+    let toSave = Scene(id: 1, userReaction: .HAPPY,
                        director: User(id: 1, firstName: "bon", lastName: "apetit",
                                       deviceId: "say-waat"),
-                       reactionCounters: [.happy: 1], created: Date(), viewed: true,
+                       reactionCounters: [.HAPPY: 1], created: Date(), viewed: true,
                        imageData: Data())
     var actual: Reactable?
     _ = StudioApi.save(reactable: toSave)

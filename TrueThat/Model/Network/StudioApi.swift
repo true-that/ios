@@ -30,6 +30,7 @@ class StudioApi {
     return SignalProducer { observer, disposable in
       let request = try! URLRequest(url: StudioApi.fullUrl, method: .post)
       Alamofire.upload(multipartFormData: { multipartFormData in
+        App.log.info("MULTIPART \(StudioApi.fullUrl)")
         reactable.appendTo(multipartFormData: multipartFormData)
       }, with: request,
          encodingCompletion: {result in
@@ -45,14 +46,17 @@ class StudioApi {
                   observer.send(value: saved!)
                   observer.sendCompleted()
                 } else {
+                  App.log.error("response decoding error")
                   observer.send(error: NSError(domain: BaseError.domain,
                                                code: BaseError.network.hashValue, userInfo: nil))
                 }
               case .failure:
+                App.log.error("response error")
                 observer.send(error: response.result.error as NSError!)
               }
             }
           case .failure(let encodingError):
+            App.log.error("encoding error")
             observer.send(error: encodingError as NSError!)
           }
       })

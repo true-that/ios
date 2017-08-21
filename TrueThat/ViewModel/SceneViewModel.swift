@@ -12,7 +12,7 @@ import Result
 
 class SceneViewModel: ReactableViewModel {
   // MARK: Properties
-  public var imageUrl: String?
+  public var imageSignedUrl: String?
   private var scene: Scene {
     return model as! Scene
   }
@@ -23,7 +23,7 @@ class SceneViewModel: ReactableViewModel {
   // MARK: Initialization
   override init(with reactable: Reactable) {
     super.init(with: reactable)
-    imageUrl = scene.imageUrl
+    imageSignedUrl = scene.imageSignedUrl
   }
   
   // MARK: Lifecycle
@@ -35,6 +35,6 @@ class SceneViewModel: ReactableViewModel {
 
 protocol SceneMediaDelegate {
   
-  /// Notifies the view controller to load an image from `imageUrl`.
+  /// Notifies the view controller to load an image from `imageSignedUrl`.
   func loadSceneImage()
 }

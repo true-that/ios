@@ -39,9 +39,9 @@ class TheaterViewControllerTests : BaseUITests {
   }
   
   func testDisplayReactable() {
-    let reactable = Reactable(id: 1, userReaction: .sad,
+    let reactable = Reactable(id: 1, userReaction: .SAD,
                               director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
-                              reactionCounters: [.sad: 1000, .happy: 1234],
+                              reactionCounters: [.SAD: 1000, .HAPPY: 1234],
                               created: Date(), viewed: false)
     fetchedReactables = [reactable]
     // Trigger viewDidAppear
@@ -59,9 +59,9 @@ class TheaterViewControllerTests : BaseUITests {
   }
   
   func testNavigationWhenReactableDisplayed() {
-    let reactable = Reactable(id: 1, userReaction: .sad,
+    let reactable = Reactable(id: 1, userReaction: .SAD,
                               director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
-                              reactionCounters: [.sad: 1000, .happy: 1234],
+                              reactionCounters: [.SAD: 1000, .HAPPY: 1234],
                               created: Date(), viewed: false)
     fetchedReactables = [reactable]
     // Trigger viewDidAppear

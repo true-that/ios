@@ -12,12 +12,12 @@ import Nimble
 
 class DateHelperTests: XCTestCase {
   func testUtcDateFromDate() {
-    let expected = "1970-Jan-01T00:00:01.000+0000"
+    let expected = "1970-01-01T00:00:01.000+0000"
     expect(DateHelper.utcDate(fromDate: Date(timeIntervalSince1970: 1))).to(equal(expected))
   }
   
   func testUtcDateFromString() {
-    expect(DateHelper.utcDate(fromString: "1970-Jan-01T00:00:01.000+0000"))
+    expect(DateHelper.utcDate(fromString: "1970-01-01T00:00:01.000+0000"))
       .to(equal(Date(timeIntervalSince1970: 1)))
   }
   

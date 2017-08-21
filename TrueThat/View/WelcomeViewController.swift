@@ -58,7 +58,10 @@ class WelcomeViewController: BaseViewController {
   @objc private func signIn() {
     App.authModule.signIn()
   }
-  
+}
+
+// MARK: AuthDelegate
+extension WelcomeViewController {
   override func didAuthOk() {
     super.didAuthOk()
     self.present(
@@ -66,7 +69,7 @@ class WelcomeViewController: BaseViewController {
         withIdentifier: "TheaterScene"),
       animated: true, completion: nil)
   }
-
+  
   override func didAuthFail() {
     App.log.verbose("\(logTag): didAuthFail")
     // Show warning

@@ -13,8 +13,8 @@ import Nimble
 
 class InteractionEventTests: XCTestCase {
   func testJsonSerialization() {
-    let interactionEvent = InteractionEvent(timestamp: Date(), userId: 1, reaction: .happy,
-                                            eventType: .reaction, reactableId: 1)
+    let interactionEvent = InteractionEvent(timestamp: Date(), userId: 1, reaction: .HAPPY,
+                                            eventType: .REACTABLE_REACTION, reactableId: 1)
     expect(interactionEvent).to(equal(InteractionEvent(json: JSON(from: interactionEvent))))
   }
 }

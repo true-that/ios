@@ -26,10 +26,12 @@ class StudioViewControllerTests : BaseUITests {
     
     // Test and load the View
     expect(self.viewController.view).toNot(beNil())
+    viewController.captureButton.delegate = SwiftyCamButtonTestDelegate(viewModel: viewController.viewModel)
   }
   
   func assertDirecting() {
     expect(self.viewController.captureButton.isHidden).to(beFalse())
+    expect(self.viewController.reactablePreview.isHidden).to(beTrue())
     expect(self.viewController.switchCameraButton.isHidden).to(beFalse())
     expect(self.viewController.cancelButton.isHidden).to(beTrue())
     expect(self.viewController.sendButton.isHidden).to(beTrue())
@@ -43,6 +45,7 @@ class StudioViewControllerTests : BaseUITests {
     expect(self.viewController.cancelButton.isHidden).to(beFalse())
     expect(self.viewController.sendButton.isHidden).to(beFalse())
     expect(self.viewController.viewModel.state).to(equal(StudioViewModel.State.approving))
+    expect(self.viewController.reactablePreview.isHidden).to(beFalse())
     // TODO(ohad): assert camrea preview is frozen
   }
   
@@ -93,5 +96,24 @@ class StudioViewControllerTests : BaseUITests {
     // Swipe up
     tester().swipeView(withAccessibilityLabel: "studio view", in: .up)
     expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(RepertoireViewController.self))
+  }
+  
+  class SwiftyCamButtonTestDelegate: SwiftyCamButtonDelegate {
+    var viewModel: StudioViewModel!
+    init(viewModel: StudioViewModel) {
+      self.viewModel = viewModel
+    }
+    
+    func buttonWasTapped() {
+      viewModel.didCapture(imageData: Data())
+    }
+    
+    func buttonDidBeginLongPress() {}
+    
+    func buttonDidEndLongPress() {}
+    
+    func longPressDidReachMaximumDuration() {}
+    
+    func setMaxiumVideoDuration() -> Double { return 0.0 }
   }
 }

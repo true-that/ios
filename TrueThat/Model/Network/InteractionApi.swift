@@ -31,7 +31,6 @@ class InteractionApi {
       request.httpBody = try! JSON(from: interaction).rawData()
       // TODO: cancel request when view disappears
       Alamofire.request(request).responseJSON(completionHandler: {response in
-        print (response.result)
         switch response.result {
         case .success:
           observer.send(value: InteractionEvent(json: JSON(response.result.value!)))
@@ -39,7 +38,7 @@ class InteractionApi {
         case .failure:
           observer.send(error: response.result.error as NSError!)
         }
-      })
+      }).log()
     }
   }
 }

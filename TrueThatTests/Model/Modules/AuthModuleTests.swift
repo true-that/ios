@@ -14,20 +14,42 @@ import Nimble
 
 
 class AuthModuleTests: BaseTests {
+  var fakeKeychain: FakeKeychainModule!
   var authDelegate: AuthTestsDelegate!
   var authModule: AuthModule!
+  var user: User!
+  var didBackendCall: Bool!
   
   override func setUp() {
     super.setUp()
+    stub(condition: isPath(AuthApi.path)) {request -> OHHTTPStubsResponse in
+      self.didBackendCall = true
+      let stubData = try! JSON(self.user.toDictionary()).rawData()
+      return OHHTTPStubsResponse(data: stubData, statusCode: 200,
+                                 headers: ["Content-Type":"application/json"])
+    }
+    didBackendCall = false
     authDelegate = AuthTestsDelegate()
     authModule = AuthModule()
     authModule.delegate = authDelegate
+    fakeKeychain = FakeKeychainModule()
+    App.keychainModule = fakeKeychain
   }
   
-  func testSuccessfulAuth() {
+  func testAlreadyAuthOk() {
     authModule.current = User(id: 1, firstName: "spartan", lastName: "professionless", deviceId: "2")
     authModule.auth()
     expect(self.authDelegate.authOk).to(beTrue())
+    expect(self.didBackendCall).to(beFalse())
+  }
+  
+  func testRestoreLastSession() throws {
+    fakeKeychain.save(data: JSON(from: User(id: 1, firstName: "spartan",
+                                            lastName: "professionless", deviceId: "2")).rawData(),
+        for: AuthModule.userKey)
+    authModule.auth()
+    expect(self.authDelegate.authOk).to(beTrue())
+    expect(self.didBackendCall).to(beFalse())
   }
   
   func testFailedAuth() {
@@ -46,11 +68,7 @@ class AuthModuleTests: BaseTests {
   
   func testSuccessfulSignUp() {
     let responded = User(id: 1, firstName: "dellores", lastName: "hidyhoe", deviceId: App.deviceModule.deviceId)
-    stub(condition: isPath(AuthApi.path)) {request -> OHHTTPStubsResponse in
-      let stubData = try! JSON(responded.toDictionary()).rawData()
-      return OHHTTPStubsResponse(data: stubData, statusCode: 200,
-                                 headers: ["Content-Type":"application/json"])
-    }
+    
     authModule.signUp(fullName: "dellores hidyhoe")
     expect(self.authDelegate.authOk).toEventually(beTrue())
     expect(self.authModule.current).to(equal(responded))

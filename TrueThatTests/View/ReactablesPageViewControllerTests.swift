@@ -26,6 +26,12 @@ class ReactablesPageViewControllerTests : BaseUITests {
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
                                  headers: ["Content-Type":"application/json"])
     }
+    stub(condition: isPath(InteractionApi.path)) {request -> OHHTTPStubsResponse in
+      let stubData = try! JSON(from: InteractionEvent(timestamp: nil, userId: nil, reaction: nil,
+                                                      eventType: nil, reactableId: nil)).rawData()
+      return OHHTTPStubsResponse(data: stubData, statusCode: 200,
+                                 headers: ["Content-Type":"application/json"])
+    }
     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
     viewController = storyboard.instantiateViewController(withIdentifier: "ReactablesPageScene") as! ReactablesPageViewController
     viewController.fetchingDelegate = FetchReactablesTestsDelegate()
@@ -37,7 +43,8 @@ class ReactablesPageViewControllerTests : BaseUITests {
   }
   
   func assertDisplayed(reactable: Reactable) {
-    expect(self.viewController.currentViewController?.viewModel?.model).toEventually(equal(reactable))
+    expect(self.viewController.currentViewController?.viewModel?.model.id).toEventually(equal(reactable.id))
+    expect(self.viewController.currentViewController?.viewModel?.model.viewed).toEventually(beTrue(), timeout: 10.0)
     switch reactable {
     case is Scene:
       expect(self.viewController.currentViewController!.viewModel)
@@ -49,9 +56,9 @@ class ReactablesPageViewControllerTests : BaseUITests {
   }
   
   func testDisplayReactable() {
-    let reactable = Reactable(id: 1, userReaction: .sad,
+    let reactable = Reactable(id: 1, userReaction: .SAD,
                               director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
-                              reactionCounters: [.sad: 1000, .happy: 1234],
+                              reactionCounters: [.SAD: 1000, .HAPPY: 1234],
                               created: Date(), viewed: false)
     fetchedReactables = [reactable]
     // Trigger viewDidAppear
@@ -62,9 +69,9 @@ class ReactablesPageViewControllerTests : BaseUITests {
   
   // Should not fetch reactables before view appeared
   func testNotDisplayBeforePresent() {
-    let reactable = Reactable(id: 1, userReaction: .sad,
+    let reactable = Reactable(id: 1, userReaction: .SAD,
                               director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
-                              reactionCounters: [.sad: 1000, .happy: 1234],
+                              reactionCounters: [.SAD: 1000, .HAPPY: 1234],
                               created: Date(), viewed: false)
     fetchedReactables = [reactable]
     // Trigger viewDidAppear
@@ -75,9 +82,9 @@ class ReactablesPageViewControllerTests : BaseUITests {
   
   // Should not fetch reactables before user is authenticated
   func testNotDisplayBeforeAuthOk() {
-    let reactable = Reactable(id: 1, userReaction: .sad,
+    let reactable = Reactable(id: 1, userReaction: .SAD,
                               director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
-                              reactionCounters: [.sad: 1000, .happy: 1234],
+                              reactionCounters: [.SAD: 1000, .HAPPY: 1234],
                               created: Date(), viewed: false)
     fetchedReactables = [reactable]
     // Trigger viewDidAppear
@@ -87,15 +94,15 @@ class ReactablesPageViewControllerTests : BaseUITests {
   }
   
   func testMultipleTypes() {
-    let reactable = Reactable(id: 1, userReaction: .sad,
+    let reactable = Reactable(id: 1, userReaction: .SAD,
                                director: User(id: 1, firstName: "Breaking", lastName: "Bad", deviceId: "iphone"),
-                               reactionCounters: [.sad: 1000, .happy: 1234],
+                               reactionCounters: [.SAD: 1000, .HAPPY: 1234],
                                created: Date(), viewed: false)
-    let scene = Scene(id: 2, userReaction: .happy,
-                      director: User(id: 1, firstName: "Mr", lastName: "White", deviceId: "iphone2"),
-                      reactionCounters: [.sad: 5000, .happy: 34], created: Date(),
-                      viewed: true,
-                      imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/A_white_irish_goat.jpg/220px-A_white_irish_goat.jpg")
+    let scene = Scene(id: 2, userReaction: .HAPPY,
+                      director: User(id: 1, firstName: "Emma", lastName: "Watson", deviceId: "iphone2"),
+                      reactionCounters: [.HAPPY: 5000, .SAD: 34], created: Date(),
+                      viewed: false,
+                      imageSignedUrl: "https://storage.googleapis.com/truethat-test-studio/scene/images/test/HAPPY-selfie.jpg")
     fetchedReactables = [reactable, scene]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
@@ -108,13 +115,13 @@ class ReactablesPageViewControllerTests : BaseUITests {
   }
   
   func testReactablesNavigation() {
-    let reactable1 = Reactable(id: 1, userReaction: .sad,
+    let reactable1 = Reactable(id: 1, userReaction: .SAD,
                                director: User(id: 1, firstName: "Breaking", lastName: "Bad", deviceId: "iphone"),
-                               reactionCounters: [.sad: 1000, .happy: 1234],
+                               reactionCounters: [.SAD: 1000, .HAPPY: 1234],
                                created: Date(), viewed: false)
-    let reactable2 = Reactable(id: 2, userReaction: .happy,
+    let reactable2 = Reactable(id: 2, userReaction: .HAPPY,
                                director: User(id: 1, firstName: "Mr", lastName: "White", deviceId: "iphone2"),
-                               reactionCounters: [.sad: 5000, .happy: 34],
+                               reactionCounters: [.SAD: 5000, .HAPPY: 34],
                                created: Date(), viewed: true)
     fetchedReactables = [reactable1, reactable2]
     // Trigger viewDidAppear
@@ -131,14 +138,14 @@ class ReactablesPageViewControllerTests : BaseUITests {
   }
   
   func testFetchNewReactables() {
-    let reactable1 = Reactable(id: 1, userReaction: .sad,
+    let reactable1 = Reactable(id: 1, userReaction: .SAD,
                                director: User(id: 1, firstName: "Breaking", lastName: "Bad", deviceId: "iphone"),
-                               reactionCounters: [.sad: 1000, .happy: 1234],
+                               reactionCounters: [.SAD: 1000, .HAPPY: 1234],
                                created: Date(), viewed: false)
-    let reactable2 = Reactable(id: 2, userReaction: .happy,
+    let reactable2 = Reactable(id: 2, userReaction: .HAPPY,
                                director: User(id: 1, firstName: "Mr", lastName: "White", deviceId: "iphone2"),
-                               reactionCounters: [.sad: 5000, .happy: 34],
-                               created: Date(), viewed: true)
+                               reactionCounters: [.SAD: 5000, .HAPPY: 34],
+                               created: Date(), viewed: false)
     fetchedReactables = [reactable1]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)

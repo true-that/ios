@@ -11,6 +11,8 @@ import ReactiveSwift
 import Result
 
 class StudioViewModel {
+  public let cameraSessionHidden = MutableProperty(false)
+  public let reactablePreviewHidden = MutableProperty(true)
   public let captureButtonHidden = MutableProperty(false)
   public let cancelButtonHidden = MutableProperty(true)
   public let sendButtonHidden = MutableProperty(true)
@@ -47,31 +49,43 @@ class StudioViewModel {
     App.log.verbose("Studio state: \(State.directing)")
     state = State.directing
     directed = nil
+    // Show camera preview and control buttons
     captureButtonHidden.value = false
+    cameraSessionHidden.value = false
     switchCameraButtonHidden.value = false
+    // Hide editting buttons, and hide directed reactable
     cancelButtonHidden.value = true
     sendButtonHidden.value = true
-    delegate?.restorePreview()
+    reactablePreviewHidden.value = true
   }
   
   /// After a reactable is directed, it awaits for final approval from the user.
   func willApprove() {
     App.log.verbose("Studio state: \(State.approving)")
     state = State.approving
+    // Hide camera preview and control buttons
     captureButtonHidden.value = true
+    cameraSessionHidden.value = true
     switchCameraButtonHidden.value = true
+    // Show editting buttons, and hide directed reactable
     cancelButtonHidden.value = false
     sendButtonHidden.value = false
+    reactablePreviewHidden.value = false
   }
   
   /// After the user approved the reactable it is sent to our backend.
   func didSend() {
     App.log.verbose("Studio state: \(State.sent)")
     state = State.sent
+    // Hide camera preview and control buttons
     captureButtonHidden.value = true
+    cameraSessionHidden.value = true
     switchCameraButtonHidden.value = true
+    // Hide editting buttons
     cancelButtonHidden.value = true
     sendButtonHidden.value = true
+    // Show directed reactable
+    reactablePreviewHidden.value = false
     
     if directed == nil {
       App.log.warning("Trying to send a non-existent reactable.")
@@ -115,9 +129,6 @@ class StudioViewModel {
 
 /// For interaction with relevant view controller.
 protocol StudioViewModelDelegate {
-  
-  /// Restore camera preview
-  func restorePreview()
   
   /// Leave studio, usually following reactable has been successfully saved.
   func leaveStudio()

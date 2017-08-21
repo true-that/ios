@@ -14,16 +14,16 @@ class Scene: Reactable {
   /// Scene image part name when uploading a directed reactable
   static let sceneImagePart = "scene_image"
   /// As stored in our backend.
-  var imageUrl: String?
+  var imageSignedUrl: String?
   
   /// Data of scene image that is to be saved on our backend (normally this field is populated only via studio scene).
   var imageData: Data?
   
   init(id: Int64?, userReaction: Emotion?, director: User?, reactionCounters: [Emotion: Int64]?,
-       created: Date?, viewed: Bool?, imageUrl: String?) {
+       created: Date?, viewed: Bool?, imageSignedUrl: String?) {
     super.init(id: id, userReaction: userReaction, director: director,
                reactionCounters: reactionCounters, created: created, viewed: viewed)
-    self.imageUrl = imageUrl
+    self.imageSignedUrl = imageSignedUrl
   }
   
   init(id: Int64?, userReaction: Emotion?, director: User?, reactionCounters: [Emotion: Int64]?,
@@ -35,12 +35,12 @@ class Scene: Reactable {
   
   required init(json: JSON) {
     super.init(json: json)
-    imageUrl = json["imageUrl"].string
+    imageSignedUrl = json["imageSignedUrl"].string
   }
   
   override func toDictionary() -> [String : Any] {
     var dictionary = super.toDictionary()
-    if imageUrl != nil {dictionary["imageUrl"] = imageUrl!}
+    if imageSignedUrl != nil {dictionary["imageSignedUrl"] = imageSignedUrl!}
     return dictionary
   }
   

@@ -57,6 +57,9 @@ class User: BaseModel {
 extension User {
   /// Display name for UI.
   var displayName: String {
+    if firstName == nil || lastName == nil {
+      return ""
+    }
     return StringHelper.toTitleCase(firstName! + " " + lastName!)
   }
 }

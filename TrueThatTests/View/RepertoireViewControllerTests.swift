@@ -35,13 +35,14 @@ class RepertoireViewControllerTests : BaseUITests {
   }
   
   func assertDisplayed(reactable: Reactable) {
-    expect(self.viewController.reactablesPage.currentViewController?.viewModel?.model).toEventually(equal(reactable))
+    expect(self.viewController.reactablesPage.currentViewController?.viewModel?.model.id).toEventually(equal(reactable.id))
+    expect(self.viewController.reactablesPage.currentViewController?.viewModel?.model.viewed).toEventually(beTrue())
   }
   
   func testDisplayReactable() {
-    let reactable = Reactable(id: 1, userReaction: .sad,
+    let reactable = Reactable(id: 1, userReaction: .SAD,
                               director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
-                              reactionCounters: [.sad: 1000, .happy: 1234],
+                              reactionCounters: [.SAD: 1000, .HAPPY: 1234],
                               created: Date(), viewed: false)
     fetchedReactables = [reactable]
     // Trigger viewDidAppear
@@ -59,9 +60,9 @@ class RepertoireViewControllerTests : BaseUITests {
   }
   
   func testNavigationWhenReactableDisplayed() {
-    let reactable = Reactable(id: 1, userReaction: .sad,
+    let reactable = Reactable(id: 1, userReaction: .SAD,
                               director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
-                              reactionCounters: [.sad: 1000, .happy: 1234],
+                              reactionCounters: [.SAD: 1000, .HAPPY: 1234],
                               created: Date(), viewed: false)
     fetchedReactables = [reactable]
     // Trigger viewDidAppear

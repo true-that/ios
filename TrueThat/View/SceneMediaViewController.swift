@@ -11,7 +11,7 @@ import Kingfisher
 
 class SceneMediaViewController: UIViewController {
   // MARK: Properties
-  var imageUrl: String?
+  var imageSignedUrl: String?
   var delegate: SceneMediaViewControllerDelegate?
   @IBOutlet weak var sceneImage: UIImageView!
   
@@ -20,17 +20,22 @@ class SceneMediaViewController: UIViewController {
     let viewController = UIStoryboard(name: "Main", bundle: nil)
       .instantiateViewController(withIdentifier: "SceneMediaScene")
       as! SceneMediaViewController
-    viewController.imageUrl = scene.imageUrl
+    viewController.imageSignedUrl = scene.imageSignedUrl
     return viewController
   }
   
   // MARK: Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    if imageUrl != nil {
-      sceneImage.kf.setImage(with: URL(string: imageUrl!), completionHandler: {
-        image, error, cacheType, imageUrl in
-        if image != nil {
+    if imageSignedUrl != nil {
+      sceneImage.contentMode = UIViewContentMode.scaleAspectFill
+      sceneImage.kf.setImage(with: URL(string: imageSignedUrl!), completionHandler: {
+        image, error, cacheType, imageSignedUrl in
+        if error != nil {
+          App.log.warning("Error when downloading scene image: \(error!)")
+        } else if image == nil {
+          App.log.warning("Scene image is nil")
+        } else {
           self.delegate?.didDownloadMedia()
         }
       })

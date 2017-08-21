@@ -38,8 +38,7 @@ class StudioViewModelTests: BaseTests {
     // Should have directing state
     expect(self.viewModel.state).to(equal(StudioViewModel.State.directing))
     // Should restore preview
-    expect(self.viewModelDelegate.previewRestored).to(beTrue())
-    self.viewModelDelegate.previewRestored = false
+    expect(self.viewModel.cameraSessionHidden.value).to(beFalse())
     // Capture & switch camera buttons are exposed
     expect(self.viewModel.captureButtonHidden.value).to(beFalse())
     expect(self.viewModel.switchCameraButtonHidden.value).to(beFalse())
@@ -48,13 +47,15 @@ class StudioViewModelTests: BaseTests {
     expect(self.viewModel.sendButtonHidden.value).to(beTrue())
     // Should not store directed reactable
     expect(self.viewModel.directed).to(beNil())
+    // Should hide directed reactable
+    expect(self.viewModel.reactablePreviewHidden.value).to(beTrue())
   }
   
   func assertAppriving() {
     // Should have approval state
     expect(self.viewModel.state).to(equal(StudioViewModel.State.approving))
     // Should not restore preview
-    expect(self.viewModelDelegate.previewRestored).to(beFalse())
+    expect(self.viewModel.cameraSessionHidden.value).to(beTrue())
     // Capture & switch camera buttons are hidden
     expect(self.viewModel.captureButtonHidden.value).to(beTrue())
     expect(self.viewModel.switchCameraButtonHidden.value).to(beTrue())
@@ -63,6 +64,8 @@ class StudioViewModelTests: BaseTests {
     expect(self.viewModel.sendButtonHidden.value).to(beFalse())
     // Should have a directed reactable
     expect(self.viewModel.directed).toNot(beNil())
+    // Should show directed reactable
+    expect(self.viewModel.reactablePreviewHidden.value).to(beFalse())
   }
   
   func assertPublished() {
@@ -92,12 +95,7 @@ class StudioViewModelTests: BaseTests {
   }
   
   class StudioViewModelTestsDelegate : StudioViewModelDelegate {
-    var previewRestored = false
     var leftStudio = false
-    
-    func restorePreview() {
-      previewRestored = true
-    }
     
     func leaveStudio() {
       leftStudio = true

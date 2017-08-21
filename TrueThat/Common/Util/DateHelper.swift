@@ -20,7 +20,7 @@ class DateHelper {
   /// Formats from and to UTC Date in a format that matches our backend.
   static let dateFormatter: DateFormatter = {
     var formatter = DateFormatter()
-    formatter.dateFormat = "yyyy-MMM-dd'T'HH:mm:ss.SSSZ"
+    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
     formatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
     return formatter
   }()
