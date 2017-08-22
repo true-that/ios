@@ -11,12 +11,6 @@ import XCTest
 import Nimble
 
 class StringHelperTests: XCTestCase {
-  func testTitleCase() {
-    expect(StringHelper.toTitleCase("a")).to(equal("A"))
-    expect(StringHelper.toTitleCase("a b")).to(equal("A B"))
-    expect(StringHelper.toTitleCase("Asta lA visTA")).to(equal("Asta La Vista"))
-  }
-
   func testExtractFirstName() {
     expect(StringHelper.extractFirstName(of: "   a")).to(equal("a"))
     expect(StringHelper.extractFirstName(of: "a b")).to(equal("a"))

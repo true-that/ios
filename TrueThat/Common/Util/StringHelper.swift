@@ -10,16 +10,6 @@ import Foundation
 
 class StringHelper {
   
-  /// - Parameter s: to convert
-  /// - Returns: capitalize every first character of every word in `s`.
-  public static func toTitleCase(_ s: String) -> String {
-    let words = s.components(separatedBy: " ")
-    let firstCharIndex = s.index(s.startIndex, offsetBy: 1)
-    return words
-      .map{$0.substring(to: firstCharIndex).uppercased() + $0.substring(from: firstCharIndex).lowercased()}
-      .joined(separator: " ")
-  }
-  
   /// Valid names satisfy the following conditions:
   /// - They only contain english letters and spaces.
   /// - They have both first and last name.

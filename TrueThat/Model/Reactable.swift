@@ -69,13 +69,13 @@ class Reactable: BaseModel {
       dictionary["id"] = id!
     }
     if (userReaction != nil) {
-      dictionary["userReaction"] = userReaction!.rawValue
+      dictionary["userReaction"] = userReaction!.rawValue.snakeCased()!.uppercased()
     }
     if (director != nil) {
       dictionary["director"] = director!.toDictionary()
     }
     if (reactionCounters != nil) {
-      dictionary["reactionCounters"] = reactionCounters!.mapPairs{(emotion, counter) in (emotion.rawValue, counter)}
+      dictionary["reactionCounters"] = reactionCounters!.mapPairs{(emotion, counter) in (emotion.rawValue.snakeCased()!.uppercased(), counter)}
     }
     if (created != nil) {
       dictionary["created"] = DateHelper.utcDate(fromDate: created!)

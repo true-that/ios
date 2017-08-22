@@ -44,6 +44,10 @@
 		6F4AC8C51F2A2593005C7C67 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4AC8C41F2A2593005C7C67 /* BaseModel.swift */; };
 		6F4AC8C71F2AA56E005C7C67 /* BaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4AC8C61F2AA56E005C7C67 /* BaseError.swift */; };
 		6F4AC8CA1F2AA5EB005C7C67 /* ReactablesPageViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4AC8C91F2AA5EB005C7C67 /* ReactablesPageViewModelTests.swift */; };
+		6F521BA01F4C0311009BADE2 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F521B9F1F4C0311009BADE2 /* String+Extensions.swift */; };
+		6F521BA31F4C044A009BADE2 /* StringExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F521BA21F4C044A009BADE2 /* StringExtensionsTests.swift */; };
+		6F521BA51F4C046B009BADE2 /* DictionaryExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F521BA41F4C046B009BADE2 /* DictionaryExtensionsTests.swift */; };
+		6F521BA71F4C0480009BADE2 /* JSONExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F521BA61F4C0480009BADE2 /* JSONExtensionsTests.swift */; };
 		6F58F92F1F498376002DD015 /* SwiftyCamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F58F92E1F498376002DD015 /* SwiftyCamViewController.swift */; };
 		6F58F9311F4983B3002DD015 /* SwiftyCamViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F58F9301F4983B3002DD015 /* SwiftyCamViewControllerDelegate.swift */; };
 		6F58F9331F498404002DD015 /* SwiftyCamButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F58F9321F498404002DD015 /* SwiftyCamButton.swift */; };
@@ -157,6 +161,10 @@
 		6F4AC8C41F2A2593005C7C67 /* BaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		6F4AC8C61F2AA56E005C7C67 /* BaseError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseError.swift; sourceTree = "<group>"; };
 		6F4AC8C91F2AA5EB005C7C67 /* ReactablesPageViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ReactablesPageViewModelTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		6F521B9F1F4C0311009BADE2 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		6F521BA21F4C044A009BADE2 /* StringExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensionsTests.swift; sourceTree = "<group>"; };
+		6F521BA41F4C046B009BADE2 /* DictionaryExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryExtensionsTests.swift; sourceTree = "<group>"; };
+		6F521BA61F4C0480009BADE2 /* JSONExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONExtensionsTests.swift; sourceTree = "<group>"; };
 		6F58F92E1F498376002DD015 /* SwiftyCamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyCamViewController.swift; sourceTree = "<group>"; };
 		6F58F9301F4983B3002DD015 /* SwiftyCamViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyCamViewControllerDelegate.swift; sourceTree = "<group>"; };
 		6F58F9321F498404002DD015 /* SwiftyCamButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyCamButton.swift; sourceTree = "<group>"; };
@@ -384,6 +392,7 @@
 				6FEC85D91F27557800DC46B5 /* Dictionary+Extensions.swift */,
 				6F79811D1F30830900A055DD /* JSON+Extensions.swift */,
 				6FD5A9A01F48B71600FB16C1 /* DataRequest+Extensions.swift */,
+				6F521B9F1F4C0311009BADE2 /* String+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -450,6 +459,16 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		6F521BA11F4C043A009BADE2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				6F521BA21F4C044A009BADE2 /* StringExtensionsTests.swift */,
+				6F521BA41F4C046B009BADE2 /* DictionaryExtensionsTests.swift */,
+				6F521BA61F4C0480009BADE2 /* JSONExtensionsTests.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		6F58F92D1F498362002DD015 /* SwiftyCam */ = {
 			isa = PBXGroup;
 			children = (
@@ -475,6 +494,7 @@
 		6F7981131F2FD28200A055DD /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				6F521BA11F4C043A009BADE2 /* Extensions */,
 				6F7981141F2FD28200A055DD /* Helpers */,
 			);
 			path = Common;
@@ -894,6 +914,7 @@
 				6FE04F6E1F33262900D5BF39 /* UIColor+Extensions.swift in Sources */,
 				6FEC85DA1F27557800DC46B5 /* Dictionary+Extensions.swift in Sources */,
 				3407B4090A32C56AD109751A /* Emotion.swift in Sources */,
+				6F521BA01F4C0311009BADE2 /* String+Extensions.swift in Sources */,
 				6F7DFC251F3140D4003DE099 /* ReactionDetectionModule.swift in Sources */,
 				6FE04F631F331DA500D5BF39 /* OnBoardingViewModel.swift in Sources */,
 				6F05A37F1F38B048008D595A /* RepertoireViewController.swift in Sources */,
@@ -933,10 +954,13 @@
 				6FEC85DB1F27557800DC46B5 /* Dictionary+Extensions.swift in Sources */,
 				6FDBDA411F36C9E600764F0F /* WelcomeViewControllerTests.swift in Sources */,
 				6F05A3831F38B2CD008D595A /* RepertoireApiTests.swift in Sources */,
+				6F521BA71F4C0480009BADE2 /* JSONExtensionsTests.swift in Sources */,
 				6F79811A1F2FDC2D00A055DD /* NumberHelperTests.swift in Sources */,
 				6FB150131F33799300A008DC /* OnBoardingViewModelTests.swift in Sources */,
 				6F3092D61F2DEA9100BD211A /* ReactablesPageViewControllerTests.swift in Sources */,
+				6F521BA31F4C044A009BADE2 /* StringExtensionsTests.swift in Sources */,
 				6F7DFC321F3154D9003DE099 /* InteractionEventTests.swift in Sources */,
+				6F521BA51F4C046B009BADE2 /* DictionaryExtensionsTests.swift in Sources */,
 				6F79811C1F2FE8FC00A055DD /* ReactableViewModelTests.swift in Sources */,
 				6FB150151F33C0E600A008DC /* OnBoardingViewControllerTests.swift in Sources */,
 			);

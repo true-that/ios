@@ -85,7 +85,7 @@ class ReactableViewModel {
     if model.viewed != true {
       InteractionApi.save(interaction: InteractionEvent(
         timestamp: Date(), userId: App.authModule.current!.id, reaction: nil,
-        eventType: .REACTABLE_VIEW, reactableId: model.id))
+        eventType: .reactableView, reactableId: model.id))
         .on(value: {value in
           self.model.viewed = true
         })
@@ -105,7 +105,7 @@ extension ReactableViewModel: ReactionDetectionDelegate {
     if (model.canReact(user: App.authModule.current!)) {
       InteractionApi.save(interaction: InteractionEvent(
         timestamp: Date(), userId: App.authModule.current!.id, reaction: reaction,
-        eventType: .REACTABLE_REACTION, reactableId: model.id))
+        eventType: .reactableReaction, reactableId: model.id))
         .on(value: {event in
           self.model.userReaction = reaction
           self.model.updateReactionCounters(with: reaction)

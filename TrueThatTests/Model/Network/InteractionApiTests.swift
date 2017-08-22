@@ -48,12 +48,12 @@ class InteractionApiTests: XCTestCase {
   }
   
   func testSuccessfulSave() {
-    interaction = InteractionEvent(timestamp: Date(), userId: 1, reaction: .HAPPY,
-                                   eventType: .REACTABLE_REACTION, reactableId: 1)
+    interaction = InteractionEvent(timestamp: Date(), userId: 1, reaction: .happy,
+                                   eventType: .reactableReaction, reactableId: 1)
     fetch()
     expect(self.actual).toEventually(equal(interaction))
     interaction = InteractionEvent(timestamp: Date(), userId: 2, reaction: nil,
-                                   eventType: .REACTABLE_VIEW, reactableId: 2)
+                                   eventType: .reactableView, reactableId: 2)
     fetch()
     expect(self.actual).toEventually(equal(interaction))
   }
@@ -62,15 +62,15 @@ class InteractionApiTests: XCTestCase {
     stub(condition: isPath(InteractionApi.path)) {request -> OHHTTPStubsResponse in
       return OHHTTPStubsResponse(error: BaseError.network)
     }
-    interaction = InteractionEvent(timestamp: Date(), userId: 1, reaction: .HAPPY,
-                                   eventType: .REACTABLE_REACTION, reactableId: 1)
+    interaction = InteractionEvent(timestamp: Date(), userId: 1, reaction: .happy,
+                                   eventType: .reactableReaction, reactableId: 1)
     fetch()
     expect(self.error).toEventuallyNot(beNil())
   }
   
   func testBadData() {
-    interaction = InteractionEvent(timestamp: Date(), userId: 1, reaction: .HAPPY,
-                                   eventType: .REACTABLE_REACTION, reactableId: 1)
+    interaction = InteractionEvent(timestamp: Date(), userId: 1, reaction: .happy,
+                                   eventType: .reactableReaction, reactableId: 1)
     stub(condition: isPath(InteractionApi.path)) {request -> OHHTTPStubsResponse in
       return OHHTTPStubsResponse(data: Data(), statusCode:200,
                                  headers: ["Content-Type":"application/json"])

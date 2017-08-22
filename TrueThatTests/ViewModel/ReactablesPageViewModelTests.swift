@@ -38,9 +38,9 @@ class ReactablesPageViewModelTests: BaseTests {
   }
   
   func testDisplayReactable() {
-    let reactable = Reactable(id: 1, userReaction: .SAD,
+    let reactable = Reactable(id: 1, userReaction: .sad,
                               director: User(id: 1, firstName: "Todo", lastName: "Bom", deviceId: "android"),
-                              reactionCounters: [.SAD: 1000, .HAPPY: 1234],
+                              reactionCounters: [.sad: 1000, .happy: 1234],
                               created: Date(), viewed: false)
     fetchedReactables = [reactable]
     viewModel.fetchingData()
@@ -59,13 +59,13 @@ class ReactablesPageViewModelTests: BaseTests {
   }
   
   func testNavigateNext() {
-    let reactable1 = Reactable(id: 1, userReaction: .SAD,
+    let reactable1 = Reactable(id: 1, userReaction: .sad,
                               director: User(id: 1, firstName: "Todo", lastName: "Bom", deviceId: "android"),
-                              reactionCounters: [.SAD: 1000, .HAPPY: 1234],
+                              reactionCounters: [.sad: 1000, .happy: 1234],
                               created: Date(), viewed: false)
-    let reactable2 = Reactable(id: 2, userReaction: .HAPPY,
+    let reactable2 = Reactable(id: 2, userReaction: .happy,
                               director: User(id: 1, firstName: "Dubi", lastName: "Gal", deviceId: "iphone"),
-                              reactionCounters: [.SAD: 5000, .HAPPY: 34],
+                              reactionCounters: [.sad: 5000, .happy: 34],
                               created: Date(), viewed: true)
     fetchedReactables = [reactable1, reactable2]
     viewModel.fetchingData()
@@ -85,13 +85,13 @@ class ReactablesPageViewModelTests: BaseTests {
   }
   
   func testNavigateNextFetchNewData() {
-    let reactable1 = Reactable(id: 1, userReaction: .SAD,
+    let reactable1 = Reactable(id: 1, userReaction: .sad,
                                director: User(id: 1, firstName: "Todo", lastName: "Bom", deviceId: "android"),
-                               reactionCounters: [.SAD: 1000, .HAPPY: 1234],
+                               reactionCounters: [.sad: 1000, .happy: 1234],
                                created: Date(), viewed: false)
-    let reactable2 = Reactable(id: 2, userReaction: .HAPPY,
+    let reactable2 = Reactable(id: 2, userReaction: .happy,
                                director: User(id: 1, firstName: "Dubi", lastName: "Gal", deviceId: "iphone"),
-                               reactionCounters: [.SAD: 5000, .HAPPY: 34],
+                               reactionCounters: [.sad: 5000, .happy: 34],
                                created: Date(), viewed: true)
     fetchedReactables = [reactable1]
     viewModel.fetchingData()
@@ -110,13 +110,13 @@ class ReactablesPageViewModelTests: BaseTests {
   }
   
   func testNavigatePrevious() {
-    let reactable1 = Reactable(id: 1, userReaction: .SAD,
+    let reactable1 = Reactable(id: 1, userReaction: .sad,
                                director: User(id: 1, firstName: "Todo", lastName: "Bom", deviceId: "android"),
-                               reactionCounters: [.SAD: 1000, .HAPPY: 1234],
+                               reactionCounters: [.sad: 1000, .happy: 1234],
                                created: Date(), viewed: false)
-    let reactable2 = Reactable(id: 2, userReaction: .HAPPY,
+    let reactable2 = Reactable(id: 2, userReaction: .happy,
                                director: User(id: 1, firstName: "Dubi", lastName: "Gal", deviceId: "iphone"),
-                               reactionCounters: [.SAD: 5000, .HAPPY: 34],
+                               reactionCounters: [.sad: 5000, .happy: 34],
                                created: Date(), viewed: true)
     fetchedReactables = [reactable1, reactable2]
     viewModel.fetchingData()

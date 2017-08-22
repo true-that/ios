@@ -12,7 +12,7 @@ import Result
 
 class OnBoardingViewModel {
   // MARK: Properties
-  public static let reactionForDone = Emotion.HAPPY
+  public static let reactionForDone = Emotion.happy
   public let warningLabelHidden = MutableProperty(true)
   public let completionLabelHidden = MutableProperty(true)
   public let nameTextFieldBorderColor = MutableProperty(Color.shadow)

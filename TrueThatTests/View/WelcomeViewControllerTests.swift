@@ -18,17 +18,12 @@ class WelcomeViewControllerTests : BaseUITests {
   override func setUp() {
     super.setUp()
     App.authModule.signOut()
-    
-    let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-    viewController = storyboard.instantiateViewController(withIdentifier: "WelcomeScene") as! WelcomeViewController
-    UIApplication.shared.keyWindow!.rootViewController = viewController
-    // Test and load the View
-    expect(self.viewController.view).toNot(beNil())
+    expect(UITestsHelper.currentViewController!)
+      .toEventually(beAnInstanceOf(WelcomeViewController.self))
+    viewController = UITestsHelper.currentViewController as! WelcomeViewController
   }
   
   func testStartSignUp() {
-    // Trigger viewDidAppear
-    viewController.beginAppearanceTransition(true, animated: false)
     tester().tapView(withAccessibilityLabel: "sign up")
     expect(UITestsHelper.currentViewController!)
       .toEventually(beAnInstanceOf(OnBoardingViewController.self))
@@ -64,8 +59,6 @@ class WelcomeViewControllerTests : BaseUITests {
   }
   
   func testWarningLabel() {
-    // Trigger viewDidAppear
-    viewController.beginAppearanceTransition(true, animated: false)
     App.authModule.auth()
     expect(self.viewController.errorLabel.isHidden).to(beFalse())
   }

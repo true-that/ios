@@ -13,10 +13,10 @@ import Foundation
 enum EventType: String {
   
   /// User viewed a reactable.
-  case REACTABLE_VIEW
+  case reactableView
   
   /// User reacted to a reactable.
-  case REACTABLE_REACTION
+  case reactableReaction
   
   public var description: String { return self.rawValue }
 }
@@ -24,12 +24,12 @@ enum EventType: String {
 // MARK: Initialization
 extension EventType {
   static func toEventType(_ name: String?) -> EventType? {
-    if let lowercased = name?.lowercased() {
-      switch lowercased {
-      case String(describing: EventType.REACTABLE_VIEW):
-        return EventType.REACTABLE_VIEW
-      case String(describing: EventType.REACTABLE_REACTION):
-        return EventType.REACTABLE_REACTION
+    if let camelCased = name?.camelCased() {
+      switch camelCased {
+      case String(describing: EventType.reactableView):
+        return EventType.reactableView
+      case String(describing: EventType.reactableReaction):
+        return EventType.reactableReaction
       default:
         return nil
       }

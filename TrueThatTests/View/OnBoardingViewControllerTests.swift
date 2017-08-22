@@ -18,7 +18,6 @@ class OnBoardingViewControllerTests : BaseUITests {
   
   override func setUp() {
     super.setUp()
-    App.authModule.signOut()
     
     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
     viewController = storyboard.instantiateViewController(withIdentifier: "OnBoardingScene") as! OnBoardingViewController
@@ -38,8 +37,14 @@ class OnBoardingViewControllerTests : BaseUITests {
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
                                  headers: ["Content-Type":"application/json"])
     }
-    // Trigger viewDidAppear
-    viewController.beginAppearanceTransition(true, animated: false)
+    App.authModule.signOut()
+    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(WelcomeViewController.self))
+    // Navigate to on boarding
+    tester().tapView(withAccessibilityLabel: "sign up")
+    expect(UITestsHelper.currentViewController!)
+      .toEventually(beAnInstanceOf(OnBoardingViewController.self))
+    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(OnBoardingViewController.self))
+    viewController = UITestsHelper.currentViewController as! OnBoardingViewController
     // Should focus text field
     expect(self.viewController.nameTextField.isFirstResponder).toEventually(beTrue())
     // Warning should be hidden
@@ -56,7 +61,7 @@ class OnBoardingViewControllerTests : BaseUITests {
     // Dont start detection yet
     expect(App.detecionModule.delegate).to(beNil())
     // Regain focus on name field
-    tester().tapView(withAccessibilityLabel: "full name field")
+    tester().tapView(withAccessibilityLabel: "full name")
     // type last name
     tester().enterText(intoCurrentFirstResponder: " " + user.lastName!)
     // Visual indicator of a valid full name

@@ -60,6 +60,6 @@ extension User {
     if firstName == nil || lastName == nil {
       return ""
     }
-    return StringHelper.toTitleCase(firstName! + " " + lastName!)
+    return "\(firstName!) \(lastName!)".titleCased()
   }
 }

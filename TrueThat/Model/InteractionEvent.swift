@@ -51,8 +51,8 @@ class InteractionEvent: BaseModel {
     var dictionary = super.toDictionary()
     if timestamp != nil {dictionary["timestamp"] = DateHelper.utcDate(fromDate: timestamp)}
     if userId != nil {dictionary["userId"] = userId}
-    if reaction != nil {dictionary["reaction"] = reaction?.rawValue}
-    if eventType != nil {dictionary["eventType"] = eventType?.rawValue}
+    if reaction != nil {dictionary["reaction"] = reaction?.rawValue.snakeCased()!.uppercased()}
+    if eventType != nil {dictionary["eventType"] = eventType?.rawValue.snakeCased()!.uppercased()}
     if reactableId != nil {dictionary["reactableId"] = reactableId}
     return dictionary
   }

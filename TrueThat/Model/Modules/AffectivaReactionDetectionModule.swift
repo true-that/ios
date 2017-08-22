@@ -48,9 +48,9 @@ extension AffectivaReactionDetectionModule: AFDXDetectorDelegate {
         // Convert detected image to our enum
         var detected: Emotion?
         if affdexFace.emotions.joy > AffectivaReactionDetectionModule.emotionThreshold {
-          detected = .HAPPY
+          detected = .happy
         } else if affdexFace.emotions.sadness > AffectivaReactionDetectionModule.emotionThreshold {
-          detected = .SAD
+          detected = .sad
         }
         if detected != nil && delegate != nil {
           App.log.verbose("Detected \(detected!)")

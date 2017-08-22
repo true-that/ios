@@ -13,9 +13,9 @@ import Nimble
 
 class ReactableTests: XCTestCase {
   func testJsonSerialization() {
-    let reactable = Reactable(id: 1, userReaction: .HAPPY,
+    let reactable = Reactable(id: 1, userReaction: .happy,
                               director: User(id: 1, firstName: "android", lastName: "me no like", deviceId: "iphone"),
-                              reactionCounters: [.HAPPY: 1200, .SAD: 800],
+                              reactionCounters: [.happy: 1200, .sad: 800],
                               created: Date(),
                               viewed: true)
     expect(reactable).to(equal(Reactable(json: JSON(from: reactable))))
@@ -23,38 +23,38 @@ class ReactableTests: XCTestCase {
   
   func testEquals() {
     let now = Date()
-    let reactable = Reactable(id: 1, userReaction: .HAPPY,
+    let reactable = Reactable(id: 1, userReaction: .happy,
                               director: User(id: 1, firstName: "android", lastName: "me no like", deviceId: "iphone"),
-                              reactionCounters: [.HAPPY: 1200, .SAD: 800], created: now,
+                              reactionCounters: [.happy: 1200, .sad: 800], created: now,
                               viewed: true)
     expect(reactable).to(equal(reactable))
-    expect(reactable).toNot(equal(Reactable(id: nil, userReaction: .HAPPY,
+    expect(reactable).toNot(equal(Reactable(id: nil, userReaction: .happy,
                                             director: User(id: 1, firstName: "android", lastName: "me no like", deviceId: "iphone"),
-                                            reactionCounters: [.HAPPY: 1200, .SAD: 800], created: now,
+                                            reactionCounters: [.happy: 1200, .sad: 800], created: now,
                                             viewed: true)))
-    expect(reactable).toNot(equal(Reactable(id: 1, userReaction: .SAD,
+    expect(reactable).toNot(equal(Reactable(id: 1, userReaction: .sad,
                                             director: User(id: 1, firstName: "android", lastName: "me no like", deviceId: "iphone"),
-                                            reactionCounters: [.HAPPY: 1200, .SAD: 800], created: now,
+                                            reactionCounters: [.happy: 1200, .sad: 800], created: now,
                                             viewed: true)))
     expect(reactable).toNot(equal(Reactable(id: 1, userReaction: nil,
                                             director: User(id: 1, firstName: "android", lastName: "me no like", deviceId: "iphone"),
-                                            reactionCounters: [.HAPPY: 1200, .SAD: 800], created: now,
+                                            reactionCounters: [.happy: 1200, .sad: 800], created: now,
                                             viewed: true)))
-    expect(reactable).toNot(equal(Reactable(id: 1, userReaction: .HAPPY,
+    expect(reactable).toNot(equal(Reactable(id: 1, userReaction: .happy,
                                             director: User(id: 1, firstName: "android2", lastName: "me no like", deviceId: "iphone"),
-                                            reactionCounters: [.HAPPY: 1200, .SAD: 800], created: now,
+                                            reactionCounters: [.happy: 1200, .sad: 800], created: now,
                                             viewed: true)))
-    expect(reactable).toNot(equal(Reactable(id: 1, userReaction: .HAPPY,
+    expect(reactable).toNot(equal(Reactable(id: 1, userReaction: .happy,
                                             director: User(id: 1, firstName: "android", lastName: "me no like", deviceId: "iphone"),
-                                            reactionCounters: [.HAPPY: 1201, .SAD: 800], created: now,
+                                            reactionCounters: [.happy: 1201, .sad: 800], created: now,
                                             viewed: true)))
-    expect(reactable).toNot(equal(Reactable(id: 1, userReaction: .HAPPY,
+    expect(reactable).toNot(equal(Reactable(id: 1, userReaction: .happy,
                                             director: User(id: 1, firstName: "android", lastName: "me no like", deviceId: "iphone"),
-                                            reactionCounters: [.HAPPY: 1200], created: now,
+                                            reactionCounters: [.happy: 1200], created: now,
                                             viewed: true)))
-    expect(reactable).toNot(equal(Reactable(id: 1, userReaction: .HAPPY,
+    expect(reactable).toNot(equal(Reactable(id: 1, userReaction: .happy,
                                             director: User(id: 1, firstName: "android", lastName: "me no like", deviceId: "iphone"),
-                                            reactionCounters: [.HAPPY: 1200, .SAD: 800], created: now,
+                                            reactionCounters: [.happy: 1200, .sad: 800], created: now,
                                             viewed: false)))
   }
   
@@ -62,7 +62,7 @@ class ReactableTests: XCTestCase {
     let user = User(id: 1, firstName: "android", lastName: "me no like", deviceId: "iphone")
     let sameDirector = Reactable(id: 1, userReaction: nil, director: user, reactionCounters: nil,
                                  created: nil, viewed: nil)
-    let alreadyReacted = Reactable(id: 1, userReaction: .HAPPY, director: nil,
+    let alreadyReacted = Reactable(id: 1, userReaction: .happy, director: nil,
                                    reactionCounters: nil, created: nil, viewed: nil)
     let noDirector = Reactable(id: 1, userReaction: nil, director: nil, reactionCounters: nil,
                                created: nil, viewed: nil)
@@ -76,13 +76,13 @@ class ReactableTests: XCTestCase {
   }
   
   func testUpdateReactionCounters() {
-    let reaction = Emotion.HAPPY
+    let reaction = Emotion.happy
     let nilCounters = Reactable(id: 1, userReaction: nil, director: nil, reactionCounters: nil,
                                  created: nil, viewed: nil)
     let firstReactionOfType = Reactable(id: 2, userReaction: nil, director: nil,
-                                        reactionCounters: [.SAD: 1], created: nil, viewed: nil)
+                                        reactionCounters: [.sad: 1], created: nil, viewed: nil)
     let shouldIncrement = Reactable(id: 3, userReaction: nil, director: nil,
-                                    reactionCounters: [.HAPPY: 2], created: nil, viewed: nil)
+                                    reactionCounters: [.happy: 2], created: nil, viewed: nil)
     // Increment counters
     nilCounters.updateReactionCounters(with: reaction)
     firstReactionOfType.updateReactionCounters(with: reaction)

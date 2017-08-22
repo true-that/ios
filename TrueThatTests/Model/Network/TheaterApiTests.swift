@@ -42,26 +42,26 @@ class TheaterApiTests: XCTestCase {
   }
   
   func testSuccessfulFetch() {
-    reactables = [Reactable(id: 1, userReaction: .SAD,
+    reactables = [Reactable(id: 1, userReaction: .sad,
                             director: User(id: 1, firstName: "copa", lastName: "cabana", deviceId: "android"),
-                            reactionCounters: [.SAD: 1000, .HAPPY: 1234],
+                            reactionCounters: [.sad: 1000, .happy: 1234],
                             created: Date(), viewed: false),
-                  Reactable(id: 2, userReaction: .HAPPY,
+                  Reactable(id: 2, userReaction: .happy,
                             director: User(id: 1, firstName: "barry", lastName: "manilow", deviceId: "android"),
-                            reactionCounters: [.SAD: 2000, .HAPPY: 100234],
+                            reactionCounters: [.sad: 2000, .happy: 100234],
                             created: Date(), viewed: true)]
     fetch()
     expect(self.actual).toEventually(equal(reactables))
   }
   
   func testFetchMultipleTypes() {
-    reactables = [Reactable(id: 1, userReaction: .SAD,
+    reactables = [Reactable(id: 1, userReaction: .sad,
                             director: User(id: 1, firstName: "copa", lastName: "cabana", deviceId: "android"),
-                            reactionCounters: [.SAD: 1000, .HAPPY: 1234],
+                            reactionCounters: [.sad: 1000, .happy: 1234],
                             created: Date(), viewed: false),
-                  Scene(id: 2, userReaction: .HAPPY,
+                  Scene(id: 2, userReaction: .happy,
                             director: User(id: 1, firstName: "barry", lastName: "manilow", deviceId: "android"),
-                            reactionCounters: [.SAD: 2000, .HAPPY: 100234],
+                            reactionCounters: [.sad: 2000, .happy: 100234],
                             created: Date(), viewed: true, imageSignedUrl: "http://truethat-ipo.jpg")]
     fetch()
     expect(self.actual).toEventually(equal(reactables))
@@ -78,13 +78,13 @@ class TheaterApiTests: XCTestCase {
     stub(condition: isPath(TheaterApi.path)) {request -> OHHTTPStubsResponse in
       return OHHTTPStubsResponse(error: BaseError.network)
     }
-    reactables = [Reactable(id: 1, userReaction: .SAD,
+    reactables = [Reactable(id: 1, userReaction: .sad,
                             director: User(id: 1, firstName: "copa", lastName: "cabana", deviceId: "android"),
-                            reactionCounters: [.SAD: 1000, .HAPPY: 1234],
+                            reactionCounters: [.sad: 1000, .happy: 1234],
                             created: Date(), viewed: false),
-                  Reactable(id: 2, userReaction: .HAPPY,
+                  Reactable(id: 2, userReaction: .happy,
                             director: User(id: 1, firstName: "barry", lastName: "manilow", deviceId: "android"),
-                            reactionCounters: [.SAD: 2000, .HAPPY: 100234],
+                            reactionCounters: [.sad: 2000, .happy: 100234],
                             created: Date(), viewed: true)]
     fetch()
     expect(self.error).toEventuallyNot(beNil())

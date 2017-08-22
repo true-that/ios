@@ -7,7 +7,7 @@ import Foundation
 
 /// Emotions to describe emotional reaction to reactables.
 enum Emotion: String {
-  case HAPPY, SAD
+  case happy, sad
   
   public var description: String { return self.rawValue }
 }
@@ -15,12 +15,12 @@ enum Emotion: String {
 // MARK: Initialization
 extension Emotion {
   static func toEmotion(_ name: String?) -> Emotion? {
-    if let lowercased = name?.lowercased() {
-      switch lowercased {
-      case String(describing: Emotion.HAPPY):
-        return Emotion.HAPPY
-      case String(describing: Emotion.SAD):
-        return Emotion.SAD
+    if let camelCased = name?.camelCased() {
+      switch camelCased {
+      case String(describing: Emotion.happy):
+        return Emotion.happy
+      case String(describing: Emotion.sad):
+        return Emotion.sad
       default:
         return nil
       }
@@ -33,9 +33,9 @@ extension Emotion {
 extension Emotion {
   public var emoji: String {
     switch self {
-    case .HAPPY:
+    case .happy:
       return "😁"
-    case .SAD:
+    case .sad:
       return "☹️"
     }
   }
