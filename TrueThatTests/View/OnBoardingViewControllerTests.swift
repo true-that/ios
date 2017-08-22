@@ -18,7 +18,7 @@ class OnBoardingViewControllerTests : BaseUITests {
   
   override func setUp() {
     super.setUp()
-    fakeAuthModule.signOut()
+    App.authModule.signOut()
     
     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
     viewController = storyboard.instantiateViewController(withIdentifier: "OnBoardingScene") as! OnBoardingViewController
@@ -71,7 +71,7 @@ class OnBoardingViewControllerTests : BaseUITests {
     expect(self.viewController.completionLabel.isHidden).to(beFalse())
     // Complete on boarding
     fakeDetectionModule.detect(OnBoardingViewModel.reactionForDone)
-    expect(self.fakeAuthModule.current).toEventually(equal(user))
+    expect(App.authModule.current).toEventually(equal(user))
     // Should navigate to theater
     expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(TheaterViewController.self))
   }

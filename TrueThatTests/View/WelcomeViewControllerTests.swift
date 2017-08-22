@@ -17,7 +17,7 @@ class WelcomeViewControllerTests : BaseUITests {
   
   override func setUp() {
     super.setUp()
-    fakeAuthModule.signOut()
+    App.authModule.signOut()
     
     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
     viewController = storyboard.instantiateViewController(withIdentifier: "WelcomeScene") as! WelcomeViewController
@@ -35,10 +35,10 @@ class WelcomeViewControllerTests : BaseUITests {
   }
   
   func testAlreadyAuthOk() {
-    fakeAuthModule.current = User(id: 1, firstName: "Mr", lastName: "Navon", deviceId: "345345")
+    App.authModule.current = User(id: 1, firstName: "Mr", lastName: "Navon", deviceId: "345345")
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
-    fakeAuthModule.auth()
+    App.authModule.auth()
     expect(UITestsHelper.currentViewController!)
       .toEventually(beAnInstanceOf(TheaterViewController.self))
   }
@@ -51,16 +51,16 @@ class WelcomeViewControllerTests : BaseUITests {
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
                                  headers: ["Content-Type":"application/json"])
     }
-    fakeAuthModule.delegate = nil
-    fakeAuthModule.signUp(fullName: "dellores hidyhoe")
-    expect(self.fakeAuthModule.isAuthOk).toEventually(beTrue())
+    App.authModule.delegate = nil
+    App.authModule.signUp(fullName: "dellores hidyhoe")
+    expect(App.authModule.isAuthOk).toEventually(beTrue())
     // Signs out, but keeps session data
-    fakeAuthModule.current = nil
-    expect(self.fakeAuthModule.isAuthOk).to(beFalse())
+    App.authModule.current = nil
+    expect(App.authModule.isAuthOk).to(beFalse())
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
     tester().tapView(withAccessibilityLabel: "sign in")
-    expect(self.fakeAuthModule.isAuthOk).toEventually(beTrue())
+    expect(App.authModule.isAuthOk).toEventually(beTrue())
   }
   
   func testWarningLabel() {

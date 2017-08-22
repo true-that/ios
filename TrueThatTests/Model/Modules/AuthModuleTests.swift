@@ -28,59 +28,94 @@ class AuthModuleTests: BaseTests {
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
                                  headers: ["Content-Type":"application/json"])
     }
-    didBackendCall = false
+    didBackendCall = false  
     authDelegate = AuthTestsDelegate()
     authModule = AuthModule()
     authModule.delegate = authDelegate
     fakeKeychain = FakeKeychainModule()
     App.keychainModule = fakeKeychain
+    user = User(id: 1, firstName: "dellores", lastName: "hidyhoe", deviceId: App.deviceModule.deviceId)
+  }
+  
+  func doingAuth() {
+    do {
+      try fakeKeychain.save(JSON(from: user).rawData(), key: AuthModule.userKey)
+    } catch {}
+    authModule.current = user
+    authModule.auth()
+    assertAuthOk()
+  }
+  
+  func assertAuthOk() {
+    expect(self.authDelegate.authOk).toEventually(beTrue())
+    expect(self.authModule.current).to(equal(self.user))
+    expect(User(json: JSON(App.keychainModule.get(AuthModule.userKey)!))).to(equal(self.user))
+  }
+  
+  func assertAuthFailed() {
+    expect(self.authDelegate.authFail).toEventually(beTrue())
+    expect(self.authModule.current).to(beNil())
+    expect(self.authModule.isAuthOk).to(beFalse())
+  }
+  
+  func testSignInAlreadyAuthOk() {
+    doingAuth()
+    authModule.signIn()
+    expect(self.didBackendCall).to(beFalse())
+    assertAuthOk()
+  }
+  
+  func testSignInFromLastSession() throws {
+    try fakeKeychain.save(JSON(from: user).rawData(), key: AuthModule.userKey)
+    authModule.signIn()
+    assertAuthOk()
+    expect(self.didBackendCall).to(beTrue())
+  }
+  
+  func testSignInBasedOnDeviceId() {
+    authModule.signIn()
+    assertAuthOk()
+    expect(self.didBackendCall).to(beTrue())
   }
   
   func testAlreadyAuthOk() {
-    authModule.current = User(id: 1, firstName: "spartan", lastName: "professionless", deviceId: "2")
+    doingAuth()
     authModule.auth()
-    expect(self.authDelegate.authOk).to(beTrue())
+    assertAuthOk()
     expect(self.didBackendCall).to(beFalse())
   }
   
   func testRestoreLastSession() throws {
-    fakeKeychain.save(data: JSON(from: User(id: 1, firstName: "spartan",
-                                            lastName: "professionless", deviceId: "2")).rawData(),
-        for: AuthModule.userKey)
+    try fakeKeychain.save(JSON(from: user).rawData(), key: AuthModule.userKey)
     authModule.auth()
-    expect(self.authDelegate.authOk).to(beTrue())
-    expect(self.didBackendCall).to(beFalse())
+    assertAuthOk()
+    expect(self.didBackendCall).to(beTrue())
   }
   
   func testFailedAuth() {
     authModule.auth()
-    expect(self.authDelegate.authFail).to(beTrue())
+    assertAuthFailed()
+    expect(self.didBackendCall).to(beFalse())
   }
   
   func testSignOut() {
-    authModule.current = User(id: 1, firstName: "spartan", lastName: "professionless", deviceId: "2")
-    authModule.auth()
-    expect(self.authDelegate.authOk).to(beTrue())
+    doingAuth()
     authModule.signOut()
-    expect(self.authModule.isAuthOk).to(beFalse())
-    expect(self.authDelegate.authFail).to(beTrue())
+    assertAuthFailed()
+    expect(self.fakeKeychain.get(AuthModule.userKey)).to(beNil())
   }
   
   func testSuccessfulSignUp() {
-    let responded = User(id: 1, firstName: "dellores", lastName: "hidyhoe", deviceId: App.deviceModule.deviceId)
-    
-    authModule.signUp(fullName: "dellores hidyhoe")
-    expect(self.authDelegate.authOk).toEventually(beTrue())
-    expect(self.authModule.current).to(equal(responded))
+    authModule.signUp(fullName: user.displayName)
+    assertAuthOk()
   }
   
   func testSignUpBadResponse() {
     stub(condition: isPath(AuthApi.path)) {request -> OHHTTPStubsResponse in
       return OHHTTPStubsResponse(error: BaseError.network)
     }
-    authModule.signUp(fullName: "dellores hidyhoe")
-    expect(self.authDelegate.authFail).toEventually(beTrue())
-    expect(self.authModule.current).to(beNil())
+    authModule.signUp(fullName: user.displayName)
+    assertAuthFailed()
   }
   
   func testSignUpBadData() {
@@ -88,9 +123,8 @@ class AuthModuleTests: BaseTests {
       return OHHTTPStubsResponse(data: Data(), statusCode:200,
                                  headers: ["Content-Type":"application/json"])
     }
-    authModule.signUp(fullName: "dellores hidyhoe")
-    expect(self.authDelegate.authFail).toEventually(beTrue())
-    expect(self.authModule.current).to(beNil())
+    authModule.signUp(fullName: user.displayName)
+    assertAuthFailed()
   }
   
   class AuthTestsDelegate: AuthDelegate {

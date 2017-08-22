@@ -18,7 +18,7 @@ class OnBoardingViewModelTests: BaseTests {
   
   override func setUp() {
     super.setUp()
-    fakeAuthModule.signOut()
+    App.authModule.signOut()
     viewModel = OnBoardingViewModel()
     viewModelDelegate = OnBoardingTestDelegate(viewModel)
     viewModel.delegate = viewModelDelegate

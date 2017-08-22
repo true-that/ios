@@ -79,7 +79,7 @@ class AuthModule {
     App.log.verbose("see ya")
     current = nil
     do {
-      try App.keychainModule.delete(from: AuthModule.userKey)
+      try App.keychainModule.delete(AuthModule.userKey)
     } catch {
       App.log.warning("Could not delete user session from keychain.")
     }
@@ -91,9 +91,9 @@ class AuthModule {
       .on(value: {
         if $0.isAuthOk {
           self.current = $0
-          App.log.error("Auth OK: we missed ya \(self.current!.displayName) already!")
+          App.log.verbose("Auth OK: we missed ya \(self.current!.displayName) already!")
           do {
-            try App.keychainModule.save(data: JSON(from: self.current!).rawData(), for: AuthModule.userKey)
+            try App.keychainModule.save(JSON(from: self.current!).rawData(), key: AuthModule.userKey)
           } catch {
             App.log.warning("Could not save user session to keychain.")
           }
@@ -113,7 +113,7 @@ class AuthModule {
   }
   
   fileprivate var lastSession: User? {
-    let lastSession = App.keychainModule.get(for: AuthModule.userKey)
+    let lastSession = App.keychainModule.get(AuthModule.userKey)
     if lastSession != nil {
       return User(json: JSON(lastSession!))
     }

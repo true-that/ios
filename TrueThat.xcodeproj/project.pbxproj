@@ -26,10 +26,6 @@
 		6F0DAC851F293FAD00A3389D /* AuthModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0DAC841F293FAD00A3389D /* AuthModule.swift */; };
 		6F15228B1F37178600BD0DC2 /* DeviceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F15228A1F37178600BD0DC2 /* DeviceModule.swift */; };
 		6F15228D1F3717D400BD0DC2 /* HardwareDeviceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F15228C1F3717D400BD0DC2 /* HardwareDeviceModule.swift */; };
-		6F15228F1F371C8900BD0DC2 /* DefaultAuthModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F15228E1F371C8900BD0DC2 /* DefaultAuthModule.swift */; };
-		6F1522911F371C9300BD0DC2 /* FakeAuthModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1522901F371C9300BD0DC2 /* FakeAuthModule.swift */; };
-		6F1522941F37225700BD0DC2 /* AuthModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1522931F37225700BD0DC2 /* AuthModuleTests.swift */; };
-		6F15229B1F373ACD00BD0DC2 /* FakeAuthModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F15229A1F373ACD00BD0DC2 /* FakeAuthModuleTests.swift */; };
 		6F15229D1F37609D00BD0DC2 /* StudioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F15229C1F37609D00BD0DC2 /* StudioViewModel.swift */; };
 		6F21E4E61F1657A1004FFA6F /* TrueThatUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F21E4E51F1657A1004FFA6F /* TrueThatUITests.swift */; };
 		6F3092D11F2DE91F00BD211A /* KIF+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3092D01F2DE91F00BD211A /* KIF+Extensions.swift */; };
@@ -48,6 +44,10 @@
 		6F4AC8C51F2A2593005C7C67 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4AC8C41F2A2593005C7C67 /* BaseModel.swift */; };
 		6F4AC8C71F2AA56E005C7C67 /* BaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4AC8C61F2AA56E005C7C67 /* BaseError.swift */; };
 		6F4AC8CA1F2AA5EB005C7C67 /* ReactablesPageViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4AC8C91F2AA5EB005C7C67 /* ReactablesPageViewModelTests.swift */; };
+		6F58F92F1F498376002DD015 /* SwiftyCamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F58F92E1F498376002DD015 /* SwiftyCamViewController.swift */; };
+		6F58F9311F4983B3002DD015 /* SwiftyCamViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F58F9301F4983B3002DD015 /* SwiftyCamViewControllerDelegate.swift */; };
+		6F58F9331F498404002DD015 /* SwiftyCamButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F58F9321F498404002DD015 /* SwiftyCamButton.swift */; };
+		6F58F9351F498419002DD015 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F58F9341F498419002DD015 /* PreviewView.swift */; };
 		6F6255731F17EA8700F895CE /* ReactablesPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6255721F17EA8700F895CE /* ReactablesPageViewModel.swift */; };
 		6F7981111F2FCDEC00A055DD /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7981101F2FCDEC00A055DD /* DateHelper.swift */; };
 		6F7981161F2FD29100A055DD /* DateHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7981151F2FD29100A055DD /* DateHelperTests.swift */; };
@@ -59,12 +59,16 @@
 		6F7DFC211F30A7B7003DE099 /* Tags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC201F30A7B7003DE099 /* Tags.swift */; };
 		6F7DFC231F3121CA003DE099 /* SceneMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC221F3121CA003DE099 /* SceneMediaViewController.swift */; };
 		6F7DFC251F3140D4003DE099 /* ReactionDetectionModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC241F3140D4003DE099 /* ReactionDetectionModule.swift */; };
-		6F7DFC2A1F314DE6003DE099 /* FakeReactionDetectionModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC291F314DE6003DE099 /* FakeReactionDetectionModule.swift */; };
 		6F7DFC2E1F314EE8003DE099 /* InteractionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC2D1F314EE8003DE099 /* InteractionEvent.swift */; };
 		6F7DFC301F314EF5003DE099 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC2F1F314EF5003DE099 /* EventType.swift */; };
 		6F7DFC321F3154D9003DE099 /* InteractionEventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC311F3154D9003DE099 /* InteractionEventTests.swift */; };
+		6F89FBA61F4B232B002321CA /* KeychainModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F89FBA51F4B232B002321CA /* KeychainModule.swift */; };
+		6F89FBA81F4B23C7002321CA /* DeviceKeychainModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F89FBA71F4B23C7002321CA /* DeviceKeychainModule.swift */; };
 		6F921D801F32988800FFE76F /* BaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F921D7F1F32988800FFE76F /* BaseTests.swift */; };
 		6F921D821F32997A00FFE76F /* BaseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F921D811F32997A00FFE76F /* BaseUITests.swift */; };
+		6FAD58541F4B3CC90035A9ED /* FakeReactionDetectionModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC291F314DE6003DE099 /* FakeReactionDetectionModule.swift */; };
+		6FAD58551F4B3CC90035A9ED /* FakeKeychainModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F89FBA91F4B2471002321CA /* FakeKeychainModule.swift */; };
+		6FAD58571F4B3D2C0035A9ED /* AuthModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FAD58561F4B3D2C0035A9ED /* AuthModuleTests.swift */; };
 		6FAD61931F39A3DD003952F1 /* RepertoireViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FAD61921F39A3DD003952F1 /* RepertoireViewControllerTests.swift */; };
 		6FB150131F33799300A008DC /* OnBoardingViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB150121F33799300A008DC /* OnBoardingViewModelTests.swift */; };
 		6FB150151F33C0E600A008DC /* OnBoardingViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB150141F33C0E600A008DC /* OnBoardingViewControllerTests.swift */; };
@@ -74,6 +78,7 @@
 		6FC9A2B21F2A126600E4BCF1 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC9A2B11F2A126600E4BCF1 /* Scene.swift */; };
 		6FCAD6611F39B95000DD04FC /* AffectivaReactionDetectionModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FCAD6601F39B95000DD04FC /* AffectivaReactionDetectionModule.swift */; };
 		6FD593071F29E50500CC9FA6 /* UserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD593061F29E50500CC9FA6 /* UserTests.swift */; };
+		6FD5A9A11F48B71600FB16C1 /* DataRequest+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD5A9A01F48B71600FB16C1 /* DataRequest+Extensions.swift */; };
 		6FDBDA411F36C9E600764F0F /* WelcomeViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBDA401F36C9E600764F0F /* WelcomeViewControllerTests.swift */; };
 		6FDBDA431F36CB2E00764F0F /* UITestsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBDA421F36CB2E00764F0F /* UITestsHelper.swift */; };
 		6FE04F611F331CF500D5BF39 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE04F601F331CF500D5BF39 /* OnBoardingViewController.swift */; };
@@ -83,9 +88,9 @@
 		6FE04F6E1F33262900D5BF39 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE04F6D1F33262900D5BF39 /* UIColor+Extensions.swift */; };
 		6FE04F701F332F2700D5BF39 /* StringHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE04F6F1F332F2700D5BF39 /* StringHelper.swift */; };
 		6FE04F721F334F4800D5BF39 /* StringHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE04F711F334F4800D5BF39 /* StringHelperTests.swift */; };
-		6FEC85DA1F27557800DC46B5 /* Dictionary+Entensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FEC85D91F27557800DC46B5 /* Dictionary+Entensions.swift */; };
-		6FEC85DB1F27557800DC46B5 /* Dictionary+Entensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FEC85D91F27557800DC46B5 /* Dictionary+Entensions.swift */; };
-		6FEC85DC1F27557800DC46B5 /* Dictionary+Entensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FEC85D91F27557800DC46B5 /* Dictionary+Entensions.swift */; };
+		6FEC85DA1F27557800DC46B5 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FEC85D91F27557800DC46B5 /* Dictionary+Extensions.swift */; };
+		6FEC85DB1F27557800DC46B5 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FEC85D91F27557800DC46B5 /* Dictionary+Extensions.swift */; };
+		6FEC85DC1F27557800DC46B5 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FEC85D91F27557800DC46B5 /* Dictionary+Extensions.swift */; };
 		6FF9C9591F328EEF00C2FC3F /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF9C9581F328EEF00C2FC3F /* App.swift */; };
 		D677A3F7683EA76A440EBD08 /* Pods_TrueThatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C74B33475F7129BCE7F5AFD /* Pods_TrueThatTests.framework */; };
 /* End PBXBuildFile section */
@@ -114,7 +119,7 @@
 		3407B61AD1CDCD949A8DD2C4 /* Reactable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reactable.swift; sourceTree = "<group>"; };
 		3407B84B128FC0E2A1186B30 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		3407B876F82D7B6CE1647B39 /* ReactableViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactableViewModel.swift; sourceTree = "<group>"; };
-		3407B8878DA565AC0763810A /* Emotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Emotion.swift; sourceTree = "<group>"; };
+		3407B8878DA565AC0763810A /* Emotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Emotion.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		3407B8FBCCBAA39B4DEE09AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3407BC14CD35B51CB02C6DDE /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3407BF628D894D084344C3C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -122,29 +127,25 @@
 		6F05A37C1F385A15008D595A /* StudioViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudioViewControllerTests.swift; sourceTree = "<group>"; };
 		6F05A37E1F38B048008D595A /* RepertoireViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepertoireViewController.swift; sourceTree = "<group>"; };
 		6F05A3801F38B26C008D595A /* RepertoireApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepertoireApi.swift; sourceTree = "<group>"; };
-		6F05A3821F38B2CD008D595A /* RepertoireApiTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepertoireApiTests.swift; sourceTree = "<group>"; };
+		6F05A3821F38B2CD008D595A /* RepertoireApiTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RepertoireApiTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6F05A3841F38CA26008D595A /* TheaterViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheaterViewControllerTests.swift; sourceTree = "<group>"; };
 		6F0DAC841F293FAD00A3389D /* AuthModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthModule.swift; sourceTree = "<group>"; };
 		6F15228A1F37178600BD0DC2 /* DeviceModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceModule.swift; sourceTree = "<group>"; };
 		6F15228C1F3717D400BD0DC2 /* HardwareDeviceModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HardwareDeviceModule.swift; sourceTree = "<group>"; };
-		6F15228E1F371C8900BD0DC2 /* DefaultAuthModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultAuthModule.swift; sourceTree = "<group>"; };
-		6F1522901F371C9300BD0DC2 /* FakeAuthModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeAuthModule.swift; sourceTree = "<group>"; };
-		6F1522931F37225700BD0DC2 /* AuthModuleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthModuleTests.swift; sourceTree = "<group>"; };
-		6F15229A1F373ACD00BD0DC2 /* FakeAuthModuleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeAuthModuleTests.swift; sourceTree = "<group>"; };
 		6F15229C1F37609D00BD0DC2 /* StudioViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudioViewModel.swift; sourceTree = "<group>"; };
 		6F21E4E31F1657A1004FFA6F /* TrueThatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrueThatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F21E4E51F1657A1004FFA6F /* TrueThatUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrueThatUITests.swift; sourceTree = "<group>"; };
 		6F21E4E71F1657A1004FFA6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6F3092D01F2DE91F00BD211A /* KIF+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KIF+Extensions.swift"; sourceTree = "<group>"; };
 		6F3092D21F2DE9D900BD211A /* TrueThatTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TrueThatTests-Bridging-Header.h"; sourceTree = "<group>"; };
-		6F3092D51F2DEA9100BD211A /* ReactablesPageViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactablesPageViewControllerTests.swift; sourceTree = "<group>"; };
+		6F3092D51F2DEA9100BD211A /* ReactablesPageViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ReactablesPageViewControllerTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6F3779F41F377611007C0945 /* AuthApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthApi.swift; sourceTree = "<group>"; };
 		6F3779F51F377611007C0945 /* InteractionApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionApi.swift; sourceTree = "<group>"; };
 		6F3779F61F377611007C0945 /* TheaterApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheaterApi.swift; sourceTree = "<group>"; };
 		6F3779FA1F377662007C0945 /* AuthApiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthApiTests.swift; sourceTree = "<group>"; };
 		6F3779FB1F377662007C0945 /* InteractionApiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionApiTests.swift; sourceTree = "<group>"; };
-		6F3779FC1F377662007C0945 /* StudioApiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudioApiTests.swift; sourceTree = "<group>"; };
-		6F3779FD1F377662007C0945 /* TheaterApiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheaterApiTests.swift; sourceTree = "<group>"; };
+		6F3779FC1F377662007C0945 /* StudioApiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = StudioApiTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		6F3779FD1F377662007C0945 /* TheaterApiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TheaterApiTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6F377A021F3776BB007C0945 /* StudioApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudioApi.swift; sourceTree = "<group>"; };
 		6F377A041F382F14007C0945 /* StudioViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudioViewModelTests.swift; sourceTree = "<group>"; };
 		6F377A061F3839CD007C0945 /* StudioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudioViewController.swift; sourceTree = "<group>"; };
@@ -155,7 +156,11 @@
 		6F4826431F1284F50066394D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6F4AC8C41F2A2593005C7C67 /* BaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		6F4AC8C61F2AA56E005C7C67 /* BaseError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseError.swift; sourceTree = "<group>"; };
-		6F4AC8C91F2AA5EB005C7C67 /* ReactablesPageViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactablesPageViewModelTests.swift; sourceTree = "<group>"; };
+		6F4AC8C91F2AA5EB005C7C67 /* ReactablesPageViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ReactablesPageViewModelTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		6F58F92E1F498376002DD015 /* SwiftyCamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyCamViewController.swift; sourceTree = "<group>"; };
+		6F58F9301F4983B3002DD015 /* SwiftyCamViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyCamViewControllerDelegate.swift; sourceTree = "<group>"; };
+		6F58F9321F498404002DD015 /* SwiftyCamButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyCamButton.swift; sourceTree = "<group>"; };
+		6F58F9341F498419002DD015 /* PreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		6F6255721F17EA8700F895CE /* ReactablesPageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactablesPageViewModel.swift; sourceTree = "<group>"; };
 		6F7981101F2FCDEC00A055DD /* DateHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
 		6F7981151F2FD29100A055DD /* DateHelperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateHelperTests.swift; sourceTree = "<group>"; };
@@ -163,26 +168,31 @@
 		6F7981191F2FDC2D00A055DD /* NumberHelperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberHelperTests.swift; sourceTree = "<group>"; };
 		6F79811B1F2FE8FC00A055DD /* ReactableViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactableViewModelTests.swift; sourceTree = "<group>"; };
 		6F79811D1F30830900A055DD /* JSON+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JSON+Extensions.swift"; sourceTree = "<group>"; };
-		6F79811F1F30848B00A055DD /* SceneViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneViewModel.swift; sourceTree = "<group>"; };
+		6F79811F1F30848B00A055DD /* SceneViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SceneViewModel.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6F7DFC201F30A7B7003DE099 /* Tags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tags.swift; sourceTree = "<group>"; };
-		6F7DFC221F3121CA003DE099 /* SceneMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneMediaViewController.swift; sourceTree = "<group>"; };
+		6F7DFC221F3121CA003DE099 /* SceneMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SceneMediaViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6F7DFC241F3140D4003DE099 /* ReactionDetectionModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionDetectionModule.swift; sourceTree = "<group>"; };
 		6F7DFC291F314DE6003DE099 /* FakeReactionDetectionModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeReactionDetectionModule.swift; sourceTree = "<group>"; };
 		6F7DFC2D1F314EE8003DE099 /* InteractionEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractionEvent.swift; sourceTree = "<group>"; };
 		6F7DFC2F1F314EF5003DE099 /* EventType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventType.swift; sourceTree = "<group>"; };
 		6F7DFC311F3154D9003DE099 /* InteractionEventTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractionEventTests.swift; sourceTree = "<group>"; };
+		6F89FBA51F4B232B002321CA /* KeychainModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainModule.swift; sourceTree = "<group>"; };
+		6F89FBA71F4B23C7002321CA /* DeviceKeychainModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceKeychainModule.swift; sourceTree = "<group>"; };
+		6F89FBA91F4B2471002321CA /* FakeKeychainModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeKeychainModule.swift; sourceTree = "<group>"; };
 		6F921D7F1F32988800FFE76F /* BaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseTests.swift; path = ../ViewModel/BaseTests.swift; sourceTree = "<group>"; };
 		6F921D811F32997A00FFE76F /* BaseUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseUITests.swift; sourceTree = "<group>"; };
+		6FAD58561F4B3D2C0035A9ED /* AuthModuleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthModuleTests.swift; sourceTree = "<group>"; };
 		6FAD61921F39A3DD003952F1 /* RepertoireViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepertoireViewControllerTests.swift; sourceTree = "<group>"; };
 		6FB150121F33799300A008DC /* OnBoardingViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnBoardingViewModelTests.swift; sourceTree = "<group>"; };
 		6FB150141F33C0E600A008DC /* OnBoardingViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnBoardingViewControllerTests.swift; sourceTree = "<group>"; };
 		6FC9566E1F36F8B700B772D3 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		6FC956701F36FEA100B772D3 /* TheaterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheaterViewController.swift; sourceTree = "<group>"; };
 		6FC956741F370C5E00B772D3 /* TrueThat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TrueThat.entitlements; sourceTree = "<group>"; };
-		6FC9A2AF1F2A076400E4BCF1 /* ReactableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactableTests.swift; sourceTree = "<group>"; };
-		6FC9A2B11F2A126600E4BCF1 /* Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
-		6FCAD6601F39B95000DD04FC /* AffectivaReactionDetectionModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffectivaReactionDetectionModule.swift; sourceTree = "<group>"; };
+		6FC9A2AF1F2A076400E4BCF1 /* ReactableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ReactableTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		6FC9A2B11F2A126600E4BCF1 /* Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Scene.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		6FCAD6601F39B95000DD04FC /* AffectivaReactionDetectionModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AffectivaReactionDetectionModule.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6FD593061F29E50500CC9FA6 /* UserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTests.swift; sourceTree = "<group>"; };
+		6FD5A9A01F48B71600FB16C1 /* DataRequest+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataRequest+Extensions.swift"; sourceTree = "<group>"; };
 		6FDBDA401F36C9E600764F0F /* WelcomeViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewControllerTests.swift; sourceTree = "<group>"; };
 		6FDBDA421F36CB2E00764F0F /* UITestsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITestsHelper.swift; sourceTree = "<group>"; };
 		6FE04F601F331CF500D5BF39 /* OnBoardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
@@ -192,7 +202,7 @@
 		6FE04F6D1F33262900D5BF39 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		6FE04F6F1F332F2700D5BF39 /* StringHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringHelper.swift; sourceTree = "<group>"; };
 		6FE04F711F334F4800D5BF39 /* StringHelperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringHelperTests.swift; sourceTree = "<group>"; };
-		6FEC85D91F27557800DC46B5 /* Dictionary+Entensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Dictionary+Entensions.swift"; path = "../Dictionary+Entensions.swift"; sourceTree = "<group>"; };
+		6FEC85D91F27557800DC46B5 /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Dictionary+Extensions.swift"; path = "../Dictionary+Extensions.swift"; sourceTree = "<group>"; };
 		6FF9C9581F328EEF00C2FC3F /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		7066267C9E881A46D526204D /* Pods-TrueThatUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrueThatUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrueThatUITests/Pods-TrueThatUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		762984DC1DD60CDFAC99C755 /* Pods-TrueThatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrueThatUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrueThatUITests/Pods-TrueThatUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -255,6 +265,7 @@
 		3407B756687EDE643FBC18D4 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6F58F92D1F498362002DD015 /* SwiftyCam */,
 				6FE04F681F3325A900D5BF39 /* Style */,
 				3407B4EB81D58211759AE8B8 /* ReactablesPageViewController.swift */,
 				3407B3251E507F682199DA0A /* ReactableViewController.swift */,
@@ -294,8 +305,9 @@
 				6F7DFC241F3140D4003DE099 /* ReactionDetectionModule.swift */,
 				6F15228A1F37178600BD0DC2 /* DeviceModule.swift */,
 				6F15228C1F3717D400BD0DC2 /* HardwareDeviceModule.swift */,
-				6F15228E1F371C8900BD0DC2 /* DefaultAuthModule.swift */,
 				6FCAD6601F39B95000DD04FC /* AffectivaReactionDetectionModule.swift */,
+				6F89FBA51F4B232B002321CA /* KeychainModule.swift */,
+				6F89FBA71F4B23C7002321CA /* DeviceKeychainModule.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -303,8 +315,7 @@
 		6F1522921F37224900BD0DC2 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				6F1522991F373AC000BD0DC2 /* Fakes */,
-				6F1522931F37225700BD0DC2 /* AuthModuleTests.swift */,
+				6FAD58561F4B3D2C0035A9ED /* AuthModuleTests.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -331,14 +342,6 @@
 				6F05A3821F38B2CD008D595A /* RepertoireApiTests.swift */,
 			);
 			path = Network;
-			sourceTree = "<group>";
-		};
-		6F1522991F373AC000BD0DC2 /* Fakes */ = {
-			isa = PBXGroup;
-			children = (
-				6F15229A1F373ACD00BD0DC2 /* FakeAuthModuleTests.swift */,
-			);
-			path = Fakes;
 			sourceTree = "<group>";
 		};
 		6F21E4E41F1657A1004FFA6F /* TrueThatUITests */ = {
@@ -378,8 +381,9 @@
 		6F3092D71F2DEC3100BD211A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				6FEC85D91F27557800DC46B5 /* Dictionary+Entensions.swift */,
+				6FEC85D91F27557800DC46B5 /* Dictionary+Extensions.swift */,
 				6F79811D1F30830900A055DD /* JSON+Extensions.swift */,
+				6FD5A9A01F48B71600FB16C1 /* DataRequest+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -446,6 +450,17 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		6F58F92D1F498362002DD015 /* SwiftyCam */ = {
+			isa = PBXGroup;
+			children = (
+				6F58F92E1F498376002DD015 /* SwiftyCamViewController.swift */,
+				6F58F9301F4983B3002DD015 /* SwiftyCamViewControllerDelegate.swift */,
+				6F58F9321F498404002DD015 /* SwiftyCamButton.swift */,
+				6F58F9341F498419002DD015 /* PreviewView.swift */,
+			);
+			path = SwiftyCam;
+			sourceTree = "<group>";
+		};
 		6F79810F1F2FCDC700A055DD /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -480,7 +495,7 @@
 			isa = PBXGroup;
 			children = (
 				6F7DFC291F314DE6003DE099 /* FakeReactionDetectionModule.swift */,
-				6F1522901F371C9300BD0DC2 /* FakeAuthModule.swift */,
+				6F89FBA91F4B2471002321CA /* FakeKeychainModule.swift */,
 			);
 			path = Fakes;
 			sourceTree = "<group>";
@@ -831,7 +846,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F21E4E61F1657A1004FFA6F /* TrueThatUITests.swift in Sources */,
-				6FEC85DC1F27557800DC46B5 /* Dictionary+Entensions.swift in Sources */,
+				6FEC85DC1F27557800DC46B5 /* Dictionary+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -839,15 +854,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FAD58541F4B3CC90035A9ED /* FakeReactionDetectionModule.swift in Sources */,
+				6FAD58551F4B3CC90035A9ED /* FakeKeychainModule.swift in Sources */,
 				6F377A031F3776BB007C0945 /* StudioApi.swift in Sources */,
+				6F58F9311F4983B3002DD015 /* SwiftyCamViewControllerDelegate.swift in Sources */,
 				6F6255731F17EA8700F895CE /* ReactablesPageViewModel.swift in Sources */,
 				6FE04F6A1F3325AF00D5BF39 /* Colors.swift in Sources */,
 				6FC9566F1F36F8B700B772D3 /* BaseViewController.swift in Sources */,
 				6F15229D1F37609D00BD0DC2 /* StudioViewModel.swift in Sources */,
 				6F3779F71F377611007C0945 /* AuthApi.swift in Sources */,
+				6F58F92F1F498376002DD015 /* SwiftyCamViewController.swift in Sources */,
 				6F3779F81F377611007C0945 /* InteractionApi.swift in Sources */,
 				6F3779F91F377611007C0945 /* TheaterApi.swift in Sources */,
 				6F7DFC2E1F314EE8003DE099 /* InteractionEvent.swift in Sources */,
+				6F89FBA61F4B232B002321CA /* KeychainModule.swift in Sources */,
 				6FE04F701F332F2700D5BF39 /* StringHelper.swift in Sources */,
 				6F15228B1F37178600BD0DC2 /* DeviceModule.swift in Sources */,
 				3407B46F774FBD5E91084605 /* AppDelegate.swift in Sources */,
@@ -860,10 +880,10 @@
 				6F15228D1F3717D400BD0DC2 /* HardwareDeviceModule.swift in Sources */,
 				6F7DFC301F314EF5003DE099 /* EventType.swift in Sources */,
 				6FF9C9591F328EEF00C2FC3F /* App.swift in Sources */,
+				6FD5A9A11F48B71600FB16C1 /* DataRequest+Extensions.swift in Sources */,
 				6F7981181F2FD99F00A055DD /* NumberHelper.swift in Sources */,
 				6F7DFC211F30A7B7003DE099 /* Tags.swift in Sources */,
 				6F79811E1F30830900A055DD /* JSON+Extensions.swift in Sources */,
-				6F15228F1F371C8900BD0DC2 /* DefaultAuthModule.swift in Sources */,
 				6FE04F651F3322D000D5BF39 /* WelcomeViewController.swift in Sources */,
 				3407BEFBE7E749559ECAA941 /* ReactablesPageViewController.swift in Sources */,
 				6F7981201F30848B00A055DD /* SceneViewModel.swift in Sources */,
@@ -872,18 +892,19 @@
 				6FC956711F36FEA100B772D3 /* TheaterViewController.swift in Sources */,
 				3407B8BA11DD82F89A064BB1 /* Reactable.swift in Sources */,
 				6FE04F6E1F33262900D5BF39 /* UIColor+Extensions.swift in Sources */,
-				6FEC85DA1F27557800DC46B5 /* Dictionary+Entensions.swift in Sources */,
+				6FEC85DA1F27557800DC46B5 /* Dictionary+Extensions.swift in Sources */,
 				3407B4090A32C56AD109751A /* Emotion.swift in Sources */,
 				6F7DFC251F3140D4003DE099 /* ReactionDetectionModule.swift in Sources */,
-				6F7DFC2A1F314DE6003DE099 /* FakeReactionDetectionModule.swift in Sources */,
 				6FE04F631F331DA500D5BF39 /* OnBoardingViewModel.swift in Sources */,
 				6F05A37F1F38B048008D595A /* RepertoireViewController.swift in Sources */,
 				6FCAD6611F39B95000DD04FC /* AffectivaReactionDetectionModule.swift in Sources */,
-				6F1522911F371C9300BD0DC2 /* FakeAuthModule.swift in Sources */,
 				3407B4C86DDB864914D0FB4D /* User.swift in Sources */,
+				6F58F9351F498419002DD015 /* PreviewView.swift in Sources */,
 				3407B32EDEB4EF28BF7C5961 /* ReactableViewModel.swift in Sources */,
+				6F58F9331F498404002DD015 /* SwiftyCamButton.swift in Sources */,
 				6F7DFC231F3121CA003DE099 /* SceneMediaViewController.swift in Sources */,
 				3407B037FF8CD50C59BFDF62 /* ReactableViewController.swift in Sources */,
+				6F89FBA81F4B23C7002321CA /* DeviceKeychainModule.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -898,6 +919,7 @@
 				6FD593071F29E50500CC9FA6 /* UserTests.swift in Sources */,
 				6F7981161F2FD29100A055DD /* DateHelperTests.swift in Sources */,
 				6F921D821F32997A00FFE76F /* BaseUITests.swift in Sources */,
+				6FAD58571F4B3D2C0035A9ED /* AuthModuleTests.swift in Sources */,
 				6FE04F721F334F4800D5BF39 /* StringHelperTests.swift in Sources */,
 				6F921D801F32988800FFE76F /* BaseTests.swift in Sources */,
 				6FAD61931F39A3DD003952F1 /* RepertoireViewControllerTests.swift in Sources */,
@@ -908,14 +930,12 @@
 				6F3092D11F2DE91F00BD211A /* KIF+Extensions.swift in Sources */,
 				6F377A051F382F14007C0945 /* StudioViewModelTests.swift in Sources */,
 				6FC9A2B01F2A076400E4BCF1 /* ReactableTests.swift in Sources */,
-				6FEC85DB1F27557800DC46B5 /* Dictionary+Entensions.swift in Sources */,
+				6FEC85DB1F27557800DC46B5 /* Dictionary+Extensions.swift in Sources */,
 				6FDBDA411F36C9E600764F0F /* WelcomeViewControllerTests.swift in Sources */,
 				6F05A3831F38B2CD008D595A /* RepertoireApiTests.swift in Sources */,
 				6F79811A1F2FDC2D00A055DD /* NumberHelperTests.swift in Sources */,
 				6FB150131F33799300A008DC /* OnBoardingViewModelTests.swift in Sources */,
 				6F3092D61F2DEA9100BD211A /* ReactablesPageViewControllerTests.swift in Sources */,
-				6F15229B1F373ACD00BD0DC2 /* FakeAuthModuleTests.swift in Sources */,
-				6F1522941F37225700BD0DC2 /* AuthModuleTests.swift in Sources */,
 				6F7DFC321F3154D9003DE099 /* InteractionEventTests.swift in Sources */,
 				6F79811C1F2FE8FC00A055DD /* ReactableViewModelTests.swift in Sources */,
 				6FB150151F33C0E600A008DC /* OnBoardingViewControllerTests.swift in Sources */,
@@ -1029,6 +1049,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "TrueThat DEV";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1084,12 +1105,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7C529EE61E4EDE5C6839B6F2 /* Pods-TrueThat.debug.xcconfig */;
 			buildSettings = {
-				API_BASE_URL_ENDPOINT = "http://169.254.212.208:8080";
+				API_BASE_URL_ENDPOINT = "http://10.0.0.27:8080";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TrueThat/TrueThat.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 9U6QZAC8R3;
+				DISPLAY_NAME = "$(PRODUCT_NAME) DEBUG";
 				INFOPLIST_FILE = TrueThat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.truethat.appstore;
@@ -1109,6 +1131,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 9U6QZAC8R3;
+				DISPLAY_NAME = "$(PRODUCT_NAME)";
 				INFOPLIST_FILE = TrueThat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.truethat.appstore;

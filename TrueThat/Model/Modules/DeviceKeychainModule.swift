@@ -12,16 +12,16 @@ import KeychainAccess
 class DeviceKeychainModule: KeychainModule {
   let keychain = Keychain()
   
-  override func get(for key: String) -> Data? {
+  override func get(_ key: String) -> Data? {
     let data = try? keychain.getData(key)
     return data!
   }
   
-  override func save(data: Data, for key: String) throws {
+  override func save(_ data: Data, key: String) throws {
     try keychain.set(data, key: key)
   }
   
-  override func delete(from key: String) throws {
+  override func delete(_ key: String) throws {
     try keychain.remove(key)
   }
 }
