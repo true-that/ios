@@ -65,11 +65,11 @@ class TheaterViewControllerTests : BaseUITests {
   
   func testNavigationWhenReactableDisplayed() {
     let reactable = Pose(id: 1, userReaction: .sad,
-                          director: User(id: 1, firstName: "The", lastName: "Flinstons",
-                                         deviceId: "stonePhone"),
-                          reactionCounters: [.sad: 1000, .happy: 1234], created: Date(),
-                          viewed: false,
-                          imageSignedUrl: "https://www.bbcgoodfood.com/sites/default/files/styles/carousel_medium/public/chicken-main_0.jpg")
+                         director: User(id: 1, firstName: "The", lastName: "Flinstons",
+                                        deviceId: "stonePhone"),
+                         reactionCounters: [.sad: 1000, .happy: 1234], created: Date(),
+                         viewed: false,
+                         imageSignedUrl: "https://www.bbcgoodfood.com/sites/default/files/styles/carousel_medium/public/chicken-main_0.jpg")
     fetchedReactables = [reactable]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
