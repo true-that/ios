@@ -62,7 +62,7 @@
 		6F79811E1F30830900A055DD /* JSON+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F79811D1F30830900A055DD /* JSON+Extensions.swift */; };
 		6F7981201F30848B00A055DD /* SceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F79811F1F30848B00A055DD /* SceneViewModel.swift */; };
 		6F7DFC211F30A7B7003DE099 /* Tags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC201F30A7B7003DE099 /* Tags.swift */; };
-		6F7DFC231F3121CA003DE099 /* SceneMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC221F3121CA003DE099 /* SceneMediaViewController.swift */; };
+		6F7DFC231F3121CA003DE099 /* PoseMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC221F3121CA003DE099 /* PoseMediaViewController.swift */; };
 		6F7DFC251F3140D4003DE099 /* ReactionDetectionModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC241F3140D4003DE099 /* ReactionDetectionModule.swift */; };
 		6F7DFC2E1F314EE8003DE099 /* InteractionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC2D1F314EE8003DE099 /* InteractionEvent.swift */; };
 		6F7DFC301F314EF5003DE099 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC2F1F314EF5003DE099 /* EventType.swift */; };
@@ -80,7 +80,7 @@
 		6FC9566F1F36F8B700B772D3 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC9566E1F36F8B700B772D3 /* BaseViewController.swift */; };
 		6FC956711F36FEA100B772D3 /* TheaterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC956701F36FEA100B772D3 /* TheaterViewController.swift */; };
 		6FC9A2B01F2A076400E4BCF1 /* ReactableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC9A2AF1F2A076400E4BCF1 /* ReactableTests.swift */; };
-		6FC9A2B21F2A126600E4BCF1 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC9A2B11F2A126600E4BCF1 /* Scene.swift */; };
+		6FC9A2B21F2A126600E4BCF1 /* Pose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC9A2B11F2A126600E4BCF1 /* Pose.swift */; };
 		6FCAD6611F39B95000DD04FC /* AffectivaReactionDetectionModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FCAD6601F39B95000DD04FC /* AffectivaReactionDetectionModule.swift */; };
 		6FD593071F29E50500CC9FA6 /* UserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD593061F29E50500CC9FA6 /* UserTests.swift */; };
 		6FD5A9A11F48B71600FB16C1 /* DataRequest+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD5A9A01F48B71600FB16C1 /* DataRequest+Extensions.swift */; };
@@ -180,7 +180,7 @@
 		6F79811D1F30830900A055DD /* JSON+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JSON+Extensions.swift"; sourceTree = "<group>"; };
 		6F79811F1F30848B00A055DD /* SceneViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SceneViewModel.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6F7DFC201F30A7B7003DE099 /* Tags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tags.swift; sourceTree = "<group>"; };
-		6F7DFC221F3121CA003DE099 /* SceneMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SceneMediaViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		6F7DFC221F3121CA003DE099 /* PoseMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PoseMediaViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6F7DFC241F3140D4003DE099 /* ReactionDetectionModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionDetectionModule.swift; sourceTree = "<group>"; };
 		6F7DFC291F314DE6003DE099 /* FakeReactionDetectionModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeReactionDetectionModule.swift; sourceTree = "<group>"; };
 		6F7DFC2D1F314EE8003DE099 /* InteractionEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractionEvent.swift; sourceTree = "<group>"; };
@@ -199,7 +199,7 @@
 		6FC956701F36FEA100B772D3 /* TheaterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TheaterViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6FC956741F370C5E00B772D3 /* TrueThat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TrueThat.entitlements; sourceTree = "<group>"; };
 		6FC9A2AF1F2A076400E4BCF1 /* ReactableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ReactableTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		6FC9A2B11F2A126600E4BCF1 /* Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Scene.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		6FC9A2B11F2A126600E4BCF1 /* Pose.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Pose.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6FCAD6601F39B95000DD04FC /* AffectivaReactionDetectionModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AffectivaReactionDetectionModule.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6FD593061F29E50500CC9FA6 /* UserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTests.swift; sourceTree = "<group>"; };
 		6FD5A9A01F48B71600FB16C1 /* DataRequest+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataRequest+Extensions.swift"; sourceTree = "<group>"; };
@@ -283,7 +283,7 @@
 				3407B4EB81D58211759AE8B8 /* ReactablesPageViewController.swift */,
 				3407B3251E507F682199DA0A /* ReactableViewController.swift */,
 				6F7DFC201F30A7B7003DE099 /* Tags.swift */,
-				6F7DFC221F3121CA003DE099 /* SceneMediaViewController.swift */,
+				6F7DFC221F3121CA003DE099 /* PoseMediaViewController.swift */,
 				6FE04F601F331CF500D5BF39 /* OnBoardingViewController.swift */,
 				6FE04F641F3322D000D5BF39 /* WelcomeViewController.swift */,
 				6FC9566E1F36F8B700B772D3 /* BaseViewController.swift */,
@@ -303,7 +303,7 @@
 				3407B61AD1CDCD949A8DD2C4 /* Reactable.swift */,
 				3407B8878DA565AC0763810A /* Emotion.swift */,
 				3407B84B128FC0E2A1186B30 /* User.swift */,
-				6FC9A2B11F2A126600E4BCF1 /* Scene.swift */,
+				6FC9A2B11F2A126600E4BCF1 /* Pose.swift */,
 				6F4AC8C41F2A2593005C7C67 /* BaseModel.swift */,
 				6F7DFC2D1F314EE8003DE099 /* InteractionEvent.swift */,
 				6F7DFC2F1F314EF5003DE099 /* EventType.swift */,
@@ -903,7 +903,7 @@
 				6F4AC8C51F2A2593005C7C67 /* BaseModel.swift in Sources */,
 				6F0DAC851F293FAD00A3389D /* AuthModule.swift in Sources */,
 				6F4AC8C71F2AA56E005C7C67 /* BaseError.swift in Sources */,
-				6FC9A2B21F2A126600E4BCF1 /* Scene.swift in Sources */,
+				6FC9A2B21F2A126600E4BCF1 /* Pose.swift in Sources */,
 				6F377A071F3839CD007C0945 /* StudioViewController.swift in Sources */,
 				6F05A3811F38B26C008D595A /* RepertoireApi.swift in Sources */,
 				6F15228D1F3717D400BD0DC2 /* HardwareDeviceModule.swift in Sources */,
@@ -933,7 +933,7 @@
 				6F58F9351F498419002DD015 /* PreviewView.swift in Sources */,
 				3407B32EDEB4EF28BF7C5961 /* ReactableViewModel.swift in Sources */,
 				6F58F9331F498404002DD015 /* SwiftyCamButton.swift in Sources */,
-				6F7DFC231F3121CA003DE099 /* SceneMediaViewController.swift in Sources */,
+				6F7DFC231F3121CA003DE099 /* PoseMediaViewController.swift in Sources */,
 				3407B037FF8CD50C59BFDF62 /* ReactableViewController.swift in Sources */,
 				6F89FBA81F4B23C7002321CA /* DeviceKeychainModule.swift in Sources */,
 			);

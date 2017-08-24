@@ -64,7 +64,7 @@ class TheaterViewControllerTests : BaseUITests {
   }
   
   func testNavigationWhenReactableDisplayed() {
-    let reactable = Scene(id: 1, userReaction: .sad,
+    let reactable = Pose(id: 1, userReaction: .sad,
                           director: User(id: 1, firstName: "The", lastName: "Flinstons",
                                          deviceId: "stonePhone"),
                           reactionCounters: [.sad: 1000, .happy: 1234], created: Date(),

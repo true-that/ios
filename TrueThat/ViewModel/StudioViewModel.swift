@@ -39,7 +39,7 @@ class StudioViewModel {
   ///
   /// - Parameter imageData: of the fresh out of the oven image
   public func didCapture(imageData: Data) {
-    directed = Scene(id: nil, userReaction: nil, director: App.authModule.current!,
+    directed = Pose(id: nil, userReaction: nil, director: App.authModule.current!,
                      reactionCounters: nil, created: Date(), viewed: nil, imageData: imageData)
     willApprove()
   }

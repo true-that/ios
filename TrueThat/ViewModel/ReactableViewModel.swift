@@ -60,8 +60,8 @@ class ReactableViewModel {
   /// - Returns: the proper view model based on `reactable` type.
   static func instantiate(with reactable: Reactable) -> ReactableViewModel {
     switch reactable {
-    case is Scene:
-      return SceneViewModel(with: reactable)
+    case is Pose:
+      return PoseViewModel(with: reactable)
     default:
       return ReactableViewModel(with: reactable)
     }

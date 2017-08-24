@@ -54,8 +54,8 @@ class Reactable: BaseModel {
     switch json["type"].stringValue {
     case String(describing: Reactable.self):
       return Reactable(json: json)
-    case String(describing: Scene.self):
-      return Scene(json: json)
+    case String(describing: Pose.self):
+      return Pose(json: json)
     default:
       App.log.warning("Failed to deserialize Reactable. Missing type (=\(json["type"].stringValue))?")
       return nil

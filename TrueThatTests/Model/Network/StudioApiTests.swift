@@ -14,7 +14,7 @@ import SwiftyJSON
 import Nimble
 
 class StudioApiTests: XCTestCase {
-  var responded = Scene(id: 1, userReaction: .happy,
+  var responded = Pose(id: 1, userReaction: .happy,
                         director: User(id: 1, firstName: "bon", lastName: "apetit",
                                        deviceId: "say-waat"),
                         reactionCounters: [.happy: 1], created: Date(), viewed: true,
@@ -30,7 +30,7 @@ class StudioApiTests: XCTestCase {
   }
   
   func testSuccessfulSave() {
-    let toSave = Scene(id: 1, userReaction: .happy,
+    let toSave = Pose(id: 1, userReaction: .happy,
                        director: User(id: 1, firstName: "bon", lastName: "apetit",
                                       deviceId: "say-waat"),
                        reactionCounters: [.happy: 1], created: Date(), viewed: true,

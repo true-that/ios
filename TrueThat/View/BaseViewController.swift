@@ -8,7 +8,7 @@
 
 import UIKit
 
-/// Base view controller class for encapsulating scenes (such as OnBoarding or Theater)
+/// Base view controller class for encapsulating poses (such as OnBoarding or Theater)
 class BaseViewController: UIViewController {
   var doAuth = true
   var logTag = "BaseViewController"

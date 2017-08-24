@@ -1,5 +1,5 @@
 //
-//  SceneViewModel.swift
+//  PoseViewModel.swift
 //  TrueThat
 //
 //  Created by Ohad Navon on 01/08/2017.
@@ -10,31 +10,31 @@ import Foundation
 import ReactiveSwift
 import Result
 
-class SceneViewModel: ReactableViewModel {
+class PoseViewModel: ReactableViewModel {
   // MARK: Properties
   public var imageSignedUrl: String?
-  private var scene: Scene {
-    return model as! Scene
+  private var pose: Pose {
+    return model as! Pose
   }
-  var mediaDelegate: SceneMediaDelegate {
-    return delegate as! SceneMediaDelegate
+  var mediaDelegate: PoseMediaDelegate {
+    return delegate as! PoseMediaDelegate
   }
   
   // MARK: Initialization
   override init(with reactable: Reactable) {
     super.init(with: reactable)
-    imageSignedUrl = scene.imageSignedUrl
+    imageSignedUrl = pose.imageSignedUrl
   }
   
   // MARK: Lifecycle
   override func didLoad() {
     super.didLoad()
-    mediaDelegate.loadSceneImage()
+    mediaDelegate.loadPoseImage()
   }
 }
 
-protocol SceneMediaDelegate {
+protocol PoseMediaDelegate {
   
   /// Notifies the view controller to load an image from `imageSignedUrl`.
-  func loadSceneImage()
+  func loadPoseImage()
 }

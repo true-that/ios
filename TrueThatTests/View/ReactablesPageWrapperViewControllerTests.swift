@@ -46,9 +46,9 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
     expect(self.viewController.reactablesPage.currentViewController?.viewModel?.model.id).toEventually(equal(reactable.id))
     expect(self.viewController.reactablesPage.currentViewController?.viewModel?.model.viewed).toEventually(beTrue(), timeout: 10.0)
     switch reactable {
-    case is Scene:
+    case is Pose:
       expect(self.viewController.reactablesPage.currentViewController!.viewModel)
-        .to(beAnInstanceOf(SceneViewModel.self))
+        .to(beAnInstanceOf(PoseViewModel.self))
     default:
       expect(self.viewController.reactablesPage.currentViewController!.viewModel)
         .to(beAnInstanceOf(ReactableViewModel.self))
@@ -98,12 +98,12 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
                                director: User(id: 1, firstName: "Breaking", lastName: "Bad", deviceId: "iphone"),
                                reactionCounters: [.sad: 1000, .happy: 1234],
                                created: Date(), viewed: false)
-    let scene = Scene(id: 2, userReaction: .happy,
+    let pose = Pose(id: 2, userReaction: .happy,
                       director: User(id: 1, firstName: "Emma", lastName: "Watson", deviceId: "iphone2"),
                       reactionCounters: [.happy: 5000, .sad: 34], created: Date(),
                       viewed: false,
-                      imageSignedUrl: "https://storage.googleapis.com/truethat-test-studio/scene/images/test/happy-selfie.jpg")
-    fetchedReactables = [reactable, scene]
+                      imageSignedUrl: "https://storage.googleapis.com/truethat-test-studio/pose/images/test/happy-selfie.jpg")
+    fetchedReactables = [reactable, pose]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
     viewController.didAuthOk()
@@ -111,7 +111,7 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
     assertDisplayed(reactable: reactable)
     // Navigate to next reactable
     tester().swipeView(withAccessibilityLabel: "ReactableView", in: .right)
-    assertDisplayed(reactable: scene)
+    assertDisplayed(reactable: pose)
   }
   
   func testReactablesNavigation() {

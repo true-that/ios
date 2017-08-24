@@ -59,13 +59,13 @@ class TheaterApiTests: XCTestCase {
                             director: User(id: 1, firstName: "copa", lastName: "cabana", deviceId: "android"),
                             reactionCounters: [.sad: 1000, .happy: 1234],
                             created: Date(), viewed: false),
-                  Scene(id: 2, userReaction: .happy,
+                  Pose(id: 2, userReaction: .happy,
                             director: User(id: 1, firstName: "barry", lastName: "manilow", deviceId: "android"),
                             reactionCounters: [.sad: 2000, .happy: 100234],
                             created: Date(), viewed: true, imageSignedUrl: "http://truethat-ipo.jpg")]
     fetch()
     expect(self.actual).toEventually(equal(reactables))
-    expect(self.actual![1]).toEventually(beAnInstanceOf(Scene.self))
+    expect(self.actual![1]).toEventually(beAnInstanceOf(Pose.self))
   }
   
   func testEmptyFetch() {

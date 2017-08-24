@@ -9,5 +9,5 @@
 import Foundation
 
 enum ViewTag: Int {
-  case sceneImage = 1
+  case poseImage = 1
 }

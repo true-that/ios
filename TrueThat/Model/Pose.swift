@@ -1,5 +1,5 @@
 //
-//  Scene.swift
+//  Pose.swift
 //  TrueThat
 //
 //  Created by Ohad Navon on 27/07/2017.
@@ -9,14 +9,14 @@
 import SwiftyJSON
 import Alamofire
 
-/// [backend]: https://github.com/true-that/backend/blob/master/src/main/java/com/truethat/backend/model/Scene.java
-class Scene: Reactable {
-  /// Scene image part name when uploading a directed reactable
-  static let sceneImagePart = "scene_image"
+/// [backend]: https://github.com/true-that/backend/blob/master/src/main/java/com/truethat/backend/model/Pose.java
+class Pose: Reactable {
+  /// Pose image part name when uploading a directed reactable
+  static let poseImagePart = "pose_image"
   /// As stored in our backend.
   var imageSignedUrl: String?
   
-  /// Data of scene image that is to be saved on our backend (normally this field is populated only via studio scene).
+  /// Data of pose image that is to be saved on our backend (normally this field is populated only via studio pose).
   var imageData: Data?
   
   init(id: Int64?, userReaction: Emotion?, director: User?, reactionCounters: [Emotion: Int64]?,
@@ -47,7 +47,7 @@ class Scene: Reactable {
   override func appendTo(multipartFormData: MultipartFormData) {
     super.appendTo(multipartFormData: multipartFormData)
     if imageData != nil {
-      multipartFormData.append(imageData!, withName: Scene.sceneImagePart, mimeType: "image/jpg")
+      multipartFormData.append(imageData!, withName: Pose.poseImagePart, mimeType: "image/jpg")
     }
   }
 }

@@ -58,10 +58,10 @@ class ReactableViewController: UIViewController {
   }
 }
 
-// MARK: SceneMediaDelegate
-extension ReactableViewController: SceneMediaDelegate {
-  func loadSceneImage() {
-    let mediaViewController = SceneMediaViewController.instantiate(with: viewModel.model as! Scene)
+// MARK: PoseMediaDelegate
+extension ReactableViewController: PoseMediaDelegate {
+  func loadPoseImage() {
+    let mediaViewController = PoseMediaViewController.instantiate(with: viewModel.model as! Pose)
     self.addChildViewController(mediaViewController)
     self.view.addSubview(mediaViewController.view)
     mediaViewController.view.frame = self.view.bounds
@@ -73,8 +73,8 @@ extension ReactableViewController: SceneMediaDelegate {
   }
 }
 
-// MARK: SceneMediaViewControllerDelegate
-extension ReactableViewController: SceneMediaViewControllerDelegate {
+// MARK: PoseMediaViewControllerDelegate
+extension ReactableViewController: PoseMediaViewControllerDelegate {
   func didDownloadMedia() {
     viewModel.didDisplay()
   }
