@@ -22,20 +22,20 @@ class BaseViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     App.log.verbose("\(logTag): viewWillAppear")
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    App.log.verbose("\(logTag): viewDidAppear")
     App.authModule.delegate = self
     if doAuth {
       App.authModule.auth()
     }
   }
   
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    App.log.verbose("\(logTag): viewDidAppear")
-  }
-  
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    App.log.verbose("\(logTag): viewWillAppear")
+    App.log.verbose("\(logTag): viewWillDisappear")
   }
   
   override func viewDidDisappear(_ animated: Bool) {

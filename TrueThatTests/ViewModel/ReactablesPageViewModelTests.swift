@@ -30,6 +30,7 @@ class ReactablesPageViewModelTests: BaseTests {
     viewModel = ReactablesPageViewModel()
     viewModelDelegate = FakeReactablesPageDelegate()
     viewModel.delegate = viewModelDelegate
+    viewModel.fetchingDelegate = TestsFetchReactablesDelegate()
   }
   
   override func tearDown() {
@@ -49,6 +50,7 @@ class ReactablesPageViewModelTests: BaseTests {
     expect(self.viewModelDelegate.currentIndex).to(equal(0))
     expect(self.viewModelDelegate.lastUpdate).to(haveCount(1))
     expect(self.viewModelDelegate.lastUpdate?[0]).to(equal(reactable))
+    expect(self.viewModel.nonFoundHidden.value).to(beTrue())
   }
   
   func testEmptyFetch() {
@@ -56,6 +58,7 @@ class ReactablesPageViewModelTests: BaseTests {
     viewModel.fetchingData()
     expect(self.viewModel.reactables).toNotEventually(haveCount(1))
     expect(self.viewModelDelegate.currentIndex == nil).toNotEventually(beFalse())
+    expect(self.viewModel.nonFoundHidden.value).toEventually(beFalse())
   }
   
   func testNavigateNext() {
@@ -146,7 +149,9 @@ class ReactablesPageViewModelTests: BaseTests {
     func updatingData(with newReactables: [Reactable]) {
       lastUpdate = newReactables
     }
-    
+  }
+  
+  class TestsFetchReactablesDelegate: FetchReactablesDelegate {
     @discardableResult func fetchingProducer() -> SignalProducer<[Reactable], NSError> {
       return TheaterApi.fetchReactables(for: App.authModule.current!)
     }

@@ -35,8 +35,8 @@ class RepertoireViewControllerTests : BaseUITests {
   }
   
   func assertDisplayed(reactable: Reactable) {
-    expect(self.viewController.reactablesPage.currentViewController?.viewModel?.model.id).toEventually(equal(reactable.id))
-    expect(self.viewController.reactablesPage.currentViewController?.viewModel?.model.viewed).toEventually(beTrue())
+    expect(self.viewController.reactablesPageWrapper.reactablesPage.currentViewController?.viewModel?.model.id).toEventually(equal(reactable.id))
+    expect(self.viewController.reactablesPageWrapper.reactablesPage.currentViewController?.viewModel?.model.viewed).toEventually(beTrue())
   }
   
   func testDisplayReactable() {

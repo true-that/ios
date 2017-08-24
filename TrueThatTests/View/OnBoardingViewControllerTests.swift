@@ -16,19 +16,7 @@ class OnBoardingViewControllerTests : BaseUITests {
   let fullName = "Swa la lala"
   var viewController: OnBoardingViewController!
   
-  override func setUp() {
-    super.setUp()
-    
-    let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-    viewController = storyboard.instantiateViewController(withIdentifier: "OnBoardingScene") as! OnBoardingViewController
-    
-    UIApplication.shared.keyWindow!.rootViewController = viewController
-    
-    // Test and load the View
-    expect(self.viewController.view).toNot(beNil())
-  }
-  
-  func testSuccessfulOnBoarding() {
+  func testOnBoardingFlow() {
     let user = User(id: 1, firstName: "swa", lastName: "la lala",
                     deviceId: App.deviceModule.deviceId)
     // Sets up stub backend response
@@ -43,6 +31,7 @@ class OnBoardingViewControllerTests : BaseUITests {
     tester().tapView(withAccessibilityLabel: "sign up")
     expect(UITestsHelper.currentViewController!)
       .toEventually(beAnInstanceOf(OnBoardingViewController.self))
+    viewController = UITestsHelper.currentViewController as! OnBoardingViewController
     expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(OnBoardingViewController.self))
     viewController = UITestsHelper.currentViewController as! OnBoardingViewController
     // Should focus text field

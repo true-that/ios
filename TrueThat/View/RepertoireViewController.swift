@@ -13,17 +13,17 @@ import SwiftyBeaver
 
 class RepertoireViewController: BaseViewController {
   // MARK: Properties
-  var reactablesPage: ReactablesPageViewController!
+  var reactablesPageWrapper: ReactablesPageWrapperViewController!
   
   // MARK: Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
     
     // Loads reactables container
-    reactablesPage = ReactablesPageViewController.instantiate(doDetection: true)
-    reactablesPage.fetchingDelegate = self
-    self.addChildViewController(reactablesPage)
-    self.view.addSubview(reactablesPage.view)
+    reactablesPageWrapper = ReactablesPageWrapperViewController.instantiate(doDetection: true)
+    self.addChildViewController(reactablesPageWrapper)
+    self.view.addSubview(reactablesPageWrapper.view)
+    reactablesPageWrapper.viewModel.fetchingDelegate = self
     
     // Navigation swipe gesture
     let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.navigateToStudio))
@@ -33,7 +33,7 @@ class RepertoireViewController: BaseViewController {
   
   override func didAuthOk() {
     super.didAuthOk()
-    reactablesPage.didAuthOk()
+    reactablesPageWrapper.didAuthOk()
   }
   
   // MARK: View Controller Navigation

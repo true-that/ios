@@ -12,16 +12,17 @@ import ReactiveCocoa
 import SwiftyBeaver
 
 class TheaterViewController: BaseViewController {
-  var reactablesPage: ReactablesPageViewController!
+
+  var reactablesPageWrapper: ReactablesPageWrapperViewController!
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
     // Loads reactables container
-    reactablesPage = ReactablesPageViewController.instantiate(doDetection: true)
-    reactablesPage.fetchingDelegate = self
-    self.addChildViewController(reactablesPage)
-    self.view.addSubview(reactablesPage.view)
+    reactablesPageWrapper = ReactablesPageWrapperViewController.instantiate(doDetection: true)
+    self.addChildViewController(reactablesPageWrapper)
+    self.view.addSubview(reactablesPageWrapper.view)
+    reactablesPageWrapper.viewModel.fetchingDelegate = self
     
     // Navigation swipe gesture
     let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.navigateToStudio))
@@ -31,7 +32,7 @@ class TheaterViewController: BaseViewController {
   
   override func didAuthOk() {
     super.didAuthOk()
-    reactablesPage.didAuthOk()
+    reactablesPageWrapper.didAuthOk()
   }
   
   // MARK: View Controller Navigation

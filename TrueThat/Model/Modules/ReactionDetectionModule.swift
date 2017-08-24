@@ -16,13 +16,13 @@ class ReactionDetectionModule {
   
   /// Starts detecting facial reactions
   func start() {
-    
+    App.log.verbose("starting reaction detection...")
   }
   
   
   /// Stops detecting reactions, and freeing used resources.
   func stop() {
-    
+    App.log.verbose("stopping reaction detection...")
   }
 }
 

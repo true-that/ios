@@ -10,8 +10,10 @@ import Foundation
 import ReactiveSwift
 
 class ReactablesPageViewModel {
+  let nonFoundHidden = MutableProperty(true)
   var reactables = [Reactable]()
   var delegate: ReactablesPageDelegate!
+  var fetchingDelegate: FetchReactablesDelegate!
   var currentIndex = 0
   
   /// Updates `currentIndex` to previous reactable, if not already at the first one.
@@ -46,7 +48,7 @@ class ReactablesPageViewModel {
   
   /// Fetch new reactables from our backend.
   public func fetchingData() {
-    delegate.fetchingProducer()
+    fetchingDelegate.fetchingProducer()
       .on(value: { self.adding($0) })
       .on(failed: {error in
         App.log.error("Failed fetch request: \(error)")
@@ -58,7 +60,7 @@ class ReactablesPageViewModel {
   ///
   /// - Parameter newReactables: freshly baked reactables, obvuala!
   private func adding(_ newReactables: [Reactable]) {
-    if (newReactables.count > 0) {
+    if newReactables.count > 0 {
       let shouldScroll = reactables.count > 0
       currentIndex = reactables.count
       reactables += newReactables
@@ -68,6 +70,8 @@ class ReactablesPageViewModel {
       } else {
         delegate.display(at: currentIndex)
       }
+    } else if reactables.count == 0 {
+      nonFoundHidden.value = false
     }
   }
 }
@@ -89,7 +93,9 @@ protocol ReactablesPageDelegate {
   ///
   /// - Parameter newReactables: new data models to create view controllers from.
   func updatingData(with newReactables: [Reactable])
-  
+}
+
+protocol FetchReactablesDelegate {
   /// - Returns: a signal producer to fetch reactables from our backend.
   @discardableResult func fetchingProducer() -> SignalProducer<[Reactable], NSError>
 }

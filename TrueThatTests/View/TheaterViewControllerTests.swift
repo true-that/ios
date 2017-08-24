@@ -26,7 +26,8 @@ class TheaterViewControllerTests : BaseUITests {
                                  headers: ["Content-Type":"application/json"])
     }
     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-    viewController = storyboard.instantiateViewController(withIdentifier: "TheaterScene") as! TheaterViewController
+    viewController = storyboard.instantiateViewController(withIdentifier: "TheaterScene")
+      as! TheaterViewController
     
     UIApplication.shared.keyWindow!.rootViewController = viewController
     
@@ -35,18 +36,21 @@ class TheaterViewControllerTests : BaseUITests {
   }
   
   func assertDisplayed(reactable: Reactable) {
-    expect(self.viewController.reactablesPage.currentViewController?.viewModel?.model).toEventually(equal(reactable))
+    expect(self.viewController.reactablesPageWrapper.reactablesPage.currentViewController?
+      .viewModel?.model).toEventually(equal(reactable))
   }
   
   func testDisplayReactable() {
     let reactable = Reactable(id: 1, userReaction: .sad,
-                              director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
+                              director: User(id: 1, firstName: "The", lastName: "Flinstons",
+                                             deviceId: "stonePhone"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
                               created: Date(), viewed: false)
     fetchedReactables = [reactable]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
     viewController.didAuthOk()
+    reactable.viewed = true
     assertDisplayed(reactable: reactable)
   }
 
@@ -55,20 +59,25 @@ class TheaterViewControllerTests : BaseUITests {
     viewController.beginAppearanceTransition(true, animated: false)
     // Swipe up
     tester().swipeView(withAccessibilityLabel: "theater view", in: .up)
-    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(StudioViewController.self))
+    expect(UITestsHelper.currentViewController)
+      .toEventually(beAnInstanceOf(StudioViewController.self))
   }
   
   func testNavigationWhenReactableDisplayed() {
-    let reactable = Reactable(id: 1, userReaction: .sad,
-                              director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
-                              reactionCounters: [.sad: 1000, .happy: 1234],
-                              created: Date(), viewed: false)
+    let reactable = Scene(id: 1, userReaction: .sad,
+                          director: User(id: 1, firstName: "The", lastName: "Flinstons",
+                                         deviceId: "stonePhone"),
+                          reactionCounters: [.sad: 1000, .happy: 1234], created: Date(),
+                          viewed: false,
+                          imageSignedUrl: "https://www.bbcgoodfood.com/sites/default/files/styles/carousel_medium/public/chicken-main_0.jpg")
     fetchedReactables = [reactable]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
+    reactable.viewed = true
     assertDisplayed(reactable: reactable)
     // Swipe up
     tester().swipeView(withAccessibilityLabel: "ReactableView", in: .up)
-    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(StudioViewController.self))
+    expect(UITestsHelper.currentViewController)
+      .toEventually(beAnInstanceOf(StudioViewController.self))
   }
 }

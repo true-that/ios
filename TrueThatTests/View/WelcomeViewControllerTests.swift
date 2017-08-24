@@ -17,10 +17,19 @@ class WelcomeViewControllerTests : BaseUITests {
   
   override func setUp() {
     super.setUp()
+    if UITestsHelper.currentViewController != nil
+      && type(of: UITestsHelper.currentViewController!) != WelcomeViewController.self {
+      // Wait for app to load
+      expect(UITestsHelper.currentViewController!)
+        .toEventually(beAnInstanceOf(TheaterViewController.self))
+      expect(UITestsHelper.currentViewController!.view).toEventuallyNot(beNil())
+    }
+    // Sign out
     App.authModule.signOut()
     expect(UITestsHelper.currentViewController!)
       .toEventually(beAnInstanceOf(WelcomeViewController.self))
     viewController = UITestsHelper.currentViewController as! WelcomeViewController
+    expect(App.authModule.delegate).toEventually(beIdenticalTo(self.viewController))
   }
   
   func testStartSignUp() {
@@ -40,7 +49,8 @@ class WelcomeViewControllerTests : BaseUITests {
   
   func testSignIn() {
     // Signs up a user
-    let responded = User(id: 1, firstName: "dellores", lastName: "hidyhoe", deviceId: App.deviceModule.deviceId)
+    let responded = User(id: 1, firstName: "dellores", lastName: "hidyhoe",
+                         deviceId: App.deviceModule.deviceId)
     stub(condition: isPath(AuthApi.path)) {request -> OHHTTPStubsResponse in
       let stubData = try! JSON(responded.toDictionary()).rawData()
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
@@ -59,7 +69,7 @@ class WelcomeViewControllerTests : BaseUITests {
   }
   
   func testWarningLabel() {
-    App.authModule.auth()
-    expect(self.viewController.errorLabel.isHidden).to(beFalse())
+    App.authModule.signIn()
+    expect(self.viewController.errorLabel.isHidden).toEventually(beFalse())
   }
 }

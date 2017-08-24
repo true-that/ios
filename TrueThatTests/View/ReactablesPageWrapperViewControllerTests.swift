@@ -1,5 +1,5 @@
 //
-//  ReactablesPageViewControllerTests.swift
+//  ReactablesPageWrapperViewControllerTests.swift
 //  TrueThat
 //
 //  Created by Ohad Navon on 30/07/2017.
@@ -13,9 +13,9 @@ import ReactiveSwift
 import SwiftyJSON
 import Nimble
 
-class ReactablesPageViewControllerTests : BaseUITests {
+class ReactablesPageWrapperViewControllerTests : BaseUITests {
   var fetchedReactables: [Reactable] = []
-  var viewController: ReactablesPageViewController!
+  var viewController: ReactablesPageWrapperViewController!
   
   override func setUp() {
     super.setUp()
@@ -33,24 +33,24 @@ class ReactablesPageViewControllerTests : BaseUITests {
                                  headers: ["Content-Type":"application/json"])
     }
     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-    viewController = storyboard.instantiateViewController(withIdentifier: "ReactablesPageScene") as! ReactablesPageViewController
-    viewController.fetchingDelegate = FetchReactablesTestsDelegate()
+    viewController = storyboard.instantiateViewController(withIdentifier: "ReactablesPageWrapperScene") as! ReactablesPageWrapperViewController
     
     UIApplication.shared.keyWindow!.rootViewController = viewController
     
     // Test and load the View
     expect(self.viewController.view).toNot(beNil())
+    viewController.viewModel.fetchingDelegate = FetchReactablesTestsDelegate()
   }
   
   func assertDisplayed(reactable: Reactable) {
-    expect(self.viewController.currentViewController?.viewModel?.model.id).toEventually(equal(reactable.id))
-    expect(self.viewController.currentViewController?.viewModel?.model.viewed).toEventually(beTrue(), timeout: 10.0)
+    expect(self.viewController.reactablesPage.currentViewController?.viewModel?.model.id).toEventually(equal(reactable.id))
+    expect(self.viewController.reactablesPage.currentViewController?.viewModel?.model.viewed).toEventually(beTrue(), timeout: 10.0)
     switch reactable {
     case is Scene:
-      expect(self.viewController.currentViewController!.viewModel)
+      expect(self.viewController.reactablesPage.currentViewController!.viewModel)
         .to(beAnInstanceOf(SceneViewModel.self))
     default:
-      expect(self.viewController.currentViewController!.viewModel)
+      expect(self.viewController.reactablesPage.currentViewController!.viewModel)
         .to(beAnInstanceOf(ReactableViewModel.self))
     }
   }
@@ -77,7 +77,7 @@ class ReactablesPageViewControllerTests : BaseUITests {
     // Trigger viewDidAppear
     UIApplication.shared.keyWindow!.rootViewController = nil
     viewController.didAuthOk()
-    expect(self.viewController.currentViewController == nil).toNotEventually(beFalse())
+    expect(self.viewController.reactablesPage.currentViewController == nil).toNotEventually(beFalse())
   }
   
   // Should not fetch reactables before user is authenticated
@@ -90,7 +90,7 @@ class ReactablesPageViewControllerTests : BaseUITests {
     // Trigger viewDidAppear
     App.authModule.signOut()
     viewController.beginAppearanceTransition(true, animated: false)
-    expect(self.viewController.currentViewController == nil).toNotEventually(beFalse())
+    expect(self.viewController.reactablesPage.currentViewController == nil).toNotEventually(beFalse())
   }
   
   func testMultipleTypes() {

@@ -11,57 +11,27 @@ import ReactiveSwift
 import ReactiveCocoa
 
 class ReactablesPageViewController: UIPageViewController {
+  // MARK: Properties
   var viewModel: ReactablesPageViewModel!
-  var doDetection = false
   weak var pagerDelegate: ReactablesPageViewControllerDelegate?
-  var fetchingDelegate: FetchReactablesDelegate!
-
   /// View controllers that are displayed in this page, ordered by order of appearance.
   var orderedViewControllers = [ReactableViewController]()
   
-  static func instantiate(doDetection: Bool) -> ReactablesPageViewController {
-    let viewController = UIStoryboard(name: "Main", bundle: nil)
+  // MARK: Initializers
+  static func instantiate() -> ReactablesPageViewController {
+    let viewController = UIStoryboard(name: "Main", bundle: Bundle.main)
       .instantiateViewController(withIdentifier: "ReactablesPageScene")
       as! ReactablesPageViewController
-    viewController.doDetection = doDetection
     return viewController
   }
 
+  // MARK: Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
-
+    App.log.verbose("viewDidLoad")
+    
     dataSource = self
     delegate = self
-    
-    if (viewModel == nil) {
-      viewModel = ReactablesPageViewModel()
-      viewModel.delegate = self
-    }
-  }
-  
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    App.detecionModule.start()
-    if App.authModule.isAuthOk {
-      fetchIfEmpty()
-    }
-  }
-  
-  override func viewDidDisappear(_ animated: Bool) {
-    super.viewDidDisappear(animated)
-    App.detecionModule.stop()
-  }
-  
-  func didAuthOk() {
-    if presentingViewController != nil {
-      fetchIfEmpty()
-    }
-  }
-  
-  func fetchIfEmpty() {
-    if viewModel.reactables.count == 0 {
-      viewModel.fetchingData()
-    }
   }
 
   /// Notifies the delegate that the current page index was updated.
@@ -151,10 +121,6 @@ extension ReactablesPageViewController: ReactablesPageDelegate {
     self.pagerDelegate?.ReactablesPageViewController(
       self, didUpdatePageCount: self.orderedViewControllers.count)
   }
-  
-  @discardableResult func fetchingProducer() -> SignalProducer<[Reactable], NSError> {
-    return fetchingDelegate.fetchingProducer()
-  }
 }
 
 protocol ReactablesPageViewControllerDelegate: class {
@@ -177,9 +143,4 @@ protocol ReactablesPageViewControllerDelegate: class {
   func ReactablesPageViewController(_ ReactablesPageViewController: ReactablesPageViewController,
                                  didUpdatePageIndex index: Int)
 
-}
-
-protocol FetchReactablesDelegate {
-  /// - Returns: a signal producer to fetch reactables from our backend.
-  @discardableResult func fetchingProducer() -> SignalProducer<[Reactable], NSError>
 }

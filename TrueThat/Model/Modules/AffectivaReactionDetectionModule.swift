@@ -20,15 +20,15 @@ class AffectivaReactionDetectionModule: ReactionDetectionModule {
   
   override func start() {
     super.start()
-    if let detectorError = detector?.start() {
-      App.log.error("AFDXDetector: \(detectorError)")
+    if let error = detector?.start() {
+      App.log.error("AFDXDetector: \(error)")
     }
   }
   
   override func stop() {
     super.stop()
-    if let detectorError = detector?.stop() {
-      App.log.error("AFDXDetector: \(detectorError)")
+    if let error = detector?.stop() {
+      App.log.error("AFDXDetector: \(error)")
     }
   }
 }
