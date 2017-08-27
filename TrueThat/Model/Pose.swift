@@ -14,16 +14,16 @@ class Pose: Reactable {
   /// Pose image part name when uploading a directed reactable
   static let poseImagePart = "pose_image"
   /// As stored in our backend.
-  var imageSignedUrl: String?
+  var imageUrl: String?
   
   /// Data of pose image that is to be saved on our backend (normally this field is populated only via studio pose).
   var imageData: Data?
   
   init(id: Int64?, userReaction: Emotion?, director: User?, reactionCounters: [Emotion: Int64]?,
-       created: Date?, viewed: Bool?, imageSignedUrl: String?) {
+       created: Date?, viewed: Bool?, imageUrl: String?) {
     super.init(id: id, userReaction: userReaction, director: director,
                reactionCounters: reactionCounters, created: created, viewed: viewed)
-    self.imageSignedUrl = imageSignedUrl
+    self.imageUrl = imageUrl
   }
   
   init(id: Int64?, userReaction: Emotion?, director: User?, reactionCounters: [Emotion: Int64]?,
@@ -35,12 +35,12 @@ class Pose: Reactable {
   
   required init(json: JSON) {
     super.init(json: json)
-    imageSignedUrl = json["imageSignedUrl"].string
+    imageUrl = json["imageUrl"].string
   }
   
   override func toDictionary() -> [String : Any] {
     var dictionary = super.toDictionary()
-    if imageSignedUrl != nil {dictionary["imageSignedUrl"] = imageSignedUrl!}
+    if imageUrl != nil {dictionary["imageUrl"] = imageUrl!}
     return dictionary
   }
   

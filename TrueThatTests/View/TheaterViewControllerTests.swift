@@ -69,7 +69,7 @@ class TheaterViewControllerTests : BaseUITests {
                                         deviceId: "stonePhone"),
                          reactionCounters: [.sad: 1000, .happy: 1234], created: Date(),
                          viewed: false,
-                         imageSignedUrl: "https://www.bbcgoodfood.com/sites/default/files/styles/carousel_medium/public/chicken-main_0.jpg")
+                         imageUrl: "https://www.bbcgoodfood.com/sites/default/files/styles/carousel_medium/public/chicken-main_0.jpg")
     fetchedReactables = [reactable]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)

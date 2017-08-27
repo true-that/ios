@@ -18,7 +18,7 @@ class StudioApiTests: XCTestCase {
                         director: User(id: 1, firstName: "bon", lastName: "apetit",
                                        deviceId: "say-waat"),
                         reactionCounters: [.happy: 1], created: Date(), viewed: true,
-                        imageSignedUrl: "www.mcdonald.com")
+                        imageUrl: "www.mcdonald.com")
   
   override func setUp() {
     super.setUp()

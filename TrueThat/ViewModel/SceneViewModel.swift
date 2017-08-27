@@ -12,7 +12,7 @@ import Result
 
 class PoseViewModel: ReactableViewModel {
   // MARK: Properties
-  public var imageSignedUrl: String?
+  public var imageUrl: String?
   private var pose: Pose {
     return model as! Pose
   }
@@ -23,7 +23,7 @@ class PoseViewModel: ReactableViewModel {
   // MARK: Initialization
   override init(with reactable: Reactable) {
     super.init(with: reactable)
-    imageSignedUrl = pose.imageSignedUrl
+    imageUrl = pose.imageUrl
   }
   
   // MARK: Lifecycle
@@ -35,6 +35,6 @@ class PoseViewModel: ReactableViewModel {
 
 protocol PoseMediaDelegate {
   
-  /// Notifies the view controller to load an image from `imageSignedUrl`.
+  /// Notifies the view controller to load an image from `imageUrl`.
   func loadPoseImage()
 }

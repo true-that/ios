@@ -102,7 +102,7 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
                       director: User(id: 1, firstName: "Emma", lastName: "Watson", deviceId: "iphone2"),
                       reactionCounters: [.happy: 5000, .sad: 34], created: Date(),
                       viewed: false,
-                      imageSignedUrl: "https://storage.googleapis.com/truethat-test-studio/testing/happy-selfie.jpg")
+                      imageUrl: "https://storage.googleapis.com/truethat-test-studio/testing/happy-selfie.jpg")
     fetchedReactables = [reactable, pose]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)

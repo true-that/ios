@@ -62,7 +62,7 @@ class TheaterApiTests: XCTestCase {
                   Pose(id: 2, userReaction: .happy,
                             director: User(id: 1, firstName: "barry", lastName: "manilow", deviceId: "android"),
                             reactionCounters: [.sad: 2000, .happy: 100234],
-                            created: Date(), viewed: true, imageSignedUrl: "http://truethat-ipo.jpg")]
+                            created: Date(), viewed: true, imageUrl: "http://truethat-ipo.jpg")]
     fetch()
     expect(self.actual).toEventually(equal(reactables))
     expect(self.actual![1]).toEventually(beAnInstanceOf(Pose.self))

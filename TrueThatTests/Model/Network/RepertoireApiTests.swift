@@ -62,7 +62,7 @@ class RepertoireApiTests: XCTestCase {
                   Pose(id: 2, userReaction: .happy,
                         director: App.authModule.current,
                         reactionCounters: [.sad: 2000, .happy: 100234],
-                        created: Date(), viewed: true, imageSignedUrl: "http://truethat-ipo.jpg")]
+                        created: Date(), viewed: true, imageUrl: "http://truethat-ipo.jpg")]
     fetch()
     expect(self.actual).toEventually(equal(reactables))
     expect(self.actual![1]).toEventually(beAnInstanceOf(Pose.self))

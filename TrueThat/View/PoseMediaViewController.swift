@@ -11,7 +11,7 @@ import Kingfisher
 
 class PoseMediaViewController: UIViewController {
   // MARK: Properties
-  var imageSignedUrl: String?
+  var imageUrl: String?
   var delegate: PoseMediaViewControllerDelegate?
   @IBOutlet weak var poseImage: UIImageView!
   
@@ -20,17 +20,17 @@ class PoseMediaViewController: UIViewController {
     let viewController = UIStoryboard(name: "Main", bundle: nil)
       .instantiateViewController(withIdentifier: "PoseMediaScene")
       as! PoseMediaViewController
-    viewController.imageSignedUrl = pose.imageSignedUrl
+    viewController.imageUrl = pose.imageUrl
     return viewController
   }
   
   // MARK: Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    if imageSignedUrl != nil {
+    if imageUrl != nil {
       poseImage.contentMode = UIViewContentMode.scaleAspectFill
-      poseImage.kf.setImage(with: URL(string: imageSignedUrl!), completionHandler: {
-        image, error, cacheType, imageSignedUrl in
+      poseImage.kf.setImage(with: URL(string: imageUrl!), completionHandler: {
+        image, error, cacheType, imageUrl in
         if error != nil {
           App.log.warning("Error when downloading pose image: \(error!)")
         } else if image == nil {
