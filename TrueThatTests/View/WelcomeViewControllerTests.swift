@@ -69,6 +69,7 @@ class WelcomeViewControllerTests : BaseUITests {
   }
   
   func testWarningLabel() {
+    App.authModule.signOut()
     App.authModule.signIn()
     expect(self.viewController.errorLabel.isHidden).toEventually(beFalse())
   }

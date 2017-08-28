@@ -47,7 +47,7 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
     expect(self.viewController.reactablesPage.currentViewController?.viewModel?.model.id).toEventually(equal(reactable.id))
     expect(self.viewController.reactablesPage.currentViewController?.viewModel?.model.viewed).toEventually(beTrue(), timeout: 10.0)
     if self.viewController.reactablesPage.currentViewController?.viewModel?.model is Short {
-      expect((self.viewController.reactablesPage.currentViewController?.mediaViewController as! ShortMediaViewController).player?.currentTime()).toEventuallyNot(equal(kCMTimeZero))
+      expect((self.viewController.reactablesPage.currentViewController?.mediaViewController as! ShortMediaViewController).player?.currentTime()).toEventuallyNot(equal(kCMTimeZero), timeout: 5.0)
     }
   }
   
