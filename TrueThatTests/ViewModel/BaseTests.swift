@@ -11,6 +11,7 @@ import SwiftyBeaver
 @testable import TrueThat
 
 class BaseTests: XCTestCase {
+  public static let baseDir = URL(fileURLWithPath: "/Users/ohad/AppcodeProjects/TrueThat", isDirectory: true)
   public var fakeDetectionModule: FakeReactionDetectionModule!
   public var fakeDeviceModule: DeviceModule!
   public var fakeKeychainModule: FakeKeychainModule!

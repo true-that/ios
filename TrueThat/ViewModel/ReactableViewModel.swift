@@ -56,17 +56,6 @@ class ReactableViewModel {
     }
   }
   
-  /// - Parameter reactable: to create a view model from.
-  /// - Returns: the proper view model based on `reactable` type.
-  static func instantiate(with reactable: Reactable) -> ReactableViewModel {
-    switch reactable {
-    case is Pose:
-      return PoseViewModel(with: reactable)
-    default:
-      return ReactableViewModel(with: reactable)
-    }
-  }
-  
   // MARK: Lifecycle
   
   /// Triggered when its corresponding {ReactableViewController} is loaded.

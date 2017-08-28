@@ -42,11 +42,14 @@ class StudioViewModelTests: BaseTests {
     // Capture & switch camera buttons are exposed
     expect(self.viewModel.captureButtonHidden.value).to(beFalse())
     expect(self.viewModel.switchCameraButtonHidden.value).to(beFalse())
+    // Capture button has capture image
+    expect(self.viewModel.captureButtonImageName.value).to(equal(StudioViewModel.captureImageName))
     // Cancel & send buttons are hidden
     expect(self.viewModel.cancelButtonHidden.value).to(beTrue())
     expect(self.viewModel.sendButtonHidden.value).to(beTrue())
     // Should not store directed reactable
     expect(self.viewModel.directed).to(beNil())
+    expect(self.viewModelDelegate.displayed).to(beNil())
     // Should hide directed reactable
     expect(self.viewModel.reactablePreviewHidden.value).to(beTrue())
   }
@@ -64,6 +67,7 @@ class StudioViewModelTests: BaseTests {
     expect(self.viewModel.sendButtonHidden.value).to(beFalse())
     // Should have a directed reactable
     expect(self.viewModel.directed).toNot(beNil())
+    expect(self.viewModelDelegate.displayed).to(equal(self.viewModel.directed))
     // Should show directed reactable
     expect(self.viewModel.reactablePreviewHidden.value).to(beFalse())
   }
@@ -73,17 +77,40 @@ class StudioViewModelTests: BaseTests {
     expect(self.viewModelDelegate.leftStudio).to(beTrue())
   }
   
-  func testCapture() {
+  func testCaptureImage() throws {
     viewModel.didAppear()
     assertDirecting()
-    viewModel.didCapture(imageData: Data())
+    try viewModel.didCapture(imageData:
+      Data(contentsOf: URL(fileURLWithPath: "TrueThatTests/ViewModel/TestData/happy_selfie.jpg",
+                           relativeTo: BaseTests.baseDir)))
     assertAppriving()
   }
   
-  func testSend() {
-    viewModel.didCapture(imageData: Data())
+  func testRecordVideo()  throws {
+    viewModel.didAppear()
+    assertDirecting()
+    viewModel.didStartRecordingVideo()
+    // Capture button has recird video image
+    expect(self.viewModel.captureButtonImageName.value).to(equal(StudioViewModel.recordVideoImageName))
+    viewModel.didFinishRecordingVideo()
+    expect(self.viewModel.captureButtonImageName.value).to(equal(StudioViewModel.captureImageName))
+    try viewModel.didFinishProcessVideo(url: URL(
+      dataRepresentation: Data(contentsOf:
+        URL(fileURLWithPath: "TrueThatTests/ViewModel/TestData/wink.mp4", relativeTo:BaseTests.baseDir)),
+      relativeTo: nil)!)
     assertAppriving()
-    viewModel.didSend()
+    // Sending video
+    viewModel.willSend()
+    expect(self.requestCount).toEventually(equal(1))
+    assertPublished()
+  }
+  
+  func testSend() throws {
+    try viewModel.didCapture(imageData:
+      Data(contentsOf: URL(fileURLWithPath: "TrueThatTests/ViewModel/TestData/happy_selfie.jpg",
+                           relativeTo: BaseTests.baseDir)))
+    assertAppriving()
+    viewModel.willSend()
     expect(self.requestCount).toEventually(equal(1))
     assertPublished()
   }
@@ -96,9 +123,14 @@ class StudioViewModelTests: BaseTests {
   
   class StudioViewModelTestsDelegate : StudioViewModelDelegate {
     var leftStudio = false
+    var displayed: Reactable?
     
     func leaveStudio() {
       leftStudio = true
+    }
+    
+    func displayPreview(of reactable: Reactable?) {
+      displayed = reactable
     }
   }
 }

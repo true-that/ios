@@ -16,7 +16,7 @@ class StudioViewController: BaseViewController {
   // MARK: Peroperties
   var viewModel: StudioViewModel!
   var swiftyCam: SwiftyCamViewController!
-  var reactablePreview: UIImageView!
+  var reactablePreview: ReactableMediaViewController?
   
   @IBOutlet weak var captureButton: SwiftyCamButton!
   @IBOutlet weak var cancelButton: UIImageView!
@@ -62,12 +62,6 @@ class StudioViewController: BaseViewController {
       // Capture button
       captureButton.delegate = swiftyCam
     #endif
-    
-    // Add reactable preview
-    reactablePreview = UIImageView(frame: view.frame)
-    self.view.addSubview(reactablePreview)
-    self.view.sendSubview(toBack: reactablePreview)
-    reactablePreview.reactive.isHidden <~ viewModel.reactablePreviewHidden
   }
   
   // MARK: Initialization
@@ -87,9 +81,12 @@ class StudioViewController: BaseViewController {
       UITapGestureRecognizer(target: self, action: #selector(self.didApprove)))
     
     // Initialize images
-    captureButton.setBackgroundImage(UIImage(named: "capture_image.png"), for: UIControlState.normal)
+    viewModel.captureButtonImageName.producer.on{
+      self.captureButton.setBackgroundImage(UIImage(named: $0), for: UIControlState.normal)
+    }.start()
     captureButton.layer.backgroundColor = Color.shadow.withAlpha(0.0).cgColor
     cancelButton.image = UIImage(named: "cross.png")
+    view.bringSubview(toFront: cancelButton)
     switchCameraButton.image = UIImage(named: "switch_camera.png")
     sendButton.image = UIImage(named: "send_reactable.png")
     
@@ -126,7 +123,7 @@ class StudioViewController: BaseViewController {
   }
   
   @objc private func didApprove() {
-    viewModel.didSend()
+    viewModel.willSend()
   }
 }
 
@@ -138,12 +135,45 @@ extension StudioViewController: StudioViewModelDelegate {
         withIdentifier: "TheaterScene"),
       animated: true, completion: nil)
   }
+  
+  func displayPreview(of reactable: Reactable?) {
+    // Remove previous preview
+    if reactablePreview != nil {
+      reactablePreview!.willMove(toParentViewController: nil)
+      reactablePreview!.view.removeFromSuperview()
+      reactablePreview!.removeFromParentViewController()
+      reactablePreview = nil
+    }
+    guard reactable != nil else {
+      return
+    }
+    // Add reactable preview
+    reactablePreview = ReactableMediaViewController.instantiate(with: reactable!)
+    guard reactablePreview != nil else {
+      return
+    }
+    self.addChildViewController(reactablePreview!)
+    self.view.addSubview(reactablePreview!.view)
+    self.view.sendSubview(toBack: reactablePreview!.view)
+    reactablePreview!.view.reactive.isHidden <~ viewModel.reactablePreviewHidden
+  }
 }
 
 // MARK: SwiftCamViewControllerDelegate
 extension StudioViewController: SwiftyCamViewControllerDelegate {
   func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
     viewModel.didCapture(imageData: UIImageJPEGRepresentation(photo, 0.7)! )
-    reactablePreview.image = photo
+  }
+  
+  func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
+    viewModel.didStartRecordingVideo()
+  }
+  
+  func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
+    viewModel.didFinishRecordingVideo()
+  }
+  
+  func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
+    viewModel.didFinishProcessVideo(url: url)
   }
 }

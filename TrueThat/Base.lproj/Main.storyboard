@@ -78,7 +78,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Miw-Tq-v8m" customClass="SwiftyCamButton" customModule="TrueThat" customModuleProvider="target">
                                 <rect key="frame" x="150" y="562" width="75" height="75"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <accessibility key="accessibilityConfiguration" label="capture photo"/>
+                                <accessibility key="accessibilityConfiguration" label="capture"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Miw-Tq-v8m" secondAttribute="height" multiplier="1:1" id="1nM-y6-OAn"/>
                                     <constraint firstAttribute="width" constant="75" id="3ZU-73-tsb"/>
@@ -329,6 +329,24 @@
             </objects>
             <point key="canvasLocation" x="1240.8" y="-287.40629685157421"/>
         </scene>
+        <!--Short Media View Controller-->
+        <scene sceneID="m0L-u4-10e">
+            <objects>
+                <viewController storyboardIdentifier="ShortMediaScene" id="yAe-hN-QZj" customClass="ShortMediaViewController" customModule="TrueThat" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gS2-vx-BVa"/>
+                        <viewControllerLayoutGuide type="bottom" id="M8U-4W-Dp4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="GXF-re-32P">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="diR-I2-qGb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1431" y="-349"/>
+        </scene>
         <!--Reactables Page Wrapper View Controller-->
         <scene sceneID="89A-gV-9h2">
             <objects>
@@ -408,17 +426,17 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="NI3-GX-sAa">
-                                <rect key="frame" x="116" y="541" width="142" height="35"/>
+                                <rect key="frame" x="87.5" y="526.5" width="200" height="49.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Already one of us?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bac-Lc-K7G">
-                                        <rect key="frame" x="0.0" y="0.0" width="142" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="20.5"/>
                                         <accessibility key="accessibilityConfiguration" label="sign in"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oopsie we had an error." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z7i-HG-T2t">
-                                        <rect key="frame" x="0.0" y="20.5" width="142" height="14.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oopsie sign in failed, create your account by click join above" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z7i-HG-T2t">
+                                        <rect key="frame" x="0.0" y="20.5" width="200" height="29"/>
                                         <accessibility key="accessibilityConfiguration">
                                             <accessibilityTraits key="traits" staticText="YES" notEnabled="YES"/>
                                         </accessibility>
@@ -427,6 +445,9 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="0Bp-rV-KCo"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

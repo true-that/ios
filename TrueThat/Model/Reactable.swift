@@ -56,6 +56,8 @@ class Reactable: BaseModel {
       return Reactable(json: json)
     case String(describing: Pose.self):
       return Pose(json: json)
+    case String(describing: Short.self):
+      return Short(json: json)
     default:
       App.log.warning("Failed to deserialize Reactable. Missing type (=\(json["type"].stringValue))?")
       return nil

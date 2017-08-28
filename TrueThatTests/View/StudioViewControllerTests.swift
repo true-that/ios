@@ -14,9 +14,20 @@ import SwiftyJSON
 
 class StudioViewControllerTests : BaseUITests {
   var viewController: StudioViewController!
+  var requestSent: Bool!
   
   override func setUp() {
     super.setUp()
+    
+    // Set up mock backend
+    requestSent = false
+    stub(condition: isPath(StudioApi.path)) {request -> OHHTTPStubsResponse in
+      self.viewController.viewModel.directed!.id = 1
+      let stubData = try! JSON(from: self.viewController.viewModel.directed!).rawData()
+      self.requestSent = true
+      return OHHTTPStubsResponse(data: stubData, statusCode: 200,
+                                 headers: ["Content-Type":"application/json"])
+    }
     
     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
     viewController = storyboard.instantiateViewController(withIdentifier: "StudioScene")
@@ -30,54 +41,65 @@ class StudioViewControllerTests : BaseUITests {
   }
   
   func assertDirecting() {
+    expect(self.viewController.viewModel.state).toEventually(equal(StudioViewModel.State.directing))
     expect(self.viewController.captureButton.isHidden).to(beFalse())
-    expect(self.viewController.reactablePreview.isHidden).to(beTrue())
+    expect(self.viewController.reactablePreview).to(beNil())
     expect(self.viewController.switchCameraButton.isHidden).to(beFalse())
     expect(self.viewController.cancelButton.isHidden).to(beTrue())
     expect(self.viewController.sendButton.isHidden).to(beTrue())
-    expect(self.viewController.viewModel.state).to(equal(StudioViewModel.State.directing))
-    // TODO(ohad): assert camrea preview is live
+    // Testing view model property as swiftyCam view controller is not created on simulator
+    expect(self.viewController.viewModel.cameraSessionHidden.value).to(beFalse())
   }
   
   func assertApproving() {
+    expect(self.viewController.viewModel.state).toEventually(equal(StudioViewModel.State.approving))
     expect(self.viewController.captureButton.isHidden).to(beTrue())
     expect(self.viewController.switchCameraButton.isHidden).to(beTrue())
     expect(self.viewController.cancelButton.isHidden).to(beFalse())
     expect(self.viewController.sendButton.isHidden).to(beFalse())
-    expect(self.viewController.viewModel.state).to(equal(StudioViewModel.State.approving))
-    expect(self.viewController.reactablePreview.isHidden).to(beFalse())
-    // TODO(ohad): assert camrea preview is frozen
+    expect(self.viewController.viewModel.cameraSessionHidden.value).to(beTrue())
+    expect(self.viewController.reactablePreview?.view.isHidden).to(beFalse())
   }
   
   func testCapturePhoto() {
     viewController.beginAppearanceTransition(true, animated: false)
     assertDirecting()
-    tester().tapView(withAccessibilityLabel: "capture photo")
+    tester().tapView(withAccessibilityLabel: "capture")
     assertApproving()
+  }
+  
+  func testRecordVideo() {
+    viewController.beginAppearanceTransition(true, animated: false)
+    assertDirecting()
+    tester().longPressView(withAccessibilityLabel: "capture", duration: 1.0)
+    assertApproving()
+    tester().tapView(withAccessibilityLabel: "send")
+    expect(self.requestSent).toEventually(beTrue())
+    expect(UITestsHelper.currentViewController!)
+      .toEventually(beAnInstanceOf(TheaterViewController.self))
   }
   
   func testCancel() {
     viewController.beginAppearanceTransition(true, animated: false)
-    tester().tapView(withAccessibilityLabel: "capture photo")
+    tester().tapView(withAccessibilityLabel: "capture")
+    assertApproving()
     tester().tapView(withAccessibilityLabel: "cancel")
     assertDirecting()
   }
   
-  func testApprove() {
-    // Set up mock backend
-    var requestSent = false
-    stub(condition: isPath(StudioApi.path)) {request -> OHHTTPStubsResponse in
-      let stubData = try! JSON(from: Reactable(
-        id: 1, userReaction: nil, director: nil, reactionCounters: nil, created: nil, viewed: nil))
-        .rawData()
-      requestSent = true
-      return OHHTTPStubsResponse(data: stubData, statusCode: 200,
-                                 headers: ["Content-Type":"application/json"])
-    }
+  func testCancelVideo() {
     viewController.beginAppearanceTransition(true, animated: false)
-    tester().tapView(withAccessibilityLabel: "capture photo")
+    tester().longPressView(withAccessibilityLabel: "capture", duration: 1.0)
+    assertApproving()
+    tester().tapView(withAccessibilityLabel: "cancel")
+    assertDirecting()
+  }
+  
+  func testSend() {
+    viewController.beginAppearanceTransition(true, animated: false)
+    tester().tapView(withAccessibilityLabel: "capture")
     tester().tapView(withAccessibilityLabel: "send")
-    expect(requestSent).toEventually(beTrue())
+    expect(self.requestSent).toEventually(beTrue())
     expect(UITestsHelper.currentViewController!)
       .toEventually(beAnInstanceOf(TheaterViewController.self))
   }
@@ -105,12 +127,30 @@ class StudioViewControllerTests : BaseUITests {
     }
     
     func buttonWasTapped() {
-      viewModel.didCapture(imageData: Data())
+      do {
+        try viewModel.didCapture(imageData:
+          Data(contentsOf: URL(fileURLWithPath: "TrueThatTests/ViewModel/TestData/happy_selfie.jpg",
+                               relativeTo: BaseTests.baseDir)))
+      } catch {
+        App.log.error("could not capture image")
+      }
     }
     
-    func buttonDidBeginLongPress() {}
+    func buttonDidBeginLongPress() {
+      viewModel.didStartRecordingVideo()
+    }
     
-    func buttonDidEndLongPress() {}
+    func buttonDidEndLongPress() {
+      viewModel.didFinishRecordingVideo()
+      do {
+        try viewModel.didFinishProcessVideo(url: URL(
+          dataRepresentation: Data(contentsOf:
+            URL(fileURLWithPath: "TrueThatTests/ViewModel/TestData/wink.mp4", relativeTo:BaseTests.baseDir)),
+          relativeTo: nil)!)
+      } catch {
+        App.log.error("failed to process video")
+      }
+    }
     
     func longPressDidReachMaximumDuration() {}
     

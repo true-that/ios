@@ -8,6 +8,7 @@
 
 import KIF
 @testable import TrueThat
+import AVFoundation
 import OHHTTPStubs
 import ReactiveSwift
 import SwiftyJSON
@@ -45,13 +46,8 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
   func assertDisplayed(reactable: Reactable) {
     expect(self.viewController.reactablesPage.currentViewController?.viewModel?.model.id).toEventually(equal(reactable.id))
     expect(self.viewController.reactablesPage.currentViewController?.viewModel?.model.viewed).toEventually(beTrue(), timeout: 10.0)
-    switch reactable {
-    case is Pose:
-      expect(self.viewController.reactablesPage.currentViewController!.viewModel)
-        .to(beAnInstanceOf(PoseViewModel.self))
-    default:
-      expect(self.viewController.reactablesPage.currentViewController!.viewModel)
-        .to(beAnInstanceOf(ReactableViewModel.self))
+    if self.viewController.reactablesPage.currentViewController?.viewModel?.model is Short {
+      expect((self.viewController.reactablesPage.currentViewController?.mediaViewController as! ShortMediaViewController).player?.currentTime()).toEventuallyNot(equal(kCMTimeZero))
     }
   }
   
@@ -103,7 +99,12 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
                       reactionCounters: [.happy: 5000, .sad: 34], created: Date(),
                       viewed: false,
                       imageUrl: "https://storage.googleapis.com/truethat-test-studio/testing/happy-selfie.jpg")
-    fetchedReactables = [reactable, pose]
+    let short = Short(id: 3, userReaction: .happy,
+                      director: User(id: 1, firstName: "Emma", lastName: "Watson", deviceId: "iphone2"),
+                      reactionCounters: [.happy: 5000, .sad: 34], created: Date(),
+                      viewed: false,
+                      videoUrl: URL(string: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4"))
+    fetchedReactables = [reactable, pose, short]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
     viewController.didAuthOk()
@@ -112,6 +113,9 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
     // Navigate to next reactable
     tester().swipeView(withAccessibilityLabel: "ReactableView", in: .right)
     assertDisplayed(reactable: pose)
+    // Navigate to next reactable
+    tester().swipeView(withAccessibilityLabel: "ReactableView", in: .right)
+    assertDisplayed(reactable: short)
   }
   
   func testReactablesNavigation() {
