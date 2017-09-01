@@ -19,6 +19,7 @@ class OnBoardingViewController: BaseViewController {
   @IBOutlet weak var createAccountLabel: UILabel!
   @IBOutlet weak var completionLabel: UILabel!
   @IBOutlet weak var nameTextField: UITextField!
+  @IBOutlet weak var loadingImage: UIImageView!
   // MARK: Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -47,19 +48,31 @@ class OnBoardingViewController: BaseViewController {
     // Sets up visibility
     warningLabel.reactive.isHidden <~ viewModel.warningLabelHidden
     warningLabel.isHidden = true
+    loadingImage.reactive.isHidden <~ viewModel.loadingImageHidden
+    loadingImage.isHidden = true
     completionLabel.reactive.isHidden <~ viewModel.completionLabelHidden
     completionLabel.isHidden = true
+    
+    // Sets up animation image
+    var images: [UIImage] = []
+    for i in 0 ... 11 {
+      images.append(UIImage(named: "loader/anim_loader_\(i)")!)
+    }
+    loadingImage.animationImages = images
+    loadingImage.animationDuration = 1.0
+    loadingImage.startAnimating()
+    // Sets up warning text
+    warningLabel.reactive.text <~ viewModel.warningLabelText
   }
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     viewModel.didAppear()
-    App.detecionModule.start()
   }
   
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
-    App.detecionModule.stop()
+    viewModel.didDisappear()
   }
 }
 
@@ -72,10 +85,6 @@ extension OnBoardingViewController: OnBoardingDelegate {
   func loseNameTextFieldFocus() {
     nameTextField.resignFirstResponder()
   }
-  
-  func finishOnBoarding(with name: String) {
-    App.authModule.signUp(fullName: name)
-  }
 }
 
 // MARK: AuthDelegate
@@ -86,6 +95,11 @@ extension OnBoardingViewController {
       UIStoryboard(name: "Main", bundle: self.nibBundle).instantiateViewController(
         withIdentifier: "TheaterScene"),
       animated: true, completion: nil)
+  }
+  
+  override func didAuthFail() {
+    App.log.verbose("didAuthFail")
+    viewModel.signUpDidFail()
   }
 }
 

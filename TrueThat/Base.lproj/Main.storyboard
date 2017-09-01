@@ -246,7 +246,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create an Account" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BFC-B2-Dgm">
-                                <rect key="frame" x="97" y="94" width="182" height="21"/>
+                                <rect key="frame" x="96.5" y="94" width="182" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="hlm-zn-Sn9"/>
                                 </constraints>
@@ -255,26 +255,26 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Bruno Mars" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="arb-nn-cE3">
-                                <rect key="frame" x="115" y="257" width="147" height="30"/>
+                                <rect key="frame" x="114.5" y="257" width="147" height="30"/>
                                 <accessibility key="accessibilityConfiguration" label="full name"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="join" enablesReturnKeyAutomatically="YES"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Smile to create your account :)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9fk-42-yke">
-                                <rect key="frame" x="71" y="480" width="234" height="21"/>
+                                <rect key="frame" x="71.5" y="480" width="234" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What's your name?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fZn-8w-Vbs">
-                                <rect key="frame" x="115" y="228" width="147" height="21"/>
+                                <rect key="frame" x="114.5" y="228" width="147" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="invalid name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E7g-A8-SGZ">
-                                <rect key="frame" x="146" y="295" width="83" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="invalid name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E7g-A8-SGZ">
+                                <rect key="frame" x="146.5" y="295" width="83" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="83" id="44Y-D5-dOJ"/>
                                     <constraint firstAttribute="height" constant="21" id="atN-Wo-q9x"/>
@@ -283,11 +283,18 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RFQ-Vo-CL5">
+                                <rect key="frame" x="148.5" y="361" width="80" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="HpD-mS-j3H"/>
+                                    <constraint firstAttribute="width" secondItem="RFQ-Vo-CL5" secondAttribute="height" multiplier="1:1" id="adm-4q-pzk"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="fZn-8w-Vbs" firstAttribute="top" secondItem="bxS-NR-CjC" secondAttribute="top" constant="228" id="9zf-li-jeK"/>
                             <constraint firstItem="E7g-A8-SGZ" firstAttribute="centerX" secondItem="9fk-42-yke" secondAttribute="centerX" id="CLL-wy-8L1"/>
+                            <constraint firstItem="fZn-8w-Vbs" firstAttribute="top" secondItem="bxS-NR-CjC" secondAttribute="top" constant="228" id="IOW-zg-DYw"/>
                             <constraint firstItem="E7g-A8-SGZ" firstAttribute="top" secondItem="arb-nn-cE3" secondAttribute="bottom" constant="8" symbolic="YES" id="P9n-JG-yFA"/>
                             <constraint firstItem="BFC-B2-Dgm" firstAttribute="top" secondItem="TQl-gb-RjT" secondAttribute="bottom" constant="74" id="Q1B-DJ-TzL"/>
                             <constraint firstItem="fZn-8w-Vbs" firstAttribute="trailing" secondItem="arb-nn-cE3" secondAttribute="trailing" id="S1v-86-0bd"/>
@@ -295,13 +302,16 @@
                             <constraint firstItem="arb-nn-cE3" firstAttribute="top" secondItem="fZn-8w-Vbs" secondAttribute="bottom" constant="8" symbolic="YES" id="YhL-z5-Trd"/>
                             <constraint firstItem="GAB-p0-hka" firstAttribute="top" secondItem="9fk-42-yke" secondAttribute="bottom" constant="166" id="ZPr-ax-heG"/>
                             <constraint firstItem="arb-nn-cE3" firstAttribute="centerX" secondItem="9fk-42-yke" secondAttribute="centerX" id="csY-0E-O9J"/>
+                            <constraint firstItem="RFQ-Vo-CL5" firstAttribute="top" secondItem="E7g-A8-SGZ" secondAttribute="bottom" constant="45" id="dUN-Vv-UEi"/>
                             <constraint firstItem="fZn-8w-Vbs" firstAttribute="centerX" secondItem="BFC-B2-Dgm" secondAttribute="centerX" id="e0z-Pk-xo6"/>
+                            <constraint firstItem="fZn-8w-Vbs" firstAttribute="centerX" secondItem="RFQ-Vo-CL5" secondAttribute="centerX" id="iMn-Vf-11M"/>
                             <constraint firstItem="fZn-8w-Vbs" firstAttribute="leading" secondItem="arb-nn-cE3" secondAttribute="leading" id="kvi-kC-Pp0"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="completionLabel" destination="9fk-42-yke" id="FY3-rN-IDS"/>
                         <outlet property="createAccountLabel" destination="BFC-B2-Dgm" id="JsA-GO-I3P"/>
+                        <outlet property="loadingImage" destination="RFQ-Vo-CL5" id="cWw-Yv-CNr"/>
                         <outlet property="nameTextField" destination="arb-nn-cE3" id="AUs-lG-4VL"/>
                         <outlet property="warningLabel" destination="E7g-A8-SGZ" id="UPG-2F-wXr"/>
                         <outlet property="whatsYourNameLabel" destination="fZn-8w-Vbs" id="ynt-Lr-OWS"/>
@@ -360,7 +370,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="Cmd-he-d3A">
-                                <rect key="frame" x="87" y="188" width="200" height="291"/>
+                                <rect key="frame" x="87.5" y="188" width="200" height="291"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="31f-uF-Odj">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
@@ -409,7 +419,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ofx-KU-14c">
-                                <rect key="frame" x="122.5" y="92" width="131.5" height="67"/>
+                                <rect key="frame" x="122" y="92" width="131.5" height="67"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="StF-dm-FL5">
                                         <rect key="frame" x="0.0" y="0.0" width="48.5" height="67"/>

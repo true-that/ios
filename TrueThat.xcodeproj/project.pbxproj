@@ -34,7 +34,6 @@
 		6F21E4E61F1657A1004FFA6F /* TrueThatUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F21E4E51F1657A1004FFA6F /* TrueThatUITests.swift */; };
 		6F3092D11F2DE91F00BD211A /* KIF+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3092D01F2DE91F00BD211A /* KIF+Extensions.swift */; };
 		6F3092D61F2DEA9100BD211A /* ReactablesPageWrapperViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3092D51F2DEA9100BD211A /* ReactablesPageWrapperViewControllerTests.swift */; };
-		6F33BA6C1F529FED002B1867 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6F4826381F1284F50066394D /* Info.plist */; };
 		6F3779F71F377611007C0945 /* AuthApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3779F41F377611007C0945 /* AuthApi.swift */; };
 		6F3779F81F377611007C0945 /* InteractionApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3779F51F377611007C0945 /* InteractionApi.swift */; };
 		6F3779F91F377611007C0945 /* TheaterApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3779F61F377611007C0945 /* TheaterApi.swift */; };
@@ -71,6 +70,7 @@
 		6F7DFC2E1F314EE8003DE099 /* InteractionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC2D1F314EE8003DE099 /* InteractionEvent.swift */; };
 		6F7DFC301F314EF5003DE099 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC2F1F314EF5003DE099 /* EventType.swift */; };
 		6F7DFC321F3154D9003DE099 /* InteractionEventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC311F3154D9003DE099 /* InteractionEventTests.swift */; };
+		6F894B321F5985E600C1C73C /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F894B311F5985E600C1C73C /* Data+Extensions.swift */; };
 		6F89FBA61F4B232B002321CA /* KeychainModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F89FBA51F4B232B002321CA /* KeychainModule.swift */; };
 		6F89FBA81F4B23C7002321CA /* DeviceKeychainModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F89FBA71F4B23C7002321CA /* DeviceKeychainModule.swift */; };
 		6F921D801F32988800FFE76F /* BaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F921D7F1F32988800FFE76F /* BaseTests.swift */; };
@@ -195,6 +195,7 @@
 		6F7DFC2D1F314EE8003DE099 /* InteractionEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractionEvent.swift; sourceTree = "<group>"; };
 		6F7DFC2F1F314EF5003DE099 /* EventType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventType.swift; sourceTree = "<group>"; };
 		6F7DFC311F3154D9003DE099 /* InteractionEventTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractionEventTests.swift; sourceTree = "<group>"; };
+		6F894B311F5985E600C1C73C /* Data+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
 		6F89FBA51F4B232B002321CA /* KeychainModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainModule.swift; sourceTree = "<group>"; };
 		6F89FBA71F4B23C7002321CA /* DeviceKeychainModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceKeychainModule.swift; sourceTree = "<group>"; };
 		6F89FBA91F4B2471002321CA /* FakeKeychainModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeKeychainModule.swift; sourceTree = "<group>"; };
@@ -413,6 +414,7 @@
 				6F79811D1F30830900A055DD /* JSON+Extensions.swift */,
 				6FD5A9A01F48B71600FB16C1 /* DataRequest+Extensions.swift */,
 				6F521B9F1F4C0311009BADE2 /* String+Extensions.swift */,
+				6F894B311F5985E600C1C73C /* Data+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -740,7 +742,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F33BA6C1F529FED002B1867 /* Info.plist in Resources */,
 				6F4826341F1284F50066394D /* Assets.xcassets in Resources */,
 				3407BFBE59D04413006DD617 /* LaunchScreen.storyboard in Resources */,
 				3407B02EB67D119040115080 /* Main.storyboard in Resources */,
@@ -939,6 +940,7 @@
 				6F7DFC301F314EF5003DE099 /* EventType.swift in Sources */,
 				6FF9C9591F328EEF00C2FC3F /* App.swift in Sources */,
 				6FD5A9A11F48B71600FB16C1 /* DataRequest+Extensions.swift in Sources */,
+				6F894B321F5985E600C1C73C /* Data+Extensions.swift in Sources */,
 				6F7981181F2FD99F00A055DD /* NumberHelper.swift in Sources */,
 				6F7DFC211F30A7B7003DE099 /* Tags.swift in Sources */,
 				6F79811E1F30830900A055DD /* JSON+Extensions.swift in Sources */,

@@ -165,4 +165,7 @@ protocol StudioViewModelDelegate {
   ///
   /// - Parameter reactable: that has just been directed.
   func displayPreview(of reactable: Reactable?)
+  
+  /// Invoked once a HTTP request with the directed reactable has been sent to the server.
+  func didSend()
 }

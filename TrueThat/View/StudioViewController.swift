@@ -157,6 +157,12 @@ extension StudioViewController: StudioViewModelDelegate {
     self.view.sendSubview(toBack: reactablePreview!.view)
     reactablePreview!.view.reactive.isHidden <~ viewModel.reactablePreviewHidden
   }
+  
+  func didSend() {
+    if reactablePreview is ShortMediaViewController {
+      (reactablePreview as! ShortMediaViewController).player?.pause()
+    }
+  }
 }
 
 // MARK: SwiftCamViewControllerDelegate

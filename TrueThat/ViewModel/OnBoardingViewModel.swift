@@ -13,7 +13,11 @@ import Result
 class OnBoardingViewModel {
   // MARK: Properties
   public static let reactionForDone = Emotion.happy
+  public static let invalidNameText = "invalid name"
+  public static let signUpFailedText = "oopsie we had an error on our end"
   public let warningLabelHidden = MutableProperty(true)
+  public let warningLabelText = MutableProperty(OnBoardingViewModel.invalidNameText)
+  public let loadingImageHidden = MutableProperty(true)
   public let completionLabelHidden = MutableProperty(true)
   public let nameTextFieldBorderColor = MutableProperty(Color.shadow)
   public let nameTextField = MutableProperty("")
@@ -25,6 +29,7 @@ class OnBoardingViewModel {
   
   // MARK: Lifecycle
   func didAppear() {
+    loadingImageHidden.value = true
     if StringHelper.isValid(fullName: nameTextField.value) {
       delegate.loseNameTextFieldFocus()
       finalStage()
@@ -32,6 +37,12 @@ class OnBoardingViewModel {
       delegate.requestNameTextFieldFocus()
     }
   }
+  
+  func didDisappear() {
+    App.detecionModule.stop()
+  }
+  
+  // MARK: Methods
   
   func nameFieldDidBeginEditing() {
     completionLabelHidden.value = true
@@ -52,14 +63,27 @@ class OnBoardingViewModel {
       finalStage()
       return true
     } else {
+      warningLabelText.value = OnBoardingViewModel.invalidNameText
       warningLabelHidden.value = false
       return false
     }
   }
   
+  func signUpDidFail() {
+    warningLabelText.value = OnBoardingViewModel.signUpFailedText
+    warningLabelHidden.value = false
+    loadingImageHidden.value = true
+  }
+  
   func finalStage() {
+    App.detecionModule.start()
     App.detecionModule.delegate = self
     completionLabelHidden.value = false
+    warningLabelHidden.value = true
+  }
+  
+  func signingUp(with name: String) {
+    App.authModule.signUp(fullName: name)
   }
 }
 
@@ -67,15 +91,14 @@ protocol OnBoardingDelegate {
   func requestNameTextFieldFocus()
   
   func loseNameTextFieldFocus()
-  
-  func finishOnBoarding(with name: String)
 }
 
 // MARK: ReactionDetectionDelegate
 extension OnBoardingViewModel: ReactionDetectionDelegate {
   func didDetect(reaction: Emotion) {
     if reaction == OnBoardingViewModel.reactionForDone {
-      delegate.finishOnBoarding(with: nameTextField.value)
+      loadingImageHidden.value = false
+      signingUp(with: nameTextField.value)
       App.detecionModule.delegate = nil
     }
   }

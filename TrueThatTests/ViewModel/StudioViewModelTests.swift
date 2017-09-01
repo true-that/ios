@@ -123,6 +123,7 @@ class StudioViewModelTests: BaseTests {
   
   class StudioViewModelTestsDelegate : StudioViewModelDelegate {
     var leftStudio = false
+    var sent = false
     var displayed: Reactable?
     
     func leaveStudio() {
@@ -131,6 +132,10 @@ class StudioViewModelTests: BaseTests {
     
     func displayPreview(of reactable: Reactable?) {
       displayed = reactable
+    }
+    
+    func didSend() {
+      sent = true
     }
   }
 }

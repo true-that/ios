@@ -8,6 +8,8 @@
 
 import XCTest
 @testable import TrueThat
+import OHHTTPStubs
+import SwiftyJSON
 import Nimble
 
 
@@ -18,11 +20,21 @@ class OnBoardingViewModelTests: BaseTests {
   
   override func setUp() {
     super.setUp()
+    // Sets up backend for sign ups
+    stub(condition: isPath(AuthApi.path)) {request -> OHHTTPStubsResponse in
+      let requestUser = User(json: JSON(request.httpBody!))
+      requestUser.id = 1
+      let data = try? JSON(from: requestUser).rawData()
+      return OHHTTPStubsResponse(data: data!, statusCode: 200,
+                                 headers: ["Content-Type":"application/json"])
+    }
+    // Signs out
     App.authModule.signOut()
+    // Initializes view model
     viewModel = OnBoardingViewModel()
     viewModelDelegate = OnBoardingTestDelegate(viewModel)
     viewModel.delegate = viewModelDelegate
-    App.detecionModule.start()
+    App.authModule.delegate = viewModelDelegate
   }
   
   func assertFinalStage() {
@@ -32,10 +44,12 @@ class OnBoardingViewModelTests: BaseTests {
     expect(self.viewModel.completionLabelHidden.value).to(beFalse())
     // Warning should be hidden
     expect(self.viewModel.warningLabelHidden.value).to(beTrue())
+    // Loading image should be hidden
+    expect(self.viewModel.loadingImageHidden.value).to(beTrue())
     // Show visual indicator of a valid name
     expect(self.viewModel.nameTextFieldBorderColor.value.value).to(equal(Color.success.value))
   }
-  
+
   func testSuccessfulOnBoarding() {
     // Load view
     viewModel.didAppear()
@@ -47,8 +61,54 @@ class OnBoardingViewModelTests: BaseTests {
     assertFinalStage()
     // Detect a reaction
     fakeDetectionModule.detect(OnBoardingViewModel.reactionForDone)
-    // On boarding is finished
-    expect(self.viewModelDelegate.onBoardingFinished).to(beTrue())
+    // Should show loading indicator
+    expect(self.viewModel.loadingImageHidden.value).to(beFalse())
+    // On boarding is finished successfully
+    expect(self.viewModelDelegate.authOk).toEventually(beTrue())
+  }
+  
+  func testSignUpDidFail() {
+    // Sets up an ill backend
+    stub(condition: isPath(AuthApi.path)) {request -> OHHTTPStubsResponse in
+      App.log.info("REQUEST \(JSON(Data(fromStream: request.httpBodyStream!)))")
+      return OHHTTPStubsResponse(data: Data(), statusCode: 500,
+                                 headers: ["Content-Type":"application/json"])
+    }
+    // Load view
+    viewModel.didAppear()
+    // "Type" full name
+    viewModel.nameTextField.value = fullName
+    // Hit "done" on keyboard
+    expect(self.viewModel.nameFieldDidReturn()).to(beTrue())
+    // Should enter final on boarding stage
+    assertFinalStage()
+    // Detect a reaction
+    fakeDetectionModule.detect(OnBoardingViewModel.reactionForDone)
+    // Auth should fail
+    expect(self.viewModelDelegate.authFail).toEventually(beTrue())
+    // Should show correct warning
+    expect(self.viewModel.warningLabelHidden.value).to(beFalse())
+    expect(self.viewModel.warningLabelText.value).to(equal(OnBoardingViewModel.signUpFailedText))
+    // Should hide loading image
+    expect(self.viewModel.loadingImageHidden.value).to(beTrue())
+    // Can try again
+    // Sets up proper backend
+    stub(condition: isPath(AuthApi.path)) {request -> OHHTTPStubsResponse in
+      App.log.info("REQUEST \(request.httpBodyStream)")
+//      let requestUser = User(json: JSON(request.httpBody!))
+//      requestUser.id = 1
+//      let data = try? JSON(from: requestUser).rawData()
+      return OHHTTPStubsResponse(data: Data(), statusCode: 200,
+                                 headers: ["Content-Type":"application/json"])
+    }
+    // Hit "done" on keyboard
+    expect(self.viewModel.nameFieldDidReturn()).to(beTrue())
+    // Should enter final on boarding stage
+    assertFinalStage()
+    // Detect a reaction
+    fakeDetectionModule.detect(OnBoardingViewModel.reactionForDone)
+    // On boarding is finished successfully
+    expect(self.viewModelDelegate.authOk).toEventually(beTrue())
   }
   
   func testAppearWithValidName() {
@@ -88,8 +148,9 @@ class OnBoardingViewModelTests: BaseTests {
     expect(self.viewModel.nameFieldDidReturn()).to(beFalse())
     // Visual indicator of illegal name
     expect(self.viewModel.nameTextFieldBorderColor.value.value).to(equal(Color.error.value))
-    // Show warning
+    // Show warning with correct text
     expect(self.viewModel.warningLabelHidden.value).to(beFalse())
+    expect(self.viewModel.warningLabelText.value).to(equal(OnBoardingViewModel.invalidNameText))
     // Dont start detection just yet
     expect(App.detecionModule.delegate).to(beNil())
     // Type last name
@@ -103,9 +164,10 @@ class OnBoardingViewModelTests: BaseTests {
     assertFinalStage()
   }
   
-  class OnBoardingTestDelegate: OnBoardingDelegate {
+  class OnBoardingTestDelegate: OnBoardingDelegate, AuthDelegate {
+    var authOk = false
+    var authFail = false
     var nameTextFieldFocused = false
-    var onBoardingFinished = false
     weak var viewModel: OnBoardingViewModel!
     
     init(_ viewModel: OnBoardingViewModel) {
@@ -120,8 +182,13 @@ class OnBoardingViewModelTests: BaseTests {
       nameTextFieldFocused = false
     }
     
-    func finishOnBoarding(with name: String) {
-      onBoardingFinished = true
+    func didAuthOk() {
+      authOk = true
+    }
+    
+    func didAuthFail() {
+      authFail = true
+      viewModel.signUpDidFail()
     }
   }
 }
