@@ -25,6 +25,7 @@ class StudioViewControllerTests : BaseUITests {
       self.viewController.viewModel.directed!.id = 1
       let stubData = try! JSON(from: self.viewController.viewModel.directed!).rawData()
       self.requestSent = true
+      usleep(1000000)
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
                                  headers: ["Content-Type":"application/json"])
     }
@@ -61,6 +62,11 @@ class StudioViewControllerTests : BaseUITests {
     expect(self.viewController.reactablePreview?.view.isHidden).to(beFalse())
   }
   
+  func assertSending() {
+    expect(self.viewController.loadingImage.isHidden).toEventually(beFalse())
+    expect(self.requestSent).toEventually(beTrue())
+  }
+  
   func testCapturePhoto() {
     viewController.beginAppearanceTransition(true, animated: false)
     assertDirecting()
@@ -74,7 +80,7 @@ class StudioViewControllerTests : BaseUITests {
     tester().longPressView(withAccessibilityLabel: "capture", duration: 1.0)
     assertApproving()
     tester().tapView(withAccessibilityLabel: "send")
-    expect(self.requestSent).toEventually(beTrue())
+    assertSending()
     expect(UITestsHelper.currentViewController!)
       .toEventually(beAnInstanceOf(TheaterViewController.self))
   }
@@ -99,9 +105,26 @@ class StudioViewControllerTests : BaseUITests {
     viewController.beginAppearanceTransition(true, animated: false)
     tester().tapView(withAccessibilityLabel: "capture")
     tester().tapView(withAccessibilityLabel: "send")
-    expect(self.requestSent).toEventually(beTrue())
+    assertSending()
     expect(UITestsHelper.currentViewController!)
       .toEventually(beAnInstanceOf(TheaterViewController.self))
+  }
+  
+  func testFailedSend() {
+    // Set up an ill server
+    stub(condition: isPath(StudioApi.path)) {request -> OHHTTPStubsResponse in
+      self.requestSent = true
+      usleep(1000000)
+      return OHHTTPStubsResponse(data: Data(), statusCode: 500,
+                                 headers: ["Content-Type":"application/json"])
+    }
+    viewController.beginAppearanceTransition(true, animated: false)
+    tester().tapView(withAccessibilityLabel: "capture")
+    tester().tapView(withAccessibilityLabel: "send")
+    assertSending()
+    // Tap the failure dialogue
+    tester().tapView(withAccessibilityLabel: StudioViewModel.saveFailedOkText)
+    assertApproving()
   }
   
   func testNavigationToTheater() {

@@ -53,7 +53,7 @@ class OnBoardingViewController: BaseViewController {
     completionLabel.reactive.isHidden <~ viewModel.completionLabelHidden
     completionLabel.isHidden = true
     
-    // Sets up animation image
+    // Sets up loading image
     var images: [UIImage] = []
     for i in 0 ... 11 {
       images.append(UIImage(named: "anim_loader_\(i)")!)

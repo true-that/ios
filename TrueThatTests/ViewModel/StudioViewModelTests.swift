@@ -52,9 +52,11 @@ class StudioViewModelTests: BaseTests {
     expect(self.viewModelDelegate.displayed).to(beNil())
     // Should hide directed reactable
     expect(self.viewModel.reactablePreviewHidden.value).to(beTrue())
+    // Loading image should be hidden
+    expect(self.viewModel.loadingImageHidden.value).to(beTrue())
   }
   
-  func assertAppriving() {
+  func assertApproving() {
     // Should have approval state
     expect(self.viewModel.state).to(equal(StudioViewModel.State.approving))
     // Should not restore preview
@@ -70,11 +72,22 @@ class StudioViewModelTests: BaseTests {
     expect(self.viewModelDelegate.displayed).to(equal(self.viewModel.directed))
     // Should show directed reactable
     expect(self.viewModel.reactablePreviewHidden.value).to(beFalse())
+    // Loading image should be hidden
+    expect(self.viewModel.loadingImageHidden.value).to(beTrue())
+  }
+  
+  func assertSending() {
+    // Loading image should be shown
+    expect(self.viewModel.loadingImageHidden.value).to(beFalse())
+    let current = requestCount
+    expect(self.requestCount).toEventually(equal(current + 1))
   }
   
   func assertPublished() {
     // Should leave studio
     expect(self.viewModelDelegate.leftStudio).to(beTrue())
+    // Loading image should be hidden
+    expect(self.viewModel.loadingImageHidden.value).to(beTrue())
   }
   
   func testCaptureImage() throws {
@@ -83,7 +96,7 @@ class StudioViewModelTests: BaseTests {
     try viewModel.didCapture(imageData:
       Data(contentsOf: URL(fileURLWithPath: "TrueThatTests/ViewModel/TestData/happy_selfie.jpg",
                            relativeTo: BaseTests.baseDir)))
-    assertAppriving()
+    assertApproving()
   }
   
   func testRecordVideo()  throws {
@@ -98,10 +111,10 @@ class StudioViewModelTests: BaseTests {
       dataRepresentation: Data(contentsOf:
         URL(fileURLWithPath: "TrueThatTests/ViewModel/TestData/wink.mp4", relativeTo:BaseTests.baseDir)),
       relativeTo: nil)!)
-    assertAppriving()
+    assertApproving()
     // Sending video
     viewModel.willSend()
-    expect(self.requestCount).toEventually(equal(1))
+    assertSending()
     assertPublished()
   }
   
@@ -109,10 +122,27 @@ class StudioViewModelTests: BaseTests {
     try viewModel.didCapture(imageData:
       Data(contentsOf: URL(fileURLWithPath: "TrueThatTests/ViewModel/TestData/happy_selfie.jpg",
                            relativeTo: BaseTests.baseDir)))
-    assertAppriving()
+    assertApproving()
     viewModel.willSend()
-    expect(self.requestCount).toEventually(equal(1))
+    assertSending()
     assertPublished()
+  }
+  
+  func testSendDidFail() throws {
+    // Set up an ill server
+    stub(condition: isPath(StudioApi.path)) {request -> OHHTTPStubsResponse in
+      self.requestCount += 1
+      return OHHTTPStubsResponse(data: Data(), statusCode: 500,
+                                 headers: ["Content-Type":"application/json"])
+    }
+    try viewModel.didCapture(imageData:
+      Data(contentsOf: URL(fileURLWithPath: "TrueThatTests/ViewModel/TestData/happy_selfie.jpg",
+                           relativeTo: BaseTests.baseDir)))
+    assertApproving()
+    viewModel.willSend()
+    assertSending()
+    expect(self.viewModelDelegate.alertDidShow).to(beTrue())
+    assertApproving()
   }
   
   func testResumeDirectingAfterPublish() {
@@ -125,6 +155,7 @@ class StudioViewModelTests: BaseTests {
     var leftStudio = false
     var sent = false
     var displayed: Reactable?
+    var alertDidShow = false
     
     func leaveStudio() {
       leftStudio = true
@@ -136,6 +167,10 @@ class StudioViewModelTests: BaseTests {
     
     func didSend() {
       sent = true
+    }
+    
+    func show(alert: String, withTitle: String, okAction: String) {
+      alertDidShow = true
     }
   }
 }

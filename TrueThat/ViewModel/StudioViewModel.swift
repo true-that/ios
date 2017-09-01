@@ -11,6 +11,9 @@ import ReactiveSwift
 import Result
 
 class StudioViewModel {
+  public static let saveFailedTitle = "Our Bad!"
+  public static let saveFailedOkText = "got it"
+  public static let saveFailedAlert = "Your piece of art was not saved 🤕"
   static let captureImageName = "capture_image.png"
   static let recordVideoImageName = "record.png"
   public let cameraSessionHidden = MutableProperty(false)
@@ -19,6 +22,7 @@ class StudioViewModel {
   public let cancelButtonHidden = MutableProperty(true)
   public let sendButtonHidden = MutableProperty(true)
   public let switchCameraButtonHidden = MutableProperty(false)
+  public let loadingImageHidden = MutableProperty(true)
   public let captureButtonImageName = MutableProperty(StudioViewModel.captureImageName)
   var state = State.directing
   var delegate: StudioViewModelDelegate?
@@ -52,6 +56,8 @@ class StudioViewModel {
     cancelButtonHidden.value = true
     sendButtonHidden.value = true
     reactablePreviewHidden.value = true
+    // Hide loading image
+    loadingImageHidden.value = true
   }
   
   /// After a reactable is directed, it awaits for final approval from the user.
@@ -73,11 +79,19 @@ class StudioViewModel {
     cancelButtonHidden.value = false
     sendButtonHidden.value = false
     reactablePreviewHidden.value = false
+    // Hide loading image
+    loadingImageHidden.value = true
   }
   
   /// After the user approved the reactable it is sent to our backend.
   func willSend() {
     App.log.verbose("Studio state: \(State.sent)")
+    // Check that we have something to send
+    if directed == nil {
+      App.log.warning("Trying to send a non-existent reactable.")
+      willApprove()
+      return
+    }
     state = State.sent
     // Hide camera preview and control buttons
     captureButtonHidden.value = true
@@ -88,12 +102,9 @@ class StudioViewModel {
     sendButtonHidden.value = true
     // Show directed reactable
     reactablePreviewHidden.value = false
-    
-    if directed == nil {
-      App.log.warning("Trying to send a non-existent reactable.")
-      willApprove()
-      return
-    }
+    // Show loading animation
+    loadingImageHidden.value = false
+    // Send save request
     _ = StudioApi.save(reactable: directed!)
       .on(value: { saved in
         if saved.id != nil {
@@ -101,12 +112,12 @@ class StudioViewModel {
           self.didPublish()
         } else {
           App.log.error("Reactable saved without ID.")
-          self.willApprove()
+          self.saveDidFail()
         }
       })
       .on(failed: {error in
         App.log.error("Failed to save reactable: \(error)")
-        self.willApprove()
+        self.saveDidFail()
       })
       .start()
   }
@@ -115,7 +126,18 @@ class StudioViewModel {
   func didPublish() {
     App.log.verbose("Studio state: \(State.published)")
     state = State.published
+    // Hide loading image
+    loadingImageHidden.value = true
+    // Leave studio
     delegate?.leaveStudio()
+  }
+  
+  /// Invoked after a network request to save `directed` had been failed.
+  func saveDidFail() {
+    self.delegate?.show(alert: StudioViewModel.saveFailedAlert,
+                        withTitle: StudioViewModel.saveFailedTitle,
+                        okAction: StudioViewModel.saveFailedOkText)
+    self.willApprove()
   }
   
   /// Invoked after a photo is captured and its data is available
@@ -168,4 +190,13 @@ protocol StudioViewModelDelegate {
   
   /// Invoked once a HTTP request with the directed reactable has been sent to the server.
   func didSend()
+  
+  
+  /// Shows `alert` to the user, to inform him of errors and warnings.
+  ///
+  /// - Parameters:
+  ///   - alert: message body of alert
+  ///   - withTitle: title at the top of the dislogue
+  ///   - okAction: what the user clicks to terminate the dialogue
+  func show(alert: String, withTitle: String, okAction: String)
 }

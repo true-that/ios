@@ -22,6 +22,7 @@ class StudioViewController: BaseViewController {
   @IBOutlet weak var cancelButton: UIImageView!
   @IBOutlet weak var switchCameraButton: UIImageView!
   @IBOutlet weak var sendButton: UIImageView!
+  @IBOutlet weak var loadingImage: UIImageView!
   
   // MARK: Lifecycle
   override func viewDidLoad() {
@@ -41,7 +42,7 @@ class StudioViewController: BaseViewController {
     swipeDown.direction = .down
     self.view.addGestureRecognizer(swipeDown)
     
-    initButtons()
+    initUI()
     #if (arch(i386) || arch(x86_64)) && os(iOS)
       // Dont initialize camera on Simulator
       self.view.backgroundColor = Color.shadow.value
@@ -65,7 +66,7 @@ class StudioViewController: BaseViewController {
   }
   
   // MARK: Initialization
-  private func initButtons() {
+  private func initUI() {
     // Enable for interaction
     captureButton.isUserInteractionEnabled = true
     cancelButton.isUserInteractionEnabled = true
@@ -95,6 +96,16 @@ class StudioViewController: BaseViewController {
     switchCameraButton.reactive.isHidden <~ viewModel.switchCameraButtonHidden
     cancelButton.reactive.isHidden <~ viewModel.cancelButtonHidden
     sendButton.reactive.isHidden <~ viewModel.sendButtonHidden
+    loadingImage.reactive.isHidden <~ viewModel.loadingImageHidden
+    
+    // Sets up loading image
+    var images: [UIImage] = []
+    for i in 0 ... 11 {
+      images.append(UIImage(named: "anim_loader_\(i)")!)
+    }
+    loadingImage.animationImages = images
+    loadingImage.animationDuration = 1.0
+    loadingImage.startAnimating()
   }
   
   // MARK: View Controller Navigation
@@ -162,6 +173,14 @@ extension StudioViewController: StudioViewModelDelegate {
     if reactablePreview is ShortMediaViewController {
       (reactablePreview as! ShortMediaViewController).player?.pause()
     }
+  }
+  
+  func show(alert: String, withTitle: String, okAction: String) {
+    let alertController = UIAlertController(title: withTitle, message: alert,
+                                            preferredStyle: .alert)
+    let okAction = UIAlertAction(title: okAction, style: .default, handler: nil)
+    alertController.addAction(okAction)
+    self.present(alertController, animated: true, completion: nil)
   }
 }
 
