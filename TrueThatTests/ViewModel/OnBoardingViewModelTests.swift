@@ -22,7 +22,7 @@ class OnBoardingViewModelTests: BaseTests {
     super.setUp()
     // Sets up backend for sign ups
     stub(condition: isPath(AuthApi.path)) {request -> OHHTTPStubsResponse in
-      let requestUser = User(json: JSON(request.httpBody!))
+      let requestUser = User(json: JSON(Data(fromStream: request.httpBodyStream!)))
       requestUser.id = 1
       let data = try? JSON(from: requestUser).rawData()
       return OHHTTPStubsResponse(data: data!, statusCode: 200,
@@ -70,7 +70,6 @@ class OnBoardingViewModelTests: BaseTests {
   func testSignUpDidFail() {
     // Sets up an ill backend
     stub(condition: isPath(AuthApi.path)) {request -> OHHTTPStubsResponse in
-      App.log.info("REQUEST \(JSON(Data(fromStream: request.httpBodyStream!)))")
       return OHHTTPStubsResponse(data: Data(), statusCode: 500,
                                  headers: ["Content-Type":"application/json"])
     }
@@ -94,11 +93,10 @@ class OnBoardingViewModelTests: BaseTests {
     // Can try again
     // Sets up proper backend
     stub(condition: isPath(AuthApi.path)) {request -> OHHTTPStubsResponse in
-      App.log.info("REQUEST \(request.httpBodyStream)")
-//      let requestUser = User(json: JSON(request.httpBody!))
-//      requestUser.id = 1
-//      let data = try? JSON(from: requestUser).rawData()
-      return OHHTTPStubsResponse(data: Data(), statusCode: 200,
+      let requestUser = User(json: JSON(Data(fromStream: request.httpBodyStream!)))
+      requestUser.id = 1
+      let data = try? JSON(from: requestUser).rawData()
+      return OHHTTPStubsResponse(data: data!, statusCode: 200,
                                  headers: ["Content-Type":"application/json"])
     }
     // Hit "done" on keyboard

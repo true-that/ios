@@ -21,8 +21,10 @@ class OnBoardingViewControllerTests : BaseUITests {
                     deviceId: App.deviceModule.deviceId)
     // Sets up stub backend response
     stub(condition: isPath(AuthApi.path)) {request -> OHHTTPStubsResponse in
-      let stubData = try! JSON(user.toDictionary()).rawData()
-      return OHHTTPStubsResponse(data: stubData, statusCode: 200,
+      let requestUser = User(json: JSON(Data(fromStream: request.httpBodyStream!)))
+      requestUser.id = 1
+      let data = try? JSON(from: requestUser).rawData()
+      return OHHTTPStubsResponse(data: data!, statusCode: 200,
                                  headers: ["Content-Type":"application/json"])
     }
     App.authModule.signOut()
@@ -65,6 +67,8 @@ class OnBoardingViewControllerTests : BaseUITests {
     expect(self.viewController.completionLabel.isHidden).to(beFalse())
     // Complete on boarding
     fakeDetectionModule.detect(OnBoardingViewModel.reactionForDone)
+    // Should show loading image
+    expect(self.viewController.loadingImage.isHidden).to(beFalse())
     expect(App.authModule.current).toEventually(equal(user))
     // Should navigate to theater
     expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(TheaterViewController.self))

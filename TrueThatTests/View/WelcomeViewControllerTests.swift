@@ -29,6 +29,7 @@ class WelcomeViewControllerTests : BaseUITests {
     expect(UITestsHelper.currentViewController!)
       .toEventually(beAnInstanceOf(WelcomeViewController.self))
     viewController = UITestsHelper.currentViewController as! WelcomeViewController
+    expect(self.viewController.view).toNot(beNil())
     expect(App.authModule.delegate).toEventually(beIdenticalTo(self.viewController))
   }
   
