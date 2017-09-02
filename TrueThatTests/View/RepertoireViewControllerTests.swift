@@ -69,7 +69,7 @@ class RepertoireViewControllerTests : BaseUITests {
     viewController.beginAppearanceTransition(true, animated: false)
     assertDisplayed(reactable: reactable)
     // Swipe up
-    tester().swipeView(withAccessibilityLabel: "ReactableView", in: .down)
+    tester().swipeView(withAccessibilityLabel: "reactable view", in: .down)
     expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(StudioViewController.self))
   }
 }

@@ -10,7 +10,8 @@ import Foundation
 import ReactiveSwift
 
 class ReactablesPageViewModel {
-  let nonFoundHidden = MutableProperty(true)
+  public let nonFoundHidden = MutableProperty(true)
+  public let loadingImageHidden = MutableProperty(false)
   var reactables = [Reactable]()
   var delegate: ReactablesPageDelegate!
   var fetchingDelegate: FetchReactablesDelegate!
@@ -48,10 +49,17 @@ class ReactablesPageViewModel {
   
   /// Fetch new reactables from our backend.
   public func fetchingData() {
+    if reactables.isEmpty {
+      loadingImageHidden.value = false
+    }
     fetchingDelegate.fetchingProducer()
       .on(value: { self.adding($0) })
       .on(failed: {error in
         App.log.error("Failed fetch request: \(error)")
+        self.loadingImageHidden.value = true
+        if self.reactables.isEmpty {
+          self.nonFoundHidden.value = false
+        }
       })
       .start()
   }
@@ -60,6 +68,7 @@ class ReactablesPageViewModel {
   ///
   /// - Parameter newReactables: freshly baked reactables, obvuala!
   private func adding(_ newReactables: [Reactable]) {
+    loadingImageHidden.value = true
     if newReactables.count > 0 {
       let shouldScroll = reactables.count > 0
       currentIndex = reactables.count

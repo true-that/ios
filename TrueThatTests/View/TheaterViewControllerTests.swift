@@ -76,7 +76,7 @@ class TheaterViewControllerTests : BaseUITests {
     reactable.viewed = true
     assertDisplayed(reactable: reactable)
     // Swipe up
-    tester().swipeView(withAccessibilityLabel: "ReactableView", in: .up)
+    tester().swipeView(withAccessibilityLabel: "reactable view", in: .up)
     expect(UITestsHelper.currentViewController)
       .toEventually(beAnInstanceOf(StudioViewController.self))
   }

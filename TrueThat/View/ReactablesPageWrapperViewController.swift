@@ -18,6 +18,7 @@ class ReactablesPageWrapperViewController: UIViewController {
   @IBOutlet weak var nonFoundStackView: UIStackView!
   @IBOutlet weak var nonFoundLabel: UILabel!
   @IBOutlet weak var nonFoundImageView: UIImageView!
+  @IBOutlet weak var loadingImage: UIImageView!
   /// View controllers that are displayed in this page, ordered by order of appearance.
   var orderedViewControllers = [ReactableViewController]()
   
@@ -47,9 +48,18 @@ class ReactablesPageWrapperViewController: UIViewController {
     }
     // Sets up visibility
     nonFoundStackView.reactive.isHidden <~ viewModel.nonFoundHidden
+    loadingImage.reactive.isHidden <~ viewModel.loadingImageHidden
     // Style
     nonFoundImageView.image = UIImage(named: "teddy.png")
     nonFoundLabel.textColor = Color.theme.value
+    // Sets up loading image
+    var images: [UIImage] = []
+    for i in 0 ... 11 {
+      images.append(UIImage(named: "anim_loader_\(i)")!)
+    }
+    loadingImage.animationImages = images
+    loadingImage.animationDuration = 1.0
+    loadingImage.startAnimating()
   }
   
   override func viewDidAppear(_ animated: Bool) {

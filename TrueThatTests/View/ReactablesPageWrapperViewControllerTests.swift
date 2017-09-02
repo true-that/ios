@@ -49,6 +49,8 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
     if self.viewController.reactablesPage.currentViewController?.viewModel?.model is Short {
       expect((self.viewController.reactablesPage.currentViewController?.mediaViewController as! ShortMediaViewController).player?.currentTime()).toEventuallyNot(equal(kCMTimeZero), timeout: 5.0)
     }
+    // Loading image should be hidden
+    expect(self.viewController.loadingImage.isHidden).to(beTrue())
   }
   
   func testDisplayReactable() {
@@ -59,7 +61,11 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
     fetchedReactables = [reactable]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
+    // Loading image should be shown
+    expect(self.viewController.loadingImage.isHidden).to(beFalse())
     viewController.didAuthOk()
+    // Loading image should be shown
+    expect(self.viewController.loadingImage.isHidden).to(beFalse())
     assertDisplayed(reactable: reactable)
   }
   
@@ -70,7 +76,7 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
                               reactionCounters: [.sad: 1000, .happy: 1234],
                               created: Date(), viewed: false)
     fetchedReactables = [reactable]
-    // Trigger viewDidAppear
+    // Trigger viewDidDisappear
     UIApplication.shared.keyWindow!.rootViewController = nil
     viewController.didAuthOk()
     expect(self.viewController.reactablesPage.currentViewController == nil).toNotEventually(beFalse())
@@ -86,6 +92,8 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
     // Trigger viewDidAppear
     App.authModule.signOut()
     viewController.beginAppearanceTransition(true, animated: false)
+    // Loading image should be shown
+    expect(self.viewController.loadingImage.isHidden).to(beFalse())
     expect(self.viewController.reactablesPage.currentViewController == nil).toNotEventually(beFalse())
   }
   
@@ -111,10 +119,10 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
     // Should display first reactable
     assertDisplayed(reactable: reactable)
     // Navigate to next reactable
-    tester().swipeView(withAccessibilityLabel: "ReactableView", in: .right)
+    tester().swipeView(withAccessibilityLabel: "reactable view", in: .right)
     assertDisplayed(reactable: pose)
     // Navigate to next reactable
-    tester().swipeView(withAccessibilityLabel: "ReactableView", in: .right)
+    tester().swipeView(withAccessibilityLabel: "reactable view", in: .right)
     assertDisplayed(reactable: short)
   }
   
@@ -134,10 +142,10 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
     // Should display first reactable
     assertDisplayed(reactable: reactable1)
     // Navigate to next reactable
-    tester().swipeView(withAccessibilityLabel: "ReactableView", in: .right)
+    tester().swipeView(withAccessibilityLabel: "reactable view", in: .right)
     assertDisplayed(reactable: reactable2)
     // Navigate back to previous reactable
-    tester().swipeView(withAccessibilityLabel: "ReactableView", in: .left)
+    tester().swipeView(withAccessibilityLabel: "reactable view", in: .left)
     assertDisplayed(reactable: reactable1)
   }
   
@@ -158,7 +166,9 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
     assertDisplayed(reactable: reactable1)
     // Navigate to next reactable
     fetchedReactables = [reactable2]
-    tester().swipeView(withAccessibilityLabel: "ReactableView", in: .right)
+    tester().swipeView(withAccessibilityLabel: "reactable view", in: .right)
+    // Loading image should not be shown
+    expect(self.viewController.loadingImage.isHidden).toNotEventually(beFalse())
     assertDisplayed(reactable: reactable2)
   }
   
