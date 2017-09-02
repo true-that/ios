@@ -57,6 +57,11 @@ class ShortMediaViewController: ReactableMediaViewController {
     gesture.minimumPressDuration = 0
     gesture.allowableMovement = 1000
     playerController!.view.addGestureRecognizer(gesture)
+    
+    // Show loader when buffering
+    player?.currentItem?.addObserver(self, forKeyPath: "playbackBufferEmpty", options: .new, context: nil)
+    player?.currentItem?.addObserver(self, forKeyPath: "playbackLikelyToKeepUp", options: .new, context: nil)
+    player?.currentItem?.addObserver(self, forKeyPath: "playbackBufferFull", options: .new, context: nil)
   }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -67,7 +72,6 @@ class ShortMediaViewController: ReactableMediaViewController {
     } else {
       App.log.verbose("not playing video, because player is not ready.")
     }
-    self.delegate?.didDownloadMedia()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -75,6 +79,7 @@ class ShortMediaViewController: ReactableMediaViewController {
     player?.pause()
   }
   
+  // MARK: AVPlayer
   /// Pauses and plays video as per user touch events.
   @objc fileprivate func controlVideo(_ recognizer: UIGestureRecognizer) {
     if player != nil {
@@ -95,6 +100,29 @@ class ShortMediaViewController: ReactableMediaViewController {
     if player != nil {
       player!.seek(to: kCMTimeZero)
       player!.play()
+    }
+  }
+  
+  override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    guard object is AVPlayerItem && keyPath != nil else {
+      return
+    }
+    switch keyPath! {
+    case "playbackBufferEmpty":
+      App.log.verbose("buffering video")
+      delegate?.showLoader()
+      break
+    case "playbackLikelyToKeepUp":
+      App.log.verbose("beffering video completed")
+      self.delegate?.didDownloadMedia()
+      delegate?.hideLoader()
+      break
+    case "playbackBufferFull":
+      App.log.verbose("beffering video completed, but might recur")
+      delegate?.hideLoader()
+      break
+    default:
+      break
     }
   }
 }

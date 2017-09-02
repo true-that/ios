@@ -16,6 +16,7 @@ class ReactableViewController: UIViewController {
   @IBOutlet weak var timeAgoLabel: UILabel!
   @IBOutlet weak var reactionEmojiLabel: UILabel!
   @IBOutlet weak var reactionsCountLabel: UILabel!
+  @IBOutlet weak var loadingImage: UIImageView!
 
   // MARK: Initialization
   static func instantiate(with reactable: Reactable) -> ReactableViewController {
@@ -40,6 +41,10 @@ class ReactableViewController: UIViewController {
     timeAgoLabel.reactive.text <~ viewModel.timeAgo
     reactionEmojiLabel.reactive.text <~ viewModel.reactionEmoji
     reactionsCountLabel.reactive.text <~ viewModel.reactionsCount
+    loadingImage.reactive.isHidden <~ viewModel.loadingImageHidden
+    
+    // Sets up loading image
+    UIHelper.initLoadingImage(loadingImage)
     
     // Loads media view controller
     mediaViewController = ReactableMediaViewController.instantiate(with: viewModel.model)
@@ -71,10 +76,24 @@ extension ReactableViewController: ReactableMediaViewControllerDelegate {
   func didDownloadMedia() {
     viewModel.didDisplay()
   }
+  
+  func showLoader() {
+    viewModel.loadingImageHidden.value = false
+  }
+  
+  func hideLoader() {
+    viewModel.loadingImageHidden.value = true
+  }
 }
 
 protocol ReactableMediaViewControllerDelegate {
   
   /// Invoked once the short video had been successfully downloaded.
   func didDownloadMedia()
+  
+  /// Show loading image to indicate content is being downloaded
+  func showLoader()
+  
+  /// Hide loading image
+  func hideLoader()
 }

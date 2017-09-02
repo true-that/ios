@@ -99,13 +99,7 @@ class StudioViewController: BaseViewController {
     loadingImage.reactive.isHidden <~ viewModel.loadingImageHidden
     
     // Sets up loading image
-    var images: [UIImage] = []
-    for i in 0 ... 11 {
-      images.append(UIImage(named: "anim_loader_\(i)")!)
-    }
-    loadingImage.animationImages = images
-    loadingImage.animationDuration = 1.0
-    loadingImage.startAnimating()
+    UIHelper.initLoadingImage(loadingImage)
   }
   
   // MARK: View Controller Navigation

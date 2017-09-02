@@ -12,6 +12,7 @@ class ReactableViewModel {
   public let timeAgo = MutableProperty("")
   public let reactionEmoji = MutableProperty("")
   public let reactionsCount = MutableProperty("")
+  public let loadingImageHidden = MutableProperty(false)
   
   var model: Reactable
   
@@ -71,6 +72,7 @@ class ReactableViewModel {
   
   /// Triggered when the media of {model} is downloaded and displayed.
   public func didDisplay() {
+    loadingImageHidden.value = true
     if model.viewed != true {
       InteractionApi.save(interaction: InteractionEvent(
         timestamp: Date(), userId: App.authModule.current!.id, reaction: nil,

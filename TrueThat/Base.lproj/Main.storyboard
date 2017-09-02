@@ -223,18 +223,29 @@
                                     </label>
                                 </subviews>
                             </stackView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="atJ-Ro-yqi">
+                                <rect key="frame" x="142" y="288" width="90" height="90"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="90" id="6M6-9z-cjx"/>
+                                    <constraint firstAttribute="width" secondItem="atJ-Ro-yqi" secondAttribute="height" multiplier="1:1" id="8Ez-fm-nSI"/>
+                                    <constraint firstAttribute="height" constant="90" id="aiW-GT-xj4"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration" label="reactable view"/>
                         <constraints>
                             <constraint firstItem="U2o-LV-Fo9" firstAttribute="leading" secondItem="ieF-0C-5DO" secondAttribute="leadingMargin" id="MAP-qO-7Hy"/>
                             <constraint firstItem="U2o-LV-Fo9" firstAttribute="top" secondItem="76r-xD-bTE" secondAttribute="bottom" constant="8" symbolic="YES" id="YQL-uP-1x3"/>
+                            <constraint firstItem="atJ-Ro-yqi" firstAttribute="centerX" secondItem="ieF-0C-5DO" secondAttribute="centerX" id="lnu-eS-vg6"/>
                             <constraint firstAttribute="bottom" secondItem="znr-H3-vAR" secondAttribute="bottom" constant="20" symbolic="YES" id="pIo-8V-Qge"/>
                             <constraint firstItem="U2o-LV-Fo9" firstAttribute="leading" secondItem="znr-H3-vAR" secondAttribute="leading" id="qP0-6b-qzf"/>
+                            <constraint firstItem="atJ-Ro-yqi" firstAttribute="centerY" secondItem="ieF-0C-5DO" secondAttribute="centerY" id="r2D-c2-ax9"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="directorLabel" destination="wN6-0w-EPV" id="Vrh-QA-GYx"/>
+                        <outlet property="loadingImage" destination="atJ-Ro-yqi" id="ngI-eK-1qs"/>
                         <outlet property="reactionEmojiLabel" destination="Q0j-Jb-J4F" id="Mrt-c8-8f1"/>
                         <outlet property="reactionsCountLabel" destination="Kl4-4Z-qAE" id="OC8-27-7EP"/>
                         <outlet property="timeAgoLabel" destination="kCa-cD-GP5" id="vB7-mo-TzI"/>
@@ -242,7 +253,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yog-Fl-QT0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1390" y="-278"/>
+            <point key="canvasLocation" x="1389.5999999999999" y="-278.41079460269867"/>
         </scene>
         <!--On Boarding View Controller-->
         <scene sceneID="aod-8U-BIJ">
@@ -343,21 +354,7 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kYs-ba-Cl6">
-                                <rect key="frame" x="147" y="293" width="80" height="80"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="Aoh-nT-CkQ"/>
-                                    <constraint firstAttribute="width" secondItem="kYs-ba-Cl6" secondAttribute="height" multiplier="1:1" id="e7l-6P-5jE"/>
-                                    <constraint firstAttribute="width" constant="80" id="xew-ti-Vff"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="kYs-ba-Cl6" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="65d-6J-3HO"/>
-                            <constraint firstItem="kYs-ba-Cl6" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Elg-Yt-zaX"/>
-                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

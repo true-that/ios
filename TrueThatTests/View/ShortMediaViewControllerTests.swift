@@ -13,6 +13,7 @@ import Nimble
 
 class ShortMediaViewControllerTests : BaseUITests {
   var viewController: ShortMediaViewController!
+  var delegate: TestsReactableMediaViewControllerDelegate!
   let short = Short(id: 3, userReaction: .happy,
                     director: User(id: 1, firstName: "Emma", lastName: "Watson", deviceId: "iphone2"),
                     reactionCounters: [.happy: 5000, .sad: 34], created: Date(),
@@ -22,7 +23,9 @@ class ShortMediaViewControllerTests : BaseUITests {
   override func setUp() {
     super.setUp()
     
+    delegate = TestsReactableMediaViewControllerDelegate()
     viewController = ShortMediaViewController.instantiate(short)
+    viewController.delegate = delegate
     
     UIApplication.shared.keyWindow!.rootViewController = viewController
     
@@ -37,6 +40,8 @@ class ShortMediaViewControllerTests : BaseUITests {
       .toEventually(equal(.playing), timeout: 5.0)
     expect(self.viewController.player?.currentTime())
       .toEventuallyNot(equal(kCMTimeZero))
+    expect(self.delegate.mediaDidDownload).to(beTrue())
+    expect(self.delegate.loaderHidden).to(beTrue())
   }
   
   func testVideoIsLooping() {
@@ -48,7 +53,6 @@ class ShortMediaViewControllerTests : BaseUITests {
   }
   
   func testTouchEventControl() {
-//    expect(4).toEventually(equal(8), timeout: 40.0)
     // Wait for video to start
     expect(self.viewController.player?.currentTime())
       .toEventuallyNot(equal(kCMTimeZero), timeout: 5.0)
@@ -60,5 +64,22 @@ class ShortMediaViewControllerTests : BaseUITests {
       .toNot(equal(currentTime))
     // Asserting a pause did occur.
     expect(self.viewController.player!.currentItem!.currentTime().seconds - currentTime < 0.9).to(beTrue())
+  }
+  
+  class TestsReactableMediaViewControllerDelegate: ReactableMediaViewControllerDelegate {
+    var mediaDidDownload: Bool?
+    var loaderHidden: Bool?
+    
+    func didDownloadMedia() {
+      mediaDidDownload = true
+    }
+    
+    func showLoader() {
+      loaderHidden = false
+    }
+    
+    func hideLoader() {
+      loaderHidden = true
+    }
   }
 }
