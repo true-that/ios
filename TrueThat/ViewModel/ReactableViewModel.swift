@@ -74,14 +74,15 @@ class ReactableViewModel {
   public func didDisplay() {
     loadingImageHidden.value = true
     if model.viewed != true {
-      InteractionApi.save(interaction: InteractionEvent(
+      let event = InteractionEvent(
         timestamp: Date(), userId: App.authModule.current!.id, reaction: nil,
-        eventType: .reactableView, reactableId: model.id))
+        eventType: .reactableView, reactableId: model.id)
+      InteractionApi.save(interaction: event)
         .on(value: {value in
           self.model.viewed = true
         })
         .on(failed: {error in
-          print(error)
+          App.log.error("Could not save interaction event \(event) becuase of \(error)")
         })
         .start()
     }
@@ -94,16 +95,17 @@ extension ReactableViewModel: ReactionDetectionDelegate {
   func didDetect(reaction: Emotion) {
     App.detecionModule.delegate = nil
     if (model.canReact(user: App.authModule.current!)) {
-      InteractionApi.save(interaction: InteractionEvent(
+      let event = InteractionEvent(
         timestamp: Date(), userId: App.authModule.current!.id, reaction: reaction,
-        eventType: .reactableReaction, reactableId: model.id))
+        eventType: .reactableReaction, reactableId: model.id)
+      InteractionApi.save(interaction: event)
         .on(value: {event in
           self.model.userReaction = reaction
           self.model.updateReactionCounters(with: reaction)
           self.updateReactionCounters()
         })
         .on(failed: {error in
-          print(error)
+          App.log.error("Could not save interaction event \(event) becuase of \(error)")
         })
         .start()
     }

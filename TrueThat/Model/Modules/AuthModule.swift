@@ -105,7 +105,7 @@ class AuthModule {
         }
       })
       .on(failed: { error in
-        App.log.error("Failed auth request: \(error)")
+        App.log.error("Failed auth request for \(user), with error \(error)")
         self.current = nil
         self.delegate?.didAuthFail()
       })

@@ -116,7 +116,7 @@ class StudioViewModel {
         }
       })
       .on(failed: {error in
-        App.log.error("Failed to save reactable: \(error)")
+        App.log.error("Failed to save reactable \(String(describing: self.directed)) because of \(error)")
         self.saveDidFail()
       })
       .start()
@@ -162,7 +162,7 @@ class StudioViewModel {
   /// Invoked once recorded video has been processed.
   func didFinishProcessVideo(url: URL) {
     directed = Short(id: nil, userReaction: nil, director: App.authModule.current,
-                     reactionCounters: nil, created: Date(), viewed: nil, videoUrl: url)
+                     reactionCounters: nil, created: Date(), viewed: nil, videoLocalUrl: url)
     willApprove()
   }
   

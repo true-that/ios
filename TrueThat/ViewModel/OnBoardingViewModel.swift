@@ -14,7 +14,7 @@ class OnBoardingViewModel {
   // MARK: Properties
   public static let reactionForDone = Emotion.happy
   public static let invalidNameText = "invalid name"
-  public static let signUpFailedText = "oopsie we had an error on our end"
+  public static let signUpFailedText = "oopsie we had an error 😬"
   public let warningLabelHidden = MutableProperty(true)
   public let warningLabelText = MutableProperty(OnBoardingViewModel.invalidNameText)
   public let loadingImageHidden = MutableProperty(true)

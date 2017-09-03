@@ -32,6 +32,8 @@ class ShortMediaViewController: ReactableMediaViewController {
     playerController?.view.accessibilityLabel = "short video"
     if short?.videoUrl != nil {
       player = AVPlayer(url: short!.videoUrl!)
+    } else if short?.videoLocalUrl != nil {
+      player = AVPlayer(url: short!.videoLocalUrl!)
     }
     
     guard player != nil && playerController != nil else {
