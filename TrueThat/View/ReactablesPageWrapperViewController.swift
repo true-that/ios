@@ -72,9 +72,7 @@ class ReactablesPageWrapperViewController: UIViewController {
   }
   
   func didAuthOk() {
-    if presentingViewController != nil {
-      fetchIfEmpty()
-    }
+    fetchIfEmpty()
   }
   
   func fetchIfEmpty() {

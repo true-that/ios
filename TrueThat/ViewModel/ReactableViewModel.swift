@@ -8,6 +8,7 @@ import ReactiveSwift
 import Result
 
 class ReactableViewModel {
+  // MARK: Properties
   public let directorName = MutableProperty("")
   public let timeAgo = MutableProperty("")
   public let reactionEmoji = MutableProperty("")
@@ -15,9 +16,7 @@ class ReactableViewModel {
   public let loadingImageHidden = MutableProperty(false)
   
   var model: Reactable
-  
-  /// As the type is determined in run time, we keet at as `Any`.
-  var delegate: Any!
+  var delegate: ReactableViewDelegate!
   
   // MARK: Initialization
   init(with reactable: Reactable) {
@@ -91,23 +90,29 @@ class ReactableViewModel {
   }
 }
 
+// MARK: ReactionDetectionDelegate
 extension ReactableViewModel: ReactionDetectionDelegate {
   func didDetect(reaction: Emotion) {
     App.detecionModule.delegate = nil
+    model.userReaction = reaction
+    model.updateReactionCounters(with: reaction)
+    updateReactionCounters()
+    delegate.animateReactionImage()
     if (model.canReact(user: App.authModule.current!)) {
       let event = InteractionEvent(
         timestamp: Date(), userId: App.authModule.current!.id, reaction: reaction,
         eventType: .reactableReaction, reactableId: model.id)
       InteractionApi.save(interaction: event)
-        .on(value: {event in
-          self.model.userReaction = reaction
-          self.model.updateReactionCounters(with: reaction)
-          self.updateReactionCounters()
-        })
         .on(failed: {error in
           App.log.error("Could not save interaction event \(event) becuase of \(error)")
         })
         .start()
     }
   }
+}
+
+protocol ReactableViewDelegate {
+  
+  /// Animates emotional reation image, so that the user see his reaction was captured.
+  func animateReactionImage()
 }

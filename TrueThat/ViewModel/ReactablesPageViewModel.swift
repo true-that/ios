@@ -49,6 +49,7 @@ class ReactablesPageViewModel {
   
   /// Fetch new reactables from our backend.
   public func fetchingData() {
+    App.log.verbose("fetching reactables")
     if reactables.isEmpty {
       loadingImageHidden.value = false
     }

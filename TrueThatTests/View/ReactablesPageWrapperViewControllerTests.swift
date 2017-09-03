@@ -69,6 +69,23 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
     assertDisplayed(reactable: reactable)
   }
   
+  func testEmotionalReaction() {
+    let reactable = Reactable(id: 1, userReaction: nil,
+                              director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
+                              reactionCounters: [.sad: 4],
+                              created: Date(), viewed: false)
+    fetchedReactables = [reactable]
+    // Trigger viewDidAppear
+    viewController.beginAppearanceTransition(true, animated: false)
+    viewController.didAuthOk()
+    assertDisplayed(reactable: reactable)
+    fakeDetectionModule.detect(.happy)
+    expect(self.viewController.reactablesPage.currentViewController!.reactionEmojiLabel.text)
+      .to(equal(Emotion.happy.emoji))
+    expect(self.viewController.reactablesPage.currentViewController!.reactionsCountLabel.text)
+      .to(equal("5"))
+  }
+  
   // Should not fetch reactables before view appeared
   func testNotDisplayBeforePresent() {
     let reactable = Reactable(id: 1, userReaction: .sad,

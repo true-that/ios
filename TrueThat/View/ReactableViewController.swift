@@ -86,6 +86,19 @@ extension ReactableViewController: ReactableMediaViewControllerDelegate {
   }
 }
 
+// MARK: ReactableViewDelegate
+extension ReactableViewController: ReactableViewDelegate {
+  func animateReactionImage() {
+    UIView.animate(withDuration: 0.3, animations: {
+      self.reactionEmojiLabel.transform = CGAffineTransform.identity.scaledBy(x: 1.6, y: 1.6)
+    }, completion: { (finish) in
+      UIView.animate(withDuration: 0.3, animations: {
+        self.reactionEmojiLabel.transform = CGAffineTransform.identity
+      })
+    })
+  }
+}
+
 protocol ReactableMediaViewControllerDelegate {
   
   /// Invoked once the short video had been successfully downloaded.
