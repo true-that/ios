@@ -6,7 +6,7 @@
 //  Copyright © 2017 TrueThat. All rights reserved.
 //
 
-import Foundation
+import Crashlytics
 import SwiftyJSON
 
 /// Manages authentication and autherization for the application.
@@ -33,7 +33,7 @@ class AuthModule {
   ///
   /// - Parameter fullName: of new user
   public func signUp(fullName: String) {
-    App.log.verbose("They all sign up eventually")
+    App.log.debug("They all sign up eventually")
     let toAuth = User(id: nil, firstName: StringHelper.extractFirstName(of: fullName),
                       lastName: StringHelper.extractLastName(of: fullName),
                       deviceId: App.deviceModule.deviceId!)
@@ -42,7 +42,12 @@ class AuthModule {
   
   /// User initiated auth attempt.
   public func signIn() {
-    App.log.verbose("Hmmm.. have we met?")
+    App.log.debug("Hmmm.. have we met?")
+    if isAuthOk {
+      App.log.debug("it appears so!")
+      delegate?.didAuthOk()
+      return
+    }
     var toSignIn = lastSession
     if toSignIn == nil {
       toSignIn = User(id: nil, firstName: nil, lastName: nil, deviceId: App.deviceModule.deviceId)
@@ -57,16 +62,16 @@ class AuthModule {
   
   /// Authenticates a user based on user session.
   public func auth() {
-    App.log.verbose("Trying to auth..")
+    App.log.debug("Trying to auth..")
     // Checking if already logged in
     if current != nil && current!.isAuthOk {
-      App.log.verbose("its \(current!.displayName) again!")
+      App.log.debug("its \(current!.displayName) again!")
       delegate?.didAuthOk()
       return
     }
     // Trying to restore last session
     if lastSession != nil {
-      App.log.verbose("Restored session: \(String(describing: lastSession!.displayName)) seems kind of familiar..")
+      App.log.debug("Restored session: \(String(describing: lastSession!.displayName)) seems kind of familiar..")
       authRequest(for: lastSession!)
       return
     }
@@ -87,16 +92,19 @@ class AuthModule {
   }
   
   func authRequest(for user: User) {
+    Crashlytics.sharedInstance().setObjectValue(user, forKey: LoggingKey.authUser.rawValue)
     _ = AuthApi.auth(for: user)
       .on(value: {
         if $0.isAuthOk {
           self.current = $0
-          App.log.verbose("Auth OK: we missed ya \(self.current!.displayName) already!")
+          App.log.debug("Auth OK: we missed ya \(self.current!.displayName) already!")
           do {
             try App.keychainModule.save(JSON(from: self.current!).rawData(), key: AuthModule.userKey)
           } catch {
             App.log.warning("Could not save user session to keychain.")
           }
+          Crashlytics.sharedInstance().setUserIdentifier(String(describing: self.current!.id!))
+          Crashlytics.sharedInstance().setUserName(self.current!.displayName)
           self.delegate?.didAuthOk()
         } else {
           App.log.warning("Responsed user is not auth OK: \($0)")
@@ -105,7 +113,7 @@ class AuthModule {
         }
       })
       .on(failed: { error in
-        App.log.error("Failed auth request for \(user), with error \(error)")
+        App.log.report("Failed auth request for \(user), with error \(error)", withError: error)
         self.current = nil
         self.delegate?.didAuthFail()
       })

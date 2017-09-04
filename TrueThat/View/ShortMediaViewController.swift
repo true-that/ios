@@ -13,7 +13,7 @@ import AVKit
 class ShortMediaViewController: ReactableMediaViewController {
   // MARK: Properties
   var short: Short?
-  var player: AVPlayer?
+  weak var player: AVPlayer?
   var playerController : AVPlayerViewController?
   
   // MARK: Initialization
@@ -69,10 +69,10 @@ class ShortMediaViewController: ReactableMediaViewController {
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     if player != nil {
-      App.log.verbose("playing video")
+      App.log.debug("playing video")
       player?.play()
     } else {
-      App.log.verbose("not playing video, because player is not ready.")
+      App.log.debug("not playing video, because player is not ready.")
     }
   }
   
@@ -81,15 +81,23 @@ class ShortMediaViewController: ReactableMediaViewController {
     player?.pause()
   }
   
+  override func willMove(toParentViewController parent: UIViewController?) {
+    if parent == nil {
+      player?.currentItem?.removeObserver(self, forKeyPath: "playbackBufferEmpty")
+      player?.currentItem?.removeObserver(self, forKeyPath: "playbackLikelyToKeepUp")
+      player?.currentItem?.removeObserver(self, forKeyPath: "playbackBufferFull")
+    }
+  }
+  
   // MARK: AVPlayer
   /// Pauses and plays video as per user touch events.
   @objc fileprivate func controlVideo(_ recognizer: UIGestureRecognizer) {
     if player != nil {
       if recognizer.state == .began {
-        App.log.verbose("pausing video")
+        App.log.debug("pausing video")
         player!.pause()
       } else if recognizer.state == .ended {
-        App.log.verbose("resuming video")
+        App.log.debug("resuming video")
         player!.play()
       }
     }
@@ -111,16 +119,16 @@ class ShortMediaViewController: ReactableMediaViewController {
     }
     switch keyPath! {
     case "playbackBufferEmpty":
-      App.log.verbose("buffering video")
+      App.log.debug("buffering video")
       delegate?.showLoader()
       break
     case "playbackLikelyToKeepUp":
-      App.log.verbose("beffering video completed")
+      App.log.debug("beffering video completed")
       self.delegate?.didDownloadMedia()
       delegate?.hideLoader()
       break
     case "playbackBufferFull":
-      App.log.verbose("beffering video completed, but might recur")
+      App.log.debug("beffering video completed, but might recur")
       delegate?.hideLoader()
       break
     default:

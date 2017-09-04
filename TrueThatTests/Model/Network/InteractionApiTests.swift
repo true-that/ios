@@ -60,7 +60,8 @@ class InteractionApiTests: XCTestCase {
   
   func testBadResponse() {
     stub(condition: isPath(InteractionApi.path)) {request -> OHHTTPStubsResponse in
-      return OHHTTPStubsResponse(error: BaseError.network)
+      return OHHTTPStubsResponse(error: NSError(domain: Bundle.main.bundleIdentifier!, code: 1,
+                                                userInfo: nil))
     }
     interaction = InteractionEvent(timestamp: Date(), userId: 1, reaction: .happy,
                                    eventType: .reactableReaction, reactableId: 1)

@@ -191,7 +191,7 @@ open class SwiftyCamViewController: UIViewController {
   /// ViewDidLoad Implementation
   override open func viewDidLoad() {
     super.viewDidLoad()
-    App.log.verbose("viewDidLoad")
+    App.log.debug("viewDidLoad")
     previewLayer = PreviewView(frame: view.bounds)
     
     // Add Gesture Recognizers
@@ -242,7 +242,7 @@ open class SwiftyCamViewController: UIViewController {
   
   override open func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    App.log.verbose("viewDidAppear")
+    App.log.debug("viewDidAppear")
     
     // Subscribe to device rotation notifications
     if shouldUseDeviceOrientation {
@@ -282,7 +282,7 @@ open class SwiftyCamViewController: UIViewController {
   // MARK: ViewDidDisappear
   override open func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    App.log.verbose("viewWillDisappear")
+    App.log.debug("viewWillDisappear")
     
     // If session is running, stop the session
     if self.isSessionRunning == true {

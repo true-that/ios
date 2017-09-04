@@ -6,6 +6,7 @@
 //  Copyright © 2017 TrueThat. All rights reserved.
 //
 
+import Crashlytics
 import UIKit
 
 /// Base view controller class for encapsulating poses (such as OnBoarding or Theater)
@@ -16,41 +17,42 @@ class BaseViewController: UIViewController {
   override func viewDidLoad() {
     logTag = String(describing: type(of: self))
     super.viewDidLoad()
-    App.log.verbose("\(logTag): viewDidLoad")
+    App.log.debug("\(logTag): viewDidLoad")
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    App.log.verbose("\(logTag): viewWillAppear")
+    App.log.debug("\(logTag): viewWillAppear")
   }
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    App.log.verbose("\(logTag): viewDidAppear")
+    App.log.debug("\(logTag): viewDidAppear")
     App.authModule.delegate = self
     if doAuth {
       App.authModule.auth()
     }
+    Crashlytics.sharedInstance().setObjectValue(logTag, forKey: LoggingKey.viewController.rawValue)
   }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    App.log.verbose("\(logTag): viewWillDisappear")
+    App.log.debug("\(logTag): viewWillDisappear")
   }
   
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
-    App.log.verbose("\(logTag): viewDidDisappear")
+    App.log.debug("\(logTag): viewDidDisappear")
   }
 }
 
 extension BaseViewController: AuthDelegate {
   func didAuthOk() {
-    App.log.verbose("\(logTag): didAuthOk")
+    App.log.debug("\(logTag): didAuthOk")
   }
   
   func didAuthFail() {
-    App.log.verbose("\(logTag): didAuthFail")
+    App.log.debug("\(logTag): didAuthFail")
     self.present(
       UIStoryboard(name: "Main", bundle: self.nibBundle).instantiateViewController(
         withIdentifier: "WelcomeScene"),

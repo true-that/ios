@@ -37,6 +37,12 @@ class AuthModuleTests: BaseTests {
     user = User(id: 1, firstName: "dellores", lastName: "hidyhoe", deviceId: App.deviceModule.deviceId)
   }
   
+  func resetState() {
+    didBackendCall = false
+    authDelegate = AuthTestsDelegate()
+    authModule.delegate = authDelegate
+  }
+  
   func doingAuth() {
     do {
       try fakeKeychain.save(JSON(from: user).rawData(), key: AuthModule.userKey)
@@ -48,18 +54,22 @@ class AuthModuleTests: BaseTests {
   
   func assertAuthOk() {
     expect(self.authDelegate.authOk).toEventually(beTrue())
+    expect(self.authDelegate.authFail).to(beNil())
     expect(self.authModule.current).to(equal(self.user))
     expect(User(json: JSON(App.keychainModule.get(AuthModule.userKey)!))).to(equal(self.user))
   }
   
   func assertAuthFailed() {
     expect(self.authDelegate.authFail).toEventually(beTrue())
+    expect(self.authDelegate.authOk).to(beNil())
     expect(self.authModule.current).to(beNil())
     expect(self.authModule.isAuthOk).to(beFalse())
   }
   
   func testSignInAlreadyAuthOk() {
     doingAuth()
+    assertAuthOk()
+    didBackendCall = false
     authModule.signIn()
     expect(self.didBackendCall).to(beFalse())
     assertAuthOk()
@@ -100,6 +110,8 @@ class AuthModuleTests: BaseTests {
   
   func testSignOut() {
     doingAuth()
+    assertAuthOk()
+    resetState()
     authModule.signOut()
     assertAuthFailed()
     expect(self.fakeKeychain.get(AuthModule.userKey)).to(beNil())
@@ -112,7 +124,8 @@ class AuthModuleTests: BaseTests {
   
   func testSignUpBadResponse() {
     stub(condition: isPath(AuthApi.path)) {request -> OHHTTPStubsResponse in
-      return OHHTTPStubsResponse(error: BaseError.network)
+      return OHHTTPStubsResponse(error: NSError(domain: Bundle.main.bundleIdentifier!,
+                                                code: 1, userInfo: nil))
     }
     authModule.signUp(fullName: user.displayName)
     assertAuthFailed()

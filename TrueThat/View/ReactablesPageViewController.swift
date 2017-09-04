@@ -6,13 +6,14 @@
 //  Copyright © 2017 TrueThat. All rights reserved.
 //
 
+import Crashlytics
 import UIKit
 import ReactiveSwift
 import ReactiveCocoa
 
 class ReactablesPageViewController: UIPageViewController {
   // MARK: Properties
-  var viewModel: ReactablesPageViewModel!
+  weak var viewModel: ReactablesPageViewModel!
   weak var pagerDelegate: ReactablesPageViewControllerDelegate?
   /// View controllers that are displayed in this page, ordered by order of appearance.
   var orderedViewControllers = [ReactableViewController]()
@@ -28,7 +29,7 @@ class ReactablesPageViewController: UIPageViewController {
   // MARK: Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    App.log.verbose("viewDidLoad")
+    App.log.debug("viewDidLoad")
     
     dataSource = self
     delegate = self
@@ -88,7 +89,10 @@ extension ReactablesPageViewController: UIPageViewControllerDelegate {
 extension ReactablesPageViewController: ReactablesPageDelegate {
   func display(at index: Int) {
     if index >= 0 && index < orderedViewControllers.count {
-      App.log.verbose("Displaying the \(index)-th reactable.")
+      App.log.debug("Displaying the \(index)-th reactable.")
+      Crashlytics.sharedInstance().setObjectValue(
+        viewModel.reactables[index].toDictionary(),
+        forKey: LoggingKey.displayedReactable.rawValue)
       setViewControllers([orderedViewControllers[index]],
                          direction: index >= viewModel.currentIndex ? .forward : .reverse,
                          animated: true,
@@ -105,7 +109,7 @@ extension ReactablesPageViewController: ReactablesPageDelegate {
   
   func scroll(to index: Int) {
     if currentViewController != nil {
-      App.log.verbose("Scrolling to \(index)-th reactable.")
+      App.log.debug("Scrolling to \(index)-th reactable.")
       display(at: index)
     }
   }
@@ -115,7 +119,7 @@ extension ReactablesPageViewController: ReactablesPageDelegate {
   ///
   /// - Parameter newViewModels: to create view controllers from
   func updatingData(with newReactables: [Reactable]) {
-    App.log.verbose("\(newReactables.count) new reactables.")
+    App.log.debug("\(newReactables.count) new reactables.")
     self.orderedViewControllers +=
       newReactables.map{ReactableViewController.instantiate(with: $0)}
     self.pagerDelegate?.ReactablesPageViewController(

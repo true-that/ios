@@ -7,10 +7,15 @@
 //
 
 import Alamofire
+import Crashlytics
 
 extension DataRequest {
   @discardableResult public func log() -> Self {
     App.log.info("\(self)")
+    if request?.url?.absoluteURL != nil {
+      Crashlytics.sharedInstance().setObjectValue(
+        request!.url!.absoluteURL, forKey: LoggingKey.lastNetworkRequest.rawValue)
+    }
     return self
   }
 }

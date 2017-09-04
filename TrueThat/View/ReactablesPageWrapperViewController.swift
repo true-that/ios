@@ -34,7 +34,7 @@ class ReactablesPageWrapperViewController: UIViewController {
   // MARK: Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    App.log.verbose("viewDidLoad")
+    App.log.debug("viewDidLoad")
     
     // Loads reactables container
     reactablesPage = ReactablesPageViewController.instantiate()
@@ -58,7 +58,7 @@ class ReactablesPageWrapperViewController: UIViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    App.log.verbose("viewDidAppear")
+    App.log.debug("viewDidAppear")
     App.detecionModule.start()
     if App.authModule.isAuthOk {
       fetchIfEmpty()
@@ -67,7 +67,7 @@ class ReactablesPageWrapperViewController: UIViewController {
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    App.log.verbose("viewWillDisappear")
+    App.log.debug("viewWillDisappear")
     App.detecionModule.stop()
   }
   

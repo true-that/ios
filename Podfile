@@ -4,6 +4,9 @@ use_frameworks!
 target 'TrueThat' do
   pod 'AffdexSDK-iOS'
   pod 'Alamofire', '~> 4.4'
+  pod 'Appsee'
+  pod 'Fabric'
+  pod 'Crashlytics'
   pod 'KeychainAccess'
   pod 'Kingfisher', '~> 3.0'
   pod 'ReactiveCocoa', '~> 6.0'

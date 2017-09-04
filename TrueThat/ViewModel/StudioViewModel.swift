@@ -6,7 +6,7 @@
 //  Copyright © 2017 TrueThat. All rights reserved.
 //
 
-import Foundation
+import Crashlytics
 import ReactiveSwift
 import Result
 
@@ -44,7 +44,7 @@ class StudioViewModel {
   
   /// The state when directing had not been started yet (usually when the camera preview is live).
   func willDirect() {
-    App.log.verbose("Studio state: \(State.directing)")
+    App.log.debug("Studio state: \(State.directing)")
     state = State.directing
     directed = nil
     delegate?.displayPreview(of: nil)
@@ -62,7 +62,7 @@ class StudioViewModel {
   
   /// After a reactable is directed, it awaits for final approval from the user.
   func willApprove() {
-    App.log.verbose("Studio state: \(State.approving)")
+    App.log.debug("Studio state: \(State.approving)")
     guard directed != nil else {
       App.log.warning("Reached approval state with a nil directed reactable.")
       willDirect()
@@ -85,7 +85,7 @@ class StudioViewModel {
   
   /// After the user approved the reactable it is sent to our backend.
   func willSend() {
-    App.log.verbose("Studio state: \(State.sent)")
+    App.log.debug("Studio state: \(State.sent)")
     // Check that we have something to send
     if directed == nil {
       App.log.warning("Trying to send a non-existent reactable.")
@@ -111,20 +111,27 @@ class StudioViewModel {
           App.log.info("Reactable \(saved.id!) published successfully.")
           self.didPublish()
         } else {
-          App.log.error("Reactable saved without ID.")
+          App.log.report("Reactable saved without ID.",
+                         withError: NSError(domain: Bundle.main.bundleIdentifier!,
+                                            code: ErrorCode.badResponseData.rawValue,
+                                            userInfo: nil))
           self.saveDidFail()
         }
       })
       .on(failed: {error in
-        App.log.error("Failed to save reactable \(String(describing: self.directed)) because of \(error)")
+        App.log.report(
+          "Failed to save reactable \(String(describing: self.directed)) because of \(error)",
+          withError: error)
         self.saveDidFail()
       })
       .start()
+    Crashlytics.sharedInstance().setObjectValue(directed?.toDictionary(),
+                                          forKey: LoggingKey.directedReactable.rawValue)
   }
   
   /// After the reactable is successfully published, then leave the studio.
   func didPublish() {
-    App.log.verbose("Studio state: \(State.published)")
+    App.log.debug("Studio state: \(State.published)")
     state = State.published
     // Hide loading image
     loadingImageHidden.value = true

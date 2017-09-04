@@ -8,6 +8,9 @@
 
 import UIKit
 import Alamofire
+import Appsee
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    App.log.debug("Application loaded")
     // Override point for customization after application launch.
     #if DEBUG
       let configuration = URLSessionConfiguration.default
@@ -23,6 +27,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
       _ = Alamofire.SessionManager(configuration: configuration)
     #endif
+    
+    // Fabric tools
+    Fabric.with([Crashlytics.self, Appsee.self])
     
     return true
   }

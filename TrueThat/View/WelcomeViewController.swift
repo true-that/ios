@@ -71,7 +71,7 @@ extension WelcomeViewController {
   }
   
   override func didAuthFail() {
-    App.log.verbose("\(logTag): didAuthFail")
+    App.log.debug("\(logTag): didAuthFail")
     // Show warning
     errorLabel.isHidden = false
   }

@@ -47,8 +47,9 @@ class StudioApi {
                   observer.sendCompleted()
                 } else {
                   App.log.error("response decoding error")
-                  observer.send(error: NSError(domain: BaseError.domain,
-                                               code: BaseError.network.hashValue, userInfo: nil))
+                  observer.send(error: NSError(domain: Bundle.main.bundleIdentifier!,
+                                               code: ErrorCode.decoding.rawValue,
+                                               userInfo: ["value": response.result.value ?? ""]))
                 }
               case .failure:
                 App.log.error("response error")

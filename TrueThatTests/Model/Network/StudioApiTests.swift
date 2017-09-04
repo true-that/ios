@@ -46,7 +46,8 @@ class StudioApiTests: XCTestCase {
   
   func testBadResponse() {
     stub(condition: isPath(StudioApi.path)) {request -> OHHTTPStubsResponse in
-      return OHHTTPStubsResponse(error: BaseError.network)
+      return OHHTTPStubsResponse(error: NSError(domain: Bundle.main.bundleIdentifier!, code: 1,
+                                                userInfo: nil))
     }
     var responseError: NSError?
     _ = StudioApi.save(reactable: responded)

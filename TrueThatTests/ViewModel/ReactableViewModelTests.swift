@@ -21,12 +21,17 @@ class ReactableViewModelTests: BaseTests {
     super.setUp()
     stub(condition: isPath(InteractionApi.path)) {request -> OHHTTPStubsResponse in
       self.eventCount += 1
-      let stubData = try! JSON(InteractionEvent(timestamp: nil, userId: nil, reaction: nil,
-                                                eventType: nil, reactableId: nil).toDictionary()).rawData()
-      return OHHTTPStubsResponse(data: stubData, statusCode: 200,
+      let requestEvent = InteractionEvent(json: JSON(Data(fromStream: request.httpBodyStream!)))
+      let data = try? JSON(from: requestEvent).rawData()
+      return OHHTTPStubsResponse(data: data!, statusCode: 200,
                                  headers: ["Content-Type":"application/json"])
     }
     eventCount = 0
+  }
+  
+  func initViewModel(with reactable: Reactable) {
+    viewModel = ReactableViewModel(with: reactable)
+    viewModel.delegate = TestsReactableViewDelegate()
   }
   
   func testDisplayReactable() {
@@ -34,7 +39,7 @@ class ReactableViewModelTests: BaseTests {
                               director: User(id: 1, firstName: "Mr", lastName: "Robot", deviceId: "iphone"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
                               created: Date(), viewed: false)
-    viewModel = ReactableViewModel(with: reactable)
+    initViewModel(with: reactable)
     expect(self.viewModel.model).to(equal(reactable))
     expect(self.viewModel.directorName.value).to(equal(reactable.director?.displayName))
     expect(self.viewModel.timeAgo.value).to(equal("now"))
@@ -45,27 +50,27 @@ class ReactableViewModelTests: BaseTests {
   func testDisplayReactable_commonReactionDisplayed() {
     let reactable = Reactable(id: 1, userReaction: nil, director: nil,
                               reactionCounters: [.sad: 1, .happy: 2], created: nil, viewed: nil)
-    viewModel = ReactableViewModel(with: reactable)
+    initViewModel(with: reactable)
     expect(self.viewModel.reactionEmoji.value).to(equal(Emotion.happy.emoji))
   }
   
   func testDisplayReactable_userReactionReactionDisplayed() {
     let reactable = Reactable(id: 1, userReaction: .sad, director: nil,
                               reactionCounters: [.sad: 1, .happy: 2], created: nil, viewed: nil)
-    viewModel = ReactableViewModel(with: reactable)
+    initViewModel(with: reactable)
     expect(self.viewModel.reactionEmoji.value).to(equal(Emotion.sad.emoji))
   }
   
   func testDisplayReactable_noReactionReactionDisplayed() {
     var reactable = Reactable(id: 1, userReaction: nil, director: nil, reactionCounters: nil,
                               created: nil, viewed: nil)
-    viewModel = ReactableViewModel(with: reactable)
+    initViewModel(with: reactable)
     expect(self.viewModel.reactionEmoji.value).to(equal(""))
     expect(self.viewModel.reactionsCount.value).to(equal(""))
     // Now without nil counters
     reactable = Reactable(id: 1, userReaction: nil, director: nil, reactionCounters: [.happy: 0],
                           created: nil, viewed: nil)
-    viewModel = ReactableViewModel(with: reactable)
+    initViewModel(with: reactable)
     expect(self.viewModel.reactionEmoji.value).to(equal(""))
     expect(self.viewModel.reactionsCount.value).to(equal(""))
   }
@@ -75,7 +80,7 @@ class ReactableViewModelTests: BaseTests {
                               director: User(id: 1, firstName: "Ms", lastName: "Robot", deviceId: "iphone2"),
                               reactionCounters: [.sad: 3, .happy: 1],
                               created: Date(timeIntervalSinceNow: -60), viewed: false)
-    viewModel = ReactableViewModel(with: reactable)
+    initViewModel(with: reactable)
     viewModel.didDisplay()
     expect(self.eventCount).toEventually(equal(1))
     // Assert reaction counters in model and view model
@@ -99,10 +104,16 @@ class ReactableViewModelTests: BaseTests {
                               director: User(id: 1, firstName: "Ms", lastName: "Robot", deviceId: "iphone2"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
                               created: Date(timeIntervalSinceNow: -60), viewed: true)
-    viewModel = ReactableViewModel(with: reactable)
+    initViewModel(with: reactable)
     viewModel.didDisplay()
     viewModel.didDisappear()
     fakeDetectionModule.detect(.happy)
     expect(self.eventCount).toNotEventually(equal(1))
+  }
+  
+  class TestsReactableViewDelegate : ReactableViewDelegate {
+    func animateReactionImage() {
+      
+    }
   }
 }

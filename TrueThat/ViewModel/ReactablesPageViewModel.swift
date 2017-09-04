@@ -49,14 +49,14 @@ class ReactablesPageViewModel {
   
   /// Fetch new reactables from our backend.
   public func fetchingData() {
-    App.log.verbose("fetching reactables")
+    App.log.debug("fetching reactables")
     if reactables.isEmpty {
       loadingImageHidden.value = false
     }
     fetchingDelegate.fetchingProducer()
       .on(value: { self.adding($0) })
       .on(failed: {error in
-        App.log.error("Failed fetch request: \(error)")
+        App.log.report("Failed fetch request: \(error)", withError: error)
         self.loadingImageHidden.value = true
         if self.reactables.isEmpty {
           self.nonFoundHidden.value = false

@@ -38,7 +38,8 @@ class AuthApiTests: XCTestCase {
   
   func testBadResponse() {
     stub(condition: isPath(AuthApi.path)) {request -> OHHTTPStubsResponse in
-      return OHHTTPStubsResponse(error: BaseError.network)
+      return OHHTTPStubsResponse(error: NSError(domain: Bundle.main.bundleIdentifier!, code: 1,
+                                                userInfo: nil))
     }
     var responseError: NSError?
     _ = AuthApi.auth(for: responded)

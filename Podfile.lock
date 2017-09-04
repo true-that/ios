@@ -2,9 +2,13 @@ PODS:
   - AffdexSDK-iOS (3.2.0):
     - AWSKinesis
   - Alamofire (4.5.0)
+  - Appsee (2.3.4)
   - AWSCore (2.5.9)
   - AWSKinesis (2.5.9):
     - AWSCore (= 2.5.9)
+  - Crashlytics (3.8.5):
+    - Fabric (~> 1.6.3)
+  - Fabric (1.6.12)
   - KeychainAccess (3.0.2)
   - KIF (3.5.2):
     - KIF/Core (= 3.5.2)
@@ -37,6 +41,9 @@ PODS:
 DEPENDENCIES:
   - AffdexSDK-iOS
   - Alamofire (~> 4.4)
+  - Appsee
+  - Crashlytics
+  - Fabric
   - KeychainAccess
   - KIF
   - Kingfisher (~> 3.0)
@@ -50,8 +57,11 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AffdexSDK-iOS: 6c81dfdc813507de029584291c7d08a1a983e376
   Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
+  Appsee: be7e8199ddf914dc4e2adb4cb7ed7f162c74e7a9
   AWSCore: c71840dd51f271dc0af8de8fd6f352767ebde8b4
   AWSKinesis: 55631b3f235d363afbe172a08862f13ce3f9b929
+  Crashlytics: dfbae35ef22ca189240d230ad501feea4ee85d2d
+  Fabric: f050464eac45a2ce5a8e6e6a07e977c0df32fe28
   KeychainAccess: a986406022dfc7c634c691ad3bec670cc6a32002
   KIF: f2a6025bb3f11692df675054a134d43a9ec2d7db
   Kingfisher: dc3a4983e86d2dfa89513664983a82340c11a289
@@ -63,6 +73,6 @@ SPEC CHECKSUMS:
   SwiftyBeaver: d4b551ba34b4206c52cc4684ae90444b8aaa5afd
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: d8a093026ae4e48eae82968d4cab3737cfd9c316
+PODFILE CHECKSUM: 912c87c5a2bb385f6fec0cfd8a46fa8b9bb1361d
 
 COCOAPODS: 1.2.1

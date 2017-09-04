@@ -76,7 +76,8 @@ class TheaterApiTests: XCTestCase {
   
   func testBadResponse() {
     stub(condition: isPath(TheaterApi.path)) {request -> OHHTTPStubsResponse in
-      return OHHTTPStubsResponse(error: BaseError.network)
+      return OHHTTPStubsResponse(error: NSError(domain: Bundle.main.bundleIdentifier!, code: 1,
+                                                userInfo: nil))
     }
     reactables = [Reactable(id: 1, userReaction: .sad,
                             director: User(id: 1, firstName: "copa", lastName: "cabana", deviceId: "android"),

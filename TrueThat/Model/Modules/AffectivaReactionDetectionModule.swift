@@ -14,21 +14,21 @@ class AffectivaReactionDetectionModule: ReactionDetectionModule {
   
   override init() {
     super.init()
-    detector = AFDXDetector(delegate:self, using:AFDX_CAMERA_FRONT, maximumFaces:1)
+    detector = AFDXDetector(delegate:self, using:AFDX_CAMERA_FRONT, maximumFaces: 1)
     detector?.setDetectAllEmotions(true)
   }
   
   override func start() {
     super.start()
     if let error = detector?.start() {
-      App.log.error("AFDXDetector: \(error)")
+      App.log.report("AFDXDetector: \(error)", withError: error as NSError)
     }
   }
   
   override func stop() {
     super.stop()
     if let error = detector?.stop() {
-      App.log.error("AFDXDetector: \(error)")
+      App.log.report("AFDXDetector: \(error)", withError: error as NSError)
     }
   }
 }

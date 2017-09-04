@@ -28,9 +28,9 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
                                  headers: ["Content-Type":"application/json"])
     }
     stub(condition: isPath(InteractionApi.path)) {request -> OHHTTPStubsResponse in
-      let stubData = try! JSON(from: InteractionEvent(timestamp: nil, userId: nil, reaction: nil,
-                                                      eventType: nil, reactableId: nil)).rawData()
-      return OHHTTPStubsResponse(data: stubData, statusCode: 200,
+      let requestEvent = InteractionEvent(json: JSON(Data(fromStream: request.httpBodyStream!)))
+      let data = try? JSON(from: requestEvent).rawData()
+      return OHHTTPStubsResponse(data: data!, statusCode: 200,
                                  headers: ["Content-Type":"application/json"])
     }
     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)

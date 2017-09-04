@@ -76,7 +76,8 @@ class RepertoireApiTests: XCTestCase {
   
   func testBadResponse() {
     stub(condition: isPath(RepertoireApi.path)) {request -> OHHTTPStubsResponse in
-      return OHHTTPStubsResponse(error: BaseError.network)
+      return OHHTTPStubsResponse(error: NSError(domain: Bundle.main.bundleIdentifier!, code: 1,
+                                                userInfo: nil))
     }
     reactables = [Reactable(id: 1, userReaction: .sad,
                             director: App.authModule.current,

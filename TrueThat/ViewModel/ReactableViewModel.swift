@@ -57,10 +57,6 @@ class ReactableViewModel {
   }
   
   // MARK: Lifecycle
-  
-  /// Triggered when its corresponding {ReactableViewController} is loaded.
-  public func didLoad() {}
-  
   /// Triggered when its corresponding {ReactableViewController} is disappeared.
   public func didDisappear() {
     if (App.detecionModule.delegate is ReactableViewModel &&
@@ -81,7 +77,9 @@ class ReactableViewModel {
           self.model.viewed = true
         })
         .on(failed: {error in
-          App.log.error("Could not save interaction event \(event) becuase of \(error)")
+          App.log.report(
+            "Could not save interaction event \(event) becuase of \(error)",
+            withError: error)
         })
         .start()
     }
@@ -94,17 +92,21 @@ class ReactableViewModel {
 extension ReactableViewModel: ReactionDetectionDelegate {
   func didDetect(reaction: Emotion) {
     App.detecionModule.delegate = nil
-    model.userReaction = reaction
-    model.updateReactionCounters(with: reaction)
-    updateReactionCounters()
-    delegate.animateReactionImage()
     if (model.canReact(user: App.authModule.current!)) {
+      model.userReaction = reaction
+      model.updateReactionCounters(with: reaction)
+      updateReactionCounters()
+      delegate.animateReactionImage()
       let event = InteractionEvent(
         timestamp: Date(), userId: App.authModule.current!.id, reaction: reaction,
         eventType: .reactableReaction, reactableId: model.id)
       InteractionApi.save(interaction: event)
+        .on(value: {value in
+          App.log.debug("Interaction event successfully saved.")
+        })
         .on(failed: {error in
-          App.log.error("Could not save interaction event \(event) becuase of \(error)")
+          App.log.report("Could not save interaction event \(event) becuase of \(error)",
+            withError: error)
         })
         .start()
     }

@@ -1,5 +1,5 @@
 //
-//  BaseError.swift
+//  ErrorCode.swift
 //  TrueThat
 //
 //  Created by Ohad Navon on 28/07/2017.
@@ -9,10 +9,8 @@
 import Foundation
 
 /// Errors enumeration.
-///
-/// - network: a generic network error.
-enum BaseError: Error {
-  case network
-  
-  static let domain = "com.truethat.ios"
+enum ErrorCode: Int {
+  // MARK: Network
+  case decoding = 1
+  case badResponseData = 2
 }
