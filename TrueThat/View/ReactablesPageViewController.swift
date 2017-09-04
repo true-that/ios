@@ -92,7 +92,7 @@ extension ReactablesPageViewController: ReactablesPageDelegate {
       App.log.debug("Displaying the \(index)-th reactable.")
       Crashlytics.sharedInstance().setObjectValue(
         viewModel.reactables[index].toDictionary(),
-        forKey: LoggingKey.displayedReactable.rawValue)
+        forKey: LoggingKey.displayedReactable.rawValue.snakeCased()!.uppercased())
       setViewControllers([orderedViewControllers[index]],
                          direction: index >= viewModel.currentIndex ? .forward : .reverse,
                          animated: true,

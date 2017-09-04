@@ -14,7 +14,8 @@ extension DataRequest {
     App.log.info("\(self)")
     if request?.url?.absoluteURL != nil {
       Crashlytics.sharedInstance().setObjectValue(
-        request!.url!.absoluteURL, forKey: LoggingKey.lastNetworkRequest.rawValue)
+        request!.url!.absoluteURL,
+        forKey: LoggingKey.lastNetworkRequest.rawValue.snakeCased()!.uppercased())
     }
     return self
   }

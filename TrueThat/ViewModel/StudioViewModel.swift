@@ -125,8 +125,9 @@ class StudioViewModel {
         self.saveDidFail()
       })
       .start()
-    Crashlytics.sharedInstance().setObjectValue(directed?.toDictionary(),
-                                          forKey: LoggingKey.directedReactable.rawValue)
+    Crashlytics.sharedInstance().setObjectValue(
+      directed?.toDictionary(),
+      forKey: LoggingKey.directedReactable.rawValue.snakeCased()!.uppercased())
   }
   
   /// After the reactable is successfully published, then leave the studio.

@@ -32,7 +32,8 @@ class BaseViewController: UIViewController {
     if doAuth {
       App.authModule.auth()
     }
-    Crashlytics.sharedInstance().setObjectValue(logTag, forKey: LoggingKey.viewController.rawValue)
+    Crashlytics.sharedInstance().setObjectValue(
+      logTag, forKey: LoggingKey.viewController.rawValue.snakeCased()!.uppercased())
   }
   
   override func viewWillDisappear(_ animated: Bool) {

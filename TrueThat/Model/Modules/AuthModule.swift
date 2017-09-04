@@ -92,7 +92,8 @@ class AuthModule {
   }
   
   func authRequest(for user: User) {
-    Crashlytics.sharedInstance().setObjectValue(user, forKey: LoggingKey.authUser.rawValue)
+    Crashlytics.sharedInstance().setObjectValue(
+      user, forKey: LoggingKey.authUser.rawValue.snakeCased()!.uppercased())
     _ = AuthApi.auth(for: user)
       .on(value: {
         if $0.isAuthOk {
