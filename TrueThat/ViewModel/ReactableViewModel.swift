@@ -71,7 +71,7 @@ class ReactableViewModel {
     if model.viewed != true {
       let event = InteractionEvent(
         timestamp: Date(), userId: App.authModule.current!.id, reaction: nil,
-        eventType: .reactableView, reactableId: model.id)
+        eventType: .view, reactableId: model.id)
       InteractionApi.save(interaction: event)
         .on(value: {value in
           self.model.viewed = true
@@ -99,7 +99,7 @@ extension ReactableViewModel: ReactionDetectionDelegate {
       delegate.animateReactionImage()
       let event = InteractionEvent(
         timestamp: Date(), userId: App.authModule.current!.id, reaction: reaction,
-        eventType: .reactableReaction, reactableId: model.id)
+        eventType: .reaction, reactableId: model.id)
       InteractionApi.save(interaction: event)
         .on(value: {value in
           App.log.debug("Interaction event successfully saved.")
