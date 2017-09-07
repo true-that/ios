@@ -140,10 +140,10 @@
             </objects>
             <point key="canvasLocation" x="-706" y="1113"/>
         </scene>
-        <!--Pose Media View Controller-->
+        <!--Photo View Controller-->
         <scene sceneID="VpM-vi-yrd">
             <objects>
-                <viewController storyboardIdentifier="PoseMediaScene" id="f7Q-OX-uqI" customClass="PoseMediaViewController" customModule="TrueThat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PhotoScene" id="f7Q-OX-uqI" customClass="PhotoViewController" customModule="TrueThat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ts5-oF-EfL"/>
                         <viewControllerLayoutGuide type="bottom" id="BBg-ac-jRS"/>
@@ -164,7 +164,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="poseImage" destination="ON2-sC-LEK" id="JPV-gD-lIt"/>
+                        <outlet property="imageView" destination="ON2-sC-LEK" id="FPe-Q7-SOJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BCA-K7-oQA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -386,10 +386,10 @@
             </objects>
             <point key="canvasLocation" x="732" y="-277"/>
         </scene>
-        <!--Short Media View Controller-->
+        <!--Video View Controller-->
         <scene sceneID="m0L-u4-10e">
             <objects>
-                <viewController storyboardIdentifier="ShortMediaScene" id="yAe-hN-QZj" customClass="ShortMediaViewController" customModule="TrueThat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="VideoScene" id="yAe-hN-QZj" customClass="VideoViewController" customModule="TrueThat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gS2-vx-BVa"/>
                         <viewControllerLayoutGuide type="bottom" id="M8U-4W-Dp4"/>

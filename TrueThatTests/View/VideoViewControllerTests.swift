@@ -1,5 +1,5 @@
 //
-//  ShortMediaViewController.swift
+//  VideoViewController.swift
 //  TrueThat
 //
 //  Created by Ohad Navon on 28/08/2017.
@@ -11,20 +11,16 @@ import KIF
 import AVFoundation
 import Nimble
 
-class ShortMediaViewControllerTests : BaseUITests {
-  var viewController: ShortMediaViewController!
-  var delegate: TestsReactableMediaViewControllerDelegate!
-  let short = Short(id: 3, userReaction: .happy,
-                    director: User(id: 1, firstName: "Emma", lastName: "Watson", deviceId: "iphone2"),
-                    reactionCounters: [.happy: 5000, .sad: 34], created: Date(),
-                    viewed: false,
-                    videoUrl: URL(string: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4"))
+class VideoViewControllerTests : BaseUITests {
+  var viewController: VideoViewController!
+  var delegate: TestsMediaViewControllerDelegate!
+  let video = Video(url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4")
   
   override func setUp() {
     super.setUp()
     
-    delegate = TestsReactableMediaViewControllerDelegate()
-    viewController = ShortMediaViewController.instantiate(short)
+    delegate = TestsMediaViewControllerDelegate()
+    viewController = VideoViewController.instantiate(video)
     viewController.delegate = delegate
     
     UIApplication.shared.keyWindow!.rootViewController = viewController
@@ -58,7 +54,7 @@ class ShortMediaViewControllerTests : BaseUITests {
       .toEventuallyNot(equal(kCMTimeZero), timeout: 5.0)
     let currentTime = viewController.player!.currentItem!.currentTime().seconds
     // Pausing video with tap
-    tester().longPressView(withAccessibilityLabel: "short video", duration: 1.0)
+    tester().longPressView(withAccessibilityLabel: "video", duration: 1.0)
     // Video should resume
     expect(self.viewController.player!.currentTime().seconds)
       .toNot(equal(currentTime))
@@ -66,7 +62,7 @@ class ShortMediaViewControllerTests : BaseUITests {
     expect(self.viewController.player!.currentItem!.currentTime().seconds - currentTime < 0.9).to(beTrue())
   }
   
-  class TestsReactableMediaViewControllerDelegate: ReactableMediaViewControllerDelegate {
+  class TestsMediaViewControllerDelegate: MediaViewControllerDelegate {
     var mediaDidDownload: Bool?
     var loaderHidden: Bool?
     

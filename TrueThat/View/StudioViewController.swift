@@ -16,7 +16,7 @@ class StudioViewController: BaseViewController {
   // MARK: Peroperties
   var viewModel: StudioViewModel!
   var swiftyCam: SwiftyCamViewController!
-  var reactablePreview: ReactableMediaViewController?
+  var reactablePreview: MediaViewController?
   
   @IBOutlet weak var captureButton: SwiftyCamButton!
   @IBOutlet weak var cancelButton: UIImageView!
@@ -153,7 +153,7 @@ extension StudioViewController: StudioViewModelDelegate {
       return
     }
     // Add reactable preview
-    reactablePreview = ReactableMediaViewController.instantiate(with: reactable!)
+    reactablePreview = MediaViewController.instantiate(with: reactable?.media)
     guard reactablePreview != nil else {
       return
     }
@@ -164,8 +164,8 @@ extension StudioViewController: StudioViewModelDelegate {
   }
   
   func didSend() {
-    if reactablePreview is ShortMediaViewController {
-      (reactablePreview as! ShortMediaViewController).player?.pause()
+    if reactablePreview is VideoViewController {
+      (reactablePreview as! VideoViewController).player?.pause()
     }
   }
   

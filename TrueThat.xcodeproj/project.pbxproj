@@ -23,9 +23,9 @@
 		6F05A3831F38B2CD008D595A /* RepertoireApiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F05A3821F38B2CD008D595A /* RepertoireApiTests.swift */; };
 		6F05A3851F38CA26008D595A /* TheaterViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F05A3841F38CA26008D595A /* TheaterViewControllerTests.swift */; };
 		6F0B45261F53679F0063B937 /* Short.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0B45251F53679F0063B937 /* Short.swift */; };
-		6F0B452A1F536C7C0063B937 /* ShortMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0B45291F536C7C0063B937 /* ShortMediaViewController.swift */; };
-		6F0B452C1F5373580063B937 /* ReactableMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0B452B1F5373580063B937 /* ReactableMediaViewController.swift */; };
-		6F0B452E1F537D520063B937 /* ShortMediaViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0B452D1F537D520063B937 /* ShortMediaViewControllerTests.swift */; };
+		6F0B452A1F536C7C0063B937 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0B45291F536C7C0063B937 /* VideoViewController.swift */; };
+		6F0B452C1F5373580063B937 /* MediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0B452B1F5373580063B937 /* MediaViewController.swift */; };
+		6F0B452E1F537D520063B937 /* VideoViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0B452D1F537D520063B937 /* VideoViewControllerTests.swift */; };
 		6F0DAC851F293FAD00A3389D /* AuthModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0DAC841F293FAD00A3389D /* AuthModule.swift */; };
 		6F15228B1F37178600BD0DC2 /* DeviceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F15228A1F37178600BD0DC2 /* DeviceModule.swift */; };
 		6F15228D1F3717D400BD0DC2 /* HardwareDeviceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F15228C1F3717D400BD0DC2 /* HardwareDeviceModule.swift */; };
@@ -66,7 +66,7 @@
 		6F79811C1F2FE8FC00A055DD /* ReactableViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F79811B1F2FE8FC00A055DD /* ReactableViewModelTests.swift */; };
 		6F79811E1F30830900A055DD /* JSON+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F79811D1F30830900A055DD /* JSON+Extensions.swift */; };
 		6F7DFC211F30A7B7003DE099 /* Tags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC201F30A7B7003DE099 /* Tags.swift */; };
-		6F7DFC231F3121CA003DE099 /* PoseMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC221F3121CA003DE099 /* PoseMediaViewController.swift */; };
+		6F7DFC231F3121CA003DE099 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC221F3121CA003DE099 /* PhotoViewController.swift */; };
 		6F7DFC251F3140D4003DE099 /* ReactionDetectionModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC241F3140D4003DE099 /* ReactionDetectionModule.swift */; };
 		6F7DFC2E1F314EE8003DE099 /* InteractionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC2D1F314EE8003DE099 /* InteractionEvent.swift */; };
 		6F7DFC301F314EF5003DE099 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC2F1F314EF5003DE099 /* EventType.swift */; };
@@ -85,6 +85,9 @@
 		6FB4BA4C1F541B4C009F8FD9 /* happy_selfie.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FB4BA4A1F541B4C009F8FD9 /* happy_selfie.jpg */; };
 		6FB4BA4D1F541B4C009F8FD9 /* wink.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6FB4BA4B1F541B4C009F8FD9 /* wink.mp4 */; };
 		6FC32C7A1F6166B800957959 /* FakeDeviceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC32C791F6166B800957959 /* FakeDeviceModule.swift */; };
+		6FC32C7C1F618EE600957959 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC32C7B1F618EE600957959 /* Media.swift */; };
+		6FC32C7E1F618F7E00957959 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC32C7D1F618F7E00957959 /* Photo.swift */; };
+		6FC32C801F61A6B100957959 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC32C7F1F61A6B100957959 /* Video.swift */; };
 		6FC9566F1F36F8B700B772D3 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC9566E1F36F8B700B772D3 /* BaseViewController.swift */; };
 		6FC956711F36FEA100B772D3 /* TheaterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC956701F36FEA100B772D3 /* TheaterViewController.swift */; };
 		6FC9A2B01F2A076400E4BCF1 /* ReactableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC9A2AF1F2A076400E4BCF1 /* ReactableTests.swift */; };
@@ -135,9 +138,9 @@
 		6F05A3821F38B2CD008D595A /* RepertoireApiTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RepertoireApiTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6F05A3841F38CA26008D595A /* TheaterViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TheaterViewControllerTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6F0B45251F53679F0063B937 /* Short.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Short.swift; sourceTree = "<group>"; };
-		6F0B45291F536C7C0063B937 /* ShortMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShortMediaViewController.swift; sourceTree = "<group>"; };
-		6F0B452B1F5373580063B937 /* ReactableMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactableMediaViewController.swift; sourceTree = "<group>"; };
-		6F0B452D1F537D520063B937 /* ShortMediaViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShortMediaViewControllerTests.swift; sourceTree = "<group>"; };
+		6F0B45291F536C7C0063B937 /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		6F0B452B1F5373580063B937 /* MediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaViewController.swift; sourceTree = "<group>"; };
+		6F0B452D1F537D520063B937 /* VideoViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoViewControllerTests.swift; sourceTree = "<group>"; };
 		6F0DAC841F293FAD00A3389D /* AuthModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthModule.swift; sourceTree = "<group>"; };
 		6F15228A1F37178600BD0DC2 /* DeviceModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceModule.swift; sourceTree = "<group>"; };
 		6F15228C1F3717D400BD0DC2 /* HardwareDeviceModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HardwareDeviceModule.swift; sourceTree = "<group>"; };
@@ -183,7 +186,7 @@
 		6F79811B1F2FE8FC00A055DD /* ReactableViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactableViewModelTests.swift; sourceTree = "<group>"; };
 		6F79811D1F30830900A055DD /* JSON+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JSON+Extensions.swift"; sourceTree = "<group>"; };
 		6F7DFC201F30A7B7003DE099 /* Tags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tags.swift; sourceTree = "<group>"; };
-		6F7DFC221F3121CA003DE099 /* PoseMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PoseMediaViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		6F7DFC221F3121CA003DE099 /* PhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PhotoViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6F7DFC241F3140D4003DE099 /* ReactionDetectionModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionDetectionModule.swift; sourceTree = "<group>"; };
 		6F7DFC291F314DE6003DE099 /* FakeReactionDetectionModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeReactionDetectionModule.swift; sourceTree = "<group>"; };
 		6F7DFC2D1F314EE8003DE099 /* InteractionEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractionEvent.swift; sourceTree = "<group>"; };
@@ -202,6 +205,9 @@
 		6FB4BA4A1F541B4C009F8FD9 /* happy_selfie.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = happy_selfie.jpg; sourceTree = "<group>"; };
 		6FB4BA4B1F541B4C009F8FD9 /* wink.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = wink.mp4; sourceTree = "<group>"; };
 		6FC32C791F6166B800957959 /* FakeDeviceModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeDeviceModule.swift; sourceTree = "<group>"; };
+		6FC32C7B1F618EE600957959 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
+		6FC32C7D1F618F7E00957959 /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		6FC32C7F1F61A6B100957959 /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		6FC9566E1F36F8B700B772D3 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		6FC956701F36FEA100B772D3 /* TheaterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TheaterViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6FC956741F370C5E00B772D3 /* TrueThat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TrueThat.entitlements; sourceTree = "<group>"; };
@@ -282,7 +288,7 @@
 				3407B4EB81D58211759AE8B8 /* ReactablesPageViewController.swift */,
 				3407B3251E507F682199DA0A /* ReactableViewController.swift */,
 				6F7DFC201F30A7B7003DE099 /* Tags.swift */,
-				6F7DFC221F3121CA003DE099 /* PoseMediaViewController.swift */,
+				6F7DFC221F3121CA003DE099 /* PhotoViewController.swift */,
 				6FE04F601F331CF500D5BF39 /* OnBoardingViewController.swift */,
 				6FE04F641F3322D000D5BF39 /* WelcomeViewController.swift */,
 				6FC9566E1F36F8B700B772D3 /* BaseViewController.swift */,
@@ -290,8 +296,8 @@
 				6F377A061F3839CD007C0945 /* StudioViewController.swift */,
 				6F05A37E1F38B048008D595A /* RepertoireViewController.swift */,
 				6F45D8401F4EAF6E009602F0 /* ReactablesPageWrapperViewController.swift */,
-				6F0B45291F536C7C0063B937 /* ShortMediaViewController.swift */,
-				6F0B452B1F5373580063B937 /* ReactableMediaViewController.swift */,
+				6F0B45291F536C7C0063B937 /* VideoViewController.swift */,
+				6F0B452B1F5373580063B937 /* MediaViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -309,6 +315,9 @@
 				6F7DFC2D1F314EE8003DE099 /* InteractionEvent.swift */,
 				6F7DFC2F1F314EF5003DE099 /* EventType.swift */,
 				6F0B45251F53679F0063B937 /* Short.swift */,
+				6FC32C7B1F618EE600957959 /* Media.swift */,
+				6FC32C7D1F618F7E00957959 /* Photo.swift */,
+				6FC32C7F1F61A6B100957959 /* Video.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -381,7 +390,7 @@
 				6F05A37C1F385A15008D595A /* StudioViewControllerTests.swift */,
 				6F05A3841F38CA26008D595A /* TheaterViewControllerTests.swift */,
 				6FAD61921F39A3DD003952F1 /* RepertoireViewControllerTests.swift */,
-				6F0B452D1F537D520063B937 /* ShortMediaViewControllerTests.swift */,
+				6F0B452D1F537D520063B937 /* VideoViewControllerTests.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -866,6 +875,7 @@
 				6F377A031F3776BB007C0945 /* StudioApi.swift in Sources */,
 				6F58F9311F4983B3002DD015 /* SwiftyCamViewControllerDelegate.swift in Sources */,
 				6F6255731F17EA8700F895CE /* ReactablesPageViewModel.swift in Sources */,
+				6FC32C7C1F618EE600957959 /* Media.swift in Sources */,
 				6FE04F6A1F3325AF00D5BF39 /* Colors.swift in Sources */,
 				6FC9566F1F36F8B700B772D3 /* BaseViewController.swift in Sources */,
 				6F15229D1F37609D00BD0DC2 /* StudioViewModel.swift in Sources */,
@@ -886,7 +896,7 @@
 				6F377A071F3839CD007C0945 /* StudioViewController.swift in Sources */,
 				6F5680821F5CA6EF00C0865F /* LoggingKey.swift in Sources */,
 				6F05A3811F38B26C008D595A /* RepertoireApi.swift in Sources */,
-				6F0B452A1F536C7C0063B937 /* ShortMediaViewController.swift in Sources */,
+				6F0B452A1F536C7C0063B937 /* VideoViewController.swift in Sources */,
 				6F15228D1F3717D400BD0DC2 /* HardwareDeviceModule.swift in Sources */,
 				6F43BEE81F5C559200DEB8ED /* SwiftyBeaver+Extensions.swift in Sources */,
 				6F7DFC301F314EF5003DE099 /* EventType.swift in Sources */,
@@ -899,6 +909,7 @@
 				6F45D8411F4EAF6E009602F0 /* ReactablesPageWrapperViewController.swift in Sources */,
 				6FE04F651F3322D000D5BF39 /* WelcomeViewController.swift in Sources */,
 				3407BEFBE7E749559ECAA941 /* ReactablesPageViewController.swift in Sources */,
+				6FC32C801F61A6B100957959 /* Video.swift in Sources */,
 				6FE04F611F331CF500D5BF39 /* OnBoardingViewController.swift in Sources */,
 				6F7981111F2FCDEC00A055DD /* DateHelper.swift in Sources */,
 				6FC956711F36FEA100B772D3 /* TheaterViewController.swift in Sources */,
@@ -907,8 +918,9 @@
 				6FEC85DA1F27557800DC46B5 /* Dictionary+Extensions.swift in Sources */,
 				3407B4090A32C56AD109751A /* Emotion.swift in Sources */,
 				6F521BA01F4C0311009BADE2 /* String+Extensions.swift in Sources */,
+				6FC32C7E1F618F7E00957959 /* Photo.swift in Sources */,
 				6F7DFC251F3140D4003DE099 /* ReactionDetectionModule.swift in Sources */,
-				6F0B452C1F5373580063B937 /* ReactableMediaViewController.swift in Sources */,
+				6F0B452C1F5373580063B937 /* MediaViewController.swift in Sources */,
 				6FE04F631F331DA500D5BF39 /* OnBoardingViewModel.swift in Sources */,
 				6F05A37F1F38B048008D595A /* RepertoireViewController.swift in Sources */,
 				6FCAD6611F39B95000DD04FC /* AffectivaReactionDetectionModule.swift in Sources */,
@@ -917,7 +929,7 @@
 				3407B32EDEB4EF28BF7C5961 /* ReactableViewModel.swift in Sources */,
 				6F58F9331F498404002DD015 /* SwiftyCamButton.swift in Sources */,
 				6F2B40BF1F5B726C0028A0E3 /* UIHelper.swift in Sources */,
-				6F7DFC231F3121CA003DE099 /* PoseMediaViewController.swift in Sources */,
+				6F7DFC231F3121CA003DE099 /* PhotoViewController.swift in Sources */,
 				3407B037FF8CD50C59BFDF62 /* ReactableViewController.swift in Sources */,
 				6F89FBA81F4B23C7002321CA /* DeviceKeychainModule.swift in Sources */,
 			);
@@ -954,7 +966,7 @@
 				6F3092D61F2DEA9100BD211A /* ReactablesPageWrapperViewControllerTests.swift in Sources */,
 				6F521BA31F4C044A009BADE2 /* StringExtensionsTests.swift in Sources */,
 				6F7DFC321F3154D9003DE099 /* InteractionEventTests.swift in Sources */,
-				6F0B452E1F537D520063B937 /* ShortMediaViewControllerTests.swift in Sources */,
+				6F0B452E1F537D520063B937 /* VideoViewControllerTests.swift in Sources */,
 				6F521BA51F4C046B009BADE2 /* DictionaryExtensionsTests.swift in Sources */,
 				6F79811C1F2FE8FC00A055DD /* ReactableViewModelTests.swift in Sources */,
 				6FB150151F33C0E600A008DC /* OnBoardingViewControllerTests.swift in Sources */,

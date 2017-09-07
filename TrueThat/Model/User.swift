@@ -5,7 +5,6 @@
 
 import SwiftyJSON
 
-
 /// [backend]: https://github.com/true-that/backend/blob/master/src/main/java/com/truethat/backend/model/User.java
 /// Model for our sassy users. See [backend].
 class User: BaseModel {

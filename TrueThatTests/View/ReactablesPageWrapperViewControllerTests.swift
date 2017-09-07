@@ -47,7 +47,7 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
     expect(self.viewController.reactablesPage.currentViewController?.viewModel?.model.id).toEventually(equal(reactable.id))
     expect(self.viewController.reactablesPage.currentViewController?.viewModel?.model.viewed).toEventually(beTrue(), timeout: 10.0)
     if self.viewController.reactablesPage.currentViewController?.viewModel?.model is Short {
-      expect((self.viewController.reactablesPage.currentViewController?.mediaViewController as! ShortMediaViewController).player?.currentTime()).toEventuallyNot(equal(kCMTimeZero), timeout: 5.0)
+      expect((self.viewController.reactablesPage.currentViewController?.mediaViewController as! VideoViewController).player?.currentTime()).toEventuallyNot(equal(kCMTimeZero), timeout: 5.0)
     }
     // Loading image should be hidden
     expect(self.viewController.loadingImage.isHidden).to(beTrue())
@@ -125,10 +125,10 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
                       viewed: false,
                       imageUrl: "https://storage.googleapis.com/truethat-test-studio/testing/happy-selfie.jpg")
     let short = Short(id: 3, userReaction: .happy,
-                      director: User(id: 1, firstName: "Emma", lastName: "Watson", deviceId: "iphone2"),
-                      reactionCounters: [.happy: 5000, .sad: 34], created: Date(),
+                      director: User(id: 1, firstName: "Harry", lastName: "Potter", deviceId: "iphone2"),
+                      reactionCounters: [.happy: 7, .sad: 34], created: Date(),
                       viewed: false,
-                      videoUrl: URL(string: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4"))
+                      videoUrl: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4")
     fetchedReactables = [reactable, pose, short]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)

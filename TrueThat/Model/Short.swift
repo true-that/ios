@@ -20,10 +20,13 @@ class Short: Reactable {
   var videoLocalUrl: URL?
   
   init(id: Int64?, userReaction: Emotion?, director: User?, reactionCounters: [Emotion: Int64]?,
-       created: Date?, viewed: Bool?, videoUrl: URL?) {
+       created: Date?, viewed: Bool?, videoUrl: String?) {
     super.init(id: id, userReaction: userReaction, director: director,
                reactionCounters: reactionCounters, created: created, viewed: viewed)
-    self.videoUrl = videoUrl
+    if videoUrl != nil {
+      self.videoUrl = URL(string: videoUrl!)
+      media = Video(url: videoUrl)
+    }
   }
   
   init(id: Int64?, userReaction: Emotion?, director: User?, reactionCounters: [Emotion: Int64]?,
@@ -31,12 +34,14 @@ class Short: Reactable {
     super.init(id: id, userReaction: userReaction, director: director,
                reactionCounters: reactionCounters, created: created, viewed: viewed)
     self.videoLocalUrl = videoLocalUrl
+    media = Video(localUrl: videoLocalUrl)
   }
   
   required init(json: JSON) {
     super.init(json: json)
     if json["videoUrl"].string != nil {
       videoUrl = URL(string: json["videoUrl"].stringValue)
+      media = Video(url: json["videoUrl"].stringValue)
     }
   }
   

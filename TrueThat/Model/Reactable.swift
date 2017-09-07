@@ -25,6 +25,9 @@ class Reactable: BaseModel {
   var created: Date?
   /// Whether the reactable was already viewed by the current user.
   var viewed: Bool?
+  
+  /// Media of reactable
+  var media: Media?
 
   // MARK: Initialization
   init(id: Int64?, userReaction: Emotion?, director: User?, reactionCounters: [Emotion: Int64]?,

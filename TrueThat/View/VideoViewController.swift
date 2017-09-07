@@ -1,5 +1,5 @@
 //
-//  ShortMediaViewController.swift
+//  VideoViewController.swift
 //  TrueThat
 //
 //  Created by Ohad Navon on 28/08/2017.
@@ -10,18 +10,18 @@ import UIKit
 import AVFoundation
 import AVKit
 
-class ShortMediaViewController: ReactableMediaViewController {
+class VideoViewController: MediaViewController {
   // MARK: Properties
-  var short: Short?
+  var video: Video?
   weak var player: AVPlayer?
   var playerController : AVPlayerViewController?
   
   // MARK: Initialization
-  static func instantiate(_ short: Short) -> ShortMediaViewController {
+  static func instantiate(_ video: Video) -> VideoViewController {
     let viewController = UIStoryboard(name: "Main", bundle: nil)
-      .instantiateViewController(withIdentifier: "ShortMediaScene")
-      as! ShortMediaViewController
-    viewController.short = short
+      .instantiateViewController(withIdentifier: "VideoScene")
+      as! VideoViewController
+    viewController.video = video
     return viewController
   }
   
@@ -29,11 +29,11 @@ class ShortMediaViewController: ReactableMediaViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     playerController = AVPlayerViewController()
-    playerController?.view.accessibilityLabel = "short video"
-    if short?.videoUrl != nil {
-      player = AVPlayer(url: short!.videoUrl!)
-    } else if short?.videoLocalUrl != nil {
-      player = AVPlayer(url: short!.videoLocalUrl!)
+    playerController?.view.accessibilityLabel = "video"
+    if video?.url != nil {
+      player = AVPlayer(url: URL(string: video!.url!)!)
+    } else if video?.localUrl != nil {
+      player = AVPlayer(url: video!.localUrl!)
     }
     
     guard player != nil && playerController != nil else {

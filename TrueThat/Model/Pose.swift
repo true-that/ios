@@ -24,6 +24,7 @@ class Pose: Reactable {
     super.init(id: id, userReaction: userReaction, director: director,
                reactionCounters: reactionCounters, created: created, viewed: viewed)
     self.imageUrl = imageUrl
+    media = Photo(url: imageUrl)
   }
   
   init(id: Int64?, userReaction: Emotion?, director: User?, reactionCounters: [Emotion: Int64]?,
@@ -31,11 +32,13 @@ class Pose: Reactable {
     super.init(id: id, userReaction: userReaction, director: director,
                reactionCounters: reactionCounters, created: created, viewed: viewed)
     self.imageData = imageData
+    self.media = Photo(data: imageData)
   }
   
   required init(json: JSON) {
     super.init(json: json)
     imageUrl = json["imageUrl"].string
+    media = Photo(url: imageUrl)
   }
   
   override func toDictionary() -> [String : Any] {

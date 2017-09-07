@@ -10,7 +10,7 @@ import ReactiveSwift
 class ReactableViewController: UIViewController {
   // MARK: Properties
   public var viewModel: ReactableViewModel!
-  var mediaViewController: ReactableMediaViewController!
+  var mediaViewController: MediaViewController!
   
   @IBOutlet weak var directorLabel: UILabel!
   @IBOutlet weak var timeAgoLabel: UILabel!
@@ -63,7 +63,7 @@ class ReactableViewController: UIViewController {
     reportLabel.layer.cornerRadius = 5
     
     // Loads media view controller
-    mediaViewController = ReactableMediaViewController.instantiate(with: viewModel.model)
+    mediaViewController = MediaViewController.instantiate(with: viewModel.model.media)
     
     guard mediaViewController != nil else {
       // Reactable does not have a media and so had been displayed.
@@ -98,8 +98,8 @@ class ReactableViewController: UIViewController {
   }
 }
 
-// MARK: PoseMediaViewControllerDelegate
-extension ReactableViewController: ReactableMediaViewControllerDelegate {
+// MARK: MediaViewControllerDelegate
+extension ReactableViewController: MediaViewControllerDelegate {
   func didDownloadMedia() {
     viewModel.didDisplay()
   }
@@ -132,16 +132,4 @@ extension ReactableViewController: ReactableViewDelegate {
     alertController.addAction(okAction)
     self.present(alertController, animated: true, completion: nil)
   }
-}
-
-protocol ReactableMediaViewControllerDelegate {
-  
-  /// Invoked once the short video had been successfully downloaded.
-  func didDownloadMedia()
-  
-  /// Show loading image to indicate content is being downloaded
-  func showLoader()
-  
-  /// Hide loading image
-  func hideLoader()
 }
