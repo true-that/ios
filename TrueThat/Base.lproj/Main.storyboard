@@ -183,7 +183,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="znr-H3-vAR">
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="znr-H3-vAR" userLabel="Reactions Stack">
                                 <rect key="frame" x="16" y="623" width="65.5" height="24"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="😁" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q0j-Jb-J4F">
@@ -202,7 +202,7 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="U2o-LV-Fo9">
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="U2o-LV-Fo9" userLabel="Info Stack">
                                 <rect key="frame" x="16" y="28" width="107.5" height="20.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Director" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wN6-0w-EPV" userLabel="Director Name">
@@ -231,23 +231,49 @@
                                     <constraint firstAttribute="height" constant="90" id="aiW-GT-xj4"/>
                                 </constraints>
                             </imageView>
+                            <imageView opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lar-sb-R2H">
+                                <rect key="frame" x="329" y="617" width="30" height="30"/>
+                                <accessibility key="accessibilityConfiguration" label="options"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Hy5-eY-ucP"/>
+                                    <constraint firstAttribute="width" constant="30" id="RHt-XT-J1P"/>
+                                    <constraint firstAttribute="width" secondItem="lar-sb-R2H" secondAttribute="height" multiplier="1:1" id="Wbo-0C-M4A"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Report" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oyI-Ta-tNd">
+                                <rect key="frame" x="259" y="569" width="100" height="40"/>
+                                <accessibility key="accessibilityConfiguration" label="report"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="OFV-eu-JKw"/>
+                                    <constraint firstAttribute="height" constant="40" id="dZ8-qD-SeZ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration" label="reactable view"/>
                         <constraints>
                             <constraint firstItem="U2o-LV-Fo9" firstAttribute="leading" secondItem="ieF-0C-5DO" secondAttribute="leadingMargin" id="MAP-qO-7Hy"/>
                             <constraint firstItem="U2o-LV-Fo9" firstAttribute="top" secondItem="76r-xD-bTE" secondAttribute="bottom" constant="8" symbolic="YES" id="YQL-uP-1x3"/>
+                            <constraint firstItem="lar-sb-R2H" firstAttribute="trailing" secondItem="ieF-0C-5DO" secondAttribute="trailingMargin" id="eJq-Yd-W8U"/>
                             <constraint firstItem="atJ-Ro-yqi" firstAttribute="centerX" secondItem="ieF-0C-5DO" secondAttribute="centerX" id="lnu-eS-vg6"/>
+                            <constraint firstItem="lar-sb-R2H" firstAttribute="bottom" secondItem="znr-H3-vAR" secondAttribute="bottom" id="nFS-dS-3vQ"/>
                             <constraint firstAttribute="bottom" secondItem="znr-H3-vAR" secondAttribute="bottom" constant="20" symbolic="YES" id="pIo-8V-Qge"/>
                             <constraint firstItem="U2o-LV-Fo9" firstAttribute="leading" secondItem="znr-H3-vAR" secondAttribute="leading" id="qP0-6b-qzf"/>
                             <constraint firstItem="atJ-Ro-yqi" firstAttribute="centerY" secondItem="ieF-0C-5DO" secondAttribute="centerY" id="r2D-c2-ax9"/>
+                            <constraint firstItem="oyI-Ta-tNd" firstAttribute="trailing" secondItem="lar-sb-R2H" secondAttribute="trailing" id="x36-gq-cM7"/>
+                            <constraint firstItem="lar-sb-R2H" firstAttribute="top" secondItem="oyI-Ta-tNd" secondAttribute="bottom" constant="8" symbolic="YES" id="zYw-jE-9aM"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="directorLabel" destination="wN6-0w-EPV" id="Vrh-QA-GYx"/>
                         <outlet property="loadingImage" destination="atJ-Ro-yqi" id="ngI-eK-1qs"/>
+                        <outlet property="optionsButton" destination="lar-sb-R2H" id="7ih-cY-X01"/>
                         <outlet property="reactionEmojiLabel" destination="Q0j-Jb-J4F" id="Mrt-c8-8f1"/>
                         <outlet property="reactionsCountLabel" destination="Kl4-4Z-qAE" id="OC8-27-7EP"/>
+                        <outlet property="reportLabel" destination="oyI-Ta-tNd" id="cgP-bO-EkW"/>
                         <outlet property="timeAgoLabel" destination="kCa-cD-GP5" id="vB7-mo-TzI"/>
                     </connections>
                 </viewController>

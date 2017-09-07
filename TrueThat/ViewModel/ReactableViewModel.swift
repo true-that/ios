@@ -8,12 +8,17 @@ import ReactiveSwift
 import Result
 
 class ReactableViewModel {
+  public static let reportTitle = "Reported! 👮🏻"
+  public static let reportOkText = "got it"
+  public static let reportAlert = "Thank you for your alertness."
   // MARK: Properties
   public let directorName = MutableProperty("")
   public let timeAgo = MutableProperty("")
   public let reactionEmoji = MutableProperty("")
   public let reactionsCount = MutableProperty("")
   public let loadingImageHidden = MutableProperty(false)
+  public let optionsButtonHidden = MutableProperty(true)
+  public let reportHidden = MutableProperty(true)
   
   var model: Reactable
   var delegate: ReactableViewDelegate!
@@ -35,6 +40,7 @@ class ReactableViewModel {
     }
   }
   
+  /// Aggregates and truncates the reaction counters and sets a proper emoji icon.
   fileprivate func updateReactionCounters() {
     if model.reactionCounters != nil {
       let totalReactions = Array(model.reactionCounters!.values).reduce(0, +)
@@ -56,25 +62,59 @@ class ReactableViewModel {
     }
   }
   
+  // Mark: Actions
+  public func didReport() {
+    reportHidden.value = true
+    if model.viewed == nil || !model.viewed! {
+      App.log.warning("Tried to report a reactable before viewing it.")
+      return
+    }
+    let event = InteractionEvent(
+      timestamp: Date(), userId: App.authModule.current!.id, reaction: nil,
+      eventType: .report, reactableId: model.id)
+    InteractionApi.save(interaction: event)
+      .on(value: {value in
+        App.log.debug("Interaction event successfully saved.")
+        self.delegate?.show(alert: ReactableViewModel.reportAlert,
+                            withTitle: ReactableViewModel.reportTitle,
+                            okAction: ReactableViewModel.reportOkText)
+      })
+      .on(failed: {error in
+        App.log.report(
+          "Could not save interaction event \(event) becuase of \(error)",
+          withError: error)
+      })
+      .start()
+  }
+  
   // MARK: Lifecycle
+  
   /// Triggered when its corresponding {ReactableViewController} is disappeared.
   public func didDisappear() {
     if (App.detecionModule.delegate is ReactableViewModel &&
       App.detecionModule.delegate as! ReactableViewModel === self) {
       App.detecionModule.delegate = nil
     }
+    optionsButtonHidden.value = true
+    reportHidden.value = true
   }
   
   /// Triggered when the media of {model} is downloaded and displayed.
   public func didDisplay() {
+    App.log.debug("didDisplay")
+    // Show options button
+    optionsButtonHidden.value = false
+    // Hide loading image
     loadingImageHidden.value = true
+    // Send view event if needed
     if model.viewed != true {
+      self.model.viewed = true
       let event = InteractionEvent(
         timestamp: Date(), userId: App.authModule.current!.id, reaction: nil,
         eventType: .view, reactableId: model.id)
       InteractionApi.save(interaction: event)
         .on(value: {value in
-          self.model.viewed = true
+          App.log.debug("Interaction event successfully saved.")
         })
         .on(failed: {error in
           App.log.report(
@@ -117,4 +157,12 @@ protocol ReactableViewDelegate {
   
   /// Animates emotional reation image, so that the user see his reaction was captured.
   func animateReactionImage()
+  
+  /// Shows `alert` to the user, to inform him of errors and warnings.
+  ///
+  /// - Parameters:
+  ///   - alert: message body of alert
+  ///   - withTitle: title at the top of the dislogue
+  ///   - okAction: what the user clicks to terminate the dialogue
+  func show(alert: String, withTitle: String, okAction: String)
 }

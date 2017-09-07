@@ -17,6 +17,8 @@ class ReactableViewController: UIViewController {
   @IBOutlet weak var reactionEmojiLabel: UILabel!
   @IBOutlet weak var reactionsCountLabel: UILabel!
   @IBOutlet weak var loadingImage: UIImageView!
+  @IBOutlet weak var optionsButton: UIImageView!
+  @IBOutlet weak var reportLabel: UILabel!
 
   // MARK: Initialization
   static func instantiate(with reactable: Reactable) -> ReactableViewController {
@@ -42,9 +44,23 @@ class ReactableViewController: UIViewController {
     reactionEmojiLabel.reactive.text <~ viewModel.reactionEmoji
     reactionsCountLabel.reactive.text <~ viewModel.reactionsCount
     loadingImage.reactive.isHidden <~ viewModel.loadingImageHidden
+    optionsButton.reactive.isHidden <~ viewModel.optionsButtonHidden
+    reportLabel.reactive.isHidden <~ viewModel.reportHidden
     
     // Sets up loading image
     UIHelper.initLoadingImage(loadingImage)
+    
+    // Initialize options UI
+    optionsButton.image = UIImage(named: "options.png")
+    optionsButton.addGestureRecognizer(
+      UITapGestureRecognizer(target: self, action: #selector(self.showOptions)))
+    optionsButton.isUserInteractionEnabled = true
+    reportLabel.textColor = Color.error.value
+    reportLabel.layer.backgroundColor = Color.lightText.value.cgColor
+    reportLabel.addGestureRecognizer(
+      UITapGestureRecognizer(target: self, action: #selector(self.didReport)))
+    reportLabel.isUserInteractionEnabled = true
+    reportLabel.layer.cornerRadius = 5
     
     // Loads media view controller
     mediaViewController = ReactableMediaViewController.instantiate(with: viewModel.model)
@@ -68,6 +84,17 @@ class ReactableViewController: UIViewController {
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
     viewModel.didDisappear()
+  }
+  
+  // MARK: Actions
+  /// Exposes the options menu
+  @objc private func showOptions() {
+    viewModel.reportHidden.value = false
+  }
+  
+  /// Reports the reactable for offensive content.
+  @objc private func didReport() {
+    viewModel.didReport()
   }
 }
 
@@ -96,6 +123,14 @@ extension ReactableViewController: ReactableViewDelegate {
         self.reactionEmojiLabel.transform = CGAffineTransform.identity
       })
     })
+  }
+  
+  func show(alert: String, withTitle: String, okAction: String) {
+    let alertController = UIAlertController(title: withTitle, message: alert,
+                                            preferredStyle: .alert)
+    let okAction = UIAlertAction(title: okAction, style: .default, handler: nil)
+    alertController.addAction(okAction)
+    self.present(alertController, animated: true, completion: nil)
   }
 }
 

@@ -189,6 +189,28 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
     assertDisplayed(reactable: reactable2)
   }
   
+  func testReport() {
+    let reactable = Pose(id: 2, userReaction: .happy,
+                         director: User(id: 1, firstName: "Emma", lastName: "Watson",
+                                        deviceId: "iphone2"),
+                         reactionCounters: [.happy: 5000, .sad: 34], created: Date(),
+                         viewed: false,
+                         imageUrl: "https://storage.googleapis.com/truethat-test-studio/testing/happy-selfie.jpg")
+    fetchedReactables = [reactable]
+    // Displays the reactable
+    viewController.beginAppearanceTransition(true, animated: false)
+    viewController.didAuthOk()
+    assertDisplayed(reactable: reactable)
+    expect(self.viewController.reactablesPage.currentViewController!.optionsButton.isHidden).toEventually(beFalse())
+    // Exposes options menu
+    tester().tapView(withAccessibilityLabel: "options")
+    expect(self.viewController.reactablesPage.currentViewController!.reportLabel.isHidden).toEventually(beFalse())
+    tester().tapView(withAccessibilityLabel: "report")
+    expect(self.viewController.reactablesPage.currentViewController!.reportLabel.isHidden).toEventually(beTrue())
+    // Should eventually see the reported alert.
+    tester().tapView(withAccessibilityLabel: "got it")
+  }
+  
   class FetchReactablesTestsDelegate: FetchReactablesDelegate {
     func fetchingProducer() -> SignalProducer<[Reactable], NSError> {
       return TheaterApi.fetchReactables(for: App.authModule.current!)

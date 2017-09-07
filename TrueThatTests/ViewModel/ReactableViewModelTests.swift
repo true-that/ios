@@ -15,6 +15,7 @@ import Nimble
 
 class ReactableViewModelTests: BaseTests {
   var viewModel: ReactableViewModel!
+  var viewModelDelegate: TestsReactableViewDelegate!
   var eventCount = 0
   
   override func setUp() {
@@ -30,8 +31,9 @@ class ReactableViewModelTests: BaseTests {
   }
   
   func initViewModel(with reactable: Reactable) {
+    viewModelDelegate = TestsReactableViewDelegate()
     viewModel = ReactableViewModel(with: reactable)
-    viewModel.delegate = TestsReactableViewDelegate()
+    viewModel.delegate = viewModelDelegate
   }
   
   func testDisplayReactable() {
@@ -45,6 +47,8 @@ class ReactableViewModelTests: BaseTests {
     expect(self.viewModel.timeAgo.value).to(equal("now"))
     expect(self.viewModel.reactionsCount.value).to(equal("2.2k"))
     expect(self.viewModel.reactionEmoji.value).to(equal(Emotion.sad.emoji))
+    viewModel.didDisplay()
+    expect(self.viewModel.optionsButtonHidden.value).to(beFalse())
   }
   
   func testDisplayReactable_commonReactionDisplayed() {
@@ -99,6 +103,32 @@ class ReactableViewModelTests: BaseTests {
     expect(self.viewModel.reactionsCount.value).to(equal("5"))
   }
   
+  func testReport() {
+    let reactable = Reactable(id: 1, userReaction: nil,
+                              director: User(id: 1, firstName: "Ms", lastName: "Robot", deviceId: "iphone2"),
+                              reactionCounters: [.sad: 3, .happy: 1],
+                              created: Date(timeIntervalSinceNow: -60), viewed: false)
+    initViewModel(with: reactable)
+    viewModel.didDisplay()
+    // Wait for view event
+    expect(self.eventCount).toEventually(equal(1))
+    viewModel.didReport()
+    expect(self.viewModel.reportHidden.value).to(beTrue())
+    // Wait for report event
+    expect(self.eventCount).toEventually(equal(2))
+    expect(self.viewModelDelegate.didShow).toEventually(beTrue())
+  }
+  
+  func testCantReportBeforeView() {
+    let reactable = Reactable(id: 1, userReaction: nil,
+                              director: User(id: 1, firstName: "Ms", lastName: "Robot", deviceId: "iphone2"),
+                              reactionCounters: [.sad: 3, .happy: 1],
+                              created: Date(timeIntervalSinceNow: -60), viewed: false)
+    initViewModel(with: reactable)
+    viewModel.didReport()
+    expect(self.viewModelDelegate.didShow).toNotEventually(beTrue())
+  }
+  
   func testCantInteractAfterDisappear() {
     let reactable = Reactable(id: 1, userReaction: nil,
                               director: User(id: 1, firstName: "Ms", lastName: "Robot", deviceId: "iphone2"),
@@ -112,8 +142,14 @@ class ReactableViewModelTests: BaseTests {
   }
   
   class TestsReactableViewDelegate : ReactableViewDelegate {
+    var didShow = false
+    
     func animateReactionImage() {
       
+    }
+    
+    func show(alert: String, withTitle: String, okAction: String) {
+      didShow = true
     }
   }
 }
