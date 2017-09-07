@@ -20,13 +20,6 @@ target 'TrueThat' do
     pod 'OHHTTPStubs'
     pod 'OHHTTPStubs/Swift'
   end
-  
-  target 'TrueThatUITests' do
-    inherit! :search_paths
-    pod 'Nimble', '~> 7.0.1', :inhibit_warnings => true
-    pod 'OHHTTPStubs'
-    pod 'OHHTTPStubs/Swift'
-  end
 end
 
 post_install do |installer|

@@ -17,7 +17,6 @@
 		3407B8BA11DD82F89A064BB1 /* Reactable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3407B61AD1CDCD949A8DD2C4 /* Reactable.swift */; };
 		3407BEFBE7E749559ECAA941 /* ReactablesPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3407B4EB81D58211759AE8B8 /* ReactablesPageViewController.swift */; };
 		3407BFBE59D04413006DD617 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3407B9CA9B12A5DEF0AC9484 /* LaunchScreen.storyboard */; };
-		4902D3170ABD8DE16E8EB0E7 /* Pods_TrueThatUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDFF4F0A62E10A4EC51735FE /* Pods_TrueThatUITests.framework */; };
 		6F05A37D1F385A15008D595A /* StudioViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F05A37C1F385A15008D595A /* StudioViewControllerTests.swift */; };
 		6F05A37F1F38B048008D595A /* RepertoireViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F05A37E1F38B048008D595A /* RepertoireViewController.swift */; };
 		6F05A3811F38B26C008D595A /* RepertoireApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F05A3801F38B26C008D595A /* RepertoireApi.swift */; };
@@ -31,7 +30,6 @@
 		6F15228B1F37178600BD0DC2 /* DeviceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F15228A1F37178600BD0DC2 /* DeviceModule.swift */; };
 		6F15228D1F3717D400BD0DC2 /* HardwareDeviceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F15228C1F3717D400BD0DC2 /* HardwareDeviceModule.swift */; };
 		6F15229D1F37609D00BD0DC2 /* StudioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F15229C1F37609D00BD0DC2 /* StudioViewModel.swift */; };
-		6F21E4E61F1657A1004FFA6F /* TrueThatUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F21E4E51F1657A1004FFA6F /* TrueThatUITests.swift */; };
 		6F2B40BF1F5B726C0028A0E3 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2B40BE1F5B726C0028A0E3 /* UIHelper.swift */; };
 		6F3092D11F2DE91F00BD211A /* KIF+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3092D01F2DE91F00BD211A /* KIF+Extensions.swift */; };
 		6F3092D61F2DEA9100BD211A /* ReactablesPageWrapperViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3092D51F2DEA9100BD211A /* ReactablesPageWrapperViewControllerTests.swift */; };
@@ -104,19 +102,11 @@
 		6FE04F721F334F4800D5BF39 /* StringHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE04F711F334F4800D5BF39 /* StringHelperTests.swift */; };
 		6FEC85DA1F27557800DC46B5 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FEC85D91F27557800DC46B5 /* Dictionary+Extensions.swift */; };
 		6FEC85DB1F27557800DC46B5 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FEC85D91F27557800DC46B5 /* Dictionary+Extensions.swift */; };
-		6FEC85DC1F27557800DC46B5 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FEC85D91F27557800DC46B5 /* Dictionary+Extensions.swift */; };
 		6FF9C9591F328EEF00C2FC3F /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF9C9581F328EEF00C2FC3F /* App.swift */; };
 		D677A3F7683EA76A440EBD08 /* Pods_TrueThatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C74B33475F7129BCE7F5AFD /* Pods_TrueThatTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		6F21E4E81F1657A1004FFA6F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6F4826211F1284F50066394D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6F4826281F1284F50066394D;
-			remoteInfo = TrueThat;
-		};
 		6F48263E1F1284F50066394D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6F4826211F1284F50066394D /* Project object */;
@@ -151,9 +141,6 @@
 		6F15228A1F37178600BD0DC2 /* DeviceModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceModule.swift; sourceTree = "<group>"; };
 		6F15228C1F3717D400BD0DC2 /* HardwareDeviceModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HardwareDeviceModule.swift; sourceTree = "<group>"; };
 		6F15229C1F37609D00BD0DC2 /* StudioViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudioViewModel.swift; sourceTree = "<group>"; };
-		6F21E4E31F1657A1004FFA6F /* TrueThatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrueThatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6F21E4E51F1657A1004FFA6F /* TrueThatUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrueThatUITests.swift; sourceTree = "<group>"; };
-		6F21E4E71F1657A1004FFA6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6F2B40BE1F5B726C0028A0E3 /* UIHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		6F3092D01F2DE91F00BD211A /* KIF+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KIF+Extensions.swift"; sourceTree = "<group>"; };
 		6F3092D21F2DE9D900BD211A /* TrueThatTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TrueThatTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -245,14 +232,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		6F21E4E01F1657A1004FFA6F /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4902D3170ABD8DE16E8EB0E7 /* Pods_TrueThatUITests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		6F4826261F1284F50066394D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -379,15 +358,6 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		6F21E4E41F1657A1004FFA6F /* TrueThatUITests */ = {
-			isa = PBXGroup;
-			children = (
-				6F21E4E51F1657A1004FFA6F /* TrueThatUITests.swift */,
-				6F21E4E71F1657A1004FFA6F /* Info.plist */,
-			);
-			path = TrueThatUITests;
-			sourceTree = "<group>";
-		};
 		6F2B40BD1F5B725C0028A0E3 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -440,7 +410,6 @@
 			children = (
 				6F48262B1F1284F50066394D /* TrueThat */,
 				6F4826401F1284F50066394D /* TrueThatTests */,
-				6F21E4E41F1657A1004FFA6F /* TrueThatUITests */,
 				6F48262A1F1284F50066394D /* Products */,
 				BE16FA70A1FDFE1BAD2AFB85 /* Pods */,
 				B355E01363EB2A76F6F26707 /* Frameworks */,
@@ -452,7 +421,6 @@
 			children = (
 				6F4826291F1284F50066394D /* TrueThat.app */,
 				6F48263D1F1284F50066394D /* TrueThatTests.xctest */,
-				6F21E4E31F1657A1004FFA6F /* TrueThatUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -630,27 +598,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6F21E4E21F1657A1004FFA6F /* TrueThatUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 6F21E4EA1F1657A1004FFA6F /* Build configuration list for PBXNativeTarget "TrueThatUITests" */;
-			buildPhases = (
-				29DE52AD942583A5B2241669 /* [CP] Check Pods Manifest.lock */,
-				6F21E4DF1F1657A1004FFA6F /* Sources */,
-				6F21E4E01F1657A1004FFA6F /* Frameworks */,
-				6F21E4E11F1657A1004FFA6F /* Resources */,
-				C34788F43F1EDFF153700588 /* [CP] Embed Pods Frameworks */,
-				B6DCD1D4A2F89A8AF22FBB8C /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				6F21E4E91F1657A1004FFA6F /* PBXTargetDependency */,
-			);
-			name = TrueThatUITests;
-			productName = TrueThatUITests;
-			productReference = 6F21E4E31F1657A1004FFA6F /* TrueThatUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 		6F4826281F1284F50066394D /* TrueThat */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6F4826511F1284F50066394D /* Build configuration list for PBXNativeTarget "TrueThat" */;
@@ -703,12 +650,6 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = TrueThat;
 				TargetAttributes = {
-					6F21E4E21F1657A1004FFA6F = {
-						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = QQ3CD38Z54;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 6F4826281F1284F50066394D;
-					};
 					6F4826281F1284F50066394D = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 9U6QZAC8R3;
@@ -743,19 +684,11 @@
 			targets = (
 				6F4826281F1284F50066394D /* TrueThat */,
 				6F48263C1F1284F50066394D /* TrueThatTests */,
-				6F21E4E21F1657A1004FFA6F /* TrueThatUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		6F21E4E11F1657A1004FFA6F /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		6F4826271F1284F50066394D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -778,30 +711,38 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		29DE52AD942583A5B2241669 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
 		60A8403D828E8728299CDEA5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-TrueThat/Pods-TrueThat-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSKinesis/AWSKinesis.framework",
+				"${PODS_ROOT}/AffdexSDK-iOS/ios/Affdex.framework",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/ReactiveCocoa/ReactiveCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/ReactiveSwift/ReactiveSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyBeaver/SwiftyBeaver.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSKinesis.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Affdex.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactiveCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactiveSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyBeaver.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -814,13 +755,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TrueThatTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6BD50B1A820A753CC3D65CD4 /* [CP] Copy Pods Resources */ = {
@@ -857,13 +801,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TrueThat-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A73F7CE81555211E7DE4DEC9 /* [CP] Embed Pods Frameworks */ = {
@@ -872,43 +819,20 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-TrueThatTests/Pods-TrueThatTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/KIF/KIF.framework",
+				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
+				"${BUILT_PRODUCTS_DIR}/OHHTTPStubs/OHHTTPStubs.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KIF.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OHHTTPStubs.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TrueThatTests/Pods-TrueThatTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B6DCD1D4A2F89A8AF22FBB8C /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TrueThatUITests/Pods-TrueThatUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C34788F43F1EDFF153700588 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TrueThatUITests/Pods-TrueThatUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F5755CC1102CDFCB2DF36AE4 /* [CP] Copy Pods Resources */ = {
@@ -929,15 +853,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		6F21E4DF1F1657A1004FFA6F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6F21E4E61F1657A1004FFA6F /* TrueThatUITests.swift in Sources */,
-				6FEC85DC1F27557800DC46B5 /* Dictionary+Extensions.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		6F4826251F1284F50066394D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1045,11 +960,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		6F21E4E91F1657A1004FFA6F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6F4826281F1284F50066394D /* TrueThat */;
-			targetProxy = 6F21E4E81F1657A1004FFA6F /* PBXContainerItemProxy */;
-		};
 		6F48263F1F1284F50066394D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6F4826281F1284F50066394D /* TrueThat */;
@@ -1077,34 +987,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		6F21E4EB1F1657A1004FFA6F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7066267C9E881A46D526204D /* Pods-TrueThatUITests.debug.xcconfig */;
-			buildSettings = {
-				DEVELOPMENT_TEAM = QQ3CD38Z54;
-				INFOPLIST_FILE = TrueThatUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.truethat.ios.TrueThatUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = TrueThat;
-			};
-			name = Debug;
-		};
-		6F21E4EC1F1657A1004FFA6F /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 762984DC1DD60CDFAC99C755 /* Pods-TrueThatUITests.release.xcconfig */;
-			buildSettings = {
-				DEVELOPMENT_TEAM = QQ3CD38Z54;
-				INFOPLIST_FILE = TrueThatUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.truethat.ios.TrueThatUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = TrueThat;
-			};
-			name = Release;
-		};
 		6F48264F1F1284F50066394D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1376,33 +1258,9 @@
 			};
 			name = Beta;
 		};
-		6F6A229A1F4C267C0010718A /* Beta */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8E924587D0DD22AB377C574C /* Pods-TrueThatUITests.beta.xcconfig */;
-			buildSettings = {
-				DEVELOPMENT_TEAM = QQ3CD38Z54;
-				INFOPLIST_FILE = TrueThatUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.truethat.ios.TrueThatUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = TrueThat;
-			};
-			name = Beta;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6F21E4EA1F1657A1004FFA6F /* Build configuration list for PBXNativeTarget "TrueThatUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6F21E4EB1F1657A1004FFA6F /* Debug */,
-				6F21E4EC1F1657A1004FFA6F /* Release */,
-				6F6A229A1F4C267C0010718A /* Beta */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		6F4826241F1284F50066394D /* Build configuration list for PBXProject "TrueThat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
