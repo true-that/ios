@@ -84,6 +84,7 @@
 		6FB150151F33C0E600A008DC /* OnBoardingViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB150141F33C0E600A008DC /* OnBoardingViewControllerTests.swift */; };
 		6FB4BA4C1F541B4C009F8FD9 /* happy_selfie.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6FB4BA4A1F541B4C009F8FD9 /* happy_selfie.jpg */; };
 		6FB4BA4D1F541B4C009F8FD9 /* wink.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6FB4BA4B1F541B4C009F8FD9 /* wink.mp4 */; };
+		6FC32C7A1F6166B800957959 /* FakeDeviceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC32C791F6166B800957959 /* FakeDeviceModule.swift */; };
 		6FC9566F1F36F8B700B772D3 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC9566E1F36F8B700B772D3 /* BaseViewController.swift */; };
 		6FC956711F36FEA100B772D3 /* TheaterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC956701F36FEA100B772D3 /* TheaterViewController.swift */; };
 		6FC9A2B01F2A076400E4BCF1 /* ReactableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC9A2AF1F2A076400E4BCF1 /* ReactableTests.swift */; };
@@ -200,6 +201,7 @@
 		6FB150141F33C0E600A008DC /* OnBoardingViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnBoardingViewControllerTests.swift; sourceTree = "<group>"; };
 		6FB4BA4A1F541B4C009F8FD9 /* happy_selfie.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = happy_selfie.jpg; sourceTree = "<group>"; };
 		6FB4BA4B1F541B4C009F8FD9 /* wink.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = wink.mp4; sourceTree = "<group>"; };
+		6FC32C791F6166B800957959 /* FakeDeviceModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeDeviceModule.swift; sourceTree = "<group>"; };
 		6FC9566E1F36F8B700B772D3 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		6FC956701F36FEA100B772D3 /* TheaterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TheaterViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6FC956741F370C5E00B772D3 /* TrueThat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TrueThat.entitlements; sourceTree = "<group>"; };
@@ -523,6 +525,7 @@
 			children = (
 				6F7DFC291F314DE6003DE099 /* FakeReactionDetectionModule.swift */,
 				6F89FBA91F4B2471002321CA /* FakeKeychainModule.swift */,
+				6FC32C791F6166B800957959 /* FakeDeviceModule.swift */,
 			);
 			path = Fakes;
 			sourceTree = "<group>";
@@ -871,6 +874,7 @@
 				6F3779F81F377611007C0945 /* InteractionApi.swift in Sources */,
 				6F3779F91F377611007C0945 /* TheaterApi.swift in Sources */,
 				6F7DFC2E1F314EE8003DE099 /* InteractionEvent.swift in Sources */,
+				6FC32C7A1F6166B800957959 /* FakeDeviceModule.swift in Sources */,
 				6F89FBA61F4B232B002321CA /* KeychainModule.swift in Sources */,
 				6FE04F701F332F2700D5BF39 /* StringHelper.swift in Sources */,
 				6F15228B1F37178600BD0DC2 /* DeviceModule.swift in Sources */,

@@ -9,7 +9,7 @@
 import UIKit
 
 class HardwareDeviceModule: DeviceModule {
-  init() {
-    super.init(deviceId: UIDevice.current.identifierForVendor!.uuidString)
+  override var deviceId: String? {
+    return UIDevice.current.identifierForVendor?.uuidString
   }
 }

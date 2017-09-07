@@ -18,7 +18,7 @@ class BaseUITests : KIFTestCase {
     super.setUp()
     App.log.info("BaseUITests started")
     fakeDetectionModule = FakeReactionDetectionModule()
-    fakeDeviceModule = DeviceModule(deviceId: "iphone-mock")
+    fakeDeviceModule = FakeDeviceModule("fake-iPhone")
     fakeKeychainModule = FakeKeychainModule()
     
     App.keychainModule = fakeKeychainModule

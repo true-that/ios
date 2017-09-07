@@ -10,9 +10,7 @@ import Foundation
 
 /// Manages device data such as phone number and identifiers.
 class DeviceModule {
-  var deviceId: String?
-
-  init(deviceId: String?) {
-    self.deviceId = deviceId
+  var deviceId: String? {
+    return ""
   }
 }

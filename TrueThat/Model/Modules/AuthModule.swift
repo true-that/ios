@@ -36,7 +36,7 @@ class AuthModule {
     App.log.debug("They all sign up eventually")
     let toAuth = User(id: nil, firstName: StringHelper.extractFirstName(of: fullName),
                       lastName: StringHelper.extractLastName(of: fullName),
-                      deviceId: App.deviceModule.deviceId!)
+                      deviceId: App.deviceModule.deviceId)
     authRequest(for: toAuth)
   }
   
