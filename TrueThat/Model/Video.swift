@@ -14,20 +14,20 @@ import Alamofire
 class Video: Media {
   /// Local URL of the video
   var localUrl: URL?
-
+  
   override init(url: String?) {
     super.init(url: url)
   }
-
+  
   init(localUrl: URL?) {
     super.init(url: nil)
     self.localUrl = localUrl
   }
-
+  
   required init(json: JSON) {
     super.init(json: json)
   }
-
+  
   override func appendTo(multipartFormData: MultipartFormData) {
     super.appendTo(multipartFormData: multipartFormData)
     if localUrl != nil {

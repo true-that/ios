@@ -14,7 +14,7 @@ import Alamofire
 class Photo: Media {
   /// Data of the image.
   var data: Data?
-
+  
   override init(url: String?) {
     super.init(url: url)
   }
@@ -23,11 +23,11 @@ class Photo: Media {
     super.init(url: nil)
     self.data = data
   }
-
+  
   required init(json: JSON) {
     super.init(json: json)
   }
-
+  
   override func appendTo(multipartFormData: MultipartFormData) {
     super.appendTo(multipartFormData: multipartFormData)
     if data != nil {

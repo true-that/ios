@@ -9,7 +9,7 @@
 import Foundation
 
 extension Dictionary {
-
+  
   /// Initializaes a dictionary from a collection of pairs.
   ///
   /// - Parameter pairs: to create a dictionary from.
@@ -19,7 +19,8 @@ extension Dictionary {
       self[k] = v
     }
   }
-
+  
+  
   /// Maps dictionary entries into another dictionary by applying `transform`.
   ///
   /// - Parameter transform: a transformation to apply for `self`.

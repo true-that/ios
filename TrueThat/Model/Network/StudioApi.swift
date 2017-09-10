@@ -16,13 +16,13 @@ import SwiftyJSON
 class StudioApi {
   /// Subpath relative to base backend endpoint.
   static public let path = "/studio"
-
+  
   /// Scene part name when uploading a directed scene
   static let scenePart = "scene"
-
+  
   /// Media part name of an uploaded scene
   static let mediaPart = "media"
-
+  
   /// Full URL of backend endpoint.
   static var fullUrl: String {
     return Bundle.main.infoDictionary!["API_BASE_URL_ENDPOINT"] as! String + StudioApi.path
@@ -33,7 +33,7 @@ class StudioApi {
   /// - Returns: A reactive producer that invokes success and failure callbacks.
   public static func save(scene: Scene) -> SignalProducer<Scene, NSError> {
     // TODO: cancel request when view disappears
-    return SignalProducer { observer, _ in
+    return SignalProducer { observer, disposable in
       let request = try! URLRequest(url: StudioApi.fullUrl, method: .post)
       Alamofire.upload(multipartFormData: { multipartFormData in
         App.log.info("MULTIPART \(StudioApi.fullUrl)")
@@ -44,7 +44,7 @@ class StudioApi {
           switch result {
           case .success(let upload, _, _):
             // The actual network HTTP communication is done here.
-            upload.responseJSON { response in
+            upload.responseJSON{ response in
               switch response.result {
               case .success:
                 let saved = try? Scene(json: JSON(response.result.value!))

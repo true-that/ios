@@ -9,7 +9,7 @@
 import Foundation
 
 class StringHelper {
-
+  
   /// Valid names satisfy the following conditions:
   /// - They only contain english letters and spaces.
   /// - They have both first and last name.
@@ -19,12 +19,12 @@ class StringHelper {
   /// - Returns: whether the given name can formulate first and last names for a `User`.
   public static func isValid(fullName: String) -> Bool {
     let trimmed = fullName.lowercased().trimmingCharacters(in: .whitespaces)
-    let firstName = extractFirstName(of: trimmed)
-    let lastName = extractLastName(of: trimmed)
+    let firstName = extractFirstName(of: trimmed);
+    let lastName = extractLastName(of: trimmed);
     // One letter names are invalid.
-    let isFirstNameValid = isAlpha(firstName) && firstName.characters.count > 1
-    let isLastNameValid = isAlpha(lastName) && lastName.characters.count > 1
-    return isFirstNameValid && isLastNameValid
+    let isFirstNameValid = isAlpha(firstName) && firstName.characters.count > 1;
+    let isLastNameValid = isAlpha(lastName) && lastName.characters.count > 1;
+    return isFirstNameValid && isLastNameValid;
   }
 
   /// - Parameter fullName: of a happy human being
@@ -32,18 +32,18 @@ class StringHelper {
   public static func extractFirstName(of fullName: String) -> String {
     return fullName.trimmingCharacters(in: .whitespaces).components(separatedBy: " ")[0].lowercased()
   }
-
+  
   /// - Parameter fullName: of a Game of Thrones loving person.
   /// - Returns: the entire `fullName` but its first word.
   public static func extractLastName(of fullName: String) -> String {
     var lastName = ""
     if fullName.range(of: " ") != nil {
       let words = fullName.components(separatedBy: " ")
-      lastName = words[1...words.count - 1].filter {!$0.isEmpty}.joined(separator: " ")
+      lastName = words[1...words.count - 1].filter{!$0.isEmpty}.joined(separator: " ")
     }
-    return lastName.lowercased()
+    return lastName.lowercased();
   }
-
+  
   /// - Parameter s: to assess
   /// - Returns: whether `s` is made of letters and spaces
   public static func isAlpha(_ s: String) -> Bool {

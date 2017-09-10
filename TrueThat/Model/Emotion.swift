@@ -8,7 +8,7 @@ import Foundation
 /// Emotions to describe emotional reaction to scenes.
 enum Emotion: String {
   case happy, sad
-
+  
   public var description: String { return self.rawValue }
 }
 

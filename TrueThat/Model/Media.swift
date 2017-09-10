@@ -15,18 +15,18 @@ class Media: BaseModel {
   // MARK: Properties
   /// Of the media, where it is stored on our backend.
   var url: String?
-
+  
   // Mark: Initialization
   init (url: String?) {
     super.init()
     self.url = url
   }
-
+  
   required init(json: JSON) {
     super.init(json: json)
     url = json["url"].string
   }
-
+  
   static func instantiate(with json: JSON) -> Media? {
     guard let type = json["type"].string else {
       App.log.warning("Failed to deserialize Media. Missing type.")
@@ -44,7 +44,7 @@ class Media: BaseModel {
       return nil
     }
   }
-
+  
   // Mark: JSON
 
   override func toDictionary() -> [String : Any] {
@@ -55,9 +55,9 @@ class Media: BaseModel {
     dictionary["type"] = String(describing: type(of: self))
     return dictionary
   }
-
+  
   // MARK: Network
-
+  
   /// Appends media data to a multipart request
   ///
   /// - Parameter multipartFormData: to append to

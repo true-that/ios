@@ -12,11 +12,12 @@ import OHHTTPStubs
 import SwiftyJSON
 import Nimble
 
+
 class SceneViewModelTests: BaseTests {
   var viewModel: SceneViewModel!
   var viewModelDelegate: TestsSceneViewDelegate!
   var eventCount = 0
-
+  
   override func setUp() {
     super.setUp()
     stub(condition: isPath(InteractionApi.path)) {request -> OHHTTPStubsResponse in
@@ -24,17 +25,17 @@ class SceneViewModelTests: BaseTests {
       let requestEvent = InteractionEvent(json: JSON(Data(fromStream: request.httpBodyStream!)))
       let data = try? JSON(from: requestEvent).rawData()
       return OHHTTPStubsResponse(data: data!, statusCode: 200,
-                                 headers: ["Content-Type": "application/json"])
+                                 headers: ["Content-Type":"application/json"])
     }
     eventCount = 0
   }
-
+  
   func initViewModel(with scene: Scene) {
     viewModelDelegate = TestsSceneViewDelegate()
     viewModel = SceneViewModel(with: scene)
     viewModel.delegate = viewModelDelegate
   }
-
+  
   func testDisplayScene() {
     let scene = Scene(id: 1, userReaction: .sad,
                               director: User(id: 1, firstName: "Mr", lastName: "Robot",
@@ -50,7 +51,7 @@ class SceneViewModelTests: BaseTests {
     viewModel.didDisplay()
     expect(self.viewModel.optionsButtonHidden.value).to(beFalse())
   }
-
+  
   func testDisplayScene_commonReactionDisplayed() {
     let scene = Scene(id: 1, userReaction: nil, director: nil,
                               reactionCounters: [.sad: 1, .happy: 2], created: nil, viewed: nil,
@@ -58,7 +59,7 @@ class SceneViewModelTests: BaseTests {
     initViewModel(with: scene)
     expect(self.viewModel.reactionEmoji.value).to(equal(Emotion.happy.emoji))
   }
-
+  
   func testDisplayScene_userReactionReactionDisplayed() {
     let scene = Scene(id: 1, userReaction: .sad, director: nil,
                               reactionCounters: [.sad: 1, .happy: 2], created: nil, viewed: nil,
@@ -66,7 +67,7 @@ class SceneViewModelTests: BaseTests {
     initViewModel(with: scene)
     expect(self.viewModel.reactionEmoji.value).to(equal(Emotion.sad.emoji))
   }
-
+  
   func testDisplayScene_noReactionReactionDisplayed() {
     var scene = Scene(id: 1, userReaction: nil, director: nil, reactionCounters: nil,
                               created: nil, viewed: nil, media: nil)
@@ -80,7 +81,7 @@ class SceneViewModelTests: BaseTests {
     expect(self.viewModel.reactionEmoji.value).to(equal(""))
     expect(self.viewModel.reactionsCount.value).to(equal(""))
   }
-
+  
   func testInteractionEvents() {
     let scene = Scene(id: 1, userReaction: nil,
                               director: User(id: 1, firstName: "Ms", lastName: "Robot",
@@ -105,7 +106,7 @@ class SceneViewModelTests: BaseTests {
     expect(self.viewModel.reactionEmoji.value).to(equal(Emotion.happy.emoji))
     expect(self.viewModel.reactionsCount.value).to(equal("5"))
   }
-
+  
   func testReport() {
     let scene = Scene(id: 1, userReaction: nil,
                               director: User(id: 1, firstName: "Ms", lastName: "Robot",
@@ -122,7 +123,7 @@ class SceneViewModelTests: BaseTests {
     expect(self.eventCount).toEventually(equal(2))
     expect(self.viewModelDelegate.didShow).toEventually(beTrue())
   }
-
+  
   func testCantReportBeforeView() {
     let scene = Scene(id: 1, userReaction: nil,
                               director: User(id: 1, firstName: "Ms", lastName: "Robot",
@@ -133,7 +134,7 @@ class SceneViewModelTests: BaseTests {
     viewModel.didReport()
     expect(self.viewModelDelegate.didShow).toNotEventually(beTrue())
   }
-
+  
   func testCantInteractAfterDisappear() {
     let scene = Scene(id: 1, userReaction: nil,
                               director: User(id: 1, firstName: "Ms", lastName: "Robot",
@@ -146,14 +147,14 @@ class SceneViewModelTests: BaseTests {
     fakeDetectionModule.detect(.happy)
     expect(self.eventCount).toNotEventually(equal(1))
   }
-
-  class TestsSceneViewDelegate: SceneViewDelegate {
+  
+  class TestsSceneViewDelegate : SceneViewDelegate {
     var didShow = false
-
+    
     func animateReactionImage() {
-
+      
     }
-
+    
     func show(alert: String, withTitle: String, okAction: String) {
       didShow = true
     }

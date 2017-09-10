@@ -14,36 +14,36 @@ import ReactiveSwift
 import SwiftyJSON
 import Nimble
 
-class ScenesPageWrapperViewControllerTests: BaseUITests {
+class ScenesPageWrapperViewControllerTests : BaseUITests {
   var fetchedScenes: [Scene] = []
   var viewController: ScenesPageWrapperViewController!
-
+  
   override func setUp() {
     super.setUp()
-
-    stub(condition: isPath(TheaterApi.path)) {_ -> OHHTTPStubsResponse in
-      let stubData = try! JSON(self.fetchedScenes.map {JSON(from: $0)}).rawData()
+    
+    stub(condition: isPath(TheaterApi.path)) {request -> OHHTTPStubsResponse in
+      let stubData = try! JSON(self.fetchedScenes.map{JSON(from: $0)}).rawData()
       self.fetchedScenes = []
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
-                                 headers: ["Content-Type": "application/json"])
+                                 headers: ["Content-Type":"application/json"])
     }
     stub(condition: isPath(InteractionApi.path)) {request -> OHHTTPStubsResponse in
       let requestEvent = InteractionEvent(json: JSON(Data(fromStream: request.httpBodyStream!)))
       let data = try? JSON(from: requestEvent).rawData()
       return OHHTTPStubsResponse(data: data!, statusCode: 200,
-                                 headers: ["Content-Type": "application/json"])
+                                 headers: ["Content-Type":"application/json"])
     }
     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
     viewController = storyboard.instantiateViewController(
       withIdentifier: "ScenesPageWrapperScene") as! ScenesPageWrapperViewController
-
+    
     UIApplication.shared.keyWindow!.rootViewController = viewController
-
+    
     // Test and load the View
     expect(self.viewController.view).toNot(beNil())
     viewController.viewModel.fetchingDelegate = FetchScenesTestsDelegate()
   }
-
+  
   func assertDisplayed(scene: Scene) {
     expect(self.viewController.scenesPage.currentViewController?.viewModel?.model.id)
       .toEventually(equal(scene.id))
@@ -57,7 +57,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     // Loading image should be hidden
     expect(self.viewController.loadingImage.isHidden).to(beTrue())
   }
-
+  
   func testDisplayScene() {
     let scene = Scene(id: 1, userReaction: .sad,
                               director: User(id: 1, firstName: "The", lastName: "Flinstons",
@@ -74,7 +74,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     expect(self.viewController.loadingImage.isHidden).to(beFalse())
     assertDisplayed(scene: scene)
   }
-
+  
   func testEmotionalReaction() {
     let scene = Scene(id: 1, userReaction: nil,
                               director: User(id: 1, firstName: "The", lastName: "Flinstons",
@@ -92,7 +92,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     expect(self.viewController.scenesPage.currentViewController!.reactionsCountLabel.text)
       .to(equal("5"))
   }
-
+  
   // Should not fetch scenes before view appeared
   func testNotDisplayBeforePresent() {
     let scene = Scene(id: 1, userReaction: .sad,
@@ -106,7 +106,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     viewController.didAuthOk()
     expect(self.viewController.scenesPage.currentViewController == nil).toNotEventually(beFalse())
   }
-
+  
   // Should not fetch scenes before user is authenticated
   func testNotDisplayBeforeAuthOk() {
     let scene = Scene(id: 1, userReaction: .sad,
@@ -122,7 +122,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     expect(self.viewController.loadingImage.isHidden).to(beFalse())
     expect(self.viewController.scenesPage.currentViewController == nil).toNotEventually(beFalse())
   }
-
+  
   func testMultipleTypes() {
     let scene = Scene(id: 1, userReaction: .sad,
                               director: User(id: 1, firstName: "Breaking", lastName: "Bad",
@@ -154,7 +154,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     tester().swipeView(withAccessibilityLabel: "scene view", in: .right)
     assertDisplayed(scene: video)
   }
-
+  
   func testScenesNavigation() {
     let scene1 = Scene(id: 1, userReaction: .sad,
                                director: User(id: 1, firstName: "Breaking", lastName: "Bad",
@@ -179,7 +179,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     tester().swipeView(withAccessibilityLabel: "scene view", in: .left)
     assertDisplayed(scene: scene1)
   }
-
+  
   func testFetchNewScenes() {
     let scene1 = Scene(id: 1, userReaction: .sad,
                                director: User(id: 1, firstName: "Breaking", lastName: "Bad",
@@ -204,7 +204,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     expect(self.viewController.loadingImage.isHidden).toNotEventually(beFalse())
     assertDisplayed(scene: scene2)
   }
-
+  
   func testReport() {
     let scene = Scene(id: 2, userReaction: .happy,
                               director: User(id: 1, firstName: "Emma", lastName: "Watson",
@@ -229,7 +229,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     // Should eventually see the reported alert.
     tester().tapView(withAccessibilityLabel: "got it")
   }
-
+  
   class FetchScenesTestsDelegate: FetchScenesDelegate {
     func fetchingProducer() -> SignalProducer<[Scene], NSError> {
       return TheaterApi.fetchScenes(for: App.authModule.current!)

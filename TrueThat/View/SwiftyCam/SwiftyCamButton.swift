@@ -13,29 +13,30 @@
  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
+
 import UIKit
 
-// MARK: Public Protocol Declaration
+//MARK: Public Protocol Declaration
 /// Delegate for SwiftyCamButton
 public protocol SwiftyCamButtonDelegate {
-
+  
   /// Called when UITapGestureRecognizer begins
-
+  
   func buttonWasTapped()
-
+  
   /// Called When UILongPressGestureRecognizer enters UIGestureRecognizerState.began
-
+  
   func buttonDidBeginLongPress()
-
+  
   /// Called When UILongPressGestureRecognizer enters UIGestureRecognizerState.end
   func buttonDidEndLongPress()
-
+  
   /// Called when the maximum duration is reached
-
+  
   func longPressDidReachMaximumDuration()
-
+  
   /// Sets the maximum duration of the video recording
-
+  
   func setMaxiumVideoDuration() -> Double
 }
 
@@ -43,37 +44,37 @@ public protocol SwiftyCamButtonDelegate {
 
 /// UIButton Subclass for Capturing Photo and Video with SwiftyCamViewController
 open class SwiftyCamButton: UIButton {
-
+  
   /// Delegate variable
-
+  
   public var delegate: SwiftyCamButtonDelegate?
-
+  
   /// Maximum duration variable
-
-  fileprivate var timer: Timer?
-
+  
+  fileprivate var timer : Timer?
+  
   /// Initialization Declaration
-
+  
   override public init(frame: CGRect) {
     super.init(frame: frame)
     createGestureRecognizers()
   }
-
+  
   /// Initialization Declaration
-
+  
   required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     createGestureRecognizers()
   }
-
+  
   /// UITapGestureRecognizer Function
-
+  
   @objc fileprivate func Tap() {
     self.delegate?.buttonWasTapped()
   }
-
+  
   /// UILongPressGestureRecognizer Function
-  @objc fileprivate func LongPress(_ sender: UILongPressGestureRecognizer!) {
+  @objc fileprivate func LongPress(_ sender:UILongPressGestureRecognizer!)  {
     if (sender.state == UIGestureRecognizerState.ended) {
       invalidateTimer()
       self.delegate?.buttonDidEndLongPress()
@@ -82,16 +83,16 @@ open class SwiftyCamButton: UIButton {
       startTimer()
     }
   }
-
+  
   /// Timer Finished
-
+  
   @objc fileprivate func timerFinished() {
     invalidateTimer()
     self.delegate?.longPressDidReachMaximumDuration()
   }
-
+  
   /// Start Maximum Duration Timer
-
+  
   fileprivate func startTimer() {
     if let duration = delegate?.setMaxiumVideoDuration() {
       //Check if duration is set, and greater than zero
@@ -100,16 +101,16 @@ open class SwiftyCamButton: UIButton {
       }
     }
   }
-
+  
   // End timer if UILongPressGestureRecognizer is ended before time has ended
-
+  
   fileprivate func invalidateTimer() {
     timer?.invalidate()
     timer = nil
   }
-
+  
   // Add Tap and LongPress gesture recognizers
-
+  
   fileprivate func createGestureRecognizers() {
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SwiftyCamButton.Tap))
     let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(SwiftyCamButton.LongPress))

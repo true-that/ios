@@ -9,24 +9,25 @@
  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
+
 import UIKit
 import AVFoundation
 
 class PreviewView: UIView {
-
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     self.backgroundColor = UIColor.black
   }
-
+  
   required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
   }
-
+  
   var videoPreviewLayer: AVCaptureVideoPreviewLayer {
     return layer as! AVCaptureVideoPreviewLayer
   }
-
+  
   var session: AVCaptureSession? {
     get {
       return videoPreviewLayer.session
@@ -35,10 +36,10 @@ class PreviewView: UIView {
       videoPreviewLayer.session = newValue
     }
   }
-
+  
   // MARK: UIView
-
-  override class var layerClass: AnyClass {
+  
+  override class var layerClass : AnyClass {
     return AVCaptureVideoPreviewLayer.self
   }
 }

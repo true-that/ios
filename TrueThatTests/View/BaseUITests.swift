@@ -10,7 +10,7 @@ import KIF
 import SwiftyBeaver
 @testable import TrueThat
 
-class BaseUITests: KIFTestCase {
+class BaseUITests : KIFTestCase {
   public var fakeDetectionModule: FakeReactionDetectionModule!
   public var fakeDeviceModule: DeviceModule!
   public var fakeKeychainModule: FakeKeychainModule!
@@ -20,7 +20,7 @@ class BaseUITests: KIFTestCase {
     fakeDetectionModule = FakeReactionDetectionModule()
     fakeDeviceModule = FakeDeviceModule("fake-iPhone")
     fakeKeychainModule = FakeKeychainModule()
-
+    
     App.keychainModule = fakeKeychainModule
     App.authModule.current = User(id: 1, firstName: "Donald", lastName: "Trump",
                                   deviceId: fakeDeviceModule.deviceId)

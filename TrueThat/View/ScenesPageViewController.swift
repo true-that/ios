@@ -17,7 +17,7 @@ class ScenesPageViewController: UIPageViewController {
   weak var pagerDelegate: ScenesPageViewControllerDelegate?
   /// View controllers that are displayed in this page, ordered by order of appearance.
   var orderedViewControllers = [SceneViewController]()
-
+  
   // MARK: Initializers
   static func instantiate() -> ScenesPageViewController {
     let viewController = UIStoryboard(name: "Main", bundle: Bundle.main)
@@ -30,7 +30,7 @@ class ScenesPageViewController: UIPageViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     App.log.debug("viewDidLoad")
-
+    
     dataSource = self
     delegate = self
   }
@@ -43,7 +43,7 @@ class ScenesPageViewController: UIPageViewController {
       viewModel.currentIndex = currentIndex
     }
   }
-
+  
   /// Currently displayed scene.
   public var currentViewController: SceneViewController? {
     if let currentViewController = viewControllers?.first {
@@ -71,7 +71,7 @@ extension ScenesPageViewController: UIPageViewControllerDataSource {
     guard let nextIndex = viewModel.navigateNext() else {
       return nil
     }
-
+    
     return orderedViewControllers[nextIndex]  }
 }
 
@@ -96,7 +96,7 @@ extension ScenesPageViewController: ScenesPageDelegate {
       setViewControllers([orderedViewControllers[index]],
                          direction: index >= viewModel.currentIndex ? .forward : .reverse,
                          animated: true,
-                         completion: { (_) -> Void in
+                         completion: { (finished) -> Void in
                           // Setting the view controller programmatically does not fire
                           // any delegate methods, so we have to manually notify the
                           // 'pagerDelegate' of the new index.
@@ -106,7 +106,7 @@ extension ScenesPageViewController: ScenesPageDelegate {
       App.log.error("Trying to display \(index)-th scene while only hanving \(orderedViewControllers.count).")
     }
   }
-
+  
   func scroll(to index: Int) {
     if currentViewController != nil {
       App.log.debug("Scrolling to \(index)-th scene.")
@@ -114,13 +114,14 @@ extension ScenesPageViewController: ScenesPageDelegate {
     }
   }
 
+  
   /// Updates the view controllers of this pager.
   ///
   /// - Parameter newViewModels: to create view controllers from
   func updatingData(with newScenes: [Scene]) {
     App.log.debug("\(newScenes.count) new scenes.")
     self.orderedViewControllers +=
-      newScenes.map {SceneViewController.instantiate(with: $0)}
+      newScenes.map{SceneViewController.instantiate(with: $0)}
     self.pagerDelegate?.ScenesPageViewController(
       self, didUpdatePageCount: self.orderedViewControllers.count)
   }

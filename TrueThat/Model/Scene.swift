@@ -24,7 +24,7 @@ class Scene: BaseModel {
   var viewed: Bool?
   /// Media of scene, such as a photo.
   var media: Media?
-
+  
   // MARK: Initialization
   init(id: Int64?, userReaction: Emotion?, director: User?, reactionCounters: [Emotion: Int64]?,
        created: Date?, viewed: Bool?, media: Media?) {
@@ -37,7 +37,7 @@ class Scene: BaseModel {
     self.reactionCounters = reactionCounters
     self.media = media
   }
-
+  
   required init(json: JSON) {
     super.init(json: json)
     id = json["id"].int64
@@ -45,14 +45,14 @@ class Scene: BaseModel {
     director = User(json: json["director"])
     created = DateHelper.utcDate(fromString: json["created"].string)
     viewed = json["viewed"].bool
-    reactionCounters = json["reactionCounters"].dictionary?.mapPairs { (stringEmotion, counter) in
+    reactionCounters = json["reactionCounters"].dictionary?.mapPairs{ (stringEmotion, counter) in
       (Emotion.toEmotion(stringEmotion)!, counter.int64Value)
     }
     if json["media"] != JSON.null {
       media = Media.instantiate(with: json["media"])
     }
   }
-
+  
   // MARK: overriden methods
   override func toDictionary() -> [String : Any] {
     var dictionary = super.toDictionary()
@@ -66,7 +66,7 @@ class Scene: BaseModel {
       dictionary["director"] = director!.toDictionary()
     }
     if reactionCounters != nil {
-      dictionary["reactionCounters"] = reactionCounters!.mapPairs {(emotion, counter) in (emotion.rawValue.snakeCased()!.uppercased(), counter)}
+      dictionary["reactionCounters"] = reactionCounters!.mapPairs{(emotion, counter) in (emotion.rawValue.snakeCased()!.uppercased(), counter)}
     }
     if created != nil {
       dictionary["created"] = DateHelper.utcDate(fromDate: created!)
@@ -77,18 +77,18 @@ class Scene: BaseModel {
     if media != nil {
       dictionary["media"] = media?.toDictionary()
     }
-
+    
     return dictionary
   }
-
+  
   // MARK: Interaction
-
+  
   /// - Parameter user: for which to inquire.
   /// - Returns: Whether `user` can react to this scene.
   func canReact(user: User) -> Bool {
     return userReaction == nil && (director == nil || user != director)
   }
-
+  
   /// Updates reaction counters of this scene with `reaction`
   ///
   /// - Parameter reaction: to update with
@@ -101,9 +101,9 @@ class Scene: BaseModel {
       reactionCounters![reaction] = 1 + reactionCounters![reaction]!
     }
   }
-
+  
   // MARK: Network
-
+  
   /// Appends scene data to a multipart request
   ///
   /// - Parameter multipartFormData: to append to

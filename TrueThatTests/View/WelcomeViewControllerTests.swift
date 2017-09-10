@@ -12,9 +12,9 @@ import OHHTTPStubs
 import SwiftyJSON
 import Nimble
 
-class WelcomeViewControllerTests: BaseUITests {
+class WelcomeViewControllerTests : BaseUITests {
   var viewController: WelcomeViewController!
-
+  
   override func setUp() {
     super.setUp()
     if UITestsHelper.currentViewController != nil
@@ -32,13 +32,13 @@ class WelcomeViewControllerTests: BaseUITests {
     expect(self.viewController.view).toNot(beNil())
     expect(App.authModule.delegate).toEventually(beIdenticalTo(self.viewController))
   }
-
+  
   func testStartSignUp() {
     tester().tapView(withAccessibilityLabel: "sign up")
     expect(UITestsHelper.currentViewController!)
       .toEventually(beAnInstanceOf(OnBoardingViewController.self))
   }
-
+  
   func testAlreadyAuthOk() {
     App.authModule.current = User(id: 1, firstName: "Mr", lastName: "Navon", deviceId: "345345")
     // Trigger viewDidAppear
@@ -47,15 +47,15 @@ class WelcomeViewControllerTests: BaseUITests {
     expect(UITestsHelper.currentViewController!)
       .toEventually(beAnInstanceOf(TheaterViewController.self))
   }
-
+  
   func testSignIn() {
     // Signs up a user
     let responded = User(id: 1, firstName: "dellores", lastName: "hidyhoe",
                          deviceId: App.deviceModule.deviceId)
-    stub(condition: isPath(AuthApi.path)) {_ -> OHHTTPStubsResponse in
+    stub(condition: isPath(AuthApi.path)) {request -> OHHTTPStubsResponse in
       let stubData = try! JSON(responded.toDictionary()).rawData()
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
-                                 headers: ["Content-Type": "application/json"])
+                                 headers: ["Content-Type":"application/json"])
     }
     App.authModule.delegate = nil
     App.authModule.signUp(fullName: "dellores hidyhoe")
@@ -68,7 +68,7 @@ class WelcomeViewControllerTests: BaseUITests {
     tester().tapView(withAccessibilityLabel: "sign in")
     expect(App.authModule.isAuthOk).toEventually(beTrue())
   }
-
+  
   func testWarningLabel() {
     App.authModule.signOut()
     App.authModule.signIn()

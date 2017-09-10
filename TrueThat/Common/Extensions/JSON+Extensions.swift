@@ -9,7 +9,7 @@
 import SwiftyJSON
 
 extension JSON {
-
+  
   /// Creates a JSON from `BaseModel.toDictionary()`.
   ///
   /// - Parameter model: to create a json from.
