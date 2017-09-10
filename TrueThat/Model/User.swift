@@ -20,24 +20,24 @@ class User: BaseModel {
   public var isAuthOk: Bool {
     return id != nil && firstName != nil && lastName != nil
   }
-  
+
   // Mark: Initialization
-  init (id: Int64?, firstName: String?, lastName: String?, deviceId: String?) {
+  init(id: Int64?, firstName: String?, lastName: String?, deviceId: String?) {
     super.init()
     self.id = id
     self.firstName = firstName
     self.lastName = lastName
     self.deviceId = deviceId
   }
-  
+
   required init(json: JSON) {
     super.init(json: json)
     id = json["id"].int64
     firstName = json["firstName"].string
     lastName = json["lastName"].string
   }
-  
-  override func toDictionary() -> [String : Any] {
+
+  override func toDictionary() -> [String: Any] {
     var dictionary = super.toDictionary()
     if id != nil {
       dictionary["id"] = id!

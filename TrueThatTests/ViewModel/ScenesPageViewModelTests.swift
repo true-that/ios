@@ -13,39 +13,38 @@ import ReactiveSwift
 import SwiftyJSON
 import Nimble
 
-
 class ScenesPageViewModelTests: BaseTests {
   var fetchedScenes: [Scene] = []
   var viewModel: ScenesPageViewModel!
   var viewModelDelegate: FakeScenesPageDelegate!
-  
+
   override func setUp() {
     super.setUp()
-    stub(condition: isPath(TheaterApi.path)) {request -> OHHTTPStubsResponse in
+    stub(condition: isPath(TheaterApi.path)) { request -> OHHTTPStubsResponse in
       expect(User(json: JSON(Data(fromStream: request.httpBodyStream!))))
         .to(equal(App.authModule.current!))
-      let stubData = try! JSON(self.fetchedScenes.map{JSON(from: $0)}).rawData()
+      let stubData = try! JSON(self.fetchedScenes.map { JSON(from: $0) }).rawData()
       self.fetchedScenes = []
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
-                                 headers: ["Content-Type":"application/json"])
+                                 headers: ["Content-Type": "application/json"])
     }
     viewModel = ScenesPageViewModel()
     viewModelDelegate = FakeScenesPageDelegate()
     viewModel.delegate = viewModelDelegate
     viewModel.fetchingDelegate = TestsFetchScenesDelegate()
   }
-  
+
   override func tearDown() {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     super.tearDown()
   }
-  
+
   func testDisplayScene() {
     let scene = Scene(id: 1, userReaction: .sad,
-                              director: User(id: 1, firstName: "Todo", lastName: "Bom",
-                                             deviceId: "android"),
-                              reactionCounters: [.sad: 1000, .happy: 1234],
-                              created: Date(), viewed: false, media: nil)
+                      director: User(id: 1, firstName: "Todo", lastName: "Bom",
+                                     deviceId: "android"),
+                      reactionCounters: [.sad: 1000, .happy: 1234],
+                      created: Date(), viewed: false, media: nil)
     fetchedScenes = [scene]
     viewModel.fetchingData()
     // Loading image should now be visible
@@ -60,7 +59,7 @@ class ScenesPageViewModelTests: BaseTests {
     // Loading image should now be hidden
     expect(self.viewModel.loadingImageHidden.value).to(beTrue())
   }
-  
+
   func testEmptyFetch() {
     fetchedScenes = []
     viewModel.fetchingData()
@@ -76,17 +75,17 @@ class ScenesPageViewModelTests: BaseTests {
 
   func testFailedFetch() {
     // Set up an ill backend
-    stub(condition: isPath(TheaterApi.path)) {request -> OHHTTPStubsResponse in
+    stub(condition: isPath(TheaterApi.path)) { request -> OHHTTPStubsResponse in
       expect(User(json: JSON(Data(fromStream: request.httpBodyStream!))))
         .to(equal(App.authModule.current!))
       return OHHTTPStubsResponse(data: Data(), statusCode: 500,
-                                 headers: ["Content-Type":"application/json"])
+                                 headers: ["Content-Type": "application/json"])
     }
     let scene = Scene(id: 1, userReaction: .sad,
-                              director: User(id: 1, firstName: "Todo", lastName: "Bom",
-                                             deviceId: "android"),
-                              reactionCounters: [.sad: 1000, .happy: 1234],
-                              created: Date(), viewed: false, media: nil)
+                      director: User(id: 1, firstName: "Todo", lastName: "Bom",
+                                     deviceId: "android"),
+                      reactionCounters: [.sad: 1000, .happy: 1234],
+                      created: Date(), viewed: false, media: nil)
     fetchedScenes = [scene]
     viewModel.fetchingData()
     // Loading image should now be visible
@@ -101,15 +100,15 @@ class ScenesPageViewModelTests: BaseTests {
 
   func testNavigateNext() {
     let scene1 = Scene(id: 1, userReaction: .sad,
-                              director: User(id: 1, firstName: "Todo", lastName: "Bom",
-                                             deviceId: "android"),
-                              reactionCounters: [.sad: 1000, .happy: 1234],
-                              created: Date(), viewed: false, media: nil)
+                       director: User(id: 1, firstName: "Todo", lastName: "Bom",
+                                      deviceId: "android"),
+                       reactionCounters: [.sad: 1000, .happy: 1234],
+                       created: Date(), viewed: false, media: nil)
     let scene2 = Scene(id: 2, userReaction: .happy,
-                              director: User(id: 1, firstName: "Dubi", lastName: "Gal",
-                                             deviceId: "iphone"),
-                              reactionCounters: [.sad: 5000, .happy: 34],
-                              created: Date(), viewed: true, media: nil)
+                       director: User(id: 1, firstName: "Dubi", lastName: "Gal",
+                                      deviceId: "iphone"),
+                       reactionCounters: [.sad: 5000, .happy: 34],
+                       created: Date(), viewed: true, media: nil)
     fetchedScenes = [scene1, scene2]
     viewModel.fetchingData()
     expect(self.viewModel.scenes).toEventually(haveCount(2))
@@ -126,18 +125,18 @@ class ScenesPageViewModelTests: BaseTests {
     // Cant navigate outside of limits
     expect(self.viewModel.navigateNext()).to(beNil())
   }
-  
+
   func testNavigateNextFetchNewData() {
     let scene1 = Scene(id: 1, userReaction: .sad,
-                               director: User(id: 1, firstName: "Todo", lastName: "Bom",
-                                              deviceId: "android"),
-                               reactionCounters: [.sad: 1000, .happy: 1234],
-                               created: Date(), viewed: false, media: nil)
+                       director: User(id: 1, firstName: "Todo", lastName: "Bom",
+                                      deviceId: "android"),
+                       reactionCounters: [.sad: 1000, .happy: 1234],
+                       created: Date(), viewed: false, media: nil)
     let scene2 = Scene(id: 2, userReaction: .happy,
-                               director: User(id: 1, firstName: "Dubi", lastName: "Gal",
-                                              deviceId: "iphone"),
-                               reactionCounters: [.sad: 5000, .happy: 34],
-                               created: Date(), viewed: true, media: nil)
+                       director: User(id: 1, firstName: "Dubi", lastName: "Gal",
+                                      deviceId: "iphone"),
+                       reactionCounters: [.sad: 5000, .happy: 34],
+                       created: Date(), viewed: true, media: nil)
     fetchedScenes = [scene1]
     viewModel.fetchingData()
     expect(self.viewModel.scenes).toEventually(haveCount(1))
@@ -153,20 +152,19 @@ class ScenesPageViewModelTests: BaseTests {
     // Should navigate as soon as new scenes are fetched
     expect(self.viewModel.currentIndex).to(equal(1))
     expect(self.viewModelDelegate.currentIndex).to(equal(1))
-    
   }
-  
+
   func testNavigatePrevious() {
     let scene1 = Scene(id: 1, userReaction: .sad,
-                               director: User(id: 1, firstName: "Todo", lastName: "Bom",
-                                              deviceId: "android"),
-                               reactionCounters: [.sad: 1000, .happy: 1234],
-                               created: Date(), viewed: false, media: nil)
+                       director: User(id: 1, firstName: "Todo", lastName: "Bom",
+                                      deviceId: "android"),
+                       reactionCounters: [.sad: 1000, .happy: 1234],
+                       created: Date(), viewed: false, media: nil)
     let scene2 = Scene(id: 2, userReaction: .happy,
-                               director: User(id: 1, firstName: "Dubi", lastName: "Gal",
-                                              deviceId: "iphone"),
-                               reactionCounters: [.sad: 5000, .happy: 34],
-                               created: Date(), viewed: true, media: nil)
+                       director: User(id: 1, firstName: "Dubi", lastName: "Gal",
+                                      deviceId: "iphone"),
+                       reactionCounters: [.sad: 5000, .happy: 34],
+                       created: Date(), viewed: true, media: nil)
     fetchedScenes = [scene1, scene2]
     viewModel.fetchingData()
     expect(self.viewModel.scenes).toEventually(haveCount(2))
@@ -179,24 +177,24 @@ class ScenesPageViewModelTests: BaseTests {
     // Cant navigate outside of limits
     expect(self.viewModel.navigatePrevious()).to(beNil())
   }
-  
+
   class FakeScenesPageDelegate: ScenesPageDelegate {
     var currentIndex: Int?
     var lastUpdate: [Scene]?
-    
+
     func display(at index: Int) {
       currentIndex = index
     }
-    
+
     func scroll(to index: Int) {
       display(at: index)
     }
-    
+
     func updatingData(with newScenes: [Scene]) {
       lastUpdate = newScenes
     }
   }
-  
+
   class TestsFetchScenesDelegate: FetchScenesDelegate {
     @discardableResult func fetchingProducer() -> SignalProducer<[Scene], NSError> {
       return TheaterApi.fetchScenes(for: App.authModule.current!)

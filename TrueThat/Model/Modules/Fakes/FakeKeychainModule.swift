@@ -10,15 +10,15 @@ import Foundation
 
 class FakeKeychainModule: KeychainModule {
   var fakeKeychain: [String: Data] = [:]
-  
+
   override func get(_ key: String) -> Data? {
     return fakeKeychain[key]
   }
-  
+
   override func save(_ data: Data, key: String) throws {
     fakeKeychain[key] = data
   }
-  
+
   override func delete(_ key: String) throws {
     fakeKeychain[key] = nil
   }

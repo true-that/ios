@@ -13,12 +13,12 @@ import SwiftyJSON
 class AuthModule {
   /// Keychain user session key
   static let userKey = "LAST_USER_SESSION"
-  
+
   public var delegate: AuthDelegate?
-  
+
   /// Current authenticated user.
   public var current: User?
-  
+
   /// Whether the current user is authenticated.
   public var isAuthOk: Bool {
     if current != nil {
@@ -26,9 +26,9 @@ class AuthModule {
     }
     return false
   }
-  
+
   // MARK: Actions
-  
+
   /// Signs up a new user and registers it on our backend.
   ///
   /// - Parameter fullName: of new user
@@ -39,7 +39,7 @@ class AuthModule {
                       deviceId: App.deviceModule.deviceId)
     authRequest(for: toAuth)
   }
-  
+
   /// User initiated auth attempt.
   public func signIn() {
     App.log.debug("Hmmm.. have we met?")
@@ -59,7 +59,7 @@ class AuthModule {
       delegate?.didAuthFail()
     }
   }
-  
+
   /// Authenticates a user based on user session.
   public func auth() {
     App.log.debug("Trying to auth..")
@@ -78,7 +78,7 @@ class AuthModule {
     current = nil
     delegate?.didAuthFail()
   }
-  
+
   /// Signs the current user out and deletes existing session.
   public func signOut() {
     App.log.verbose("see ya")
@@ -90,7 +90,7 @@ class AuthModule {
     }
     delegate?.didAuthFail()
   }
-  
+
   func authRequest(for user: User) {
     Crashlytics.sharedInstance().setObjectValue(
       user, forKey: LoggingKey.authUser.rawValue.snakeCased()!.uppercased())
@@ -120,7 +120,7 @@ class AuthModule {
       })
       .start()
   }
-  
+
   fileprivate var lastSession: User? {
     let lastSession = App.keychainModule.get(AuthModule.userKey)
     if lastSession != nil {
@@ -131,10 +131,10 @@ class AuthModule {
 }
 
 protocol AuthDelegate {
-  
+
   /// Authentication successful callback.
   func didAuthOk()
-  
+
   /// Authentication failure callback.
   func didAuthFail()
 }

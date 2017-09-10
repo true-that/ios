@@ -11,20 +11,20 @@ import Affdex
 class AffectivaReactionDetectionModule: ReactionDetectionModule {
   fileprivate static let emotionThreshold = 0.2 as CGFloat
   var detector: AFDXDetector?
-  
+
   override init() {
     super.init()
-    detector = AFDXDetector(delegate:self, using:AFDX_CAMERA_FRONT, maximumFaces: 1)
+    detector = AFDXDetector(delegate: self, using: AFDX_CAMERA_FRONT, maximumFaces: 1)
     detector?.setDetectAllEmotions(true)
   }
-  
+
   override func start() {
     super.start()
     if let error = detector?.start() {
       App.log.report("AFDXDetector: \(error)", withError: error as NSError)
     }
   }
-  
+
   override func stop() {
     super.stop()
     if let error = detector?.stop() {
@@ -34,12 +34,14 @@ class AffectivaReactionDetectionModule: ReactionDetectionModule {
 }
 
 extension AffectivaReactionDetectionModule: AFDXDetectorDelegate {
-  func detectorDidStartDetectingFace(face : AFDXFace) {
+  func detectorDidStartDetectingFace(face: AFDXFace) {
   }
-  func detectorDidStopDetectingFace(face : AFDXFace) {
+
+  func detectorDidStopDetectingFace(face: AFDXFace) {
   }
-  
-  func detector(_ detector : AFDXDetector, hasResults : NSMutableDictionary?, for forImage : UIImage, atTime : TimeInterval) {
+
+  func detector(_ detector: AFDXDetector, hasResults: NSMutableDictionary?, for forImage: UIImage,
+                atTime: TimeInterval) {
     // handle processed and unprocessed images here
     if hasResults != nil {
       // enumrate the dictionary of faces

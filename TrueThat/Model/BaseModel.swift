@@ -8,21 +8,19 @@
 
 import SwiftyJSON
 
-
 /// Abstract data container.
 class BaseModel: Equatable, CustomStringConvertible {
   init() {}
-  
+
   required init(json: JSON) {}
-  
-  
+
   /// Converts model to dictionary to ease JSON use.
   ///
   /// - Returns: The model field names as keys and their respective values as values.
   func toDictionary() -> [String: Any] {
     return [:]
   }
-  
+
   public var description: String { return "\(toDictionary())" }
 }
 

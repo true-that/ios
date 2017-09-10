@@ -9,7 +9,7 @@
 import UIKit
 
 enum Color {
-  
+
   case theme
   case secondary
   case shadow
@@ -17,17 +17,17 @@ enum Color {
   case success
   case error
   case custom(hexString: String, alpha: Double)
-  
+
   func withAlpha(_ alpha: Double) -> UIColor {
     return self.value.withAlphaComponent(CGFloat(alpha))
   }
 }
 
 extension Color {
-  
+
   var value: UIColor {
     var instanceColor = UIColor.clear
-    
+
     switch self {
     case .theme:
       instanceColor = UIColor(hexString: "#eb5971")
@@ -41,7 +41,7 @@ extension Color {
       instanceColor = UIColor(hexString: "#22aa66")
     case .error:
       instanceColor = UIColor(hexString: "#ff4444")
-    case .custom(let hexValue, let opacity):
+    case let .custom(hexValue, opacity):
       instanceColor = UIColor(hexString: hexValue).withAlphaComponent(CGFloat(opacity))
     }
     return instanceColor

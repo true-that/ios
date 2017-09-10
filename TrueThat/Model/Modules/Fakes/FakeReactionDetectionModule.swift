@@ -9,7 +9,7 @@
 import Foundation
 
 class FakeReactionDetectionModule: ReactionDetectionModule {
-  
+
   /// Fakes a detection of reaction.
   ///
   /// - Parameter reaction: that was detected.

@@ -18,10 +18,10 @@ class NumberHelperTests: XCTestCase {
     expect(NumberHelper.truncate(999)).to(equal("999"))
     expect(NumberHelper.truncate(-1200)).to(equal("-1.2k"))
     expect(NumberHelper.truncate(60400)).to(equal("60k"))
-    expect(NumberHelper.truncate(999000)).to(equal("999k"))
-    expect(NumberHelper.truncate(1000000)).to(equal("1m"))
-    expect(NumberHelper.truncate(9300000)).to(equal("9.3m"))
-    expect(NumberHelper.truncate(2000000000)).to(equal("2b"))
-    expect(NumberHelper.truncate(43500000000000)).to(equal("43t"))
+    expect(NumberHelper.truncate(999_000)).to(equal("999k"))
+    expect(NumberHelper.truncate(1_000_000)).to(equal("1m"))
+    expect(NumberHelper.truncate(9_300_000)).to(equal("9.3m"))
+    expect(NumberHelper.truncate(2_000_000_000)).to(equal("2b"))
+    expect(NumberHelper.truncate(43_500_000_000_000)).to(equal("43t"))
   }
 }

@@ -21,7 +21,7 @@ class ScenesPageWrapperViewController: UIViewController {
   @IBOutlet weak var loadingImage: UIImageView!
   /// View controllers that are displayed in this page, ordered by order of appearance.
   var orderedViewControllers = [SceneViewController]()
-  
+
   // MARK: Initializers
   static func instantiate(doDetection: Bool) -> ScenesPageWrapperViewController {
     let viewController = UIStoryboard(name: "Main", bundle: Bundle.main)
@@ -30,18 +30,18 @@ class ScenesPageWrapperViewController: UIViewController {
     viewController.doDetection = doDetection
     return viewController
   }
-  
+
   // MARK: Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
     App.log.debug("viewDidLoad")
-    
+
     // Loads scenes container
     scenesPage = ScenesPageViewController.instantiate()
     self.addChildViewController(scenesPage)
     self.view.addSubview(scenesPage.view)
-    
-    if (viewModel == nil) {
+
+    if viewModel == nil {
       viewModel = ScenesPageViewModel()
       viewModel.delegate = scenesPage
       scenesPage.viewModel = viewModel
@@ -55,7 +55,7 @@ class ScenesPageWrapperViewController: UIViewController {
     // Sets up loading image
     UIHelper.initLoadingImage(loadingImage)
   }
-  
+
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     App.log.debug("viewDidAppear")
@@ -64,17 +64,17 @@ class ScenesPageWrapperViewController: UIViewController {
       fetchIfEmpty()
     }
   }
-  
+
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     App.log.debug("viewWillDisappear")
     App.detecionModule.stop()
   }
-  
+
   func didAuthOk() {
     fetchIfEmpty()
   }
-  
+
   func fetchIfEmpty() {
     if viewModel.scenes.count == 0 {
       viewModel.fetchingData()

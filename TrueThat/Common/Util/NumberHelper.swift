@@ -9,14 +9,15 @@
 import Foundation
 
 class NumberHelper {
-  
+
   /// Suffixes for various magnitudes of numeric sizes.
   private static let suffixes: [(Int64, String)] = [
     (1000, "k"),
     (1000 * 1000, "m"),
     (1000 * 1000 * 1000, "b"),
-    (1000 * 1000 * 1000 * 1000, "t")]
-  
+    (1000 * 1000 * 1000 * 1000, "t")
+  ]
+
   /// Truncates integers into short strings.
   ///
   /// - Parameter num: to truncate
@@ -24,19 +25,19 @@ class NumberHelper {
   static func truncate(_ num: Int64) -> String {
     let isNegative = num < 0
     let positiveNum = num < 0 ? -num : num
-    let thresholdAndSuffix = suffixes.filter{ threshold, suffix in return threshold <= positiveNum}.last
+    let thresholdAndSuffix = suffixes.filter { threshold, _ in return threshold <= positiveNum }.last
     var truncated = positiveNum
     var postDecimal = 0 as Int64
-    if (thresholdAndSuffix != nil) {
+    if thresholdAndSuffix != nil {
       truncated = positiveNum / thresholdAndSuffix!.0
-      if (truncated < 10) {
+      if truncated < 10 {
         postDecimal = (positiveNum / (thresholdAndSuffix!.0 / 10)) % 10 as Int64
       }
     }
     return format(truncated: truncated, isNegative: isNegative,
                   suffix: thresholdAndSuffix?.1, postDecimal: postDecimal)
   }
-  
+
   /// Combines the input into a formatted string.
   ///
   /// - Parameters:
@@ -49,8 +50,8 @@ class NumberHelper {
                              suffix: String?, postDecimal: Int64) -> String {
     var formattedTruncation = isNegative ? "-" : ""
     formattedTruncation += String(truncated)
-    if (postDecimal > 0) {
-        formattedTruncation += "." + String(postDecimal)
+    if postDecimal > 0 {
+      formattedTruncation += "." + String(postDecimal)
     }
     if suffix != nil {
       formattedTruncation += suffix!

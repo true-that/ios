@@ -12,18 +12,18 @@ extension Data {
   init(fromStream input: InputStream) {
     self.init()
     input.open()
-    
+
     let bufferSize = 1024
     let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: bufferSize)
     while input.hasBytesAvailable {
       let read = input.read(buffer, maxLength: bufferSize)
-      if (read == 0) {
-        break  // added
+      if read == 0 {
+        break // added
       }
       self.append(buffer, count: read)
     }
     buffer.deallocate(capacity: bufferSize)
-    
+
     input.close()
   }
 }

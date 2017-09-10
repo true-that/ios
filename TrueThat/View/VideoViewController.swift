@@ -14,8 +14,8 @@ class VideoViewController: MediaViewController {
   // MARK: Properties
   var video: Video?
   weak var player: AVPlayer?
-  var playerController : AVPlayerViewController?
-  
+  var playerController: AVPlayerViewController?
+
   // MARK: Initialization
   static func instantiate(_ video: Video) -> VideoViewController {
     let viewController = UIStoryboard(name: "Main", bundle: nil)
@@ -24,7 +24,7 @@ class VideoViewController: MediaViewController {
     viewController.video = video
     return viewController
   }
-  
+
   // MARK: Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -35,37 +35,37 @@ class VideoViewController: MediaViewController {
     } else if video?.localUrl != nil {
       player = AVPlayer(url: video!.localUrl!)
     }
-    
+
     guard player != nil && playerController != nil else {
       return
     }
     // Hides playback controls
     playerController!.showsPlaybackControls = false
     playerController!.player = player!
-    
+
     // Adds the player to the view
     self.addChildViewController(playerController!)
     self.view.addSubview(playerController!.view)
     playerController!.view.frame = view.frame
-    
+
     // Enables looping
     NotificationCenter.default.addObserver(
       self, selector: #selector(playerItemDidReachEnd),
       name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: self.player!.currentItem)
-    
+
     // Add player control via touch
     let gesture = UILongPressGestureRecognizer(
       target: self, action: #selector(controlVideo(_:)))
     gesture.minimumPressDuration = 0
     gesture.allowableMovement = 1000
     playerController!.view.addGestureRecognizer(gesture)
-    
+
     // Show loader when buffering
     player?.currentItem?.addObserver(self, forKeyPath: "playbackBufferEmpty", options: .new, context: nil)
     player?.currentItem?.addObserver(self, forKeyPath: "playbackLikelyToKeepUp", options: .new, context: nil)
     player?.currentItem?.addObserver(self, forKeyPath: "playbackBufferFull", options: .new, context: nil)
   }
-  
+
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     if player != nil {
@@ -75,12 +75,12 @@ class VideoViewController: MediaViewController {
       App.log.debug("not playing video, because player is not ready.")
     }
   }
-  
+
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     player?.pause()
   }
-  
+
   override func willMove(toParentViewController parent: UIViewController?) {
     if parent == nil {
       player?.currentItem?.removeObserver(self, forKeyPath: "playbackBufferEmpty")
@@ -88,7 +88,7 @@ class VideoViewController: MediaViewController {
       player?.currentItem?.removeObserver(self, forKeyPath: "playbackBufferFull")
     }
   }
-  
+
   // MARK: AVPlayer
   /// Pauses and plays video as per user touch events.
   @objc fileprivate func controlVideo(_ recognizer: UIGestureRecognizer) {
@@ -102,7 +102,7 @@ class VideoViewController: MediaViewController {
       }
     }
   }
-  
+
   /// Loops the player to the beginning of the video, normally invoked once the video is completed.
   ///
   /// - Parameter notification: to associate with the observer.
@@ -112,8 +112,9 @@ class VideoViewController: MediaViewController {
       player!.play()
     }
   }
-  
-  override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+
+  override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?,
+                             context: UnsafeMutableRawPointer?) {
     guard object is AVPlayerItem && keyPath != nil else {
       return
     }

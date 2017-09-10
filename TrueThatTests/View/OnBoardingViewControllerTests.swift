@@ -12,20 +12,20 @@ import Nimble
 import OHHTTPStubs
 import SwiftyJSON
 
-class OnBoardingViewControllerTests : BaseUITests {
+class OnBoardingViewControllerTests: BaseUITests {
   let fullName = "Swa la lala"
   var viewController: OnBoardingViewController!
-  
+
   func testOnBoardingFlow() {
     let user = User(id: 1, firstName: "swa", lastName: "la lala",
                     deviceId: App.deviceModule.deviceId)
     // Sets up stub backend response
-    stub(condition: isPath(AuthApi.path)) {request -> OHHTTPStubsResponse in
+    stub(condition: isPath(AuthApi.path)) { request -> OHHTTPStubsResponse in
       let requestUser = User(json: JSON(Data(fromStream: request.httpBodyStream!)))
       requestUser.id = 1
       let data = try? JSON(from: requestUser).rawData()
       return OHHTTPStubsResponse(data: data!, statusCode: 200,
-                                 headers: ["Content-Type":"application/json"])
+                                 headers: ["Content-Type": "application/json"])
     }
     App.authModule.signOut()
     expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(WelcomeViewController.self))

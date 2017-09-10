@@ -13,7 +13,7 @@ class PhotoViewController: MediaViewController {
   // MARK: Properties
   var photo: Photo?
   @IBOutlet weak var imageView: UIImageView!
-  
+
   // MARK: Initialization
   static func instantiate(_ photo: Photo) -> PhotoViewController {
     let viewController = UIStoryboard(name: "Main", bundle: nil)
@@ -22,14 +22,14 @@ class PhotoViewController: MediaViewController {
     viewController.photo = photo
     return viewController
   }
-  
+
   // MARK: Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
     imageView.contentMode = UIViewContentMode.scaleAspectFill
     if photo?.url != nil {
       imageView.kf.setImage(with: URL(string: photo!.url!), completionHandler: {
-        image, error, cacheType, imageUrl in
+        image, error, _, _ in
         if error != nil {
           App.log.warning("Error when downloading image: \(error!)")
         } else if image == nil {
@@ -43,4 +43,3 @@ class PhotoViewController: MediaViewController {
     }
   }
 }
-

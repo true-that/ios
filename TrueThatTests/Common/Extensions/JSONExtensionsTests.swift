@@ -16,7 +16,7 @@ class JSONExtensionsTests: XCTestCase {
     let model = TestModel(a: 1)
     expect(JSON(from: model)["a"]).to(equal(1))
   }
-  
+
   fileprivate class TestModel: BaseModel {
     var a: Int?
 
@@ -24,13 +24,13 @@ class JSONExtensionsTests: XCTestCase {
       super.init()
       self.a = a
     }
-    
+
     required init(json: JSON) {
       super.init(json: json)
       a = json["a"].int
     }
-    
-    override func toDictionary() -> [String : Any] {
+
+    override func toDictionary() -> [String: Any] {
       var dict = super.toDictionary()
       dict["a"] = a
       return dict

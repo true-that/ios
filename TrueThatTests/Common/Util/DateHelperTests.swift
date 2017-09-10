@@ -15,12 +15,12 @@ class DateHelperTests: XCTestCase {
     let expected = "1970-01-01T00:00:01.000+0000"
     expect(DateHelper.utcDate(fromDate: Date(timeIntervalSince1970: 1))).to(equal(expected))
   }
-  
+
   func testUtcDateFromString() {
     expect(DateHelper.utcDate(fromString: "1970-01-01T00:00:01.000+0000"))
       .to(equal(Date(timeIntervalSince1970: 1)))
   }
-  
+
   func testTimeAgo() {
     expect(DateHelper.truncatedTimeAgo(from: Date(timeIntervalSinceNow: 0))).to(equal(DateHelper.nowText))
     expect(DateHelper.truncatedTimeAgo(from: Date(timeIntervalSinceNow: -20))).to(equal(DateHelper.nowText))
@@ -33,5 +33,3 @@ class DateHelperTests: XCTestCase {
     expect(DateHelper.truncatedTimeAgo(from: Date(timeIntervalSinceNow: -60 * 60 * 24 * 30 * 13))).to(equal("1y ago"))
   }
 }
-
-
