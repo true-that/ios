@@ -7,6 +7,7 @@
 //
 
 import SwiftyJSON
+import Alamofire
 
 /// [backend]: https://github.com/true-that/backend/blob/master/src/main/java/com/truethat/backend/model/Media.java
 /// Model for content. See [backend].
@@ -26,11 +27,39 @@ class Media: BaseModel {
     url = json["url"].string
   }
   
+  static func instantiate(with json: JSON) -> Media? {
+    guard let type = json["type"].string else {
+      App.log.warning("Failed to deserialize Media. Missing type.")
+      return nil
+    }
+    switch type {
+    case String(describing: Media.self):
+      return Media(json: json)
+    case String(describing: Photo.self):
+      return Photo(json: json)
+    case String(describing: Video.self):
+      return Video(json: json)
+    default:
+      App.log.warning("Failed to deserialize Media. Illegal type (=\(type))?")
+      return nil
+    }
+  }
+  
+  // Mark: JSON
+
   override func toDictionary() -> [String : Any] {
     var dictionary = super.toDictionary()
     if url != nil {
       dictionary["url"] = url!
     }
+    dictionary["type"] = String(describing: type(of: self))
     return dictionary
   }
+  
+  // MARK: Network
+  
+  /// Appends media data to a multipart request
+  ///
+  /// - Parameter multipartFormData: to append to
+  func appendTo(multipartFormData: MultipartFormData) {}
 }

@@ -22,7 +22,8 @@ class ReactablesPageViewModelTests: BaseTests {
   override func setUp() {
     super.setUp()
     stub(condition: isPath(TheaterApi.path)) {request -> OHHTTPStubsResponse in
-      expect(User(json: JSON(Data(fromStream: request.httpBodyStream!)))).to(equal(App.authModule.current!))
+      expect(User(json: JSON(Data(fromStream: request.httpBodyStream!))))
+        .to(equal(App.authModule.current!))
       let stubData = try! JSON(self.fetchedReactables.map{JSON(from: $0)}).rawData()
       self.fetchedReactables = []
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
@@ -41,9 +42,10 @@ class ReactablesPageViewModelTests: BaseTests {
   
   func testDisplayReactable() {
     let reactable = Reactable(id: 1, userReaction: .sad,
-                              director: User(id: 1, firstName: "Todo", lastName: "Bom", deviceId: "android"),
+                              director: User(id: 1, firstName: "Todo", lastName: "Bom",
+                                             deviceId: "android"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
-                              created: Date(), viewed: false)
+                              created: Date(), viewed: false, media: nil)
     fetchedReactables = [reactable]
     viewModel.fetchingData()
     // Loading image should now be visible
@@ -75,14 +77,16 @@ class ReactablesPageViewModelTests: BaseTests {
   func testFailedFetch() {
     // Set up an ill backend
     stub(condition: isPath(TheaterApi.path)) {request -> OHHTTPStubsResponse in
-      expect(User(json: JSON(Data(fromStream: request.httpBodyStream!)))).to(equal(App.authModule.current!))
+      expect(User(json: JSON(Data(fromStream: request.httpBodyStream!))))
+        .to(equal(App.authModule.current!))
       return OHHTTPStubsResponse(data: Data(), statusCode: 500,
                                  headers: ["Content-Type":"application/json"])
     }
     let reactable = Reactable(id: 1, userReaction: .sad,
-                              director: User(id: 1, firstName: "Todo", lastName: "Bom", deviceId: "android"),
+                              director: User(id: 1, firstName: "Todo", lastName: "Bom",
+                                             deviceId: "android"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
-                              created: Date(), viewed: false)
+                              created: Date(), viewed: false, media: nil)
     fetchedReactables = [reactable]
     viewModel.fetchingData()
     // Loading image should now be visible
@@ -97,13 +101,15 @@ class ReactablesPageViewModelTests: BaseTests {
 
   func testNavigateNext() {
     let reactable1 = Reactable(id: 1, userReaction: .sad,
-                              director: User(id: 1, firstName: "Todo", lastName: "Bom", deviceId: "android"),
+                              director: User(id: 1, firstName: "Todo", lastName: "Bom",
+                                             deviceId: "android"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
-                              created: Date(), viewed: false)
+                              created: Date(), viewed: false, media: nil)
     let reactable2 = Reactable(id: 2, userReaction: .happy,
-                              director: User(id: 1, firstName: "Dubi", lastName: "Gal", deviceId: "iphone"),
+                              director: User(id: 1, firstName: "Dubi", lastName: "Gal",
+                                             deviceId: "iphone"),
                               reactionCounters: [.sad: 5000, .happy: 34],
-                              created: Date(), viewed: true)
+                              created: Date(), viewed: true, media: nil)
     fetchedReactables = [reactable1, reactable2]
     viewModel.fetchingData()
     expect(self.viewModel.reactables).toEventually(haveCount(2))
@@ -123,13 +129,15 @@ class ReactablesPageViewModelTests: BaseTests {
   
   func testNavigateNextFetchNewData() {
     let reactable1 = Reactable(id: 1, userReaction: .sad,
-                               director: User(id: 1, firstName: "Todo", lastName: "Bom", deviceId: "android"),
+                               director: User(id: 1, firstName: "Todo", lastName: "Bom",
+                                              deviceId: "android"),
                                reactionCounters: [.sad: 1000, .happy: 1234],
-                               created: Date(), viewed: false)
+                               created: Date(), viewed: false, media: nil)
     let reactable2 = Reactable(id: 2, userReaction: .happy,
-                               director: User(id: 1, firstName: "Dubi", lastName: "Gal", deviceId: "iphone"),
+                               director: User(id: 1, firstName: "Dubi", lastName: "Gal",
+                                              deviceId: "iphone"),
                                reactionCounters: [.sad: 5000, .happy: 34],
-                               created: Date(), viewed: true)
+                               created: Date(), viewed: true, media: nil)
     fetchedReactables = [reactable1]
     viewModel.fetchingData()
     expect(self.viewModel.reactables).toEventually(haveCount(1))
@@ -150,13 +158,15 @@ class ReactablesPageViewModelTests: BaseTests {
   
   func testNavigatePrevious() {
     let reactable1 = Reactable(id: 1, userReaction: .sad,
-                               director: User(id: 1, firstName: "Todo", lastName: "Bom", deviceId: "android"),
+                               director: User(id: 1, firstName: "Todo", lastName: "Bom",
+                                              deviceId: "android"),
                                reactionCounters: [.sad: 1000, .happy: 1234],
-                               created: Date(), viewed: false)
+                               created: Date(), viewed: false, media: nil)
     let reactable2 = Reactable(id: 2, userReaction: .happy,
-                               director: User(id: 1, firstName: "Dubi", lastName: "Gal", deviceId: "iphone"),
+                               director: User(id: 1, firstName: "Dubi", lastName: "Gal",
+                                              deviceId: "iphone"),
                                reactionCounters: [.sad: 5000, .happy: 34],
-                               created: Date(), viewed: true)
+                               created: Date(), viewed: true, media: nil)
     fetchedReactables = [reactable1, reactable2]
     viewModel.fetchingData()
     expect(self.viewModel.reactables).toEventually(haveCount(2))

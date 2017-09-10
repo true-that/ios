@@ -43,29 +43,33 @@ class TheaterApiTests: XCTestCase {
   
   func testSuccessfulFetch() {
     reactables = [Reactable(id: 1, userReaction: .sad,
-                            director: User(id: 1, firstName: "copa", lastName: "cabana", deviceId: "android"),
+                            director: User(id: 1, firstName: "copa", lastName: "cabana",
+                                           deviceId: "android"),
                             reactionCounters: [.sad: 1000, .happy: 1234],
-                            created: Date(), viewed: false),
+                            created: Date(), viewed: false, media: Photo(url: "brazil.jpg")),
                   Reactable(id: 2, userReaction: .happy,
-                            director: User(id: 1, firstName: "barry", lastName: "manilow", deviceId: "android"),
+                            director: User(id: 1, firstName: "barry", lastName: "manilow",
+                                           deviceId: "android"),
                             reactionCounters: [.sad: 2000, .happy: 100234],
-                            created: Date(), viewed: true)]
+                            created: Date(), viewed: true, media: Photo(url: "carnaval.jpg"))]
     fetch()
     expect(self.actual).toEventually(equal(reactables))
   }
   
   func testFetchMultipleTypes() {
     reactables = [Reactable(id: 1, userReaction: .sad,
-                            director: User(id: 1, firstName: "copa", lastName: "cabana", deviceId: "android"),
+                            director: User(id: 1, firstName: "copa", lastName: "cabana",
+                                           deviceId: "android"),
                             reactionCounters: [.sad: 1000, .happy: 1234],
-                            created: Date(), viewed: false),
-                  Pose(id: 2, userReaction: .happy,
-                            director: User(id: 1, firstName: "barry", lastName: "manilow", deviceId: "android"),
+                            created: Date(), viewed: false, media: Photo(url: "brazil.jpg")),
+                  Reactable(id: 2, userReaction: .happy,
+                            director: User(id: 1, firstName: "barry", lastName: "manilow",
+                                           deviceId: "android"),
                             reactionCounters: [.sad: 2000, .happy: 100234],
-                            created: Date(), viewed: true, imageUrl: "http://truethat-ipo.jpg")]
+                            created: Date(), viewed: true,
+                            media: Video(url: "http://truethat-ipo.mp4"))]
     fetch()
     expect(self.actual).toEventually(equal(reactables))
-    expect(self.actual![1]).toEventually(beAnInstanceOf(Pose.self))
   }
   
   func testEmptyFetch() {
@@ -80,13 +84,10 @@ class TheaterApiTests: XCTestCase {
                                                 userInfo: nil))
     }
     reactables = [Reactable(id: 1, userReaction: .sad,
-                            director: User(id: 1, firstName: "copa", lastName: "cabana", deviceId: "android"),
+                            director: User(id: 1, firstName: "copa", lastName: "cabana",
+                                           deviceId: "android"),
                             reactionCounters: [.sad: 1000, .happy: 1234],
-                            created: Date(), viewed: false),
-                  Reactable(id: 2, userReaction: .happy,
-                            director: User(id: 1, firstName: "barry", lastName: "manilow", deviceId: "android"),
-                            reactionCounters: [.sad: 2000, .happy: 100234],
-                            created: Date(), viewed: true)]
+                            created: Date(), viewed: false, media: nil)]
     fetch()
     expect(self.error).toEventuallyNot(beNil())
   }

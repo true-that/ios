@@ -38,9 +38,10 @@ class ReactableViewModelTests: BaseTests {
   
   func testDisplayReactable() {
     let reactable = Reactable(id: 1, userReaction: .sad,
-                              director: User(id: 1, firstName: "Mr", lastName: "Robot", deviceId: "iphone"),
+                              director: User(id: 1, firstName: "Mr", lastName: "Robot",
+                                             deviceId: "iphone"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
-                              created: Date(), viewed: false)
+                              created: Date(), viewed: false, media: nil)
     initViewModel(with: reactable)
     expect(self.viewModel.model).to(equal(reactable))
     expect(self.viewModel.directorName.value).to(equal(reactable.director?.displayName))
@@ -53,27 +54,29 @@ class ReactableViewModelTests: BaseTests {
   
   func testDisplayReactable_commonReactionDisplayed() {
     let reactable = Reactable(id: 1, userReaction: nil, director: nil,
-                              reactionCounters: [.sad: 1, .happy: 2], created: nil, viewed: nil)
+                              reactionCounters: [.sad: 1, .happy: 2], created: nil, viewed: nil,
+                              media: nil)
     initViewModel(with: reactable)
     expect(self.viewModel.reactionEmoji.value).to(equal(Emotion.happy.emoji))
   }
   
   func testDisplayReactable_userReactionReactionDisplayed() {
     let reactable = Reactable(id: 1, userReaction: .sad, director: nil,
-                              reactionCounters: [.sad: 1, .happy: 2], created: nil, viewed: nil)
+                              reactionCounters: [.sad: 1, .happy: 2], created: nil, viewed: nil,
+                              media: nil)
     initViewModel(with: reactable)
     expect(self.viewModel.reactionEmoji.value).to(equal(Emotion.sad.emoji))
   }
   
   func testDisplayReactable_noReactionReactionDisplayed() {
     var reactable = Reactable(id: 1, userReaction: nil, director: nil, reactionCounters: nil,
-                              created: nil, viewed: nil)
+                              created: nil, viewed: nil, media: nil)
     initViewModel(with: reactable)
     expect(self.viewModel.reactionEmoji.value).to(equal(""))
     expect(self.viewModel.reactionsCount.value).to(equal(""))
     // Now without nil counters
     reactable = Reactable(id: 1, userReaction: nil, director: nil, reactionCounters: [.happy: 0],
-                          created: nil, viewed: nil)
+                          created: nil, viewed: nil, media: nil)
     initViewModel(with: reactable)
     expect(self.viewModel.reactionEmoji.value).to(equal(""))
     expect(self.viewModel.reactionsCount.value).to(equal(""))
@@ -81,9 +84,10 @@ class ReactableViewModelTests: BaseTests {
   
   func testInteractionEvents() {
     let reactable = Reactable(id: 1, userReaction: nil,
-                              director: User(id: 1, firstName: "Ms", lastName: "Robot", deviceId: "iphone2"),
+                              director: User(id: 1, firstName: "Ms", lastName: "Robot",
+                                             deviceId: "iphone2"),
                               reactionCounters: [.sad: 3, .happy: 1],
-                              created: Date(timeIntervalSinceNow: -60), viewed: false)
+                              created: Date(timeIntervalSinceNow: -60), viewed: false, media: nil)
     initViewModel(with: reactable)
     viewModel.didDisplay()
     expect(self.eventCount).toEventually(equal(1))
@@ -105,9 +109,10 @@ class ReactableViewModelTests: BaseTests {
   
   func testReport() {
     let reactable = Reactable(id: 1, userReaction: nil,
-                              director: User(id: 1, firstName: "Ms", lastName: "Robot", deviceId: "iphone2"),
+                              director: User(id: 1, firstName: "Ms", lastName: "Robot",
+                                             deviceId: "iphone2"),
                               reactionCounters: [.sad: 3, .happy: 1],
-                              created: Date(timeIntervalSinceNow: -60), viewed: false)
+                              created: Date(timeIntervalSinceNow: -60), viewed: false, media: nil)
     initViewModel(with: reactable)
     viewModel.didDisplay()
     // Wait for view event
@@ -121,9 +126,10 @@ class ReactableViewModelTests: BaseTests {
   
   func testCantReportBeforeView() {
     let reactable = Reactable(id: 1, userReaction: nil,
-                              director: User(id: 1, firstName: "Ms", lastName: "Robot", deviceId: "iphone2"),
+                              director: User(id: 1, firstName: "Ms", lastName: "Robot",
+                                             deviceId: "iphone2"),
                               reactionCounters: [.sad: 3, .happy: 1],
-                              created: Date(timeIntervalSinceNow: -60), viewed: false)
+                              created: Date(timeIntervalSinceNow: -60), viewed: false, media: nil)
     initViewModel(with: reactable)
     viewModel.didReport()
     expect(self.viewModelDelegate.didShow).toNotEventually(beTrue())
@@ -131,9 +137,10 @@ class ReactableViewModelTests: BaseTests {
   
   func testCantInteractAfterDisappear() {
     let reactable = Reactable(id: 1, userReaction: nil,
-                              director: User(id: 1, firstName: "Ms", lastName: "Robot", deviceId: "iphone2"),
+                              director: User(id: 1, firstName: "Ms", lastName: "Robot",
+                                             deviceId: "iphone2"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
-                              created: Date(timeIntervalSinceNow: -60), viewed: true)
+                              created: Date(timeIntervalSinceNow: -60), viewed: true, media: nil)
     initViewModel(with: reactable)
     viewModel.didDisplay()
     viewModel.didDisappear()

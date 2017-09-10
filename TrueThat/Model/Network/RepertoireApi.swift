@@ -34,7 +34,7 @@ class RepertoireApi {
         switch response.result {
         case .success:
           observer.send(value: JSON(response.result.value!).arrayValue
-            .map{Reactable.instantiate(with: $0)!})
+            .map{Reactable(json: $0)})
           observer.sendCompleted()
         case .failure:
           observer.send(error: response.result.error as NSError!)

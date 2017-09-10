@@ -45,7 +45,7 @@ class TheaterViewControllerTests : BaseUITests {
                               director: User(id: 1, firstName: "The", lastName: "Flinstons",
                                              deviceId: "stonePhone"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
-                              created: Date(), viewed: false)
+                              created: Date(), viewed: false, media: nil)
     fetchedReactables = [reactable]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
@@ -53,7 +53,7 @@ class TheaterViewControllerTests : BaseUITests {
     reactable.viewed = true
     assertDisplayed(reactable: reactable)
   }
-
+  
   func testNavigation() {
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
@@ -64,12 +64,12 @@ class TheaterViewControllerTests : BaseUITests {
   }
   
   func testNavigationWhenReactableDisplayed() {
-    let reactable = Pose(id: 1, userReaction: .sad,
-                         director: User(id: 1, firstName: "The", lastName: "Flinstons",
-                                        deviceId: "stonePhone"),
-                         reactionCounters: [.sad: 1000, .happy: 1234], created: Date(),
-                         viewed: false,
-                         imageUrl: "https://www.bbcgoodfood.com/sites/default/files/styles/carousel_medium/public/chicken-main_0.jpg")
+    let reactable = Reactable(id: 1, userReaction: .sad,
+                              director: User(id: 1, firstName: "The", lastName: "Flinstons",
+                                             deviceId: "stonePhone"),
+                              reactionCounters: [.sad: 1000, .happy: 1234], created: Date(),
+                              viewed: false,
+                              media: Photo(url: "https://www.bbcgoodfood.com/sites/default/files/styles/carousel_medium/public/chicken-main_0.jpg"))
     fetchedReactables = [reactable]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)

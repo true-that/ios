@@ -26,7 +26,8 @@ class RepertoireViewControllerTests : BaseUITests {
                                  headers: ["Content-Type":"application/json"])
     }
     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-    viewController = storyboard.instantiateViewController(withIdentifier: "RepertoireScene") as! RepertoireViewController
+    viewController = storyboard.instantiateViewController(withIdentifier: "RepertoireScene")
+      as! RepertoireViewController
     
     UIApplication.shared.keyWindow!.rootViewController = viewController
     
@@ -35,15 +36,18 @@ class RepertoireViewControllerTests : BaseUITests {
   }
   
   func assertDisplayed(reactable: Reactable) {
-    expect(self.viewController.reactablesPageWrapper.reactablesPage.currentViewController?.viewModel?.model.id).toEventually(equal(reactable.id))
-    expect(self.viewController.reactablesPageWrapper.reactablesPage.currentViewController?.viewModel?.model.viewed).toEventually(beTrue())
+    expect(self.viewController.reactablesPageWrapper.reactablesPage.currentViewController?
+      .viewModel?.model.id).toEventually(equal(reactable.id))
+    expect(self.viewController.reactablesPageWrapper.reactablesPage.currentViewController?
+      .viewModel?.model.viewed).toEventually(beTrue())
   }
   
   func testDisplayReactable() {
     let reactable = Reactable(id: 1, userReaction: .sad,
-                              director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
+                              director: User(id: 1, firstName: "The", lastName: "Flinstons",
+                                             deviceId: "stonePhone"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
-                              created: Date(), viewed: false)
+                              created: Date(), viewed: false, media: nil)
     fetchedReactables = [reactable]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
@@ -56,20 +60,23 @@ class RepertoireViewControllerTests : BaseUITests {
     viewController.beginAppearanceTransition(true, animated: false)
     // Swipe up
     tester().swipeView(withAccessibilityLabel: "repertoire view", in: .down)
-    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(StudioViewController.self))
+    expect(UITestsHelper.currentViewController)
+      .toEventually(beAnInstanceOf(StudioViewController.self))
   }
   
   func testNavigationWhenReactableDisplayed() {
     let reactable = Reactable(id: 1, userReaction: .sad,
-                              director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
+                              director: User(id: 1, firstName: "The", lastName: "Flinstons",
+                                             deviceId: "stonePhone"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
-                              created: Date(), viewed: false)
+                              created: Date(), viewed: false, media: nil)
     fetchedReactables = [reactable]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
     assertDisplayed(reactable: reactable)
     // Swipe up
     tester().swipeView(withAccessibilityLabel: "reactable view", in: .down)
-    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(StudioViewController.self))
+    expect(UITestsHelper.currentViewController)
+      .toEventually(beAnInstanceOf(StudioViewController.self))
   }
 }

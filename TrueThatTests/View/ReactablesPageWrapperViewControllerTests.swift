@@ -34,7 +34,8 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
                                  headers: ["Content-Type":"application/json"])
     }
     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-    viewController = storyboard.instantiateViewController(withIdentifier: "ReactablesPageWrapperScene") as! ReactablesPageWrapperViewController
+    viewController = storyboard.instantiateViewController(
+      withIdentifier: "ReactablesPageWrapperScene") as! ReactablesPageWrapperViewController
     
     UIApplication.shared.keyWindow!.rootViewController = viewController
     
@@ -44,10 +45,14 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
   }
   
   func assertDisplayed(reactable: Reactable) {
-    expect(self.viewController.reactablesPage.currentViewController?.viewModel?.model.id).toEventually(equal(reactable.id))
-    expect(self.viewController.reactablesPage.currentViewController?.viewModel?.model.viewed).toEventually(beTrue(), timeout: 10.0)
-    if self.viewController.reactablesPage.currentViewController?.viewModel?.model is Short {
-      expect((self.viewController.reactablesPage.currentViewController?.mediaViewController as! VideoViewController).player?.currentTime()).toEventuallyNot(equal(kCMTimeZero), timeout: 5.0)
+    expect(self.viewController.reactablesPage.currentViewController?.viewModel?.model.id)
+      .toEventually(equal(reactable.id))
+    expect(self.viewController.reactablesPage.currentViewController?.viewModel?.model.viewed)
+      .toEventually(beTrue(), timeout: 10.0)
+    if self.viewController.reactablesPage.currentViewController?.viewModel?.model.media is Video {
+      expect((self.viewController.reactablesPage.currentViewController?.mediaViewController
+        as! VideoViewController).player?.currentTime())
+        .toEventuallyNot(equal(kCMTimeZero), timeout: 5.0)
     }
     // Loading image should be hidden
     expect(self.viewController.loadingImage.isHidden).to(beTrue())
@@ -55,9 +60,10 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
   
   func testDisplayReactable() {
     let reactable = Reactable(id: 1, userReaction: .sad,
-                              director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
+                              director: User(id: 1, firstName: "The", lastName: "Flinstons",
+                                             deviceId: "stonePhone"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
-                              created: Date(), viewed: false)
+                              created: Date(), viewed: false, media: nil)
     fetchedReactables = [reactable]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
@@ -71,9 +77,10 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
   
   func testEmotionalReaction() {
     let reactable = Reactable(id: 1, userReaction: nil,
-                              director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
+                              director: User(id: 1, firstName: "The", lastName: "Flinstons",
+                                             deviceId: "stonePhone"),
                               reactionCounters: [.sad: 4],
-                              created: Date(), viewed: false)
+                              created: Date(), viewed: false, media: nil)
     fetchedReactables = [reactable]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
@@ -89,9 +96,10 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
   // Should not fetch reactables before view appeared
   func testNotDisplayBeforePresent() {
     let reactable = Reactable(id: 1, userReaction: .sad,
-                              director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
+                              director: User(id: 1, firstName: "The", lastName: "Flinstons",
+                                             deviceId: "stonePhone"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
-                              created: Date(), viewed: false)
+                              created: Date(), viewed: false, media: nil)
     fetchedReactables = [reactable]
     // Trigger viewDidDisappear
     UIApplication.shared.keyWindow!.rootViewController = nil
@@ -102,9 +110,10 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
   // Should not fetch reactables before user is authenticated
   func testNotDisplayBeforeAuthOk() {
     let reactable = Reactable(id: 1, userReaction: .sad,
-                              director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
+                              director: User(id: 1, firstName: "The", lastName: "Flinstons",
+                                             deviceId: "stonePhone"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
-                              created: Date(), viewed: false)
+                              created: Date(), viewed: false, media: nil)
     fetchedReactables = [reactable]
     // Trigger viewDidAppear
     App.authModule.signOut()
@@ -116,20 +125,23 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
   
   func testMultipleTypes() {
     let reactable = Reactable(id: 1, userReaction: .sad,
-                               director: User(id: 1, firstName: "Breaking", lastName: "Bad", deviceId: "iphone"),
-                               reactionCounters: [.sad: 1000, .happy: 1234],
-                               created: Date(), viewed: false)
-    let pose = Pose(id: 2, userReaction: .happy,
-                      director: User(id: 1, firstName: "Emma", lastName: "Watson", deviceId: "iphone2"),
-                      reactionCounters: [.happy: 5000, .sad: 34], created: Date(),
-                      viewed: false,
-                      imageUrl: "https://storage.googleapis.com/truethat-test-studio/testing/happy-selfie.jpg")
-    let short = Short(id: 3, userReaction: .happy,
-                      director: User(id: 1, firstName: "Harry", lastName: "Potter", deviceId: "iphone2"),
-                      reactionCounters: [.happy: 7, .sad: 34], created: Date(),
-                      viewed: false,
-                      videoUrl: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4")
-    fetchedReactables = [reactable, pose, short]
+                              director: User(id: 1, firstName: "Breaking", lastName: "Bad",
+                                             deviceId: "iphone"),
+                              reactionCounters: [.sad: 1000, .happy: 1234],
+                              created: Date(), viewed: false, media: nil)
+    let photo = Reactable(id: 2, userReaction: .happy,
+                         director: User(id: 1, firstName: "Emma", lastName: "Watson",
+                                        deviceId: "iphone2"),
+                         reactionCounters: [.happy: 5000, .sad: 34], created: Date(),
+                         viewed: false,
+                         media: Photo(url: "https://storage.googleapis.com/truethat-test-studio/testing/happy-selfie.jpg"))
+    let video = Reactable(id: 3, userReaction: .happy,
+                          director: User(id: 1, firstName: "Harry", lastName: "Potter",
+                                         deviceId: "iphone2"),
+                          reactionCounters: [.happy: 7, .sad: 34], created: Date(),
+                          viewed: false,
+                          media: Video(url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4"))
+    fetchedReactables = [reactable, photo, video]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
     viewController.didAuthOk()
@@ -137,21 +149,23 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
     assertDisplayed(reactable: reactable)
     // Navigate to next reactable
     tester().swipeView(withAccessibilityLabel: "reactable view", in: .right)
-    assertDisplayed(reactable: pose)
+    assertDisplayed(reactable: photo)
     // Navigate to next reactable
     tester().swipeView(withAccessibilityLabel: "reactable view", in: .right)
-    assertDisplayed(reactable: short)
+    assertDisplayed(reactable: video)
   }
   
   func testReactablesNavigation() {
     let reactable1 = Reactable(id: 1, userReaction: .sad,
-                               director: User(id: 1, firstName: "Breaking", lastName: "Bad", deviceId: "iphone"),
+                               director: User(id: 1, firstName: "Breaking", lastName: "Bad",
+                                              deviceId: "iphone"),
                                reactionCounters: [.sad: 1000, .happy: 1234],
-                               created: Date(), viewed: false)
+                               created: Date(), viewed: false, media: nil)
     let reactable2 = Reactable(id: 2, userReaction: .happy,
-                               director: User(id: 1, firstName: "Mr", lastName: "White", deviceId: "iphone2"),
+                               director: User(id: 1, firstName: "Mr", lastName: "White",
+                                              deviceId: "iphone2"),
                                reactionCounters: [.sad: 5000, .happy: 34],
-                               created: Date(), viewed: true)
+                               created: Date(), viewed: true, media: nil)
     fetchedReactables = [reactable1, reactable2]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
@@ -168,13 +182,15 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
   
   func testFetchNewReactables() {
     let reactable1 = Reactable(id: 1, userReaction: .sad,
-                               director: User(id: 1, firstName: "Breaking", lastName: "Bad", deviceId: "iphone"),
+                               director: User(id: 1, firstName: "Breaking", lastName: "Bad",
+                                              deviceId: "iphone"),
                                reactionCounters: [.sad: 1000, .happy: 1234],
-                               created: Date(), viewed: false)
+                               created: Date(), viewed: false, media: nil)
     let reactable2 = Reactable(id: 2, userReaction: .happy,
-                               director: User(id: 1, firstName: "Mr", lastName: "White", deviceId: "iphone2"),
+                               director: User(id: 1, firstName: "Mr", lastName: "White",
+                                              deviceId: "iphone2"),
                                reactionCounters: [.sad: 5000, .happy: 34],
-                               created: Date(), viewed: false)
+                               created: Date(), viewed: false, media: nil)
     fetchedReactables = [reactable1]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
@@ -190,23 +206,26 @@ class ReactablesPageWrapperViewControllerTests : BaseUITests {
   }
   
   func testReport() {
-    let reactable = Pose(id: 2, userReaction: .happy,
-                         director: User(id: 1, firstName: "Emma", lastName: "Watson",
-                                        deviceId: "iphone2"),
-                         reactionCounters: [.happy: 5000, .sad: 34], created: Date(),
-                         viewed: false,
-                         imageUrl: "https://storage.googleapis.com/truethat-test-studio/testing/happy-selfie.jpg")
+    let reactable = Reactable(id: 2, userReaction: .happy,
+                              director: User(id: 1, firstName: "Emma", lastName: "Watson",
+                                             deviceId: "iphone2"),
+                              reactionCounters: [.happy: 5000, .sad: 34], created: Date(),
+                              viewed: false,
+                              media: Photo(url: "https://storage.googleapis.com/truethat-test-studio/testing/happy-selfie.jpg"))
     fetchedReactables = [reactable]
     // Displays the reactable
     viewController.beginAppearanceTransition(true, animated: false)
     viewController.didAuthOk()
     assertDisplayed(reactable: reactable)
-    expect(self.viewController.reactablesPage.currentViewController!.optionsButton.isHidden).toEventually(beFalse())
+    expect(self.viewController.reactablesPage.currentViewController!.optionsButton.isHidden)
+      .toEventually(beFalse())
     // Exposes options menu
     tester().tapView(withAccessibilityLabel: "options")
-    expect(self.viewController.reactablesPage.currentViewController!.reportLabel.isHidden).toEventually(beFalse())
+    expect(self.viewController.reactablesPage.currentViewController!.reportLabel.isHidden)
+      .toEventually(beFalse())
     tester().tapView(withAccessibilityLabel: "report")
-    expect(self.viewController.reactablesPage.currentViewController!.reportLabel.isHidden).toEventually(beTrue())
+    expect(self.viewController.reactablesPage.currentViewController!.reportLabel.isHidden)
+      .toEventually(beTrue())
     // Should eventually see the reported alert.
     tester().tapView(withAccessibilityLabel: "got it")
   }

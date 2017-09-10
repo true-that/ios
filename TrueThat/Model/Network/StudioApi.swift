@@ -17,6 +17,12 @@ class StudioApi {
   /// Subpath relative to base backend endpoint.
   static public let path = "/studio"
   
+  /// Reactable part name when uploading a directed reactable
+  static let reactablePart = "reactable"
+  
+  /// Media part name of an uploaded reactable
+  static let mediaPart = "media"
+  
   /// Full URL of backend endpoint.
   static var fullUrl: String {
     return Bundle.main.infoDictionary!["API_BASE_URL_ENDPOINT"] as! String + StudioApi.path
@@ -41,7 +47,7 @@ class StudioApi {
             upload.responseJSON{ response in
               switch response.result {
               case .success:
-                let saved = Reactable.instantiate(with: JSON(response.result.value!))
+                let saved = try? Reactable(json: JSON(response.result.value!))
                 if saved != nil {
                   observer.send(value: saved!)
                   observer.sendCompleted()

@@ -10,9 +10,6 @@ import Alamofire
 /// Reactables add spice to our users life, they are the an abstract pieces of media consumed by our
 /// users. See [backend]
 class Reactable: BaseModel {
-  
-  /// Reactable part name when uploading a directed reactable
-  static let reactablePart = "reactable"
   /// As stored in our backend.
   var id: Int64?
   /// The current user reaction to it.
@@ -25,13 +22,12 @@ class Reactable: BaseModel {
   var created: Date?
   /// Whether the reactable was already viewed by the current user.
   var viewed: Bool?
-  
-  /// Media of reactable
+  /// Media of reactable, such as a photo.
   var media: Media?
-
+  
   // MARK: Initialization
   init(id: Int64?, userReaction: Emotion?, director: User?, reactionCounters: [Emotion: Int64]?,
-       created: Date?, viewed: Bool?) {
+       created: Date?, viewed: Bool?, media: Media?) {
     super.init()
     self.id = id
     self.userReaction = userReaction
@@ -39,6 +35,7 @@ class Reactable: BaseModel {
     self.created = created
     self.viewed = viewed
     self.reactionCounters = reactionCounters
+    self.media = media
   }
   
   required init(json: JSON) {
@@ -51,45 +48,35 @@ class Reactable: BaseModel {
     reactionCounters = json["reactionCounters"].dictionary?.mapPairs{ (stringEmotion, counter) in
       (Emotion.toEmotion(stringEmotion)!, counter.int64Value)
     }
-  }
-  
-  static func instantiate(with json: JSON) -> Reactable? {
-    switch json["type"].stringValue {
-    case String(describing: Reactable.self):
-      return Reactable(json: json)
-    case String(describing: Pose.self):
-      return Pose(json: json)
-    case String(describing: Short.self):
-      return Short(json: json)
-    default:
-      App.log.warning("Failed to deserialize Reactable. Missing type (=\(json["type"].stringValue))?")
-      return nil
+    if json["media"] != JSON.null {
+      media = Media(json: json["media"])
     }
   }
   
   // MARK: overriden methods
   override func toDictionary() -> [String : Any] {
     var dictionary = super.toDictionary()
-    if (id != nil) {
+    if id != nil {
       dictionary["id"] = id!
     }
-    if (userReaction != nil) {
+    if userReaction != nil {
       dictionary["userReaction"] = userReaction!.rawValue.snakeCased()!.uppercased()
     }
-    if (director != nil) {
+    if director != nil {
       dictionary["director"] = director!.toDictionary()
     }
-    if (reactionCounters != nil) {
+    if reactionCounters != nil {
       dictionary["reactionCounters"] = reactionCounters!.mapPairs{(emotion, counter) in (emotion.rawValue.snakeCased()!.uppercased(), counter)}
     }
-    if (created != nil) {
+    if created != nil {
       dictionary["created"] = DateHelper.utcDate(fromDate: created!)
     }
-    if (viewed != nil) {
+    if viewed != nil {
       dictionary["viewed"] = viewed!
     }
-    // Adds type
-    dictionary["type"] = String(describing: type(of: self))
+    if media != nil {
+      dictionary["media"] = media?.toDictionary()
+    }
     
     return dictionary
   }
@@ -123,7 +110,10 @@ class Reactable: BaseModel {
   func appendTo(multipartFormData: MultipartFormData) {
     let reactableData = try? JSON(toDictionary()).rawData()
     if reactableData != nil {
-      multipartFormData.append(reactableData!, withName: Reactable.reactablePart)
+      multipartFormData.append(reactableData!, withName: StudioApi.reactablePart)
+    }
+    if media != nil {
+      media!.appendTo(multipartFormData: multipartFormData)
     }
   }
 }

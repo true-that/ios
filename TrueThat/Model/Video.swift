@@ -7,6 +7,7 @@
 //
 
 import SwiftyJSON
+import Alamofire
 
 /// [backend]: https://github.com/true-that/backend/blob/master/src/main/java/com/truethat/backend/model/Video.java
 /// A data model of a video. See [backend]
@@ -25,5 +26,15 @@ class Video: Media {
   
   required init(json: JSON) {
     super.init(json: json)
+  }
+  
+  override func appendTo(multipartFormData: MultipartFormData) {
+    super.appendTo(multipartFormData: multipartFormData)
+    if localUrl != nil {
+      let data = try? Data(contentsOf: localUrl!)
+      if data != nil {
+        multipartFormData.append(data!, withName: StudioApi.mediaPart, mimeType: "video/mp4")
+      }
+    }
   }
 }

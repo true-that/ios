@@ -22,7 +22,8 @@ class StudioViewModelTests: BaseTests {
     super.setUp()
     stub(condition: isPath(StudioApi.path)) {request -> OHHTTPStubsResponse in
       let stubData = try! JSON(from: Reactable(
-        id: 1, userReaction: nil, director: nil, reactionCounters: nil, created: nil, viewed: nil))
+        id: 1, userReaction: nil, director: nil, reactionCounters: nil, created: nil, viewed: nil,
+        media: nil))
         .rawData()
       self.requestCount += 1
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
@@ -104,12 +105,14 @@ class StudioViewModelTests: BaseTests {
     assertDirecting()
     viewModel.didStartRecordingVideo()
     // Capture button has recird video image
-    expect(self.viewModel.captureButtonImageName.value).to(equal(StudioViewModel.recordVideoImageName))
+    expect(self.viewModel.captureButtonImageName.value)
+      .to(equal(StudioViewModel.recordVideoImageName))
     viewModel.didFinishRecordingVideo()
     expect(self.viewModel.captureButtonImageName.value).to(equal(StudioViewModel.captureImageName))
     try viewModel.didFinishProcessVideo(url: URL(
       dataRepresentation: Data(contentsOf:
-        URL(fileURLWithPath: "TrueThatTests/ViewModel/TestData/wink.mp4", relativeTo:BaseTests.baseDir)),
+        URL(fileURLWithPath: "TrueThatTests/ViewModel/TestData/wink.mp4",
+            relativeTo:BaseTests.baseDir)),
       relativeTo: nil)!)
     assertApproving()
     // Sending video

@@ -45,11 +45,11 @@ class RepertoireApiTests: XCTestCase {
     reactables = [Reactable(id: 1, userReaction: .sad,
                             director: App.authModule.current,
                             reactionCounters: [.sad: 1000, .happy: 1234],
-                            created: Date(), viewed: false),
+                            created: Date(), viewed: false, media: nil),
                   Reactable(id: 2, userReaction: .happy,
                             director: App.authModule.current,
                             reactionCounters: [.sad: 2000, .happy: 100234],
-                            created: Date(), viewed: true)]
+                            created: Date(), viewed: true, media: nil)]
     fetch()
     expect(self.actual).toEventually(equal(reactables))
   }
@@ -58,14 +58,15 @@ class RepertoireApiTests: XCTestCase {
     reactables = [Reactable(id: 1, userReaction: .sad,
                             director: App.authModule.current,
                             reactionCounters: [.sad: 1000, .happy: 1234],
-                            created: Date(), viewed: false),
-                  Pose(id: 2, userReaction: .happy,
-                        director: App.authModule.current,
-                        reactionCounters: [.sad: 2000, .happy: 100234],
-                        created: Date(), viewed: true, imageUrl: "http://truethat-ipo.jpg")]
+                            created: Date(), viewed: false, media: nil),
+                  Reactable(id: 2, userReaction: .happy,
+                            director: App.authModule.current,
+                            reactionCounters: [.sad: 2000, .happy: 100234],
+                            created: Date(), viewed: true,
+                            media: Photo(url: "http://truethat-ipo.jpg"))]
     fetch()
     expect(self.actual).toEventually(equal(reactables))
-    expect(self.actual![1]).toEventually(beAnInstanceOf(Pose.self))
+    expect(self.actual![1].media).toEventually(beAnInstanceOf(Photo.self))
   }
   
   func testEmptyFetch() {
@@ -82,11 +83,7 @@ class RepertoireApiTests: XCTestCase {
     reactables = [Reactable(id: 1, userReaction: .sad,
                             director: App.authModule.current,
                             reactionCounters: [.sad: 1000, .happy: 1234],
-                            created: Date(), viewed: false),
-                  Reactable(id: 2, userReaction: .happy,
-                            director: App.authModule.current,
-                            reactionCounters: [.sad: 2000, .happy: 100234],
-                            created: Date(), viewed: true)]
+                            created: Date(), viewed: false, media: nil)]
     fetch()
     expect(self.error).toEventuallyNot(beNil())
   }

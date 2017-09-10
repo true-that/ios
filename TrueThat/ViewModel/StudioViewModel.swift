@@ -152,8 +152,8 @@ class StudioViewModel {
   ///
   /// - Parameter imageData: of the fresh out of the oven image
   public func didCapture(imageData: Data) {
-    directed = Pose(id: nil, userReaction: nil, director: App.authModule.current,
-                    reactionCounters: nil, created: Date(), viewed: nil, imageData: imageData)
+    directed = Reactable(id: nil, userReaction: nil, director: App.authModule.current,
+                         reactionCounters: nil, created: Date(), viewed: nil, media: Photo(data: imageData))
     willApprove()
   }
   
@@ -169,8 +169,8 @@ class StudioViewModel {
   
   /// Invoked once recorded video has been processed.
   func didFinishProcessVideo(url: URL) {
-    directed = Short(id: nil, userReaction: nil, director: App.authModule.current,
-                     reactionCounters: nil, created: Date(), viewed: nil, videoLocalUrl: url)
+    directed = Reactable(id: nil, userReaction: nil, director: App.authModule.current,
+                         reactionCounters: nil, created: Date(), viewed: nil, media: Video(localUrl: url))
     willApprove()
   }
   

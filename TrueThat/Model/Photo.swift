@@ -7,6 +7,7 @@
 //
 
 import SwiftyJSON
+import Alamofire
 
 /// [backend]: https://github.com/true-that/backend/blob/master/src/main/java/com/truethat/backend/model/Photo.java
 /// A data model of a photo. See [backend]
@@ -25,5 +26,12 @@ class Photo: Media {
   
   required init(json: JSON) {
     super.init(json: json)
+  }
+  
+  override func appendTo(multipartFormData: MultipartFormData) {
+    super.appendTo(multipartFormData: multipartFormData)
+    if data != nil {
+      multipartFormData.append(data!, withName: StudioApi.mediaPart, mimeType: "image/jpg")
+    }
   }
 }
