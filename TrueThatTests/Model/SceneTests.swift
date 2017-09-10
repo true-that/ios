@@ -1,5 +1,5 @@
 //
-//  ReactableTests.swift
+//  SceneTests.swift
 //  TrueThat
 //
 //  Created by Ohad Navon on 27/07/2017.
@@ -11,74 +11,74 @@ import SwiftyJSON
 @testable import TrueThat
 import Nimble
 
-class ReactableTests: XCTestCase {
+class SceneTests: XCTestCase {
   func testJsonSerialization() {
-    let reactable = Reactable(id: 1, userReaction: .happy,
+    let scene = Scene(id: 1, userReaction: .happy,
                               director: User(id: 1, firstName: "android", lastName: "me no like",
                                              deviceId: "iphone"),
                               reactionCounters: [.happy: 1200, .sad: 800],
                               created: Date(),
                               viewed: true, media: nil)
-    expect(reactable).to(equal(Reactable(json: JSON(from: reactable))))
+    expect(scene).to(equal(Scene(json: JSON(from: scene))))
   }
   
   func testEquals() {
     let now = Date()
-    let reactable = Reactable(id: 1, userReaction: .happy,
+    let scene = Scene(id: 1, userReaction: .happy,
                               director: User(id: 1, firstName: "android", lastName: "me no like",
                                              deviceId: "iphone"),
                               reactionCounters: [.happy: 1200, .sad: 800], created: now,
                               viewed: true, media: nil)
-    expect(reactable).to(equal(reactable))
-    expect(reactable).toNot(equal(Reactable(id: nil, userReaction: .happy,
+    expect(scene).to(equal(scene))
+    expect(scene).toNot(equal(Scene(id: nil, userReaction: .happy,
                                             director: User(id: 1, firstName: "android",
                                                            lastName: "me no like",
                                                            deviceId: "iphone"),
                                             reactionCounters: [.happy: 1200, .sad: 800],
                                             created: now,
                                             viewed: true, media: nil)))
-    expect(reactable).toNot(equal(Reactable(id: 1, userReaction: .sad,
+    expect(scene).toNot(equal(Scene(id: 1, userReaction: .sad,
                                             director: User(id: 1, firstName: "android",
                                                            lastName: "me no like",
                                                            deviceId: "iphone"),
                                             reactionCounters: [.happy: 1200, .sad: 800],
                                             created: now,
                                             viewed: true, media: nil)))
-    expect(reactable).toNot(equal(Reactable(id: 1, userReaction: nil,
+    expect(scene).toNot(equal(Scene(id: 1, userReaction: nil,
                                             director: User(id: 1, firstName: "android",
                                                            lastName: "me no like",
                                                            deviceId: "iphone"),
                                             reactionCounters: [.happy: 1200, .sad: 800],
                                             created: now,
                                             viewed: true, media: nil)))
-    expect(reactable).toNot(equal(Reactable(id: 1, userReaction: .happy,
+    expect(scene).toNot(equal(Scene(id: 1, userReaction: .happy,
                                             director: User(id: 1, firstName: "android2",
                                                            lastName: "me no like",
                                                            deviceId: "iphone"),
                                             reactionCounters: [.happy: 1200, .sad: 800],
                                             created: now,
                                             viewed: true, media: nil)))
-    expect(reactable).toNot(equal(Reactable(id: 1, userReaction: .happy,
+    expect(scene).toNot(equal(Scene(id: 1, userReaction: .happy,
                                             director: User(id: 1, firstName: "android",
                                                            lastName: "me no like",
                                                            deviceId: "iphone"),
                                             reactionCounters: [.happy: 1201, .sad: 800],
                                             created: now,
                                             viewed: true, media: nil)))
-    expect(reactable).toNot(equal(Reactable(id: 1, userReaction: .happy,
+    expect(scene).toNot(equal(Scene(id: 1, userReaction: .happy,
                                             director: User(id: 1, firstName: "android",
                                                            lastName: "me no like",
                                                            deviceId: "iphone"),
                                             reactionCounters: [.happy: 1200], created: now,
                                             viewed: true, media: nil)))
-    expect(reactable).toNot(equal(Reactable(id: 1, userReaction: .happy,
+    expect(scene).toNot(equal(Scene(id: 1, userReaction: .happy,
                                             director: User(id: 1, firstName: "android",
                                                            lastName: "me no like",
                                                            deviceId: "iphone"),
                                             reactionCounters: [.happy: 1200, .sad: 800],
                                             created: now,
                                             viewed: false, media: nil)))
-    expect(reactable).toNot(equal(Reactable(id: 1, userReaction: .happy,
+    expect(scene).toNot(equal(Scene(id: 1, userReaction: .happy,
                                             director: User(id: 1, firstName: "android",
                                                            lastName: "me no like",
                                                            deviceId: "iphone"),
@@ -89,13 +89,13 @@ class ReactableTests: XCTestCase {
   
   func testCanReact() {
     let user = User(id: 1, firstName: "android", lastName: "me no like", deviceId: "iphone")
-    let sameDirector = Reactable(id: 1, userReaction: nil, director: user, reactionCounters: nil,
+    let sameDirector = Scene(id: 1, userReaction: nil, director: user, reactionCounters: nil,
                                  created: nil, viewed: nil, media: nil)
-    let alreadyReacted = Reactable(id: 1, userReaction: .happy, director: nil,
+    let alreadyReacted = Scene(id: 1, userReaction: .happy, director: nil,
                                    reactionCounters: nil, created: nil, viewed: nil, media: nil)
-    let noDirector = Reactable(id: 1, userReaction: nil, director: nil, reactionCounters: nil,
+    let noDirector = Scene(id: 1, userReaction: nil, director: nil, reactionCounters: nil,
                                created: nil, viewed: nil, media: nil)
-    let withDirectDidntReact = Reactable(id: 1, userReaction: nil, director: user,
+    let withDirectDidntReact = Scene(id: 1, userReaction: nil, director: user,
                                          reactionCounters: nil, created: nil, viewed: nil,
                                          media: nil)
     expect(sameDirector.canReact(user: user)).to(beFalse())
@@ -108,12 +108,12 @@ class ReactableTests: XCTestCase {
   
   func testUpdateReactionCounters() {
     let reaction = Emotion.happy
-    let nilCounters = Reactable(id: 1, userReaction: nil, director: nil, reactionCounters: nil,
+    let nilCounters = Scene(id: 1, userReaction: nil, director: nil, reactionCounters: nil,
                                  created: nil, viewed: nil, media: nil)
-    let firstReactionOfType = Reactable(id: 2, userReaction: nil, director: nil,
+    let firstReactionOfType = Scene(id: 2, userReaction: nil, director: nil,
                                         reactionCounters: [.sad: 1], created: nil, viewed: nil,
                                         media: nil)
-    let shouldIncrement = Reactable(id: 3, userReaction: nil, director: nil,
+    let shouldIncrement = Scene(id: 3, userReaction: nil, director: nil,
                                     reactionCounters: [.happy: 2], created: nil, viewed: nil,
                                     media: nil)
     // Increment counters

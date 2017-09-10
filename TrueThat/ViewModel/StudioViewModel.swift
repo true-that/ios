@@ -17,7 +17,7 @@ class StudioViewModel {
   static let captureImageName = "capture_image.png"
   static let recordVideoImageName = "record.png"
   public let cameraSessionHidden = MutableProperty(false)
-  public let reactablePreviewHidden = MutableProperty(true)
+  public let scenePreviewHidden = MutableProperty(true)
   public let captureButtonHidden = MutableProperty(false)
   public let cancelButtonHidden = MutableProperty(true)
   public let sendButtonHidden = MutableProperty(true)
@@ -26,7 +26,7 @@ class StudioViewModel {
   public let captureButtonImageName = MutableProperty(StudioViewModel.captureImageName)
   var state = State.directing
   var delegate: StudioViewModelDelegate?
-  var directed: Reactable?
+  var directed: Scene?
   
   public func didAppear() {
     switch state {
@@ -52,19 +52,19 @@ class StudioViewModel {
     captureButtonHidden.value = false
     cameraSessionHidden.value = false
     switchCameraButtonHidden.value = false
-    // Hide editting buttons, and hide directed reactable
+    // Hide editting buttons, and hide directed scene
     cancelButtonHidden.value = true
     sendButtonHidden.value = true
-    reactablePreviewHidden.value = true
+    scenePreviewHidden.value = true
     // Hide loading image
     loadingImageHidden.value = true
   }
   
-  /// After a reactable is directed, it awaits for final approval from the user.
+  /// After a scene is directed, it awaits for final approval from the user.
   func willApprove() {
     App.log.debug("Studio state: \(State.approving)")
     guard directed != nil else {
-      App.log.warning("Reached approval state with a nil directed reactable.")
+      App.log.warning("Reached approval state with a nil directed scene.")
       willDirect()
       return
     }
@@ -75,20 +75,20 @@ class StudioViewModel {
     captureButtonHidden.value = true
     cameraSessionHidden.value = true
     switchCameraButtonHidden.value = true
-    // Show editting buttons, and hide directed reactable
+    // Show editting buttons, and hide directed scene
     cancelButtonHidden.value = false
     sendButtonHidden.value = false
-    reactablePreviewHidden.value = false
+    scenePreviewHidden.value = false
     // Hide loading image
     loadingImageHidden.value = true
   }
   
-  /// After the user approved the reactable it is sent to our backend.
+  /// After the user approved the scene it is sent to our backend.
   func willSend() {
     App.log.debug("Studio state: \(State.sent)")
     // Check that we have something to send
     if directed == nil {
-      App.log.warning("Trying to send a non-existent reactable.")
+      App.log.warning("Trying to send a non-existent scene.")
       willApprove()
       return
     }
@@ -100,18 +100,18 @@ class StudioViewModel {
     // Hide editting buttons
     cancelButtonHidden.value = true
     sendButtonHidden.value = true
-    // Show directed reactable
-    reactablePreviewHidden.value = false
+    // Show directed scene
+    scenePreviewHidden.value = false
     // Show loading animation
     loadingImageHidden.value = false
     // Send save request
-    _ = StudioApi.save(reactable: directed!)
+    _ = StudioApi.save(scene: directed!)
       .on(value: { saved in
         if saved.id != nil {
-          App.log.info("Reactable \(saved.id!) published successfully.")
+          App.log.info("Scene \(saved.id!) published successfully.")
           self.didPublish()
         } else {
-          App.log.report("Reactable saved without ID.",
+          App.log.report("Scene saved without ID.",
                          withError: NSError(domain: Bundle.main.bundleIdentifier!,
                                             code: ErrorCode.badResponseData.rawValue,
                                             userInfo: nil))
@@ -120,17 +120,17 @@ class StudioViewModel {
       })
       .on(failed: {error in
         App.log.report(
-          "Failed to save reactable \(String(describing: self.directed)) because of \(error)",
+          "Failed to save scene \(String(describing: self.directed)) because of \(error)",
           withError: error)
         self.saveDidFail()
       })
       .start()
     Crashlytics.sharedInstance().setObjectValue(
       directed?.toDictionary(),
-      forKey: LoggingKey.directedReactable.rawValue.snakeCased()!.uppercased())
+      forKey: LoggingKey.directedScene.rawValue.snakeCased()!.uppercased())
   }
   
-  /// After the reactable is successfully published, then leave the studio.
+  /// After the scene is successfully published, then leave the studio.
   func didPublish() {
     App.log.debug("Studio state: \(State.published)")
     state = State.published
@@ -152,7 +152,7 @@ class StudioViewModel {
   ///
   /// - Parameter imageData: of the fresh out of the oven image
   public func didCapture(imageData: Data) {
-    directed = Reactable(id: nil, userReaction: nil, director: App.authModule.current,
+    directed = Scene(id: nil, userReaction: nil, director: App.authModule.current,
                          reactionCounters: nil, created: Date(), viewed: nil, media: Photo(data: imageData))
     willApprove()
   }
@@ -169,17 +169,17 @@ class StudioViewModel {
   
   /// Invoked once recorded video has been processed.
   func didFinishProcessVideo(url: URL) {
-    directed = Reactable(id: nil, userReaction: nil, director: App.authModule.current,
+    directed = Scene(id: nil, userReaction: nil, director: App.authModule.current,
                          reactionCounters: nil, created: Date(), viewed: nil, media: Video(localUrl: url))
     willApprove()
   }
   
   /// Studio various states
   ///
-  /// - directing: when the user directs (creates and edits) a reactable.
-  /// - approving: when a reactable is made and awaits for final approval from the user.
-  /// - sent: when the user approved and sent the reactable to our backend.
-  /// - published: when the reactable is successfully saved.
+  /// - directing: when the user directs (creates and edits) a scene.
+  /// - approving: when a scene is made and awaits for final approval from the user.
+  /// - sent: when the user approved and sent the scene to our backend.
+  /// - published: when the scene is successfully saved.
   enum State {
     case directing, approving, sent, published
   }
@@ -188,15 +188,15 @@ class StudioViewModel {
 /// For interaction with relevant view controller.
 protocol StudioViewModelDelegate {
   
-  /// Leave studio, usually following reactable has been successfully saved.
+  /// Leave studio, usually following scene has been successfully saved.
   func leaveStudio()
   
-  /// Displays a preview of the directed reactable.
+  /// Displays a preview of the directed scene.
   ///
-  /// - Parameter reactable: that has just been directed.
-  func displayPreview(of reactable: Reactable?)
+  /// - Parameter scene: that has just been directed.
+  func displayPreview(of scene: Scene?)
   
-  /// Invoked once a HTTP request with the directed reactable has been sent to the server.
+  /// Invoked once a HTTP request with the directed scene has been sent to the server.
   func didSend()
   
   

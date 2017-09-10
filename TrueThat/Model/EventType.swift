@@ -12,13 +12,13 @@ import Foundation
 /// `InteractionEvent` types.
 enum EventType: String {
   
-  /// User viewed a reactable.
+  /// User viewed a scene.
   case view
   
-  /// User reacted to a reactable.
+  /// User reacted to a scene.
   case reaction
   
-  /// Report a reactable as inappropriate.
+  /// Report a scene as inappropriate.
   case report
   
   public var description: String { return self.rawValue }

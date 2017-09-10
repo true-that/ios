@@ -13,15 +13,15 @@ import SwiftyJSON
 import Nimble
 
 class TheaterViewControllerTests : BaseUITests {
-  var fetchedReactables: [Reactable] = []
+  var fetchedScenes: [Scene] = []
   var viewController: TheaterViewController!
   
   override func setUp() {
     super.setUp()
     
     stub(condition: isPath(TheaterApi.path)) {request -> OHHTTPStubsResponse in
-      let stubData = try! JSON(self.fetchedReactables.map{JSON(from: $0)}).rawData()
-      self.fetchedReactables = []
+      let stubData = try! JSON(self.fetchedScenes.map{JSON(from: $0)}).rawData()
+      self.fetchedScenes = []
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
                                  headers: ["Content-Type":"application/json"])
     }
@@ -35,23 +35,23 @@ class TheaterViewControllerTests : BaseUITests {
     expect(self.viewController.view).toNot(beNil())
   }
   
-  func assertDisplayed(reactable: Reactable) {
-    expect(self.viewController.reactablesPageWrapper.reactablesPage.currentViewController?
-      .viewModel?.model).toEventually(equal(reactable))
+  func assertDisplayed(scene: Scene) {
+    expect(self.viewController.scenesPageWrapper.scenesPage.currentViewController?
+      .viewModel?.model).toEventually(equal(scene))
   }
   
-  func testDisplayReactable() {
-    let reactable = Reactable(id: 1, userReaction: .sad,
+  func testDisplayScene() {
+    let scene = Scene(id: 1, userReaction: .sad,
                               director: User(id: 1, firstName: "The", lastName: "Flinstons",
                                              deviceId: "stonePhone"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
                               created: Date(), viewed: false, media: nil)
-    fetchedReactables = [reactable]
+    fetchedScenes = [scene]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
     viewController.didAuthOk()
-    reactable.viewed = true
-    assertDisplayed(reactable: reactable)
+    scene.viewed = true
+    assertDisplayed(scene: scene)
   }
   
   func testNavigation() {
@@ -63,20 +63,20 @@ class TheaterViewControllerTests : BaseUITests {
       .toEventually(beAnInstanceOf(StudioViewController.self))
   }
   
-  func testNavigationWhenReactableDisplayed() {
-    let reactable = Reactable(id: 1, userReaction: .sad,
+  func testNavigationWhenSceneDisplayed() {
+    let scene = Scene(id: 1, userReaction: .sad,
                               director: User(id: 1, firstName: "The", lastName: "Flinstons",
                                              deviceId: "stonePhone"),
                               reactionCounters: [.sad: 1000, .happy: 1234], created: Date(),
                               viewed: false,
                               media: Photo(url: "https://www.bbcgoodfood.com/sites/default/files/styles/carousel_medium/public/chicken-main_0.jpg"))
-    fetchedReactables = [reactable]
+    fetchedScenes = [scene]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
-    reactable.viewed = true
-    assertDisplayed(reactable: reactable)
+    scene.viewed = true
+    assertDisplayed(scene: scene)
     // Swipe up
-    tester().swipeView(withAccessibilityLabel: "reactable view", in: .up)
+    tester().swipeView(withAccessibilityLabel: "scene view", in: .up)
     expect(UITestsHelper.currentViewController)
       .toEventually(beAnInstanceOf(StudioViewController.self))
   }

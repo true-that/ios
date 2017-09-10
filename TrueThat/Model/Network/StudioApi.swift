@@ -12,32 +12,32 @@ import Alamofire
 import SwiftyJSON
 
 /// [backend]: https://github.com/true-that/backend/blob/master/src/main/java/com/truethat/backend/servlet/StudioServlet.java
-/// Api interface to save reactables to out [backend].
+/// Api interface to save scenes to out [backend].
 class StudioApi {
   /// Subpath relative to base backend endpoint.
   static public let path = "/studio"
   
-  /// Reactable part name when uploading a directed reactable
-  static let reactablePart = "reactable"
+  /// Scene part name when uploading a directed scene
+  static let scenePart = "scene"
   
-  /// Media part name of an uploaded reactable
+  /// Media part name of an uploaded scene
   static let mediaPart = "media"
   
   /// Full URL of backend endpoint.
   static var fullUrl: String {
     return Bundle.main.infoDictionary!["API_BASE_URL_ENDPOINT"] as! String + StudioApi.path
   }
-  /// Saves the reactable to our backend
+  /// Saves the scene to our backend
   ///
-  /// - Parameter reactable: to save
+  /// - Parameter scene: to save
   /// - Returns: A reactive producer that invokes success and failure callbacks.
-  public static func save(reactable: Reactable) -> SignalProducer<Reactable, NSError> {
+  public static func save(scene: Scene) -> SignalProducer<Scene, NSError> {
     // TODO: cancel request when view disappears
     return SignalProducer { observer, disposable in
       let request = try! URLRequest(url: StudioApi.fullUrl, method: .post)
       Alamofire.upload(multipartFormData: { multipartFormData in
         App.log.info("MULTIPART \(StudioApi.fullUrl)")
-        reactable.appendTo(multipartFormData: multipartFormData)
+        scene.appendTo(multipartFormData: multipartFormData)
       }, with: request,
          encodingCompletion: {result in
           // The result of craeting a data request
@@ -47,7 +47,7 @@ class StudioApi {
             upload.responseJSON{ response in
               switch response.result {
               case .success:
-                let saved = try? Reactable(json: JSON(response.result.value!))
+                let saved = try? Scene(json: JSON(response.result.value!))
                 if saved != nil {
                   observer.send(value: saved!)
                   observer.sendCompleted()

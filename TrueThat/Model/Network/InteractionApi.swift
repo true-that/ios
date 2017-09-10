@@ -12,7 +12,7 @@ import Alamofire
 import SwiftyJSON
 
 /// [backend endpoint]: https://github.com/true-that/backend/blob/master/src/main/java/com/truethat/backend/servlet/InteractionServlet.java
-/// Api interface to inform our [backend endpoint] of user interaction with reactables.
+/// Api interface to inform our [backend endpoint] of user interaction with scenes.
 class InteractionApi {
   /// Subpath relative to base backend endpoint.
   static public let path = "/interaction"

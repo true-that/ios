@@ -17,7 +17,7 @@ class AuthApi {
   /// Subpath relative to base backend endpoint.
   static public let path = "/auth"
   
-  /// Full URL of backend endpoint from which to fetch reactables.
+  /// Full URL of backend endpoint from which to fetch scenes.
   static var fullUrl: String {
     return Bundle.main.infoDictionary!["API_BASE_URL_ENDPOINT"] as! String + AuthApi.path
   }

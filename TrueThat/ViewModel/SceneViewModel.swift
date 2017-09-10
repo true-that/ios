@@ -7,7 +7,7 @@ import Foundation
 import ReactiveSwift
 import Result
 
-class ReactableViewModel {
+class SceneViewModel {
   public static let reportTitle = "Reported! 👮🏻"
   public static let reportOkText = "got it"
   public static let reportAlert = "Thank you for your alertness."
@@ -20,17 +20,17 @@ class ReactableViewModel {
   public let optionsButtonHidden = MutableProperty(true)
   public let reportHidden = MutableProperty(true)
   
-  var model: Reactable
-  var delegate: ReactableViewDelegate!
+  var model: Scene
+  var delegate: SceneViewDelegate!
   
   // MARK: Initialization
-  init(with reactable: Reactable) {
-    model = reactable
+  init(with scene: Scene) {
+    model = scene
     updateInfo()
     updateReactionCounters()
   }
   
-  /// Updates displayed info about the reactable.
+  /// Updates displayed info about the scene.
   fileprivate func updateInfo() {
     if let displayName = model.director?.displayName {
       directorName.value = displayName
@@ -66,18 +66,18 @@ class ReactableViewModel {
   public func didReport() {
     reportHidden.value = true
     if model.viewed == nil || !model.viewed! {
-      App.log.warning("Tried to report a reactable before viewing it.")
+      App.log.warning("Tried to report a scene before viewing it.")
       return
     }
     let event = InteractionEvent(
       timestamp: Date(), userId: App.authModule.current!.id, reaction: nil,
-      eventType: .report, reactableId: model.id)
+      eventType: .report, sceneId: model.id)
     InteractionApi.save(interaction: event)
       .on(value: {value in
         App.log.debug("Interaction event successfully saved.")
-        self.delegate?.show(alert: ReactableViewModel.reportAlert,
-                            withTitle: ReactableViewModel.reportTitle,
-                            okAction: ReactableViewModel.reportOkText)
+        self.delegate?.show(alert: SceneViewModel.reportAlert,
+                            withTitle: SceneViewModel.reportTitle,
+                            okAction: SceneViewModel.reportOkText)
       })
       .on(failed: {error in
         App.log.report(
@@ -89,10 +89,10 @@ class ReactableViewModel {
   
   // MARK: Lifecycle
   
-  /// Triggered when its corresponding {ReactableViewController} is disappeared.
+  /// Triggered when its corresponding {SceneViewController} is disappeared.
   public func didDisappear() {
-    if (App.detecionModule.delegate is ReactableViewModel &&
-      App.detecionModule.delegate as! ReactableViewModel === self) {
+    if (App.detecionModule.delegate is SceneViewModel &&
+      App.detecionModule.delegate as! SceneViewModel === self) {
       App.detecionModule.delegate = nil
     }
     optionsButtonHidden.value = true
@@ -111,7 +111,7 @@ class ReactableViewModel {
       self.model.viewed = true
       let event = InteractionEvent(
         timestamp: Date(), userId: App.authModule.current!.id, reaction: nil,
-        eventType: .view, reactableId: model.id)
+        eventType: .view, sceneId: model.id)
       InteractionApi.save(interaction: event)
         .on(value: {value in
           App.log.debug("Interaction event successfully saved.")
@@ -123,13 +123,13 @@ class ReactableViewModel {
         })
         .start()
     }
-    // Sets the detection delegate to this reactable.
+    // Sets the detection delegate to this scene.
     App.detecionModule.delegate = self
   }
 }
 
 // MARK: ReactionDetectionDelegate
-extension ReactableViewModel: ReactionDetectionDelegate {
+extension SceneViewModel: ReactionDetectionDelegate {
   func didDetect(reaction: Emotion) {
     App.detecionModule.delegate = nil
     if (model.canReact(user: App.authModule.current!)) {
@@ -139,7 +139,7 @@ extension ReactableViewModel: ReactionDetectionDelegate {
       delegate.animateReactionImage()
       let event = InteractionEvent(
         timestamp: Date(), userId: App.authModule.current!.id, reaction: reaction,
-        eventType: .reaction, reactableId: model.id)
+        eventType: .reaction, sceneId: model.id)
       InteractionApi.save(interaction: event)
         .on(value: {value in
           App.log.debug("Interaction event successfully saved.")
@@ -153,7 +153,7 @@ extension ReactableViewModel: ReactionDetectionDelegate {
   }
 }
 
-protocol ReactableViewDelegate {
+protocol SceneViewDelegate {
   
   /// Animates emotional reation image, so that the user see his reaction was captured.
   func animateReactionImage()

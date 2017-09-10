@@ -15,14 +15,15 @@ import Nimble
 
 
 class RepertoireApiTests: XCTestCase {
-  var reactables: [Reactable] = []
-  var actual: [Reactable]?
+  var scenes: [Scene] = []
+  var actual: [Scene]?
   var error: NSError?
+  let user = User(id: nil, firstName: nil, lastName: nil, deviceId: nil)
   
   override func setUp() {
     super.setUp()
     stub(condition: isPath(RepertoireApi.path)) {request -> OHHTTPStubsResponse in
-      let stubData = try! JSON(self.reactables.map{JSON(from: $0)}).rawData()
+      let stubData = try! JSON(self.scenes.map{JSON(from: $0)}).rawData()
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
                                  headers: ["Content-Type":"application/json"])
     }
@@ -31,7 +32,7 @@ class RepertoireApiTests: XCTestCase {
   }
   
   func fetch() {
-    _ = RepertoireApi.fetchReactables(for: App.authModule.current!)
+    _ = RepertoireApi.fetchScenes(for: user)
       .on(value: {
         self.actual = $0
       })
@@ -42,37 +43,36 @@ class RepertoireApiTests: XCTestCase {
   }
   
   func testSuccessfulFetch() {
-    reactables = [Reactable(id: 1, userReaction: .sad,
-                            director: App.authModule.current,
-                            reactionCounters: [.sad: 1000, .happy: 1234],
-                            created: Date(), viewed: false, media: nil),
-                  Reactable(id: 2, userReaction: .happy,
-                            director: App.authModule.current,
-                            reactionCounters: [.sad: 2000, .happy: 100234],
-                            created: Date(), viewed: true, media: nil)]
+    scenes = [Scene(id: 1, userReaction: .sad,
+                    director: user,
+                    reactionCounters: [.sad: 1000, .happy: 1234],
+                    created: Date(), viewed: false, media: nil),
+              Scene(id: 2, userReaction: .happy,
+                    director: user,
+                    reactionCounters: [.sad: 2000, .happy: 100234],
+                    created: Date(), viewed: true, media: nil)]
     fetch()
-    expect(self.actual).toEventually(equal(reactables))
+    expect(self.actual).toEventually(equal(scenes))
   }
   
   func testFetchMultipleTypes() {
-    reactables = [Reactable(id: 1, userReaction: .sad,
-                            director: App.authModule.current,
-                            reactionCounters: [.sad: 1000, .happy: 1234],
-                            created: Date(), viewed: false, media: nil),
-                  Reactable(id: 2, userReaction: .happy,
-                            director: App.authModule.current,
-                            reactionCounters: [.sad: 2000, .happy: 100234],
-                            created: Date(), viewed: true,
-                            media: Photo(url: "http://truethat-ipo.jpg"))]
+    scenes = [Scene(id: 1, userReaction: .sad,
+                    director: user,
+                    reactionCounters: [.sad: 1000, .happy: 1234],
+                    created: Date(), viewed: false, media: nil),
+              Scene(id: 2, userReaction: .happy,
+                    director: user,
+                    reactionCounters: [.sad: 2000, .happy: 100234],
+                    created: Date(), viewed: true,
+                    media: Photo(url: "http://truethat-ipo.jpg"))]
     fetch()
-    expect(self.actual).toEventually(equal(reactables))
-    expect(self.actual![1].media).toEventually(beAnInstanceOf(Photo.self))
+    expect(self.actual).toEventually(equal(scenes))
   }
   
   func testEmptyFetch() {
-    reactables = []
+    scenes = []
     fetch()
-    expect(self.actual).toEventually(equal(reactables))
+    expect(self.actual).toEventually(equal(scenes))
   }
   
   func testBadResponse() {
@@ -80,10 +80,10 @@ class RepertoireApiTests: XCTestCase {
       return OHHTTPStubsResponse(error: NSError(domain: Bundle.main.bundleIdentifier!, code: 1,
                                                 userInfo: nil))
     }
-    reactables = [Reactable(id: 1, userReaction: .sad,
-                            director: App.authModule.current,
-                            reactionCounters: [.sad: 1000, .happy: 1234],
-                            created: Date(), viewed: false, media: nil)]
+    scenes = [Scene(id: 1, userReaction: .sad,
+                    director: user,
+                    reactionCounters: [.sad: 1000, .happy: 1234],
+                    created: Date(), viewed: false, media: nil)]
     fetch()
     expect(self.error).toEventuallyNot(beNil())
   }

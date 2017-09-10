@@ -16,7 +16,7 @@ class StudioViewController: BaseViewController {
   // MARK: Peroperties
   var viewModel: StudioViewModel!
   var swiftyCam: SwiftyCamViewController!
-  var reactablePreview: MediaViewController?
+  var scenePreview: MediaViewController?
   
   @IBOutlet weak var captureButton: SwiftyCamButton!
   @IBOutlet weak var cancelButton: UIImageView!
@@ -89,7 +89,7 @@ class StudioViewController: BaseViewController {
     cancelButton.image = UIImage(named: "cross.png")
     view.bringSubview(toFront: cancelButton)
     switchCameraButton.image = UIImage(named: "switch_camera.png")
-    sendButton.image = UIImage(named: "send_reactable.png")
+    sendButton.image = UIImage(named: "send_scene.png")
     
     // Initialize visibility hooks
     captureButton.reactive.isHidden <~ viewModel.captureButtonHidden
@@ -117,7 +117,7 @@ class StudioViewController: BaseViewController {
       animated: true, completion: nil)
   }
   
-  /// Triggered when the user cancels a reactable that he directed (i.e. when he didn't the photo)
+  /// Triggered when the user cancels a scene that he directed (i.e. when he didn't the photo)
   @objc private func didCancel() {
     viewModel.willDirect()
   }
@@ -141,31 +141,31 @@ extension StudioViewController: StudioViewModelDelegate {
       animated: true, completion: nil)
   }
   
-  func displayPreview(of reactable: Reactable?) {
+  func displayPreview(of scene: Scene?) {
     // Remove previous preview
-    if reactablePreview != nil {
-      reactablePreview!.willMove(toParentViewController: nil)
-      reactablePreview!.view.removeFromSuperview()
-      reactablePreview!.removeFromParentViewController()
-      reactablePreview = nil
+    if scenePreview != nil {
+      scenePreview!.willMove(toParentViewController: nil)
+      scenePreview!.view.removeFromSuperview()
+      scenePreview!.removeFromParentViewController()
+      scenePreview = nil
     }
-    guard reactable != nil else {
+    guard scene != nil else {
       return
     }
-    // Add reactable preview
-    reactablePreview = MediaViewController.instantiate(with: reactable?.media)
-    guard reactablePreview != nil else {
+    // Add scene preview
+    scenePreview = MediaViewController.instantiate(with: scene?.media)
+    guard scenePreview != nil else {
       return
     }
-    self.addChildViewController(reactablePreview!)
-    self.view.addSubview(reactablePreview!.view)
-    self.view.sendSubview(toBack: reactablePreview!.view)
-    reactablePreview!.view.reactive.isHidden <~ viewModel.reactablePreviewHidden
+    self.addChildViewController(scenePreview!)
+    self.view.addSubview(scenePreview!.view)
+    self.view.sendSubview(toBack: scenePreview!.view)
+    scenePreview!.view.reactive.isHidden <~ viewModel.scenePreviewHidden
   }
   
   func didSend() {
-    if reactablePreview is VideoViewController {
-      (reactablePreview as! VideoViewController).player?.pause()
+    if scenePreview is VideoViewController {
+      (scenePreview as! VideoViewController).player?.pause()
     }
   }
   

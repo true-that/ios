@@ -13,17 +13,17 @@ import SwiftyBeaver
 
 class RepertoireViewController: BaseViewController {
   // MARK: Properties
-  var reactablesPageWrapper: ReactablesPageWrapperViewController!
+  var scenesPageWrapper: ScenesPageWrapperViewController!
   
   // MARK: Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    // Loads reactables container
-    reactablesPageWrapper = ReactablesPageWrapperViewController.instantiate(doDetection: true)
-    self.addChildViewController(reactablesPageWrapper)
-    self.view.addSubview(reactablesPageWrapper.view)
-    reactablesPageWrapper.viewModel.fetchingDelegate = self
+    // Loads scenes container
+    scenesPageWrapper = ScenesPageWrapperViewController.instantiate(doDetection: true)
+    self.addChildViewController(scenesPageWrapper)
+    self.view.addSubview(scenesPageWrapper.view)
+    scenesPageWrapper.viewModel.fetchingDelegate = self
     
     // Navigation swipe gesture
     let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.navigateToStudio))
@@ -33,7 +33,7 @@ class RepertoireViewController: BaseViewController {
   
   override func didAuthOk() {
     super.didAuthOk()
-    reactablesPageWrapper.didAuthOk()
+    scenesPageWrapper.didAuthOk()
   }
   
   // MARK: View Controller Navigation
@@ -45,9 +45,9 @@ class RepertoireViewController: BaseViewController {
   }
 }
 
-// MARK: FetchReactablesDelegate
-extension RepertoireViewController: FetchReactablesDelegate {
-  @discardableResult func fetchingProducer() -> SignalProducer<[Reactable], NSError> {
-    return RepertoireApi.fetchReactables(for: App.authModule.current!)
+// MARK: FetchScenesDelegate
+extension RepertoireViewController: FetchScenesDelegate {
+  @discardableResult func fetchingProducer() -> SignalProducer<[Scene], NSError> {
+    return RepertoireApi.fetchScenes(for: App.authModule.current!)
   }
 }

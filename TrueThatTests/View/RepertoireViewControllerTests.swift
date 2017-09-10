@@ -13,15 +13,15 @@ import SwiftyJSON
 import Nimble
 
 class RepertoireViewControllerTests : BaseUITests {
-  var fetchedReactables: [Reactable] = []
+  var fetchedScenes: [Scene] = []
   var viewController: RepertoireViewController!
   
   override func setUp() {
     super.setUp()
     
     stub(condition: isPath(RepertoireApi.path)) {request -> OHHTTPStubsResponse in
-      let stubData = try! JSON(self.fetchedReactables.map{JSON(from: $0)}).rawData()
-      self.fetchedReactables = []
+      let stubData = try! JSON(self.fetchedScenes.map{JSON(from: $0)}).rawData()
+      self.fetchedScenes = []
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
                                  headers: ["Content-Type":"application/json"])
     }
@@ -35,24 +35,24 @@ class RepertoireViewControllerTests : BaseUITests {
     expect(self.viewController.view).toNot(beNil())
   }
   
-  func assertDisplayed(reactable: Reactable) {
-    expect(self.viewController.reactablesPageWrapper.reactablesPage.currentViewController?
-      .viewModel?.model.id).toEventually(equal(reactable.id))
-    expect(self.viewController.reactablesPageWrapper.reactablesPage.currentViewController?
+  func assertDisplayed(scene: Scene) {
+    expect(self.viewController.scenesPageWrapper.scenesPage.currentViewController?
+      .viewModel?.model.id).toEventually(equal(scene.id))
+    expect(self.viewController.scenesPageWrapper.scenesPage.currentViewController?
       .viewModel?.model.viewed).toEventually(beTrue())
   }
   
-  func testDisplayReactable() {
-    let reactable = Reactable(id: 1, userReaction: .sad,
+  func testDisplayScene() {
+    let scene = Scene(id: 1, userReaction: .sad,
                               director: User(id: 1, firstName: "The", lastName: "Flinstons",
                                              deviceId: "stonePhone"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
                               created: Date(), viewed: false, media: nil)
-    fetchedReactables = [reactable]
+    fetchedScenes = [scene]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
     viewController.didAuthOk()
-    assertDisplayed(reactable: reactable)
+    assertDisplayed(scene: scene)
   }
   
   func testNavigation() {
@@ -64,18 +64,18 @@ class RepertoireViewControllerTests : BaseUITests {
       .toEventually(beAnInstanceOf(StudioViewController.self))
   }
   
-  func testNavigationWhenReactableDisplayed() {
-    let reactable = Reactable(id: 1, userReaction: .sad,
+  func testNavigationWhenSceneDisplayed() {
+    let scene = Scene(id: 1, userReaction: .sad,
                               director: User(id: 1, firstName: "The", lastName: "Flinstons",
                                              deviceId: "stonePhone"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
                               created: Date(), viewed: false, media: nil)
-    fetchedReactables = [reactable]
+    fetchedScenes = [scene]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
-    assertDisplayed(reactable: reactable)
+    assertDisplayed(scene: scene)
     // Swipe up
-    tester().swipeView(withAccessibilityLabel: "reactable view", in: .down)
+    tester().swipeView(withAccessibilityLabel: "scene view", in: .down)
     expect(UITestsHelper.currentViewController)
       .toEventually(beAnInstanceOf(StudioViewController.self))
   }

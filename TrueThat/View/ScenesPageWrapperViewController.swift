@@ -1,5 +1,5 @@
 //
-//  ReactablesPageWrapperViewController.swift
+//  ScenesPageWrapperViewController.swift
 //  TrueThat
 //
 //  Created by Ohad Navon on 24/08/2017.
@@ -10,23 +10,23 @@ import UIKit
 import ReactiveSwift
 import ReactiveCocoa
 
-class ReactablesPageWrapperViewController: UIViewController {
+class ScenesPageWrapperViewController: UIViewController {
   // MARK: Propertoes
-  var viewModel: ReactablesPageViewModel!
-  var reactablesPage: ReactablesPageViewController!
+  var viewModel: ScenesPageViewModel!
+  var scenesPage: ScenesPageViewController!
   var doDetection = false
   @IBOutlet weak var nonFoundStackView: UIStackView!
   @IBOutlet weak var nonFoundLabel: UILabel!
   @IBOutlet weak var nonFoundImageView: UIImageView!
   @IBOutlet weak var loadingImage: UIImageView!
   /// View controllers that are displayed in this page, ordered by order of appearance.
-  var orderedViewControllers = [ReactableViewController]()
+  var orderedViewControllers = [SceneViewController]()
   
   // MARK: Initializers
-  static func instantiate(doDetection: Bool) -> ReactablesPageWrapperViewController {
+  static func instantiate(doDetection: Bool) -> ScenesPageWrapperViewController {
     let viewController = UIStoryboard(name: "Main", bundle: Bundle.main)
-      .instantiateViewController(withIdentifier: "ReactablesPageWrapperScene")
-      as! ReactablesPageWrapperViewController
+      .instantiateViewController(withIdentifier: "ScenesPageWrapperScene")
+      as! ScenesPageWrapperViewController
     viewController.doDetection = doDetection
     return viewController
   }
@@ -36,15 +36,15 @@ class ReactablesPageWrapperViewController: UIViewController {
     super.viewDidLoad()
     App.log.debug("viewDidLoad")
     
-    // Loads reactables container
-    reactablesPage = ReactablesPageViewController.instantiate()
-    self.addChildViewController(reactablesPage)
-    self.view.addSubview(reactablesPage.view)
+    // Loads scenes container
+    scenesPage = ScenesPageViewController.instantiate()
+    self.addChildViewController(scenesPage)
+    self.view.addSubview(scenesPage.view)
     
     if (viewModel == nil) {
-      viewModel = ReactablesPageViewModel()
-      viewModel.delegate = reactablesPage
-      reactablesPage.viewModel = viewModel
+      viewModel = ScenesPageViewModel()
+      viewModel.delegate = scenesPage
+      scenesPage.viewModel = viewModel
     }
     // Sets up visibility
     nonFoundStackView.reactive.isHidden <~ viewModel.nonFoundHidden
@@ -76,7 +76,7 @@ class ReactablesPageWrapperViewController: UIViewController {
   }
   
   func fetchIfEmpty() {
-    if viewModel.reactables.count == 0 {
+    if viewModel.scenes.count == 0 {
       viewModel.fetchingData()
     }
   }

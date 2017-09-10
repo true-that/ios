@@ -23,27 +23,27 @@ class InteractionEvent: BaseModel {
   /// Interaction type
   var eventType: EventType?
   
-  /// Of the {Reactable} that was interacted with.
-  var reactableId: Int64?
+  /// Of the {Scene} that was interacted with.
+  var sceneId: Int64?
   
   // MARK: Initialization
   init(timestamp: Date?, userId: Int64?, reaction: Emotion?, eventType: EventType?,
-       reactableId: Int64?) {
+       sceneId: Int64?) {
     super.init()
     self.timestamp = timestamp
     self.userId = userId
     self.reaction = reaction
     self.eventType = eventType
-    self.reactableId = reactableId
+    self.sceneId = sceneId
   }
-  
+
   required init(json: JSON) {
     super.init(json: json)
     timestamp = DateHelper.utcDate(fromString: json["timestamp"].string)
     userId = json["userId"].int64
     reaction = Emotion.toEmotion(json["reaction"].string)
     eventType = EventType.toEventType(json["eventType"].string)
-    reactableId = json["reactableId"].int64
+    sceneId = json["sceneId"].int64
   }
   
   // MARK: Overriden methods
@@ -53,7 +53,7 @@ class InteractionEvent: BaseModel {
     if userId != nil {dictionary["userId"] = userId}
     if reaction != nil {dictionary["reaction"] = reaction?.rawValue.snakeCased()!.uppercased()}
     if eventType != nil {dictionary["eventType"] = eventType?.rawValue.snakeCased()!.uppercased()}
-    if reactableId != nil {dictionary["reactableId"] = reactableId}
+    if sceneId != nil {dictionary["sceneId"] = sceneId}
     return dictionary
   }
 }

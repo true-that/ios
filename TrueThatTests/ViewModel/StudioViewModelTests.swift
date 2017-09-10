@@ -21,7 +21,7 @@ class StudioViewModelTests: BaseTests {
   override func setUp() {
     super.setUp()
     stub(condition: isPath(StudioApi.path)) {request -> OHHTTPStubsResponse in
-      let stubData = try! JSON(from: Reactable(
+      let stubData = try! JSON(from: Scene(
         id: 1, userReaction: nil, director: nil, reactionCounters: nil, created: nil, viewed: nil,
         media: nil))
         .rawData()
@@ -48,11 +48,11 @@ class StudioViewModelTests: BaseTests {
     // Cancel & send buttons are hidden
     expect(self.viewModel.cancelButtonHidden.value).to(beTrue())
     expect(self.viewModel.sendButtonHidden.value).to(beTrue())
-    // Should not store directed reactable
+    // Should not store directed scene
     expect(self.viewModel.directed).to(beNil())
     expect(self.viewModelDelegate.displayed).to(beNil())
-    // Should hide directed reactable
-    expect(self.viewModel.reactablePreviewHidden.value).to(beTrue())
+    // Should hide directed scene
+    expect(self.viewModel.scenePreviewHidden.value).to(beTrue())
     // Loading image should be hidden
     expect(self.viewModel.loadingImageHidden.value).to(beTrue())
   }
@@ -68,11 +68,11 @@ class StudioViewModelTests: BaseTests {
     // Cancel & send buttons are exposed
     expect(self.viewModel.cancelButtonHidden.value).to(beFalse())
     expect(self.viewModel.sendButtonHidden.value).to(beFalse())
-    // Should have a directed reactable
+    // Should have a directed scene
     expect(self.viewModel.directed).toNot(beNil())
     expect(self.viewModelDelegate.displayed).to(equal(self.viewModel.directed))
-    // Should show directed reactable
-    expect(self.viewModel.reactablePreviewHidden.value).to(beFalse())
+    // Should show directed scene
+    expect(self.viewModel.scenePreviewHidden.value).to(beFalse())
     // Loading image should be hidden
     expect(self.viewModel.loadingImageHidden.value).to(beTrue())
   }
@@ -157,15 +157,15 @@ class StudioViewModelTests: BaseTests {
   class StudioViewModelTestsDelegate : StudioViewModelDelegate {
     var leftStudio = false
     var sent = false
-    var displayed: Reactable?
+    var displayed: Scene?
     var alertDidShow = false
     
     func leaveStudio() {
       leftStudio = true
     }
     
-    func displayPreview(of reactable: Reactable?) {
-      displayed = reactable
+    func displayPreview(of scene: Scene?) {
+      displayed = scene
     }
     
     func didSend() {

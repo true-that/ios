@@ -5,7 +5,7 @@
 
 import Foundation
 
-/// Emotions to describe emotional reaction to reactables.
+/// Emotions to describe emotional reaction to scenes.
 enum Emotion: String {
   case happy, sad
   

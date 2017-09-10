@@ -1,5 +1,5 @@
 //
-//  ReactablesPageViewModel.swift
+//  ScenesPageViewModel.swift
 //  TrueThat
 //
 //  Created by Ohad Navon on 13/07/2017.
@@ -9,15 +9,15 @@
 import Foundation
 import ReactiveSwift
 
-class ReactablesPageViewModel {
+class ScenesPageViewModel {
   public let nonFoundHidden = MutableProperty(true)
   public let loadingImageHidden = MutableProperty(false)
-  var reactables = [Reactable]()
-  var delegate: ReactablesPageDelegate!
-  var fetchingDelegate: FetchReactablesDelegate!
+  var scenes = [Scene]()
+  var delegate: ScenesPageDelegate!
+  var fetchingDelegate: FetchScenesDelegate!
   var currentIndex = 0
   
-  /// Updates `currentIndex` to previous reactable, if not already at the first one.
+  /// Updates `currentIndex` to previous scene, if not already at the first one.
   ///
   /// - Returns: the updated `currentIndex`, or nil if no update was made.
   public func navigatePrevious() -> Int? {
@@ -31,14 +31,14 @@ class ReactablesPageViewModel {
     return currentIndex
   }
   
-  /// Updates `currentIndex` to previous reactable, if not already at the last one.
+  /// Updates `currentIndex` to previous scene, if not already at the last one.
   ///
   /// - Returns: the updated `currentIndex`, or nil if no update was made.
   public func navigateNext() -> Int? {
     let nextIndex = currentIndex + 1
     
     // User is on the last view controller and swiped right.
-    guard reactables.count != nextIndex else {
+    guard scenes.count != nextIndex else {
       fetchingData()
       return nil
     }
@@ -47,10 +47,10 @@ class ReactablesPageViewModel {
     return currentIndex
   }
   
-  /// Fetch new reactables from our backend.
+  /// Fetch new scenes from our backend.
   public func fetchingData() {
-    App.log.debug("fetching reactables")
-    if reactables.isEmpty {
+    App.log.debug("fetching scenes")
+    if scenes.isEmpty {
       loadingImageHidden.value = false
     }
     fetchingDelegate.fetchingProducer()
@@ -58,35 +58,35 @@ class ReactablesPageViewModel {
       .on(failed: {error in
         App.log.report("Failed fetch request: \(error)", withError: error)
         self.loadingImageHidden.value = true
-        if self.reactables.isEmpty {
+        if self.scenes.isEmpty {
           self.nonFoundHidden.value = false
         }
       })
       .start()
   }
   
-  /// Append the fetched reactables to `reactables` and notify the view controller.
+  /// Append the fetched scenes to `scenes` and notify the view controller.
   ///
-  /// - Parameter newReactables: freshly baked reactables, obvuala!
-  private func adding(_ newReactables: [Reactable]) {
+  /// - Parameter newScenes: freshly baked scenes, obvuala!
+  private func adding(_ newScenes: [Scene]) {
     loadingImageHidden.value = true
-    if newReactables.count > 0 {
-      let shouldScroll = reactables.count > 0
-      currentIndex = reactables.count
-      reactables += newReactables
-      delegate.updatingData(with: newReactables)
+    if newScenes.count > 0 {
+      let shouldScroll = scenes.count > 0
+      currentIndex = scenes.count
+      scenes += newScenes
+      delegate.updatingData(with: newScenes)
       if (shouldScroll) {
         delegate.scroll(to: currentIndex)
       } else {
         delegate.display(at: currentIndex)
       }
-    } else if reactables.count == 0 {
+    } else if scenes.count == 0 {
       nonFoundHidden.value = false
     }
   }
 }
 
-protocol ReactablesPageDelegate {
+protocol ScenesPageDelegate {
   /// Displays the view controller at the given index. Should be used when no view controllers have
   /// already been displayed.
   ///
@@ -101,11 +101,11 @@ protocol ReactablesPageDelegate {
   
   /// Updates the data source of the page view controller
   ///
-  /// - Parameter newReactables: new data models to create view controllers from.
-  func updatingData(with newReactables: [Reactable])
+  /// - Parameter newScenes: new data models to create view controllers from.
+  func updatingData(with newScenes: [Scene])
 }
 
-protocol FetchReactablesDelegate {
-  /// - Returns: a signal producer to fetch reactables from our backend.
-  @discardableResult func fetchingProducer() -> SignalProducer<[Reactable], NSError>
+protocol FetchScenesDelegate {
+  /// - Returns: a signal producer to fetch scenes from our backend.
+  @discardableResult func fetchingProducer() -> SignalProducer<[Scene], NSError>
 }

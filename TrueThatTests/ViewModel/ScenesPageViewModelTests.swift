@@ -1,5 +1,5 @@
 //
-//  ReactablesPageViewModelTests.swift
+//  ScenesPageViewModelTests.swift
 //  TrueThat
 //
 //  Created by Ohad Navon on 28/07/2017.
@@ -14,25 +14,25 @@ import SwiftyJSON
 import Nimble
 
 
-class ReactablesPageViewModelTests: BaseTests {
-  var fetchedReactables: [Reactable] = []
-  var viewModel: ReactablesPageViewModel!
-  var viewModelDelegate: FakeReactablesPageDelegate!
+class ScenesPageViewModelTests: BaseTests {
+  var fetchedScenes: [Scene] = []
+  var viewModel: ScenesPageViewModel!
+  var viewModelDelegate: FakeScenesPageDelegate!
   
   override func setUp() {
     super.setUp()
     stub(condition: isPath(TheaterApi.path)) {request -> OHHTTPStubsResponse in
       expect(User(json: JSON(Data(fromStream: request.httpBodyStream!))))
         .to(equal(App.authModule.current!))
-      let stubData = try! JSON(self.fetchedReactables.map{JSON(from: $0)}).rawData()
-      self.fetchedReactables = []
+      let stubData = try! JSON(self.fetchedScenes.map{JSON(from: $0)}).rawData()
+      self.fetchedScenes = []
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
                                  headers: ["Content-Type":"application/json"])
     }
-    viewModel = ReactablesPageViewModel()
-    viewModelDelegate = FakeReactablesPageDelegate()
+    viewModel = ScenesPageViewModel()
+    viewModelDelegate = FakeScenesPageDelegate()
     viewModel.delegate = viewModelDelegate
-    viewModel.fetchingDelegate = TestsFetchReactablesDelegate()
+    viewModel.fetchingDelegate = TestsFetchScenesDelegate()
   }
   
   override func tearDown() {
@@ -40,34 +40,34 @@ class ReactablesPageViewModelTests: BaseTests {
     super.tearDown()
   }
   
-  func testDisplayReactable() {
-    let reactable = Reactable(id: 1, userReaction: .sad,
+  func testDisplayScene() {
+    let scene = Scene(id: 1, userReaction: .sad,
                               director: User(id: 1, firstName: "Todo", lastName: "Bom",
                                              deviceId: "android"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
                               created: Date(), viewed: false, media: nil)
-    fetchedReactables = [reactable]
+    fetchedScenes = [scene]
     viewModel.fetchingData()
     // Loading image should now be visible
     expect(self.viewModel.loadingImageHidden.value).to(beFalse())
-    // Test proper reactable displayed
-    expect(self.viewModel.reactables).toEventually(haveCount(1))
-    expect(self.viewModel.reactables[0]).to(equal(reactable))
+    // Test proper scene displayed
+    expect(self.viewModel.scenes).toEventually(haveCount(1))
+    expect(self.viewModel.scenes[0]).to(equal(scene))
     expect(self.viewModelDelegate.currentIndex).to(equal(0))
     expect(self.viewModelDelegate.lastUpdate).to(haveCount(1))
-    expect(self.viewModelDelegate.lastUpdate?[0]).to(equal(reactable))
+    expect(self.viewModelDelegate.lastUpdate?[0]).to(equal(scene))
     expect(self.viewModel.nonFoundHidden.value).to(beTrue())
     // Loading image should now be hidden
     expect(self.viewModel.loadingImageHidden.value).to(beTrue())
   }
   
   func testEmptyFetch() {
-    fetchedReactables = []
+    fetchedScenes = []
     viewModel.fetchingData()
     // Loading image should now be visible
     expect(self.viewModel.loadingImageHidden.value).to(beFalse())
-    // No reactables should be displayed
-    expect(self.viewModel.reactables).toNotEventually(haveCount(1))
+    // No scenes should be displayed
+    expect(self.viewModel.scenes).toNotEventually(haveCount(1))
     expect(self.viewModelDelegate.currentIndex == nil).toNotEventually(beFalse())
     expect(self.viewModel.nonFoundHidden.value).toEventually(beFalse())
     // Loading image should now be hidden
@@ -82,17 +82,17 @@ class ReactablesPageViewModelTests: BaseTests {
       return OHHTTPStubsResponse(data: Data(), statusCode: 500,
                                  headers: ["Content-Type":"application/json"])
     }
-    let reactable = Reactable(id: 1, userReaction: .sad,
+    let scene = Scene(id: 1, userReaction: .sad,
                               director: User(id: 1, firstName: "Todo", lastName: "Bom",
                                              deviceId: "android"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
                               created: Date(), viewed: false, media: nil)
-    fetchedReactables = [reactable]
+    fetchedScenes = [scene]
     viewModel.fetchingData()
     // Loading image should now be visible
     expect(self.viewModel.loadingImageHidden.value).to(beFalse())
-    // No reactables should be displayed
-    expect(self.viewModel.reactables).toNotEventually(haveCount(1))
+    // No scenes should be displayed
+    expect(self.viewModel.scenes).toNotEventually(haveCount(1))
     expect(self.viewModelDelegate.currentIndex == nil).toNotEventually(beFalse())
     expect(self.viewModel.nonFoundHidden.value).toEventually(beFalse())
     // Loading image should now be hidden
@@ -100,24 +100,24 @@ class ReactablesPageViewModelTests: BaseTests {
   }
 
   func testNavigateNext() {
-    let reactable1 = Reactable(id: 1, userReaction: .sad,
+    let scene1 = Scene(id: 1, userReaction: .sad,
                               director: User(id: 1, firstName: "Todo", lastName: "Bom",
                                              deviceId: "android"),
                               reactionCounters: [.sad: 1000, .happy: 1234],
                               created: Date(), viewed: false, media: nil)
-    let reactable2 = Reactable(id: 2, userReaction: .happy,
+    let scene2 = Scene(id: 2, userReaction: .happy,
                               director: User(id: 1, firstName: "Dubi", lastName: "Gal",
                                              deviceId: "iphone"),
                               reactionCounters: [.sad: 5000, .happy: 34],
                               created: Date(), viewed: true, media: nil)
-    fetchedReactables = [reactable1, reactable2]
+    fetchedScenes = [scene1, scene2]
     viewModel.fetchingData()
-    expect(self.viewModel.reactables).toEventually(haveCount(2))
-    expect(self.viewModel.reactables[0]).to(equal(reactable1))
-    expect(self.viewModel.reactables[1]).to(equal(reactable2))
+    expect(self.viewModel.scenes).toEventually(haveCount(2))
+    expect(self.viewModel.scenes[0]).to(equal(scene1))
+    expect(self.viewModel.scenes[1]).to(equal(scene2))
     expect(self.viewModelDelegate.currentIndex).to(equal(0))
     expect(self.viewModelDelegate.lastUpdate).to(haveCount(2))
-    expect(self.viewModelDelegate.lastUpdate).to(equal(self.viewModel.reactables))
+    expect(self.viewModelDelegate.lastUpdate).to(equal(self.viewModel.scenes))
     // Navigating next
     expect(self.viewModel.navigateNext()).to(equal(1))
     expect(self.viewModel.currentIndex).to(equal(1))
@@ -128,48 +128,48 @@ class ReactablesPageViewModelTests: BaseTests {
   }
   
   func testNavigateNextFetchNewData() {
-    let reactable1 = Reactable(id: 1, userReaction: .sad,
+    let scene1 = Scene(id: 1, userReaction: .sad,
                                director: User(id: 1, firstName: "Todo", lastName: "Bom",
                                               deviceId: "android"),
                                reactionCounters: [.sad: 1000, .happy: 1234],
                                created: Date(), viewed: false, media: nil)
-    let reactable2 = Reactable(id: 2, userReaction: .happy,
+    let scene2 = Scene(id: 2, userReaction: .happy,
                                director: User(id: 1, firstName: "Dubi", lastName: "Gal",
                                               deviceId: "iphone"),
                                reactionCounters: [.sad: 5000, .happy: 34],
                                created: Date(), viewed: true, media: nil)
-    fetchedReactables = [reactable1]
+    fetchedScenes = [scene1]
     viewModel.fetchingData()
-    expect(self.viewModel.reactables).toEventually(haveCount(1))
+    expect(self.viewModel.scenes).toEventually(haveCount(1))
     expect(self.viewModel.currentIndex).to(equal(0))
     // Prepares new fetch
-    fetchedReactables = [reactable2]
+    fetchedScenes = [scene2]
     // Navigating next (should not alter index)
     expect(self.viewModel.navigateNext()).to(beNil())
     expect(self.viewModel.currentIndex).to(equal(0))
     // Loading image should now be hidden
     expect(self.viewModel.loadingImageHidden.value).to(beTrue())
-    expect(self.viewModel.reactables).toEventually(haveCount(2))
-    // Should navigate as soon as new reactables are fetched
+    expect(self.viewModel.scenes).toEventually(haveCount(2))
+    // Should navigate as soon as new scenes are fetched
     expect(self.viewModel.currentIndex).to(equal(1))
     expect(self.viewModelDelegate.currentIndex).to(equal(1))
     
   }
   
   func testNavigatePrevious() {
-    let reactable1 = Reactable(id: 1, userReaction: .sad,
+    let scene1 = Scene(id: 1, userReaction: .sad,
                                director: User(id: 1, firstName: "Todo", lastName: "Bom",
                                               deviceId: "android"),
                                reactionCounters: [.sad: 1000, .happy: 1234],
                                created: Date(), viewed: false, media: nil)
-    let reactable2 = Reactable(id: 2, userReaction: .happy,
+    let scene2 = Scene(id: 2, userReaction: .happy,
                                director: User(id: 1, firstName: "Dubi", lastName: "Gal",
                                               deviceId: "iphone"),
                                reactionCounters: [.sad: 5000, .happy: 34],
                                created: Date(), viewed: true, media: nil)
-    fetchedReactables = [reactable1, reactable2]
+    fetchedScenes = [scene1, scene2]
     viewModel.fetchingData()
-    expect(self.viewModel.reactables).toEventually(haveCount(2))
+    expect(self.viewModel.scenes).toEventually(haveCount(2))
     // Navigating next
     expect(self.viewModel.navigateNext()).to(equal(1))
     // NAvigating previous
@@ -180,9 +180,9 @@ class ReactablesPageViewModelTests: BaseTests {
     expect(self.viewModel.navigatePrevious()).to(beNil())
   }
   
-  class FakeReactablesPageDelegate: ReactablesPageDelegate {
+  class FakeScenesPageDelegate: ScenesPageDelegate {
     var currentIndex: Int?
-    var lastUpdate: [Reactable]?
+    var lastUpdate: [Scene]?
     
     func display(at index: Int) {
       currentIndex = index
@@ -192,14 +192,14 @@ class ReactablesPageViewModelTests: BaseTests {
       display(at: index)
     }
     
-    func updatingData(with newReactables: [Reactable]) {
-      lastUpdate = newReactables
+    func updatingData(with newScenes: [Scene]) {
+      lastUpdate = newScenes
     }
   }
   
-  class TestsFetchReactablesDelegate: FetchReactablesDelegate {
-    @discardableResult func fetchingProducer() -> SignalProducer<[Reactable], NSError> {
-      return TheaterApi.fetchReactables(for: App.authModule.current!)
+  class TestsFetchScenesDelegate: FetchScenesDelegate {
+    @discardableResult func fetchingProducer() -> SignalProducer<[Scene], NSError> {
+      return TheaterApi.fetchScenes(for: App.authModule.current!)
     }
   }
 }

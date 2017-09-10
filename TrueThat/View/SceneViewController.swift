@@ -7,9 +7,9 @@ import UIKit
 import ReactiveCocoa
 import ReactiveSwift
 
-class ReactableViewController: UIViewController {
+class SceneViewController: UIViewController {
   // MARK: Properties
-  public var viewModel: ReactableViewModel!
+  public var viewModel: SceneViewModel!
   var mediaViewController: MediaViewController!
   
   @IBOutlet weak var directorLabel: UILabel!
@@ -21,11 +21,11 @@ class ReactableViewController: UIViewController {
   @IBOutlet weak var reportLabel: UILabel!
 
   // MARK: Initialization
-  static func instantiate(with reactable: Reactable) -> ReactableViewController {
+  static func instantiate(with scene: Scene) -> SceneViewController {
     let viewController = UIStoryboard(name: "Main", bundle: nil)
-      .instantiateViewController(withIdentifier: "ReactableScene")
-      as! ReactableViewController
-    viewController.viewModel = ReactableViewModel(with: reactable)
+      .instantiateViewController(withIdentifier: "SceneScene")
+      as! SceneViewController
+    viewController.viewModel = SceneViewModel(with: scene)
     viewController.viewModel.delegate = viewController
     return viewController
   }
@@ -66,7 +66,7 @@ class ReactableViewController: UIViewController {
     mediaViewController = MediaViewController.instantiate(with: viewModel.model.media)
     
     guard mediaViewController != nil else {
-      // Reactable does not have a media and so had been displayed.
+      // Scene does not have a media and so had been displayed.
       viewModel.didDisplay()
       return
     }
@@ -92,14 +92,14 @@ class ReactableViewController: UIViewController {
     viewModel.reportHidden.value = false
   }
   
-  /// Reports the reactable for offensive content.
+  /// Reports the scene for offensive content.
   @objc private func didReport() {
     viewModel.didReport()
   }
 }
 
 // MARK: MediaViewControllerDelegate
-extension ReactableViewController: MediaViewControllerDelegate {
+extension SceneViewController: MediaViewControllerDelegate {
   func didDownloadMedia() {
     viewModel.didDisplay()
   }
@@ -113,8 +113,8 @@ extension ReactableViewController: MediaViewControllerDelegate {
   }
 }
 
-// MARK: ReactableViewDelegate
-extension ReactableViewController: ReactableViewDelegate {
+// MARK: SceneViewDelegate
+extension SceneViewController: SceneViewDelegate {
   func animateReactionImage() {
     UIView.animate(withDuration: 0.3, animations: {
       self.reactionEmojiLabel.transform = CGAffineTransform.identity.scaledBy(x: 1.6, y: 1.6)

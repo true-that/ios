@@ -13,16 +13,16 @@ import SwiftyBeaver
 
 class TheaterViewController: BaseViewController {
 
-  var reactablesPageWrapper: ReactablesPageWrapperViewController!
+  var scenesPageWrapper: ScenesPageWrapperViewController!
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    // Loads reactables container
-    reactablesPageWrapper = ReactablesPageWrapperViewController.instantiate(doDetection: true)
-    self.addChildViewController(reactablesPageWrapper)
-    self.view.addSubview(reactablesPageWrapper.view)
-    reactablesPageWrapper.viewModel.fetchingDelegate = self
+    // Loads scenes container
+    scenesPageWrapper = ScenesPageWrapperViewController.instantiate(doDetection: true)
+    self.addChildViewController(scenesPageWrapper)
+    self.view.addSubview(scenesPageWrapper.view)
+    scenesPageWrapper.viewModel.fetchingDelegate = self
     
     // Navigation swipe gesture
     let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.navigateToStudio))
@@ -32,7 +32,7 @@ class TheaterViewController: BaseViewController {
   
   override func didAuthOk() {
     super.didAuthOk()
-    reactablesPageWrapper.didAuthOk()
+    scenesPageWrapper.didAuthOk()
   }
   
   // MARK: View Controller Navigation
@@ -44,9 +44,9 @@ class TheaterViewController: BaseViewController {
   }
 }
 
-// MARK: FetchReactablesDelegate
-extension TheaterViewController: FetchReactablesDelegate {
-  @discardableResult func fetchingProducer() -> SignalProducer<[Reactable], NSError> {
-    return TheaterApi.fetchReactables(for: App.authModule.current!)
+// MARK: FetchScenesDelegate
+extension TheaterViewController: FetchScenesDelegate {
+  @discardableResult func fetchingProducer() -> SignalProducer<[Scene], NSError> {
+    return TheaterApi.fetchScenes(for: App.authModule.current!)
   }
 }

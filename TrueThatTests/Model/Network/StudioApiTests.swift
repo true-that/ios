@@ -14,7 +14,7 @@ import SwiftyJSON
 import Nimble
 
 class StudioApiTests: XCTestCase {
-  var responded = Reactable(id: 1, userReaction: .happy,
+  var responded = Scene(id: 1, userReaction: .happy,
                             director: User(id: 1, firstName: "bon", lastName: "apetit",
                                            deviceId: "say-waat"),
                             reactionCounters: [.happy: 1], created: Date(), viewed: true,
@@ -30,13 +30,13 @@ class StudioApiTests: XCTestCase {
   }
   
   func testSuccessfulSave() {
-    let toSave = Reactable(id: 1, userReaction: .happy,
+    let toSave = Scene(id: 1, userReaction: .happy,
                            director: User(id: 1, firstName: "bon", lastName: "apetit",
                                           deviceId: "say-waat"),
                            reactionCounters: [.happy: 1], created: Date(), viewed: true,
                            media: Photo(data: Data()))
-    var actual: Reactable?
-    _ = StudioApi.save(reactable: toSave)
+    var actual: Scene?
+    _ = StudioApi.save(scene: toSave)
       .on(value: {
         actual = $0
       })
@@ -50,7 +50,7 @@ class StudioApiTests: XCTestCase {
                                                 userInfo: nil))
     }
     var responseError: NSError?
-    _ = StudioApi.save(reactable: responded)
+    _ = StudioApi.save(scene: responded)
       .on(failed: { error in
         responseError = error
       })
@@ -64,7 +64,7 @@ class StudioApiTests: XCTestCase {
                                  headers: ["Content-Type":"application/json"])
     }
     var responseError: NSError?
-    _ = StudioApi.save(reactable: responded)
+    _ = StudioApi.save(scene: responded)
       .on(failed: { error in
         responseError = error
       })

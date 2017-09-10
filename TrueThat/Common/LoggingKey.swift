@@ -11,13 +11,13 @@ import Foundation
 /// Logging keys for Crashalytics
 ///
 /// - authUser: user used for auth request
-/// - displayedReactable: last reactable that was displayed
-/// - directedReactable: last reactable that was directed in the studio
+/// - displayedScene: last scene that was displayed
+/// - directedScene: last scene that was directed in the studio
 /// - viewController: current view controller (that implements `BaseViewController`).
 enum LoggingKey: String {
   case authUser
-  case displayedReactable
-  case directedReactable
+  case displayedScene
+  case directedScene
   case viewController
   case lastNetworkRequest
 }

@@ -44,7 +44,7 @@ class StudioViewControllerTests : BaseUITests {
   func assertDirecting() {
     expect(self.viewController.viewModel.state).toEventually(equal(StudioViewModel.State.directing))
     expect(self.viewController.captureButton.isHidden).to(beFalse())
-    expect(self.viewController.reactablePreview).to(beNil())
+    expect(self.viewController.scenePreview).to(beNil())
     expect(self.viewController.switchCameraButton.isHidden).to(beFalse())
     expect(self.viewController.cancelButton.isHidden).to(beTrue())
     expect(self.viewController.sendButton.isHidden).to(beTrue())
@@ -59,7 +59,7 @@ class StudioViewControllerTests : BaseUITests {
     expect(self.viewController.cancelButton.isHidden).to(beFalse())
     expect(self.viewController.sendButton.isHidden).to(beFalse())
     expect(self.viewController.viewModel.cameraSessionHidden.value).to(beTrue())
-    expect(self.viewController.reactablePreview?.view.isHidden).to(beFalse())
+    expect(self.viewController.scenePreview?.view.isHidden).to(beFalse())
   }
   
   func assertSending() {

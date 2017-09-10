@@ -6,23 +6,23 @@
 import SwiftyJSON
 import Alamofire
 
-/// [backend]: https://github.com/true-that/backend/blob/master/src/main/java/com/truethat/backend/model/Reactable.java
-/// Reactables add spice to our users life, they are the an abstract pieces of media consumed by our
+/// [backend]: https://github.com/true-that/backend/blob/master/src/main/java/com/truethat/backend/model/Scene.java
+/// Scenes add spice to our users life, they are the an abstract pieces of media consumed by our
 /// users. See [backend]
-class Reactable: BaseModel {
+class Scene: BaseModel {
   /// As stored in our backend.
   var id: Int64?
   /// The current user reaction to it.
   var userReaction: Emotion?
-  /// Creator of the reactable.
+  /// Creator of the scene.
   var director: User?
   /// Reaction counters.
   var reactionCounters: [Emotion: Int64]?
   /// Date of creation.
   var created: Date?
-  /// Whether the reactable was already viewed by the current user.
+  /// Whether the scene was already viewed by the current user.
   var viewed: Bool?
-  /// Media of reactable, such as a photo.
+  /// Media of scene, such as a photo.
   var media: Media?
   
   // MARK: Initialization
@@ -49,7 +49,7 @@ class Reactable: BaseModel {
       (Emotion.toEmotion(stringEmotion)!, counter.int64Value)
     }
     if json["media"] != JSON.null {
-      media = Media(json: json["media"])
+      media = Media.instantiate(with: json["media"])
     }
   }
   
@@ -84,12 +84,12 @@ class Reactable: BaseModel {
   // MARK: Interaction
   
   /// - Parameter user: for which to inquire.
-  /// - Returns: Whether `user` can react to this reactable.
+  /// - Returns: Whether `user` can react to this scene.
   func canReact(user: User) -> Bool {
     return userReaction == nil && (director == nil || user != director)
   }
   
-  /// Updates reaction counters of this reactable with `reaction`
+  /// Updates reaction counters of this scene with `reaction`
   ///
   /// - Parameter reaction: to update with
   func updateReactionCounters(with reaction: Emotion) {
@@ -104,13 +104,13 @@ class Reactable: BaseModel {
   
   // MARK: Network
   
-  /// Appends reactable data to a multipart request
+  /// Appends scene data to a multipart request
   ///
   /// - Parameter multipartFormData: to append to
   func appendTo(multipartFormData: MultipartFormData) {
-    let reactableData = try? JSON(toDictionary()).rawData()
-    if reactableData != nil {
-      multipartFormData.append(reactableData!, withName: StudioApi.reactablePart)
+    let sceneData = try? JSON(toDictionary()).rawData()
+    if sceneData != nil {
+      multipartFormData.append(sceneData!, withName: StudioApi.scenePart)
     }
     if media != nil {
       media!.appendTo(multipartFormData: multipartFormData)
