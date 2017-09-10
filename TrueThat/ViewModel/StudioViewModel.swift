@@ -27,7 +27,7 @@ class StudioViewModel {
   var state = State.directing
   var delegate: StudioViewModelDelegate?
   var directed: Scene?
-  
+
   public func didAppear() {
     switch state {
     case .directing:
@@ -41,7 +41,7 @@ class StudioViewModel {
       self.willDirect()
     }
   }
-  
+
   /// The state when directing had not been started yet (usually when the camera preview is live).
   func willDirect() {
     App.log.debug("Studio state: \(State.directing)")
@@ -59,7 +59,7 @@ class StudioViewModel {
     // Hide loading image
     loadingImageHidden.value = true
   }
-  
+
   /// After a scene is directed, it awaits for final approval from the user.
   func willApprove() {
     App.log.debug("Studio state: \(State.approving)")
@@ -82,7 +82,7 @@ class StudioViewModel {
     // Hide loading image
     loadingImageHidden.value = true
   }
-  
+
   /// After the user approved the scene it is sent to our backend.
   func willSend() {
     App.log.debug("Studio state: \(State.sent)")
@@ -129,7 +129,7 @@ class StudioViewModel {
       directed?.toDictionary(),
       forKey: LoggingKey.directedScene.rawValue.snakeCased()!.uppercased())
   }
-  
+
   /// After the scene is successfully published, then leave the studio.
   func didPublish() {
     App.log.debug("Studio state: \(State.published)")
@@ -139,7 +139,7 @@ class StudioViewModel {
     // Leave studio
     delegate?.leaveStudio()
   }
-  
+
   /// Invoked after a network request to save `directed` had been failed.
   func saveDidFail() {
     self.delegate?.show(alert: StudioViewModel.saveFailedAlert,
@@ -147,7 +147,7 @@ class StudioViewModel {
                         okAction: StudioViewModel.saveFailedOkText)
     self.willApprove()
   }
-  
+
   /// Invoked after a photo is captured and its data is available
   ///
   /// - Parameter imageData: of the fresh out of the oven image
@@ -156,24 +156,24 @@ class StudioViewModel {
                          reactionCounters: nil, created: Date(), viewed: nil, media: Photo(data: imageData))
     willApprove()
   }
-  
+
   /// Invoked when video recording has been started.
   func didStartRecordingVideo() {
     captureButtonImageName.value = StudioViewModel.recordVideoImageName
   }
-  
+
   /// Invoked once video recording is finished.
   func didFinishRecordingVideo() {
     captureButtonImageName.value = StudioViewModel.captureImageName
   }
-  
+
   /// Invoked once recorded video has been processed.
   func didFinishProcessVideo(url: URL) {
     directed = Scene(id: nil, userReaction: nil, director: App.authModule.current,
                          reactionCounters: nil, created: Date(), viewed: nil, media: Video(localUrl: url))
     willApprove()
   }
-  
+
   /// Studio various states
   ///
   /// - directing: when the user directs (creates and edits) a scene.
@@ -187,19 +187,18 @@ class StudioViewModel {
 
 /// For interaction with relevant view controller.
 protocol StudioViewModelDelegate {
-  
+
   /// Leave studio, usually following scene has been successfully saved.
   func leaveStudio()
-  
+
   /// Displays a preview of the directed scene.
   ///
   /// - Parameter scene: that has just been directed.
   func displayPreview(of scene: Scene?)
-  
+
   /// Invoked once a HTTP request with the directed scene has been sent to the server.
   func didSend()
-  
-  
+
   /// Shows `alert` to the user, to inform him of errors and warnings.
   ///
   /// - Parameters:

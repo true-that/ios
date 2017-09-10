@@ -9,14 +9,14 @@
 import Foundation
 
 class DateHelper {
-  
+
   /// Text for recent timestamps
   static let nowText = "now"
-  
+
   /// Suffixes for various time magnitudes
   private static let suffixes = [(60, "m"), (60 * 60, "h"), (60 * 60 * 24, "d"),
                                  (60 * 60 * 24 * 30, "mon"), (60 * 60 * 24 * 365, "y")]
-  
+
   /// Formats from and to UTC Date in a format that matches our backend.
   static let dateFormatter: DateFormatter = {
     var formatter = DateFormatter()
@@ -24,7 +24,7 @@ class DateHelper {
     formatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
     return formatter
   }()
-  
+
   /// Create a UTC Date.
   ///
   /// - Parameter date: in textual representation
@@ -35,7 +35,7 @@ class DateHelper {
     }
     return dateFormatter.date(from: date)
   }
-  
+
   /// Converts a date to its textual representation in UTC format
   ///
   /// - Parameter date: to convert
@@ -46,7 +46,7 @@ class DateHelper {
     }
     return dateFormatter.string(from: date)
   }
-  
+
   /// Truncates time difference into human readable string.
   ///
   /// - Parameters:
@@ -61,7 +61,7 @@ class DateHelper {
     if (diff < suffixes[0].0) {
       return nowText
     }
-    let thresholdAndSuffix = suffixes.filter{ threshold, suffix in return threshold <= diff}.last!
+    let thresholdAndSuffix = suffixes.filter { threshold, _ in return threshold <= diff}.last!
     let truncated = diff / thresholdAndSuffix.0
     return "\(truncated)\(thresholdAndSuffix.1) ago"
   }

@@ -27,10 +27,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
       _ = Alamofire.SessionManager(configuration: configuration)
     #endif
-    
+
     // Fabric tools
     Fabric.with([Crashlytics.self, Appsee.self])
-    
+
     return true
   }
 
@@ -56,6 +56,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   }
 
-
 }
-

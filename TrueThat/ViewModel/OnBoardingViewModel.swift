@@ -22,11 +22,11 @@ class OnBoardingViewModel {
   public let nameTextFieldBorderColor = MutableProperty(Color.shadow)
   public let nameTextField = MutableProperty("")
   var delegate: OnBoardingDelegate!
-  
+
   init() {
-    nameTextField.producer.on(value: {name in self.nameFieldTextDidChange()}).start()
+    nameTextField.producer.on(value: {_ in self.nameFieldTextDidChange()}).start()
   }
-  
+
   // MARK: Lifecycle
   func didAppear() {
     loadingImageHidden.value = true
@@ -37,18 +37,18 @@ class OnBoardingViewModel {
       delegate.requestNameTextFieldFocus()
     }
   }
-  
+
   func didDisappear() {
     App.detecionModule.stop()
   }
-  
+
   // MARK: Methods
-  
+
   func nameFieldDidBeginEditing() {
     completionLabelHidden.value = true
     App.detecionModule.delegate = nil
   }
-  
+
   func nameFieldTextDidChange() {
     if StringHelper.isValid(fullName: nameTextField.value) {
       warningLabelHidden.value = true
@@ -57,7 +57,7 @@ class OnBoardingViewModel {
       nameTextFieldBorderColor.value = Color.error
     }
   }
-  
+
   func nameFieldDidReturn() -> Bool {
     if StringHelper.isValid(fullName: nameTextField.value) {
       finalStage()
@@ -68,20 +68,20 @@ class OnBoardingViewModel {
       return false
     }
   }
-  
+
   func signUpDidFail() {
     warningLabelText.value = OnBoardingViewModel.signUpFailedText
     warningLabelHidden.value = false
     loadingImageHidden.value = true
   }
-  
+
   func finalStage() {
     App.detecionModule.start()
     App.detecionModule.delegate = self
     completionLabelHidden.value = false
     warningLabelHidden.value = true
   }
-  
+
   func signingUp(with name: String) {
     App.authModule.signUp(fullName: name)
   }
@@ -89,7 +89,7 @@ class OnBoardingViewModel {
 
 protocol OnBoardingDelegate {
   func requestNameTextFieldFocus()
-  
+
   func loseNameTextFieldFocus()
 }
 

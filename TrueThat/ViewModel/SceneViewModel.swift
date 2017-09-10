@@ -19,17 +19,17 @@ class SceneViewModel {
   public let loadingImageHidden = MutableProperty(false)
   public let optionsButtonHidden = MutableProperty(true)
   public let reportHidden = MutableProperty(true)
-  
+
   var model: Scene
   var delegate: SceneViewDelegate!
-  
+
   // MARK: Initialization
   init(with scene: Scene) {
     model = scene
     updateInfo()
     updateReactionCounters()
   }
-  
+
   /// Updates displayed info about the scene.
   fileprivate func updateInfo() {
     if let displayName = model.director?.displayName {
@@ -39,7 +39,7 @@ class SceneViewModel {
       timeAgo.value = DateHelper.truncatedTimeAgo(from: model.created!)
     }
   }
-  
+
   /// Aggregates and truncates the reaction counters and sets a proper emoji icon.
   fileprivate func updateReactionCounters() {
     if model.reactionCounters != nil {
@@ -53,7 +53,7 @@ class SceneViewModel {
         if model.userReaction != nil {
           reactionEmoji.value = model.userReaction!.emoji
         } else if model.reactionCounters!.count > 0 {
-          reactionEmoji.value = model.reactionCounters!.max{$0.0.value < $0.1.value}!.key.emoji
+          reactionEmoji.value = model.reactionCounters!.max {$0.0.value < $0.1.value}!.key.emoji
         }
       }
     } else {
@@ -61,7 +61,7 @@ class SceneViewModel {
       reactionEmoji.value = ""
     }
   }
-  
+
   // Mark: Actions
   public func didReport() {
     reportHidden.value = true
@@ -73,7 +73,7 @@ class SceneViewModel {
       timestamp: Date(), userId: App.authModule.current!.id, reaction: nil,
       eventType: .report, sceneId: model.id)
     InteractionApi.save(interaction: event)
-      .on(value: {value in
+      .on(value: {_ in
         App.log.debug("Interaction event successfully saved.")
         self.delegate?.show(alert: SceneViewModel.reportAlert,
                             withTitle: SceneViewModel.reportTitle,
@@ -86,9 +86,9 @@ class SceneViewModel {
       })
       .start()
   }
-  
+
   // MARK: Lifecycle
-  
+
   /// Triggered when its corresponding {SceneViewController} is disappeared.
   public func didDisappear() {
     if (App.detecionModule.delegate is SceneViewModel &&
@@ -98,7 +98,7 @@ class SceneViewModel {
     optionsButtonHidden.value = true
     reportHidden.value = true
   }
-  
+
   /// Triggered when the media of {model} is downloaded and displayed.
   public func didDisplay() {
     App.log.debug("didDisplay")
@@ -113,7 +113,7 @@ class SceneViewModel {
         timestamp: Date(), userId: App.authModule.current!.id, reaction: nil,
         eventType: .view, sceneId: model.id)
       InteractionApi.save(interaction: event)
-        .on(value: {value in
+        .on(value: {_ in
           App.log.debug("Interaction event successfully saved.")
         })
         .on(failed: {error in
@@ -141,7 +141,7 @@ extension SceneViewModel: ReactionDetectionDelegate {
         timestamp: Date(), userId: App.authModule.current!.id, reaction: reaction,
         eventType: .reaction, sceneId: model.id)
       InteractionApi.save(interaction: event)
-        .on(value: {value in
+        .on(value: {_ in
           App.log.debug("Interaction event successfully saved.")
         })
         .on(failed: {error in
@@ -154,10 +154,10 @@ extension SceneViewModel: ReactionDetectionDelegate {
 }
 
 protocol SceneViewDelegate {
-  
+
   /// Animates emotional reation image, so that the user see his reaction was captured.
   func animateReactionImage()
-  
+
   /// Shows `alert` to the user, to inform him of errors and warnings.
   ///
   /// - Parameters:

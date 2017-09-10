@@ -13,24 +13,23 @@ import ReactiveSwift
 import SwiftyJSON
 import Nimble
 
-
 class RepertoireApiTests: XCTestCase {
   var scenes: [Scene] = []
   var actual: [Scene]?
   var error: NSError?
   let user = User(id: nil, firstName: nil, lastName: nil, deviceId: nil)
-  
+
   override func setUp() {
     super.setUp()
-    stub(condition: isPath(RepertoireApi.path)) {request -> OHHTTPStubsResponse in
-      let stubData = try! JSON(self.scenes.map{JSON(from: $0)}).rawData()
+    stub(condition: isPath(RepertoireApi.path)) {_ -> OHHTTPStubsResponse in
+      let stubData = try! JSON(self.scenes.map {JSON(from: $0)}).rawData()
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
-                                 headers: ["Content-Type":"application/json"])
+                                 headers: ["Content-Type": "application/json"])
     }
     actual = nil
     error = nil
   }
-  
+
   func fetch() {
     _ = RepertoireApi.fetchScenes(for: user)
       .on(value: {
@@ -41,7 +40,7 @@ class RepertoireApiTests: XCTestCase {
       })
       .start()
   }
-  
+
   func testSuccessfulFetch() {
     scenes = [Scene(id: 1, userReaction: .sad,
                     director: user,
@@ -54,7 +53,7 @@ class RepertoireApiTests: XCTestCase {
     fetch()
     expect(self.actual).toEventually(equal(scenes))
   }
-  
+
   func testFetchMultipleTypes() {
     scenes = [Scene(id: 1, userReaction: .sad,
                     director: user,
@@ -68,15 +67,15 @@ class RepertoireApiTests: XCTestCase {
     fetch()
     expect(self.actual).toEventually(equal(scenes))
   }
-  
+
   func testEmptyFetch() {
     scenes = []
     fetch()
     expect(self.actual).toEventually(equal(scenes))
   }
-  
+
   func testBadResponse() {
-    stub(condition: isPath(RepertoireApi.path)) {request -> OHHTTPStubsResponse in
+    stub(condition: isPath(RepertoireApi.path)) {_ -> OHHTTPStubsResponse in
       return OHHTTPStubsResponse(error: NSError(domain: Bundle.main.bundleIdentifier!, code: 1,
                                                 userInfo: nil))
     }
@@ -87,11 +86,11 @@ class RepertoireApiTests: XCTestCase {
     fetch()
     expect(self.error).toEventuallyNot(beNil())
   }
-  
+
   func testBadData() {
-    stub(condition: isPath(RepertoireApi.path)) {request -> OHHTTPStubsResponse in
+    stub(condition: isPath(RepertoireApi.path)) {_ -> OHHTTPStubsResponse in
       return OHHTTPStubsResponse(data: Data(), statusCode:200,
-                                 headers: ["Content-Type":"application/json"])
+                                 headers: ["Content-Type": "application/json"])
     }
     fetch()
     expect(self.error).toEventuallyNot(beNil())

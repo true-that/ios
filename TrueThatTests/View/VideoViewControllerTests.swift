@@ -11,26 +11,26 @@ import KIF
 import AVFoundation
 import Nimble
 
-class VideoViewControllerTests : BaseUITests {
+class VideoViewControllerTests: BaseUITests {
   var viewController: VideoViewController!
   var delegate: TestsMediaViewControllerDelegate!
   let video = Video(url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4")
-  
+
   override func setUp() {
     super.setUp()
-    
+
     delegate = TestsMediaViewControllerDelegate()
     viewController = VideoViewController.instantiate(video)
     viewController.delegate = delegate
-    
+
     UIApplication.shared.keyWindow!.rootViewController = viewController
-    
+
     // Test and load the View
     expect(self.viewController.view).toNot(beNil())
     // Mutes the video
     viewController.player?.volume = 0
   }
-  
+
   func testVideoIsPlaying() {
     expect(self.viewController.player?.timeControlStatus)
       .toEventually(equal(.playing), timeout: 5.0)
@@ -39,7 +39,7 @@ class VideoViewControllerTests : BaseUITests {
     expect(self.delegate.mediaDidDownload).to(beTrue())
     expect(self.delegate.loaderHidden).to(beTrue())
   }
-  
+
   func testVideoIsLooping() {
     expect(self.viewController.player?.currentTime())
       .toEventuallyNot(equal(kCMTimeZero), timeout: 5.0)
@@ -47,7 +47,7 @@ class VideoViewControllerTests : BaseUITests {
     expect(currentTime!.seconds > self.viewController.player!.currentTime().seconds)
       .toEventually(beTrue(), timeout: 5.0)
   }
-  
+
   func testTouchEventControl() {
     // Wait for video to start
     expect(self.viewController.player?.currentTime())
@@ -61,19 +61,19 @@ class VideoViewControllerTests : BaseUITests {
     // Asserting a pause did occur.
     expect(self.viewController.player!.currentItem!.currentTime().seconds - currentTime < 0.9).to(beTrue())
   }
-  
+
   class TestsMediaViewControllerDelegate: MediaViewControllerDelegate {
     var mediaDidDownload: Bool?
     var loaderHidden: Bool?
-    
+
     func didDownloadMedia() {
       mediaDidDownload = true
     }
-    
+
     func showLoader() {
       loaderHidden = false
     }
-    
+
     func hideLoader() {
       loaderHidden = true
     }

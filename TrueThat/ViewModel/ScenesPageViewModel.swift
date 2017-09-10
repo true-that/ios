@@ -16,13 +16,13 @@ class ScenesPageViewModel {
   var delegate: ScenesPageDelegate!
   var fetchingDelegate: FetchScenesDelegate!
   var currentIndex = 0
-  
+
   /// Updates `currentIndex` to previous scene, if not already at the first one.
   ///
   /// - Returns: the updated `currentIndex`, or nil if no update was made.
   public func navigatePrevious() -> Int? {
     let previousIndex = currentIndex - 1
-    
+
     // User is on the first view controller and swiped left.
     guard previousIndex >= 0 else {
       return nil
@@ -30,23 +30,23 @@ class ScenesPageViewModel {
     currentIndex = previousIndex
     return currentIndex
   }
-  
+
   /// Updates `currentIndex` to previous scene, if not already at the last one.
   ///
   /// - Returns: the updated `currentIndex`, or nil if no update was made.
   public func navigateNext() -> Int? {
     let nextIndex = currentIndex + 1
-    
+
     // User is on the last view controller and swiped right.
     guard scenes.count != nextIndex else {
       fetchingData()
       return nil
     }
-    
+
     currentIndex = nextIndex
     return currentIndex
   }
-  
+
   /// Fetch new scenes from our backend.
   public func fetchingData() {
     App.log.debug("fetching scenes")
@@ -64,7 +64,7 @@ class ScenesPageViewModel {
       })
       .start()
   }
-  
+
   /// Append the fetched scenes to `scenes` and notify the view controller.
   ///
   /// - Parameter newScenes: freshly baked scenes, obvuala!
@@ -92,13 +92,13 @@ protocol ScenesPageDelegate {
   ///
   /// - Parameter index: to display
   func display(at index: Int)
-  
+
   /// Scrolls the view controller at the given index. Should be used when a view controller have
   /// already been displayed.
   ///
   /// - Parameter index: to scroll to
   func scroll(to index: Int)
-  
+
   /// Updates the data source of the page view controller
   ///
   /// - Parameter newScenes: new data models to create view controllers from.

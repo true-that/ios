@@ -12,29 +12,28 @@ import OHHTTPStubs
 import SwiftyJSON
 import Nimble
 
-
 class StudioViewModelTests: BaseTests {
   var viewModel: StudioViewModel!
   var viewModelDelegate: StudioViewModelTestsDelegate!
   var requestCount = 0
-  
+
   override func setUp() {
     super.setUp()
-    stub(condition: isPath(StudioApi.path)) {request -> OHHTTPStubsResponse in
+    stub(condition: isPath(StudioApi.path)) {_ -> OHHTTPStubsResponse in
       let stubData = try! JSON(from: Scene(
         id: 1, userReaction: nil, director: nil, reactionCounters: nil, created: nil, viewed: nil,
         media: nil))
         .rawData()
       self.requestCount += 1
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
-                                 headers: ["Content-Type":"application/json"])
+                                 headers: ["Content-Type": "application/json"])
     }
     requestCount = 0
     viewModel = StudioViewModel()
     viewModelDelegate = StudioViewModelTestsDelegate()
     viewModel.delegate = viewModelDelegate
   }
-  
+
   func assertDirecting() {
     // Should have directing state
     expect(self.viewModel.state).to(equal(StudioViewModel.State.directing))
@@ -56,7 +55,7 @@ class StudioViewModelTests: BaseTests {
     // Loading image should be hidden
     expect(self.viewModel.loadingImageHidden.value).to(beTrue())
   }
-  
+
   func assertApproving() {
     // Should have approval state
     expect(self.viewModel.state).to(equal(StudioViewModel.State.approving))
@@ -76,21 +75,21 @@ class StudioViewModelTests: BaseTests {
     // Loading image should be hidden
     expect(self.viewModel.loadingImageHidden.value).to(beTrue())
   }
-  
+
   func assertSending() {
     // Loading image should be shown
     expect(self.viewModel.loadingImageHidden.value).to(beFalse())
     let current = requestCount
     expect(self.requestCount).toEventually(equal(current + 1))
   }
-  
+
   func assertPublished() {
     // Should leave studio
     expect(self.viewModelDelegate.leftStudio).to(beTrue())
     // Loading image should be hidden
     expect(self.viewModel.loadingImageHidden.value).to(beTrue())
   }
-  
+
   func testCaptureImage() throws {
     viewModel.didAppear()
     assertDirecting()
@@ -99,7 +98,7 @@ class StudioViewModelTests: BaseTests {
                            relativeTo: BaseTests.baseDir)))
     assertApproving()
   }
-  
+
   func testRecordVideo()  throws {
     viewModel.didAppear()
     assertDirecting()
@@ -120,7 +119,7 @@ class StudioViewModelTests: BaseTests {
     assertSending()
     assertPublished()
   }
-  
+
   func testSend() throws {
     try viewModel.didCapture(imageData:
       Data(contentsOf: URL(fileURLWithPath: "TrueThatTests/ViewModel/TestData/happy_selfie.jpg",
@@ -130,13 +129,13 @@ class StudioViewModelTests: BaseTests {
     assertSending()
     assertPublished()
   }
-  
+
   func testSendDidFail() throws {
     // Set up an ill server
-    stub(condition: isPath(StudioApi.path)) {request -> OHHTTPStubsResponse in
+    stub(condition: isPath(StudioApi.path)) {_ -> OHHTTPStubsResponse in
       self.requestCount += 1
       return OHHTTPStubsResponse(data: Data(), statusCode: 500,
-                                 headers: ["Content-Type":"application/json"])
+                                 headers: ["Content-Type": "application/json"])
     }
     try viewModel.didCapture(imageData:
       Data(contentsOf: URL(fileURLWithPath: "TrueThatTests/ViewModel/TestData/happy_selfie.jpg",
@@ -147,31 +146,31 @@ class StudioViewModelTests: BaseTests {
     expect(self.viewModelDelegate.alertDidShow).to(beTrue())
     assertApproving()
   }
-  
+
   func testResumeDirectingAfterPublish() {
     viewModel.state = StudioViewModel.State.published
     viewModel.didAppear()
     assertDirecting()
   }
-  
-  class StudioViewModelTestsDelegate : StudioViewModelDelegate {
+
+  class StudioViewModelTestsDelegate: StudioViewModelDelegate {
     var leftStudio = false
     var sent = false
     var displayed: Scene?
     var alertDidShow = false
-    
+
     func leaveStudio() {
       leftStudio = true
     }
-    
+
     func displayPreview(of scene: Scene?) {
       displayed = scene
     }
-    
+
     func didSend() {
       sent = true
     }
-    
+
     func show(alert: String, withTitle: String, okAction: String) {
       alertDidShow = true
     }

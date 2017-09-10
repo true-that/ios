@@ -16,7 +16,7 @@ import SwiftyJSON
 class AuthApi {
   /// Subpath relative to base backend endpoint.
   static public let path = "/auth"
-  
+
   /// Full URL of backend endpoint from which to fetch scenes.
   static var fullUrl: String {
     return Bundle.main.infoDictionary!["API_BASE_URL_ENDPOINT"] as! String + AuthApi.path
@@ -26,7 +26,7 @@ class AuthApi {
   /// - Parameter user: to authenticate.
   /// - Returns: A reactive producer that invokes success and failure callbacks.
   public static func auth(for user: User) -> SignalProducer<User, NSError> {
-    return SignalProducer { observer, disposable in
+    return SignalProducer { observer, _ in
       var request = try! URLRequest(url: AuthApi.fullUrl, method: .post)
       request.httpBody = try! JSON(from: user).rawData()
       // TODO: cancel request when view disappears

@@ -12,36 +12,36 @@ import OHHTTPStubs
 import SwiftyJSON
 import Nimble
 
-class RepertoireViewControllerTests : BaseUITests {
+class RepertoireViewControllerTests: BaseUITests {
   var fetchedScenes: [Scene] = []
   var viewController: RepertoireViewController!
-  
+
   override func setUp() {
     super.setUp()
-    
-    stub(condition: isPath(RepertoireApi.path)) {request -> OHHTTPStubsResponse in
-      let stubData = try! JSON(self.fetchedScenes.map{JSON(from: $0)}).rawData()
+
+    stub(condition: isPath(RepertoireApi.path)) {_ -> OHHTTPStubsResponse in
+      let stubData = try! JSON(self.fetchedScenes.map {JSON(from: $0)}).rawData()
       self.fetchedScenes = []
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
-                                 headers: ["Content-Type":"application/json"])
+                                 headers: ["Content-Type": "application/json"])
     }
     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
     viewController = storyboard.instantiateViewController(withIdentifier: "RepertoireScene")
       as! RepertoireViewController
-    
+
     UIApplication.shared.keyWindow!.rootViewController = viewController
-    
+
     // Test and load the View
     expect(self.viewController.view).toNot(beNil())
   }
-  
+
   func assertDisplayed(scene: Scene) {
     expect(self.viewController.scenesPageWrapper.scenesPage.currentViewController?
       .viewModel?.model.id).toEventually(equal(scene.id))
     expect(self.viewController.scenesPageWrapper.scenesPage.currentViewController?
       .viewModel?.model.viewed).toEventually(beTrue())
   }
-  
+
   func testDisplayScene() {
     let scene = Scene(id: 1, userReaction: .sad,
                               director: User(id: 1, firstName: "The", lastName: "Flinstons",
@@ -54,7 +54,7 @@ class RepertoireViewControllerTests : BaseUITests {
     viewController.didAuthOk()
     assertDisplayed(scene: scene)
   }
-  
+
   func testNavigation() {
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
@@ -63,7 +63,7 @@ class RepertoireViewControllerTests : BaseUITests {
     expect(UITestsHelper.currentViewController)
       .toEventually(beAnInstanceOf(StudioViewController.self))
   }
-  
+
   func testNavigationWhenSceneDisplayed() {
     let scene = Scene(id: 1, userReaction: .sad,
                               director: User(id: 1, firstName: "The", lastName: "Flinstons",

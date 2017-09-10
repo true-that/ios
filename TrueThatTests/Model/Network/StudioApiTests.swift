@@ -19,16 +19,16 @@ class StudioApiTests: XCTestCase {
                                            deviceId: "say-waat"),
                             reactionCounters: [.happy: 1], created: Date(), viewed: true,
                             media: Photo(url: "www.mcdonald.com"))
-  
+
   override func setUp() {
     super.setUp()
-    stub(condition: isPath(StudioApi.path)) {request -> OHHTTPStubsResponse in
+    stub(condition: isPath(StudioApi.path)) {_ -> OHHTTPStubsResponse in
       let stubData = try! JSON(self.responded.toDictionary()).rawData()
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
-                                 headers: ["Content-Type":"application/json"])
+                                 headers: ["Content-Type": "application/json"])
     }
   }
-  
+
   func testSuccessfulSave() {
     let toSave = Scene(id: 1, userReaction: .happy,
                            director: User(id: 1, firstName: "bon", lastName: "apetit",
@@ -43,9 +43,9 @@ class StudioApiTests: XCTestCase {
       .start()
     expect(actual).toEventually(equal(responded))
   }
-  
+
   func testBadResponse() {
-    stub(condition: isPath(StudioApi.path)) {request -> OHHTTPStubsResponse in
+    stub(condition: isPath(StudioApi.path)) {_ -> OHHTTPStubsResponse in
       return OHHTTPStubsResponse(error: NSError(domain: Bundle.main.bundleIdentifier!, code: 1,
                                                 userInfo: nil))
     }
@@ -57,11 +57,11 @@ class StudioApiTests: XCTestCase {
       .start()
     expect(responseError).toEventuallyNot(beNil())
   }
-  
+
   func testBadData() {
-    stub(condition: isPath(StudioApi.path)) {request -> OHHTTPStubsResponse in
+    stub(condition: isPath(StudioApi.path)) {_ -> OHHTTPStubsResponse in
       return OHHTTPStubsResponse(data: Data(), statusCode:200,
-                                 headers: ["Content-Type":"application/json"])
+                                 headers: ["Content-Type": "application/json"])
     }
     var responseError: NSError?
     _ = StudioApi.save(scene: responded)

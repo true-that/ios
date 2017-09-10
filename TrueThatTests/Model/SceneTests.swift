@@ -21,7 +21,7 @@ class SceneTests: XCTestCase {
                               viewed: true, media: nil)
     expect(scene).to(equal(Scene(json: JSON(from: scene))))
   }
-  
+
   func testEquals() {
     let now = Date()
     let scene = Scene(id: 1, userReaction: .happy,
@@ -86,7 +86,7 @@ class SceneTests: XCTestCase {
                                             created: now,
                                             viewed: false, media: Photo(url: ""))))
   }
-  
+
   func testCanReact() {
     let user = User(id: 1, firstName: "android", lastName: "me no like", deviceId: "iphone")
     let sameDirector = Scene(id: 1, userReaction: nil, director: user, reactionCounters: nil,
@@ -105,7 +105,7 @@ class SceneTests: XCTestCase {
                                                     lastName: "cozashvili", deviceId: "103")))
       .to(beTrue())
   }
-  
+
   func testUpdateReactionCounters() {
     let reaction = Emotion.happy
     let nilCounters = Scene(id: 1, userReaction: nil, director: nil, reactionCounters: nil,

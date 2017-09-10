@@ -9,7 +9,7 @@
 import Foundation
 
 class KeychainModule {
-  
+
   /// Retrieves data from keychain.
   ///
   /// - Parameter key: for which to get data
@@ -17,14 +17,14 @@ class KeychainModule {
   public func get(_ key: String) -> Data? {
     return nil
   }
-  
+
   /// Saves `data` to keychain.
   ///
   /// - Parameters:
   ///   - data: to save
   ///   - key: to associate the `data` for future rerieval.
   public func save(_ data: Data, key: String) throws {}
-  
+
   /// Deletes data from keychain that is associated with `key`.
   ///
   /// - Parameter key: for which to delete data.

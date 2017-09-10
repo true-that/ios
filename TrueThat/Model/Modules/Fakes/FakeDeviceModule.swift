@@ -13,7 +13,7 @@ class FakeDeviceModule: DeviceModule {
   override var deviceId: String? {
     return fakeDeviceId
   }
-  
+
   init(_ deviceId: String) {
     super.init()
     self.fakeDeviceId = deviceId

@@ -22,7 +22,7 @@ class BaseTests: XCTestCase {
     fakeDetectionModule = FakeReactionDetectionModule()
     fakeDeviceModule = FakeDeviceModule("fake-iPhone")
     fakeKeychainModule = FakeKeychainModule()
-    
+
     App.keychainModule = fakeKeychainModule
     App.authModule.current = User(id: 1, firstName: "Donald", lastName: "Trump",
                                   deviceId: fakeDeviceModule.deviceId)

@@ -16,7 +16,7 @@ import SwiftyJSON
 class InteractionApi {
   /// Subpath relative to base backend endpoint.
   static public let path = "/interaction"
-  
+
   /// Full URL of backend endpoint.
   static var fullUrl: String {
     return Bundle.main.infoDictionary!["API_BASE_URL_ENDPOINT"] as! String + InteractionApi.path
@@ -26,7 +26,7 @@ class InteractionApi {
   /// - Parameter interaction: to save
   /// - Returns: A reactive producer that invokes success and failure callbacks.
   public static func save(interaction: InteractionEvent) -> SignalProducer<InteractionEvent, NSError> {
-    return SignalProducer { observer, disposable in
+    return SignalProducer { observer, _ in
       var request = try! URLRequest(url: InteractionApi.fullUrl, method: .post)
       request.httpBody = try! JSON(from: interaction).rawData()
       // TODO: cancel request when view disappears
@@ -42,4 +42,3 @@ class InteractionApi {
     }
   }
 }
-
