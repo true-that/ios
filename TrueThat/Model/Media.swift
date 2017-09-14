@@ -61,5 +61,6 @@ class Media: BaseModel {
   /// Appends media data to a multipart request
   ///
   /// - Parameter multipartFormData: to append to
-  func appendTo(multipartFormData: MultipartFormData) {}
+  /// - Parameter partName: of the HTTP multipart part
+  func appendTo(multipartFormData: MultipartFormData, withName partName: String) {}
 }

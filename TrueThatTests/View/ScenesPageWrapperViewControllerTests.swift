@@ -49,7 +49,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
       .toEventually(equal(scene.id))
     expect(self.viewController.scenesPage.currentViewController?.viewModel?.model.viewed)
       .toEventually(beTrue(), timeout: 10.0)
-    if self.viewController.scenesPage.currentViewController?.viewModel?.model.media is Video {
+    if self.viewController.scenesPage.currentViewController?.viewModel?.model.rootMedia is Video {
       expect((self.viewController.scenesPage.currentViewController?.mediaViewController
           as! VideoViewController).player?.currentTime())
         .toEventuallyNot(equal(kCMTimeZero), timeout: 5.0)

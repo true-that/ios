@@ -153,7 +153,7 @@ extension StudioViewController: StudioViewModelDelegate {
       return
     }
     // Add scene preview
-    scenePreview = MediaViewController.instantiate(with: scene?.media)
+    scenePreview = MediaViewController.instantiate(with: scene?.rootMedia)
     guard scenePreview != nil else {
       return
     }

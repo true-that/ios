@@ -22,12 +22,23 @@ class Scene: BaseModel {
   var created: Date?
   /// Whether the scene was already viewed by the current user.
   var viewed: Bool?
-  /// Media of scene, such as a photo.
-  var media: Media?
+  /// Media items of this scene, such as a photo.
+  var mediaNodes: [Media]?
+  /// The flow of the user interaction with this scene. Each node represents a media item such as video or a photo and
+  /// each edge describe which reaction leads from one media item to the next.
+  var edges: [Edge]?
+  
+  /// The starting point of this scene. All users will begin viewing this media before all others.
+  var rootMedia: Media? {
+    if mediaNodes != nil && !mediaNodes!.isEmpty {
+      return mediaNodes![0]
+    }
+    return nil
+  }
 
   // MARK: Initialization
   init(id: Int64?, userReaction: Emotion?, director: User?, reactionCounters: [Emotion: Int64]?,
-       created: Date?, viewed: Bool?, media: Media?) {
+       created: Date?, viewed: Bool?, mediaNodes: [Media]?, edges: [Edge]?) {
     super.init()
     self.id = id
     self.userReaction = userReaction
@@ -35,7 +46,18 @@ class Scene: BaseModel {
     self.created = created
     self.viewed = viewed
     self.reactionCounters = reactionCounters
-    self.media = media
+    self.mediaNodes = mediaNodes
+    self.edges = edges
+  }
+  
+  convenience init(id: Int64?, userReaction: Emotion?, director: User?, reactionCounters: [Emotion: Int64]?,
+       created: Date?, viewed: Bool?, media: Media?) {
+    var mediaNodes: [Media]? = nil
+    if media != nil {
+      mediaNodes = [media!]
+    }
+    self.init(id: id, userReaction: userReaction, director: director, reactionCounters: reactionCounters,
+              created: created, viewed: viewed, mediaNodes: mediaNodes, edges: nil)
   }
 
   required init(json: JSON) {
@@ -48,8 +70,11 @@ class Scene: BaseModel {
     reactionCounters = json["reactionCounters"].dictionary?.mapPairs { stringEmotion, counter in
       (Emotion.toEmotion(stringEmotion)!, counter.int64Value)
     }
-    if json["media"] != JSON.null {
-      media = Media.instantiate(with: json["media"])
+    if json["mediaNodes"].array != nil {
+      mediaNodes = json["mediaNodes"].arrayValue.map{ Media.instantiate(with: $0)! }
+    }
+    if json["edges"].array != nil {
+      edges = json["edges"].arrayValue.map{ Edge(json: $0) }
     }
   }
 
@@ -75,8 +100,11 @@ class Scene: BaseModel {
     if viewed != nil {
       dictionary["viewed"] = viewed!
     }
-    if media != nil {
-      dictionary["media"] = media?.toDictionary()
+    if mediaNodes != nil {
+      dictionary["mediaNodes"] = mediaNodes!.map { $0.toDictionary() }
+    }
+    if edges != nil {
+      dictionary["edges"] = edges!.map { $0.toDictionary() }
     }
 
     return dictionary
@@ -102,6 +130,10 @@ class Scene: BaseModel {
       reactionCounters![reaction] = 1 + reactionCounters![reaction]!
     }
   }
+  
+  func partName(of: Int) -> String {
+    return StudioApi.mediaPartPrefix + "\(of)"
+  }
 
   // MARK: Network
 
@@ -113,8 +145,10 @@ class Scene: BaseModel {
     if sceneData != nil {
       multipartFormData.append(sceneData!, withName: StudioApi.scenePart)
     }
-    if media != nil {
-      media!.appendTo(multipartFormData: multipartFormData)
+    if mediaNodes != nil {
+      for i in 0 ..< mediaNodes!.count  {
+        mediaNodes![i].appendTo(multipartFormData: multipartFormData, withName: partName(of: i))
+      }
     }
   }
 }

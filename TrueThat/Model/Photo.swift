@@ -28,10 +28,10 @@ class Photo: Media {
     super.init(json: json)
   }
 
-  override func appendTo(multipartFormData: MultipartFormData) {
-    super.appendTo(multipartFormData: multipartFormData)
+  override func appendTo(multipartFormData: MultipartFormData, withName partName: String) {
+    super.appendTo(multipartFormData: multipartFormData, withName: partName)
     if data != nil {
-      multipartFormData.append(data!, withName: StudioApi.mediaPart, mimeType: "image/jpg")
+      multipartFormData.append(data!, withName: partName, mimeType: "image/jpg")
     }
   }
 }

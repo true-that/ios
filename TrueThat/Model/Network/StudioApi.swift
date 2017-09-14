@@ -21,7 +21,7 @@ class StudioApi {
   static let scenePart = "scene"
 
   /// Media part name of an uploaded scene
-  static let mediaPart = "media"
+  static let mediaPartPrefix = "media_"
 
   /// Full URL of backend endpoint.
   static var fullUrl: String {
@@ -48,16 +48,8 @@ class StudioApi {
           upload.responseJSON { response in
             switch response.result {
             case .success:
-              let saved = try? Scene(json: JSON(response.result.value!))
-              if saved != nil {
-                observer.send(value: saved!)
-                observer.sendCompleted()
-              } else {
-                App.log.error("response decoding error")
-                observer.send(error: NSError(domain: Bundle.main.bundleIdentifier!,
-                                             code: ErrorCode.decoding.rawValue,
-                                             userInfo: ["value": response.result.value ?? ""]))
-              }
+              observer.send(value: Scene(json: JSON(response.result.value!)))
+              observer.sendCompleted()
             case .failure:
               App.log.error("response error")
               observer.send(error: response.result.error as NSError!)

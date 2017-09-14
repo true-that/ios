@@ -63,7 +63,7 @@ class SceneViewController: UIViewController {
     reportLabel.layer.cornerRadius = 5
 
     // Loads media view controller
-    mediaViewController = MediaViewController.instantiate(with: viewModel.model.media)
+    mediaViewController = MediaViewController.instantiate(with: viewModel.model.rootMedia)
 
     guard mediaViewController != nil else {
       // Scene does not have a media and so had been displayed.
