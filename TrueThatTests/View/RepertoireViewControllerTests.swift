@@ -43,10 +43,10 @@ class RepertoireViewControllerTests: BaseUITests {
   }
 
   func testDisplayScene() {
-    let scene = Scene(id: 1, userReaction: .sad,
+    let scene = Scene(id: 1, userReaction: .disgust,
                       director: User(id: 1, firstName: "The", lastName: "Flinstons",
                                      deviceId: "stonePhone"),
-                      reactionCounters: [.sad: 1000, .happy: 1234],
+                      reactionCounters: [.disgust: 1000, .happy: 1234],
                       created: Date(), viewed: false, media: nil)
     fetchedScenes = [scene]
     // Trigger viewDidAppear
@@ -65,10 +65,10 @@ class RepertoireViewControllerTests: BaseUITests {
   }
 
   func testNavigationWhenSceneDisplayed() {
-    let scene = Scene(id: 1, userReaction: .sad,
+    let scene = Scene(id: 1, userReaction: .disgust,
                       director: User(id: 1, firstName: "The", lastName: "Flinstons",
                                      deviceId: "stonePhone"),
-                      reactionCounters: [.sad: 1000, .happy: 1234],
+                      reactionCounters: [.disgust: 1000, .happy: 1234],
                       created: Date(), viewed: false, media: nil)
     fetchedScenes = [scene]
     // Trigger viewDidAppear

@@ -14,7 +14,7 @@ import Nimble
 class VideoViewControllerTests: BaseUITests {
   var viewController: VideoViewController!
   var delegate: TestsMediaViewControllerDelegate!
-  let video = Video(url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4")
+  let video = Video(id: 0, url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4")
 
   override func setUp() {
     super.setUp()

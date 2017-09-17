@@ -49,10 +49,14 @@ extension AffectivaReactionDetectionModule: AFDXDetectorDelegate {
         let affdexFace = face as! AFDXFace
         // Convert detected image to our enum
         var detected: Emotion?
-        if affdexFace.emotions.joy > AffectivaReactionDetectionModule.emotionThreshold {
+        if affdexFace.emotions.surprise > AffectivaReactionDetectionModule.emotionThreshold {
+          detected = .surprise
+        } else if affdexFace.emotions.joy > AffectivaReactionDetectionModule.emotionThreshold {
           detected = .happy
-        } else if affdexFace.emotions.sadness > AffectivaReactionDetectionModule.emotionThreshold {
-          detected = .sad
+        } else if affdexFace.emotions.fear > AffectivaReactionDetectionModule.emotionThreshold / 2 {
+          detected = .fear
+        } else if affdexFace.emotions.disgust > AffectivaReactionDetectionModule.emotionThreshold {
+          detected = .disgust
         }
         if detected != nil && delegate != nil {
           App.log.verbose("Detected \(detected!)")

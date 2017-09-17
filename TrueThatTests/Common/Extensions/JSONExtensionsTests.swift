@@ -21,7 +21,7 @@ class JSONExtensionsTests: XCTestCase {
     var a: Int?
 
     init(a: Int?) {
-      super.init()
+      super.init(id: 4)
       self.a = a
     }
 

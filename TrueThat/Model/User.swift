@@ -8,8 +8,7 @@ import SwiftyJSON
 /// [backend]: https://github.com/true-that/backend/blob/master/src/main/java/com/truethat/backend/model/User.java
 /// Model for our sassy users. See [backend].
 class User: BaseModel {
-  /// As stored in our backend.
-  var id: Int64?
+  
   /// How her mother calls her.
   var firstName: String?
   /// How his friends calls him.
@@ -23,8 +22,7 @@ class User: BaseModel {
 
   // Mark: Initialization
   init(id: Int64?, firstName: String?, lastName: String?, deviceId: String?) {
-    super.init()
-    self.id = id
+    super.init(id: id)
     self.firstName = firstName
     self.lastName = lastName
     self.deviceId = deviceId
@@ -32,16 +30,12 @@ class User: BaseModel {
 
   required init(json: JSON) {
     super.init(json: json)
-    id = json["id"].int64
     firstName = json["firstName"].string
     lastName = json["lastName"].string
   }
 
   override func toDictionary() -> [String: Any] {
     var dictionary = super.toDictionary()
-    if id != nil {
-      dictionary["id"] = id!
-    }
     if firstName != nil {
       dictionary["firstName"] = firstName!
     }

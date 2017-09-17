@@ -43,13 +43,13 @@ class RepertoireApiTests: XCTestCase {
 
   func testSuccessfulFetch() {
     scenes = [
-      Scene(id: 1, userReaction: .sad,
+      Scene(id: 1, userReaction: .disgust,
             director: user,
-            reactionCounters: [.sad: 1000, .happy: 1234],
+            reactionCounters: [.disgust: 1000, .happy: 1234],
             created: Date(), viewed: false, media: nil),
       Scene(id: 2, userReaction: .happy,
             director: user,
-            reactionCounters: [.sad: 2000, .happy: 100_234],
+            reactionCounters: [.disgust: 2000, .happy: 100_234],
             created: Date(), viewed: true, media: nil)
     ]
     fetch()
@@ -58,15 +58,15 @@ class RepertoireApiTests: XCTestCase {
 
   func testFetchMultipleTypes() {
     scenes = [
-      Scene(id: 1, userReaction: .sad,
+      Scene(id: 1, userReaction: .disgust,
             director: user,
-            reactionCounters: [.sad: 1000, .happy: 1234],
+            reactionCounters: [.disgust: 1000, .happy: 1234],
             created: Date(), viewed: false, media: nil),
       Scene(id: 2, userReaction: .happy,
             director: user,
-            reactionCounters: [.sad: 2000, .happy: 100_234],
+            reactionCounters: [.disgust: 2000, .happy: 100_234],
             created: Date(), viewed: true,
-            media: Photo(url: "http://truethat-ipo.jpg"))
+            media: Photo(id: 0, url: "http://truethat-ipo.jpg"))
     ]
     fetch()
     expect(self.actual).toEventually(equal(scenes))
@@ -83,9 +83,9 @@ class RepertoireApiTests: XCTestCase {
       OHHTTPStubsResponse(error: NSError(domain: Bundle.main.bundleIdentifier!, code: 1,
                                          userInfo: nil))
     }
-    scenes = [Scene(id: 1, userReaction: .sad,
+    scenes = [Scene(id: 1, userReaction: .disgust,
                     director: user,
-                    reactionCounters: [.sad: 1000, .happy: 1234],
+                    reactionCounters: [.disgust: 1000, .happy: 1234],
                     created: Date(), viewed: false, media: nil)]
     fetch()
     expect(self.error).toEventuallyNot(beNil())

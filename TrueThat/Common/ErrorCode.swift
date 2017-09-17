@@ -9,8 +9,11 @@
 import Foundation
 
 /// Errors enumeration.
+// next available - 4
 enum ErrorCode: Int {
   // MARK: Network
   case decoding = 1
   case badResponseData = 2
+  // MARK: Invalid data
+  case mediaTree = 3
 }

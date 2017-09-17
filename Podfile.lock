@@ -6,7 +6,7 @@ PODS:
   - AWSCore (2.5.9)
   - AWSKinesis (2.5.9):
     - AWSCore (= 2.5.9)
-  - Crashlytics (3.8.5):
+  - Crashlytics (3.8.6):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.12)
   - KeychainAccess (3.0.2)
@@ -60,7 +60,7 @@ SPEC CHECKSUMS:
   Appsee: be7e8199ddf914dc4e2adb4cb7ed7f162c74e7a9
   AWSCore: c71840dd51f271dc0af8de8fd6f352767ebde8b4
   AWSKinesis: 55631b3f235d363afbe172a08862f13ce3f9b929
-  Crashlytics: dfbae35ef22ca189240d230ad501feea4ee85d2d
+  Crashlytics: 95d05f4e4c19a771250c4bd9ce344d996de32bbf
   Fabric: f050464eac45a2ce5a8e6e6a07e977c0df32fe28
   KeychainAccess: a986406022dfc7c634c691ad3bec670cc6a32002
   KIF: f2a6025bb3f11692df675054a134d43a9ec2d7db

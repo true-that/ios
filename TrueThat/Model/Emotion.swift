@@ -6,10 +6,14 @@
 import Foundation
 
 /// Emotions to describe emotional reaction to scenes.
-enum Emotion: String {
-  case happy, sad
+enum Emotion: String, Hashable {
+  case happy, fear, surprise, disgust
 
   public var description: String { return self.rawValue }
+  
+  var hashValue: Int {
+    return self.rawValue.hashValue
+  }
 }
 
 // MARK: Initialization
@@ -19,8 +23,12 @@ extension Emotion {
       switch camelCased {
       case String(describing: Emotion.happy):
         return Emotion.happy
-      case String(describing: Emotion.sad):
-        return Emotion.sad
+      case String(describing: Emotion.fear):
+        return Emotion.fear
+      case String(describing: Emotion.surprise):
+        return Emotion.surprise
+      case String(describing: Emotion.disgust):
+        return Emotion.disgust
       default:
         return nil
       }
@@ -35,8 +43,12 @@ extension Emotion {
     switch self {
     case .happy:
       return "😁"
-    case .sad:
-      return "☹️"
+    case .fear:
+      return "😱"
+    case .surprise:
+      return "😮"
+    case .disgust:
+      return "😖"
     }
   }
 }

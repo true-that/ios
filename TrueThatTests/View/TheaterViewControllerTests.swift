@@ -41,10 +41,10 @@ class TheaterViewControllerTests: BaseUITests {
   }
 
   func testDisplayScene() {
-    let scene = Scene(id: 1, userReaction: .sad,
+    let scene = Scene(id: 1, userReaction: .disgust,
                       director: User(id: 1, firstName: "The", lastName: "Flinstons",
                                      deviceId: "stonePhone"),
-                      reactionCounters: [.sad: 1000, .happy: 1234],
+                      reactionCounters: [.disgust: 1000, .happy: 1234],
                       created: Date(), viewed: false, media: nil)
     fetchedScenes = [scene]
     // Trigger viewDidAppear
@@ -64,12 +64,12 @@ class TheaterViewControllerTests: BaseUITests {
   }
 
   func testNavigationWhenSceneDisplayed() {
-    let scene = Scene(id: 1, userReaction: .sad,
+    let scene = Scene(id: 1, userReaction: .disgust,
                       director: User(id: 1, firstName: "The", lastName: "Flinstons",
                                      deviceId: "stonePhone"),
-                      reactionCounters: [.sad: 1000, .happy: 1234], created: Date(),
+                      reactionCounters: [.disgust: 1000, .happy: 1234], created: Date(),
                       viewed: false,
-                      media: Photo(url: "https://www.bbcgoodfood.com/sites/default/files/styles/carousel_medium/public/chicken-main_0.jpg"))
+                      media: Photo(id: 0, url: "https://www.bbcgoodfood.com/sites/default/files/styles/carousel_medium/public/chicken-main_0.jpg"))
     fetchedScenes = [scene]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)

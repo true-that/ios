@@ -42,16 +42,16 @@ class TheaterApiTests: XCTestCase {
 
   func testSuccessfulFetch() {
     scenes = [
-      Scene(id: 1, userReaction: .sad,
+      Scene(id: 1, userReaction: .disgust,
             director: User(id: 1, firstName: "copa", lastName: "cabana",
                            deviceId: "android"),
-            reactionCounters: [.sad: 1000, .happy: 1234],
-            created: Date(), viewed: false, media: Photo(url: "brazil.jpg")),
+            reactionCounters: [.disgust: 1000, .happy: 1234],
+            created: Date(), viewed: false, media: Photo(id: 0, url: "brazil.jpg")),
       Scene(id: 2, userReaction: .happy,
             director: User(id: 1, firstName: "barry", lastName: "manilow",
                            deviceId: "android"),
-            reactionCounters: [.sad: 2000, .happy: 100_234],
-            created: Date(), viewed: true, media: Photo(url: "carnaval.jpg"))
+            reactionCounters: [.disgust: 2000, .happy: 100_234],
+            created: Date(), viewed: true, media: Photo(id: 0, url: "carnaval.jpg"))
     ]
     fetch()
     expect(self.actual).toEventually(equal(scenes))
@@ -59,17 +59,17 @@ class TheaterApiTests: XCTestCase {
 
   func testFetchMultipleTypes() {
     scenes = [
-      Scene(id: 1, userReaction: .sad,
+      Scene(id: 1, userReaction: .disgust,
             director: User(id: 1, firstName: "copa", lastName: "cabana",
                            deviceId: "android"),
-            reactionCounters: [.sad: 1000, .happy: 1234],
-            created: Date(), viewed: false, media: Photo(url: "brazil.jpg")),
+            reactionCounters: [.disgust: 1000, .happy: 1234],
+            created: Date(), viewed: false, media: Photo(id: 0, url: "brazil.jpg")),
       Scene(id: 2, userReaction: .happy,
             director: User(id: 1, firstName: "barry", lastName: "manilow",
                            deviceId: "android"),
-            reactionCounters: [.sad: 2000, .happy: 100_234],
+            reactionCounters: [.disgust: 2000, .happy: 100_234],
             created: Date(), viewed: true,
-            media: Video(url: "http://truethat-ipo.mp4"))
+            media: Video(id: 0, url: "http://truethat-ipo.mp4"))
     ]
     fetch()
     expect(self.actual).toEventually(equal(scenes))
@@ -86,10 +86,10 @@ class TheaterApiTests: XCTestCase {
       OHHTTPStubsResponse(error: NSError(domain: Bundle.main.bundleIdentifier!, code: 1,
                                          userInfo: nil))
     }
-    scenes = [Scene(id: 1, userReaction: .sad,
+    scenes = [Scene(id: 1, userReaction: .disgust,
                     director: User(id: 1, firstName: "copa", lastName: "cabana",
                                    deviceId: "android"),
-                    reactionCounters: [.sad: 1000, .happy: 1234],
+                    reactionCounters: [.disgust: 1000, .happy: 1234],
                     created: Date(), viewed: false, media: nil)]
     fetch()
     expect(self.error).toEventuallyNot(beNil())

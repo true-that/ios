@@ -22,6 +22,7 @@ class SceneViewModel {
 
   var model: Scene
   var delegate: SceneViewDelegate!
+  var curren: Media?
 
   // MARK: Initialization
   init(with scene: Scene) {
@@ -71,7 +72,7 @@ class SceneViewModel {
     }
     let event = InteractionEvent(
       timestamp: Date(), userId: App.authModule.current!.id, reaction: nil,
-      eventType: .report, sceneId: model.id)
+      eventType: .report, sceneId: model.id, mediaId: curren?.id)
     InteractionApi.save(interaction: event)
       .on(value: { _ in
         App.log.debug("Interaction event successfully saved.")
@@ -111,7 +112,7 @@ class SceneViewModel {
       self.model.viewed = true
       let event = InteractionEvent(
         timestamp: Date(), userId: App.authModule.current!.id, reaction: nil,
-        eventType: .view, sceneId: model.id)
+        eventType: .view, sceneId: model.id, mediaId: curren?.id)
       InteractionApi.save(interaction: event)
         .on(value: { _ in
           App.log.debug("Interaction event successfully saved.")
@@ -134,12 +135,12 @@ extension SceneViewModel: ReactionDetectionDelegate {
     App.detecionModule.delegate = nil
     if model.canReact(user: App.authModule.current!) {
       model.userReaction = reaction
-      model.updateReactionCounters(with: reaction)
+      model.increaseCounter(of: reaction)
       updateReactionCounters()
       delegate.animateReactionImage()
       let event = InteractionEvent(
         timestamp: Date(), userId: App.authModule.current!.id, reaction: reaction,
-        eventType: .reaction, sceneId: model.id)
+        eventType: .reaction, sceneId: model.id, mediaId: curren?.id)
       InteractionApi.save(interaction: event)
         .on(value: { _ in
           App.log.debug("Interaction event successfully saved.")

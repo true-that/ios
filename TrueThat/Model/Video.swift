@@ -12,15 +12,17 @@ import Alamofire
 /// [backend]: https://github.com/true-that/backend/blob/master/src/main/java/com/truethat/backend/model/Video.java
 /// A data model of a video. See [backend]
 class Video: Media {
+  
   /// Local URL of the video
   var localUrl: URL?
 
-  override init(url: String?) {
-    super.init(url: url)
+  // MARK: Initialization
+  override init(id: Int64?, url: String?) {
+    super.init(id: id, url: url)
   }
 
   init(localUrl: URL?) {
-    super.init(url: nil)
+    super.init(id: nil, url: nil)
     self.localUrl = localUrl
   }
 
@@ -36,5 +38,13 @@ class Video: Media {
         multipartFormData.append(data!, withName: partName, mimeType: "video/mp4")
       }
     }
+  }
+  
+  override var hashValue: Int {
+    let superHash = super.hashValue
+    if localUrl != nil {
+      return 31 * superHash + localUrl!.hashValue
+    }
+    return superHash
   }
 }

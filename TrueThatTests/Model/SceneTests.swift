@@ -13,80 +13,24 @@ import Nimble
 
 class SceneTests: XCTestCase {
   func testJsonSerialization() {
-    let scene = Scene(id: 1, userReaction: .happy,
+    var scene = Scene(id: 1, userReaction: .happy,
                       director: User(id: 1, firstName: "android", lastName: "me no like",
                                      deviceId: "iphone"),
-                      reactionCounters: [.happy: 1200, .sad: 800],
+                      reactionCounters: [.happy: 1200, .disgust: 800],
                       created: Date(),
-                      viewed: true, media: nil)
+                      viewed: true, media: Photo(id: 0, url: "1"))
+    expect(scene).to(equal(Scene(json: JSON(from: scene))))
+    scene = Scene(id: 1, userReaction: .happy,
+                  director: User(id: 1, firstName: "android", lastName: "me no like",
+                                 deviceId: "iphone"),
+                  reactionCounters: [.happy: 1200, .disgust: 800],
+                  created: Date(),
+                  viewed: true, mediaNodes: [Photo(id: 0, url: "1"), Video(id: 0, url: "2")],
+                  edges: [Edge(sourceId: 0, targetId: 1, reaction: .surprise),
+                          Edge(sourceId: 1, targetId: 2, reaction: .fear)])
     expect(scene).to(equal(Scene(json: JSON(from: scene))))
   }
-
-  func testEquals() {
-    let now = Date()
-    let scene = Scene(id: 1, userReaction: .happy,
-                      director: User(id: 1, firstName: "android", lastName: "me no like",
-                                     deviceId: "iphone"),
-                      reactionCounters: [.happy: 1200, .sad: 800], created: now,
-                      viewed: true, media: nil)
-    expect(scene).to(equal(scene))
-    expect(scene).toNot(equal(Scene(id: nil, userReaction: .happy,
-                                    director: User(id: 1, firstName: "android",
-                                                   lastName: "me no like",
-                                                   deviceId: "iphone"),
-                                    reactionCounters: [.happy: 1200, .sad: 800],
-                                    created: now,
-                                    viewed: true, media: nil)))
-    expect(scene).toNot(equal(Scene(id: 1, userReaction: .sad,
-                                    director: User(id: 1, firstName: "android",
-                                                   lastName: "me no like",
-                                                   deviceId: "iphone"),
-                                    reactionCounters: [.happy: 1200, .sad: 800],
-                                    created: now,
-                                    viewed: true, media: nil)))
-    expect(scene).toNot(equal(Scene(id: 1, userReaction: nil,
-                                    director: User(id: 1, firstName: "android",
-                                                   lastName: "me no like",
-                                                   deviceId: "iphone"),
-                                    reactionCounters: [.happy: 1200, .sad: 800],
-                                    created: now,
-                                    viewed: true, media: nil)))
-    expect(scene).toNot(equal(Scene(id: 1, userReaction: .happy,
-                                    director: User(id: 1, firstName: "android2",
-                                                   lastName: "me no like",
-                                                   deviceId: "iphone"),
-                                    reactionCounters: [.happy: 1200, .sad: 800],
-                                    created: now,
-                                    viewed: true, media: nil)))
-    expect(scene).toNot(equal(Scene(id: 1, userReaction: .happy,
-                                    director: User(id: 1, firstName: "android",
-                                                   lastName: "me no like",
-                                                   deviceId: "iphone"),
-                                    reactionCounters: [.happy: 1201, .sad: 800],
-                                    created: now,
-                                    viewed: true, media: nil)))
-    expect(scene).toNot(equal(Scene(id: 1, userReaction: .happy,
-                                    director: User(id: 1, firstName: "android",
-                                                   lastName: "me no like",
-                                                   deviceId: "iphone"),
-                                    reactionCounters: [.happy: 1200], created: now,
-                                    viewed: true, media: nil)))
-    expect(scene).toNot(equal(Scene(id: 1, userReaction: .happy,
-                                    director: User(id: 1, firstName: "android",
-                                                   lastName: "me no like",
-                                                   deviceId: "iphone"),
-                                    reactionCounters: [.happy: 1200, .sad: 800],
-                                    created: now,
-                                    viewed: false, media: nil)))
-    expect(scene).toNot(equal(Scene(id: 1, userReaction: .happy,
-                                    director: User(id: 1, firstName: "android",
-                                                   lastName: "me no like",
-                                                   deviceId: "iphone"),
-                                    reactionCounters: [.happy: 1200, .sad: 800],
-                                    created: now,
-                                    viewed: false, media: Photo(url: ""))))
-  }
-
+  
   func testCanReact() {
     let user = User(id: 1, firstName: "android", lastName: "me no like", deviceId: "iphone")
     let sameDirector = Scene(id: 1, userReaction: nil, director: user, reactionCounters: nil,
@@ -105,24 +49,46 @@ class SceneTests: XCTestCase {
                                                     lastName: "cozashvili", deviceId: "103")))
       .to(beTrue())
   }
-
+  
   func testUpdateReactionCounters() {
     let reaction = Emotion.happy
     let nilCounters = Scene(id: 1, userReaction: nil, director: nil, reactionCounters: nil,
                             created: nil, viewed: nil, media: nil)
     let firstReactionOfType = Scene(id: 2, userReaction: nil, director: nil,
-                                    reactionCounters: [.sad: 1], created: nil, viewed: nil,
+                                    reactionCounters: [.disgust: 1], created: nil, viewed: nil,
                                     media: nil)
     let shouldIncrement = Scene(id: 3, userReaction: nil, director: nil,
                                 reactionCounters: [.happy: 2], created: nil, viewed: nil,
                                 media: nil)
     // Increment counters
-    nilCounters.updateReactionCounters(with: reaction)
-    firstReactionOfType.updateReactionCounters(with: reaction)
-    shouldIncrement.updateReactionCounters(with: reaction)
+    nilCounters.increaseCounter(of: reaction)
+    firstReactionOfType.increaseCounter(of: reaction)
+    shouldIncrement.increaseCounter(of: reaction)
     // Expected behaviour
     expect(nilCounters.reactionCounters?[reaction]).to(equal(1))
     expect(firstReactionOfType.reactionCounters?[reaction]).to(equal(1))
     expect(shouldIncrement.reactionCounters?[reaction]).to(equal(3))
+  }
+  
+  func testAddAndRemoveMedia() {
+    let photo = Photo(id: nil, url: "1")
+    let video = Video(id: nil, url: "2")
+    let newVideo = Video(id: nil, url: "3")
+    // Creates a scene from a photo
+    let scene = Scene(id: nil, userReaction: nil, director: nil, reactionCounters: nil, created: nil, viewed: nil,
+                      media: photo)
+    // Photo should be allocated an ID.
+    expect(photo.id).toNot(beNil())
+    // Adds a new video to the scene.
+    scene.add(media: video, from: photo.id!, on: .disgust)
+    // Video should be allocated a unique ID.
+    expect(video.id).toNot(beNil())
+    expect(video.id).toNot(equal(photo.id))
+    // Removes video from the scene
+    expect(scene.remove(media: video)).to(equal(photo))
+    // Adds a new video to the scene
+    scene.add(media: newVideo, from: photo.id!, on: .surprise)
+    // new video should follow photo.
+    expect(scene.next(of: photo, on: .surprise)).to(equal(newVideo))
   }
 }

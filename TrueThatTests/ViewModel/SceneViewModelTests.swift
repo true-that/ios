@@ -36,35 +36,35 @@ class SceneViewModelTests: BaseTests {
   }
 
   func testDisplayScene() {
-    let scene = Scene(id: 1, userReaction: .sad,
+    let scene = Scene(id: 1, userReaction: .disgust,
                       director: User(id: 1, firstName: "Mr", lastName: "Robot",
                                      deviceId: "iphone"),
-                      reactionCounters: [.sad: 1000, .happy: 1234],
+                      reactionCounters: [.disgust: 1000, .happy: 1234],
                       created: Date(), viewed: false, media: nil)
     initViewModel(with: scene)
     expect(self.viewModel.model).to(equal(scene))
     expect(self.viewModel.directorName.value).to(equal(scene.director?.displayName))
     expect(self.viewModel.timeAgo.value).to(equal("now"))
     expect(self.viewModel.reactionsCount.value).to(equal("2.2k"))
-    expect(self.viewModel.reactionEmoji.value).to(equal(Emotion.sad.emoji))
+    expect(self.viewModel.reactionEmoji.value).to(equal(Emotion.disgust.emoji))
     viewModel.didDisplay()
     expect(self.viewModel.optionsButtonHidden.value).to(beFalse())
   }
 
   func testDisplayScene_commonReactionDisplayed() {
     let scene = Scene(id: 1, userReaction: nil, director: nil,
-                      reactionCounters: [.sad: 1, .happy: 2], created: nil, viewed: nil,
+                      reactionCounters: [.disgust: 1, .happy: 2], created: nil, viewed: nil,
                       media: nil)
     initViewModel(with: scene)
     expect(self.viewModel.reactionEmoji.value).to(equal(Emotion.happy.emoji))
   }
 
   func testDisplayScene_userReactionReactionDisplayed() {
-    let scene = Scene(id: 1, userReaction: .sad, director: nil,
-                      reactionCounters: [.sad: 1, .happy: 2], created: nil, viewed: nil,
+    let scene = Scene(id: 1, userReaction: .disgust, director: nil,
+                      reactionCounters: [.disgust: 1, .happy: 2], created: nil, viewed: nil,
                       media: nil)
     initViewModel(with: scene)
-    expect(self.viewModel.reactionEmoji.value).to(equal(Emotion.sad.emoji))
+    expect(self.viewModel.reactionEmoji.value).to(equal(Emotion.disgust.emoji))
   }
 
   func testDisplayScene_noReactionReactionDisplayed() {
@@ -85,7 +85,7 @@ class SceneViewModelTests: BaseTests {
     let scene = Scene(id: 1, userReaction: nil,
                       director: User(id: 1, firstName: "Ms", lastName: "Robot",
                                      deviceId: "iphone2"),
-                      reactionCounters: [.sad: 3, .happy: 1],
+                      reactionCounters: [.disgust: 3, .happy: 1],
                       created: Date(timeIntervalSinceNow: -60), viewed: false, media: nil)
     initViewModel(with: scene)
     viewModel.didDisplay()
@@ -93,7 +93,7 @@ class SceneViewModelTests: BaseTests {
     // Assert reaction counters in model and view model
     expect(self.viewModel.model.userReaction).to(beNil())
     expect(self.viewModel.model.reactionCounters![.happy]).to(equal(1))
-    expect(self.viewModel.reactionEmoji.value).to(equal(Emotion.sad.emoji))
+    expect(self.viewModel.reactionEmoji.value).to(equal(Emotion.disgust.emoji))
     expect(self.viewModel.reactionsCount.value).to(equal("4"))
     // Fake a detection
     fakeDetectionModule.detect(.happy)
@@ -110,7 +110,7 @@ class SceneViewModelTests: BaseTests {
     let scene = Scene(id: 1, userReaction: nil,
                       director: User(id: 1, firstName: "Ms", lastName: "Robot",
                                      deviceId: "iphone2"),
-                      reactionCounters: [.sad: 3, .happy: 1],
+                      reactionCounters: [.disgust: 3, .happy: 1],
                       created: Date(timeIntervalSinceNow: -60), viewed: false, media: nil)
     initViewModel(with: scene)
     viewModel.didDisplay()
@@ -127,7 +127,7 @@ class SceneViewModelTests: BaseTests {
     let scene = Scene(id: 1, userReaction: nil,
                       director: User(id: 1, firstName: "Ms", lastName: "Robot",
                                      deviceId: "iphone2"),
-                      reactionCounters: [.sad: 3, .happy: 1],
+                      reactionCounters: [.disgust: 3, .happy: 1],
                       created: Date(timeIntervalSinceNow: -60), viewed: false, media: nil)
     initViewModel(with: scene)
     viewModel.didReport()
@@ -138,7 +138,7 @@ class SceneViewModelTests: BaseTests {
     let scene = Scene(id: 1, userReaction: nil,
                       director: User(id: 1, firstName: "Ms", lastName: "Robot",
                                      deviceId: "iphone2"),
-                      reactionCounters: [.sad: 1000, .happy: 1234],
+                      reactionCounters: [.disgust: 1000, .happy: 1234],
                       created: Date(timeIntervalSinceNow: -60), viewed: true, media: nil)
     initViewModel(with: scene)
     viewModel.didDisplay()

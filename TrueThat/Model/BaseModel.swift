@@ -9,16 +9,32 @@
 import SwiftyJSON
 
 /// Abstract data container.
-class BaseModel: Equatable, CustomStringConvertible {
-  init() {}
+class BaseModel: Equatable, CustomStringConvertible, Hashable {
+  /// As stored in our backend.
+  var id: Int64?
+  
+  var hashValue: Int {
+    return description.hashValue
+  }
+  
+  // MARK: Initiaizliation
+  init(id: Int64?) {
+    self.id = id
+  }
 
-  required init(json: JSON) {}
+  required init(json: JSON) {
+    id = json["id"].int64
+  }
 
   /// Converts model to dictionary to ease JSON use.
   ///
   /// - Returns: The model field names as keys and their respective values as values.
   func toDictionary() -> [String: Any] {
-    return [:]
+    var dictionary: [String: Any] = [:]
+    if id != nil {
+      dictionary["id"] = id!
+    }
+    return dictionary
   }
 
   public var description: String { return "\(toDictionary())" }
@@ -26,5 +42,6 @@ class BaseModel: Equatable, CustomStringConvertible {
 
 // MARK: operator overloading
 func == (lhs: BaseModel, rhs: BaseModel) -> Bool {
-  return JSON(from: lhs) == JSON(from: rhs)
+  // Comparing hash value is cheap trick to ensure binary objects (such as URL or Data) will be considered.
+  return lhs.hashValue == rhs.hashValue && JSON(from: lhs) == JSON(from: rhs)
 }

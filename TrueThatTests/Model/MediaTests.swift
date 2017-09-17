@@ -13,10 +13,10 @@ import Nimble
 
 class MediaTests: XCTestCase {
   func testJsonSerialization() {
-    var media = Media(url: "a.com")
+    var media = Media(id: 0, url: "a.com")
     expect(media).to(equal(Media(json: JSON(from: media))))
     // Test proper serialization and deserialization of sub types
-    media = Photo(url: "a.com")
+    media = Photo(id: 0, url: "a.com")
     expect(media).to(equal(Media.instantiate(with: JSON(from: media))))
     expect(media).to(beAnInstanceOf(Photo.self))
   }

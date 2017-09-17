@@ -48,11 +48,11 @@ class InteractionApiTests: XCTestCase {
 
   func testSuccessfulSave() {
     interaction = InteractionEvent(timestamp: Date(), userId: 1, reaction: .happy,
-                                   eventType: .reaction, sceneId: 1)
+                                   eventType: .reaction, sceneId: 1, mediaId: 1)
     fetch()
     expect(self.actual).toEventually(equal(interaction))
     interaction = InteractionEvent(timestamp: Date(), userId: 2, reaction: nil,
-                                   eventType: .view, sceneId: 2)
+                                   eventType: .view, sceneId: 2, mediaId: 6)
     fetch()
     expect(self.actual).toEventually(equal(interaction))
   }
@@ -63,14 +63,14 @@ class InteractionApiTests: XCTestCase {
                                          userInfo: nil))
     }
     interaction = InteractionEvent(timestamp: Date(), userId: 1, reaction: .happy,
-                                   eventType: .reaction, sceneId: 1)
+                                   eventType: .reaction, sceneId: 1, mediaId: 6)
     fetch()
     expect(self.error).toEventuallyNot(beNil())
   }
 
   func testBadData() {
     interaction = InteractionEvent(timestamp: Date(), userId: 1, reaction: .happy,
-                                   eventType: .reaction, sceneId: 1)
+                                   eventType: .reaction, sceneId: 1, mediaId: 6)
     stub(condition: isPath(InteractionApi.path)) { _ -> OHHTTPStubsResponse in
       OHHTTPStubsResponse(data: Data(), statusCode: 200,
                           headers: ["Content-Type": "application/json"])

@@ -25,16 +25,20 @@ class InteractionEvent: BaseModel {
 
   /// Of the {Scene} that was interacted with.
   var sceneId: Int64?
+  
+  /// ID of the media with which the user interacted.
+  var mediaId: Int64?
 
   // MARK: Initialization
   init(timestamp: Date?, userId: Int64?, reaction: Emotion?, eventType: EventType?,
-       sceneId: Int64?) {
-    super.init()
+       sceneId: Int64?, mediaId: Int64?) {
+    super.init(id: nil)
     self.timestamp = timestamp
     self.userId = userId
     self.reaction = reaction
     self.eventType = eventType
     self.sceneId = sceneId
+    self.mediaId = mediaId
   }
 
   required init(json: JSON) {
@@ -44,6 +48,7 @@ class InteractionEvent: BaseModel {
     reaction = Emotion.toEmotion(json["reaction"].string)
     eventType = EventType.toEventType(json["eventType"].string)
     sceneId = json["sceneId"].int64
+    mediaId = json["mediaId"].int64
   }
 
   // MARK: Overriden methods
@@ -54,6 +59,7 @@ class InteractionEvent: BaseModel {
     if reaction != nil { dictionary["reaction"] = reaction?.rawValue.snakeCased()!.uppercased() }
     if eventType != nil { dictionary["eventType"] = eventType?.rawValue.snakeCased()!.uppercased() }
     if sceneId != nil { dictionary["sceneId"] = sceneId }
+    if mediaId != nil { dictionary["mediaId"] = sceneId }
     return dictionary
   }
 }

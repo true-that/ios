@@ -16,30 +16,30 @@ import SwiftyJSON
 ///
 /// See [backend].
 class Edge: BaseModel {
-  var sourceIndex: Int?
-  var targetIndex: Int?
+  var sourceId: Int64?
+  var targetId: Int64?
   var reaction: Emotion?
   
   // MARK: Initialization
-  init(sourceIndex: Int?, targetIndex: Int?, reaction: Emotion?) {
-    super.init()
-    self.sourceIndex = sourceIndex
-    self.targetIndex = targetIndex
+  init(sourceId: Int64?, targetId: Int64?, reaction: Emotion?) {
+    super.init(id: nil)
+    self.sourceId = sourceId
+    self.targetId = targetId
     self.reaction = reaction
   }
   
   required init(json: JSON) {
     super.init(json: json)
-    sourceIndex = json["sourceIndex"].int
-    targetIndex = json["targetIndex"].int
+    sourceId = json["sourceId"].int64
+    targetId = json["targetId"].int64
     reaction = Emotion.toEmotion(json["reaction"].string)
   }
   
   // MARK: Overriden methods
   override func toDictionary() -> [String: Any] {
     var dictionary = super.toDictionary()
-    if sourceIndex != nil { dictionary["sourceIndex"] = sourceIndex }
-    if targetIndex != nil { dictionary["targetIndex"] = targetIndex }
+    if sourceId != nil { dictionary["sourceId"] = sourceId }
+    if targetId != nil { dictionary["targetId"] = targetId }
     if reaction != nil { dictionary["reaction"] = reaction?.rawValue.snakeCased()!.uppercased() }
     return dictionary
   }

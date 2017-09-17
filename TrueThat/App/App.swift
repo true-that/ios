@@ -22,7 +22,7 @@ class App {
 
   final class SingletonLog {
 
-    // Can't init is singleton
+    // Can't init, this is a singleton
     private init() {
       log = SwiftyBeaver.self
       log.addDestination(ConsoleDestination())

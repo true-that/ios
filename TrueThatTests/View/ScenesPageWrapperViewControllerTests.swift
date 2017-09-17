@@ -59,10 +59,10 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
   }
 
   func testDisplayScene() {
-    let scene = Scene(id: 1, userReaction: .sad,
+    let scene = Scene(id: 1, userReaction: .disgust,
                       director: User(id: 1, firstName: "The", lastName: "Flinstons",
                                      deviceId: "stonePhone"),
-                      reactionCounters: [.sad: 1000, .happy: 1234],
+                      reactionCounters: [.disgust: 1000, .happy: 1234],
                       created: Date(), viewed: false, media: nil)
     fetchedScenes = [scene]
     // Trigger viewDidAppear
@@ -79,7 +79,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     let scene = Scene(id: 1, userReaction: nil,
                       director: User(id: 1, firstName: "The", lastName: "Flinstons",
                                      deviceId: "stonePhone"),
-                      reactionCounters: [.sad: 4],
+                      reactionCounters: [.disgust: 4],
                       created: Date(), viewed: false, media: nil)
     fetchedScenes = [scene]
     // Trigger viewDidAppear
@@ -95,10 +95,10 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
 
   // Should not fetch scenes before view appeared
   func testNotDisplayBeforePresent() {
-    let scene = Scene(id: 1, userReaction: .sad,
+    let scene = Scene(id: 1, userReaction: .disgust,
                       director: User(id: 1, firstName: "The", lastName: "Flinstons",
                                      deviceId: "stonePhone"),
-                      reactionCounters: [.sad: 1000, .happy: 1234],
+                      reactionCounters: [.disgust: 1000, .happy: 1234],
                       created: Date(), viewed: false, media: nil)
     fetchedScenes = [scene]
     // Trigger viewDidDisappear
@@ -109,10 +109,10 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
 
   // Should not fetch scenes before user is authenticated
   func testNotDisplayBeforeAuthOk() {
-    let scene = Scene(id: 1, userReaction: .sad,
+    let scene = Scene(id: 1, userReaction: .disgust,
                       director: User(id: 1, firstName: "The", lastName: "Flinstons",
                                      deviceId: "stonePhone"),
-                      reactionCounters: [.sad: 1000, .happy: 1234],
+                      reactionCounters: [.disgust: 1000, .happy: 1234],
                       created: Date(), viewed: false, media: nil)
     fetchedScenes = [scene]
     // Trigger viewDidAppear
@@ -124,23 +124,23 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
   }
 
   func testMultipleTypes() {
-    let scene = Scene(id: 1, userReaction: .sad,
+    let scene = Scene(id: 1, userReaction: .disgust,
                       director: User(id: 1, firstName: "Breaking", lastName: "Bad",
                                      deviceId: "iphone"),
-                      reactionCounters: [.sad: 1000, .happy: 1234],
+                      reactionCounters: [.disgust: 1000, .happy: 1234],
                       created: Date(), viewed: false, media: nil)
     let photo = Scene(id: 2, userReaction: .happy,
                       director: User(id: 1, firstName: "Emma", lastName: "Watson",
                                      deviceId: "iphone2"),
-                      reactionCounters: [.happy: 5000, .sad: 34], created: Date(),
+                      reactionCounters: [.happy: 5000, .disgust: 34], created: Date(),
                       viewed: false,
-                      media: Photo(url: "https://storage.googleapis.com/truethat-test-studio/testing/happy-selfie.jpg"))
+                      media: Photo(id: 0, url: "https://storage.googleapis.com/truethat-test-studio/testing/happy-selfie.jpg"))
     let video = Scene(id: 3, userReaction: .happy,
                       director: User(id: 1, firstName: "Harry", lastName: "Potter",
                                      deviceId: "iphone2"),
-                      reactionCounters: [.happy: 7, .sad: 34], created: Date(),
+                      reactionCounters: [.happy: 7, .disgust: 34], created: Date(),
                       viewed: false,
-                      media: Video(url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4"))
+                      media: Video(id: 0, url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4"))
     fetchedScenes = [scene, photo, video]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
@@ -156,15 +156,15 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
   }
 
   func testScenesNavigation() {
-    let scene1 = Scene(id: 1, userReaction: .sad,
+    let scene1 = Scene(id: 1, userReaction: .disgust,
                        director: User(id: 1, firstName: "Breaking", lastName: "Bad",
                                       deviceId: "iphone"),
-                       reactionCounters: [.sad: 1000, .happy: 1234],
+                       reactionCounters: [.disgust: 1000, .happy: 1234],
                        created: Date(), viewed: false, media: nil)
     let scene2 = Scene(id: 2, userReaction: .happy,
                        director: User(id: 1, firstName: "Mr", lastName: "White",
                                       deviceId: "iphone2"),
-                       reactionCounters: [.sad: 5000, .happy: 34],
+                       reactionCounters: [.disgust: 5000, .happy: 34],
                        created: Date(), viewed: true, media: nil)
     fetchedScenes = [scene1, scene2]
     // Trigger viewDidAppear
@@ -181,15 +181,15 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
   }
 
   func testFetchNewScenes() {
-    let scene1 = Scene(id: 1, userReaction: .sad,
+    let scene1 = Scene(id: 1, userReaction: .disgust,
                        director: User(id: 1, firstName: "Breaking", lastName: "Bad",
                                       deviceId: "iphone"),
-                       reactionCounters: [.sad: 1000, .happy: 1234],
+                       reactionCounters: [.disgust: 1000, .happy: 1234],
                        created: Date(), viewed: false, media: nil)
     let scene2 = Scene(id: 2, userReaction: .happy,
                        director: User(id: 1, firstName: "Mr", lastName: "White",
                                       deviceId: "iphone2"),
-                       reactionCounters: [.sad: 5000, .happy: 34],
+                       reactionCounters: [.disgust: 5000, .happy: 34],
                        created: Date(), viewed: false, media: nil)
     fetchedScenes = [scene1]
     // Trigger viewDidAppear
@@ -209,9 +209,9 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     let scene = Scene(id: 2, userReaction: .happy,
                       director: User(id: 1, firstName: "Emma", lastName: "Watson",
                                      deviceId: "iphone2"),
-                      reactionCounters: [.happy: 5000, .sad: 34], created: Date(),
+                      reactionCounters: [.happy: 5000, .disgust: 34], created: Date(),
                       viewed: false,
-                      media: Photo(url: "https://storage.googleapis.com/truethat-test-studio/testing/happy-selfie.jpg"))
+                      media: Photo(id: 0, url: "https://storage.googleapis.com/truethat-test-studio/testing/happy-selfie.jpg"))
     fetchedScenes = [scene]
     // Displays the scene
     viewController.beginAppearanceTransition(true, animated: false)

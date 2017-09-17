@@ -17,8 +17,8 @@ class Media: BaseModel {
   var url: String?
 
   // Mark: Initialization
-  init(url: String?) {
-    super.init()
+  init(id: Int64?, url: String?) {
+    super.init(id: id)
     self.url = url
   }
 

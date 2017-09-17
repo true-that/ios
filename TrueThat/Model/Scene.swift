@@ -10,8 +10,7 @@ import Alamofire
 /// Scenes add spice to our users life, they are the an abstract pieces of media consumed by our
 /// users. See [backend]
 class Scene: BaseModel {
-  /// As stored in our backend.
-  var id: Int64?
+  
   /// The current user reaction to it.
   var userReaction: Emotion?
   /// Creator of the scene.
@@ -27,6 +26,35 @@ class Scene: BaseModel {
   /// The flow of the user interaction with this scene. Each node represents a media item such as video or a photo and
   /// each edge describe which reaction leads from one media item to the next.
   var edges: [Edge]?
+  /// Allocates the next media ID.
+  var nextMediaId: Int64 = 0
+  
+  /// The flow of the user interaction with this scene. Each node represents a media item such as video or a photo and
+  /// each edge describe which reaction leads from one media item to the next.
+  var flowTree: FlowTree! {
+    if treeInstance == nil {
+      treeInstance = FlowTree(delegate: self)
+      if mediaNodes != nil {
+        for media in mediaNodes! {
+          treeInstance.add(media: media)
+        }
+      }
+      if edges != nil {
+        for edge in edges! {
+          treeInstance.add(edge: edge)
+        }
+      }
+      if !treeInstance.isTree {
+        App.log.report("Invalid media tree", withError: NSError(domain: Bundle.main.bundleIdentifier!,
+                                                                code: ErrorCode.mediaTree.rawValue,
+                                                                userInfo: ["mediaNodes": mediaNodes ?? [],
+                                                                           "edges": edges ?? []]))
+        return nil
+      }
+    }
+    return treeInstance
+  }
+  var treeInstance: FlowTree!
   
   /// The starting point of this scene. All users will begin viewing this media before all others.
   var rootMedia: Media? {
@@ -35,23 +63,28 @@ class Scene: BaseModel {
     }
     return nil
   }
-
+  
   // MARK: Initialization
   init(id: Int64?, userReaction: Emotion?, director: User?, reactionCounters: [Emotion: Int64]?,
        created: Date?, viewed: Bool?, mediaNodes: [Media]?, edges: [Edge]?) {
-    super.init()
-    self.id = id
+    super.init(id: id)
     self.userReaction = userReaction
     self.director = director
     self.created = created
     self.viewed = viewed
     self.reactionCounters = reactionCounters
     self.mediaNodes = mediaNodes
+    for media in mediaNodes! {
+      if media.id == nil {
+        media.id = nextMediaId
+        nextMediaId += 1
+      }
+    }
     self.edges = edges
   }
   
   convenience init(id: Int64?, userReaction: Emotion?, director: User?, reactionCounters: [Emotion: Int64]?,
-       created: Date?, viewed: Bool?, media: Media?) {
+                   created: Date?, viewed: Bool?, media: Media?) {
     var mediaNodes: [Media]? = nil
     if media != nil {
       mediaNodes = [media!]
@@ -59,10 +92,9 @@ class Scene: BaseModel {
     self.init(id: id, userReaction: userReaction, director: director, reactionCounters: reactionCounters,
               created: created, viewed: viewed, mediaNodes: mediaNodes, edges: nil)
   }
-
+  
   required init(json: JSON) {
     super.init(json: json)
-    id = json["id"].int64
     userReaction = Emotion.toEmotion(json["userReaction"].string)
     director = User(json: json["director"])
     created = DateHelper.utcDate(fromString: json["created"].string)
@@ -77,13 +109,10 @@ class Scene: BaseModel {
       edges = json["edges"].arrayValue.map{ Edge(json: $0) }
     }
   }
-
+  
   // MARK: overriden methods
   override func toDictionary() -> [String: Any] {
     var dictionary = super.toDictionary()
-    if id != nil {
-      dictionary["id"] = id!
-    }
     if userReaction != nil {
       dictionary["userReaction"] = userReaction!.rawValue.snakeCased()!.uppercased()
     }
@@ -106,22 +135,22 @@ class Scene: BaseModel {
     if edges != nil {
       dictionary["edges"] = edges!.map { $0.toDictionary() }
     }
-
+    
     return dictionary
   }
-
-  // MARK: Interaction
-
+  
+  // MARK: Methods
+  
   /// - Parameter user: for which to inquire.
   /// - Returns: Whether `user` can react to this scene.
   func canReact(user: User) -> Bool {
     return userReaction == nil && (director == nil || user != director)
   }
-
-  /// Updates reaction counters of this scene with `reaction`
+  
+  /// Increase reaction counter of `reaction`.
   ///
   /// - Parameter reaction: to update with
-  func updateReactionCounters(with reaction: Emotion) {
+  func increaseCounter(of reaction: Emotion) {
     if reactionCounters == nil {
       reactionCounters = [reaction: 1]
     } else if reactionCounters![reaction] == nil {
@@ -131,12 +160,51 @@ class Scene: BaseModel {
     }
   }
   
-  func partName(of: Int) -> String {
-    return StudioApi.mediaPartPrefix + "\(of)"
+  /// Adds `media` to the flow tree.
+  ///
+  /// - Parameters:
+  ///   - media: to add
+  ///   - parentId: desired parent media ID.
+  ///   - reaction: that should trigger transition from parent to child media.
+  func add(media: Media, from parentId: Int64, on reaction: Emotion) {
+    if media.id == nil {
+      media.id = nextMediaId
+      nextMediaId += 1
+    }
+    mediaNodes?.append(media)
+    let edge = Edge(sourceId: parentId, targetId: media.id!, reaction: reaction)
+    if edges == nil {
+      edges = []
+    }
+    edges!.append(edge)
+    flowTree.add(media: media)
+    flowTree.add(edge: edge)
   }
-
+  
+  /// - Parameters:
+  ///   - media: what the user is currently viewing.
+  ///   - reaction: how he reacted to it.
+  /// - Returns: the media, if any, that he should now view.
+  func next(of media: Media, on reaction: Emotion) -> Media? {
+    return flowTree.child(of: media.id!, emotion: reaction)
+  }
+  
+  /// - Parameter media: what the user is currently viewing
+  /// - Returns: the media, if any, that led to the current one.
+  func previous(of media: Media) -> Media? {
+    return flowTree.parent(of: media.id!)
+  }
+  
+  /// Removes `media` from this scene.
+  ///
+  /// - Parameter media: to remove
+  /// - Returns: the parent media.
+  func remove(media: Media) -> Media? {
+    return flowTree.remove(at: media.id!)
+  }
+  
   // MARK: Network
-
+  
   /// Appends scene data to a multipart request
   ///
   /// - Parameter multipartFormData: to append to
@@ -150,5 +218,20 @@ class Scene: BaseModel {
         mediaNodes![i].appendTo(multipartFormData: multipartFormData, withName: partName(of: i))
       }
     }
+  }
+  
+  func partName(of: Int) -> String {
+    return StudioApi.mediaPartPrefix + "\(of)"
+  }
+}
+
+// MARK: FlowTreeDelegate
+extension Scene: FlowTreeDelegate {
+  func delete(media: Media) {
+    mediaNodes?.remove(at: (mediaNodes?.index(of: media))!)
+  }
+  
+  func delete(edge: Edge) {
+    edges?.remove(at: (edges?.index(of: edge))!)
   }
 }
