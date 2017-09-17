@@ -152,8 +152,7 @@ class StudioViewModel {
   ///
   /// - Parameter imageData: of the fresh out of the oven image
   public func didCapture(imageData: Data) {
-    directed = Scene(id: nil, userReaction: nil, director: App.authModule.current,
-                     reactionCounters: nil, created: Date(), viewed: nil, media: Photo(data: imageData))
+    directed = Scene(of: Photo(data: imageData))
     willApprove()
   }
 
@@ -169,8 +168,7 @@ class StudioViewModel {
 
   /// Invoked once recorded video has been processed.
   func didFinishProcessVideo(url: URL) {
-    directed = Scene(id: nil, userReaction: nil, director: App.authModule.current,
-                     reactionCounters: nil, created: Date(), viewed: nil, media: Video(localUrl: url))
+    directed = Scene(of: Video(localUrl: url))
     willApprove()
   }
 

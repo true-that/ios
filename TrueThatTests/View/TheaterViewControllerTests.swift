@@ -37,20 +37,17 @@ class TheaterViewControllerTests: BaseUITests {
 
   func assertDisplayed(scene: Scene) {
     expect(self.viewController.scenesPageWrapper.scenesPage.currentViewController?
-      .viewModel?.model).toEventually(equal(scene))
+      .viewModel?.scene).toEventually(equal(scene))
   }
 
   func testDisplayScene() {
-    let scene = Scene(id: 1, userReaction: .disgust,
-                      director: User(id: 1, firstName: "The", lastName: "Flinstons",
-                                     deviceId: "stonePhone"),
+    let scene = Scene(id: 1, director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
                       reactionCounters: [.disgust: 1000, .happy: 1234],
-                      created: Date(), viewed: false, media: nil)
+                      created: Date(), mediaNodes: nil, edges: nil)
     fetchedScenes = [scene]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
     viewController.didAuthOk()
-    scene.viewed = true
     assertDisplayed(scene: scene)
   }
 
@@ -64,16 +61,12 @@ class TheaterViewControllerTests: BaseUITests {
   }
 
   func testNavigationWhenSceneDisplayed() {
-    let scene = Scene(id: 1, userReaction: .disgust,
-                      director: User(id: 1, firstName: "The", lastName: "Flinstons",
-                                     deviceId: "stonePhone"),
+    let scene = Scene(id: 1, director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
                       reactionCounters: [.disgust: 1000, .happy: 1234], created: Date(),
-                      viewed: false,
-                      media: Photo(id: 0, url: "https://www.bbcgoodfood.com/sites/default/files/styles/carousel_medium/public/chicken-main_0.jpg"))
+                      mediaNodes: [Photo(id: 0, url: "https://www.bbcgoodfood.com/sites/default/files/styles/carousel_medium/public/chicken-main_0.jpg")], edges: nil)
     fetchedScenes = [scene]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
-    scene.viewed = true
     assertDisplayed(scene: scene)
     // Swipe up
     tester().swipeView(withAccessibilityLabel: "scene view", in: .up)

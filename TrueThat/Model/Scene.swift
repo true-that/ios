@@ -11,16 +11,12 @@ import Alamofire
 /// users. See [backend]
 class Scene: BaseModel {
   
-  /// The current user reaction to it.
-  var userReaction: Emotion?
   /// Creator of the scene.
   var director: User?
   /// Reaction counters.
   var reactionCounters: [Emotion: Int64]?
   /// Date of creation.
   var created: Date?
-  /// Whether the scene was already viewed by the current user.
-  var viewed: Bool?
   /// Media items of this scene, such as a photo.
   var mediaNodes: [Media]?
   /// The flow of the user interaction with this scene. Each node represents a media item such as video or a photo and
@@ -58,47 +54,37 @@ class Scene: BaseModel {
   
   /// The starting point of this scene. All users will begin viewing this media before all others.
   var rootMedia: Media? {
-    if mediaNodes != nil && !mediaNodes!.isEmpty {
-      return mediaNodes![0]
-    }
-    return nil
+    return flowTree.root
   }
   
   // MARK: Initialization
-  init(id: Int64?, userReaction: Emotion?, director: User?, reactionCounters: [Emotion: Int64]?,
-       created: Date?, viewed: Bool?, mediaNodes: [Media]?, edges: [Edge]?) {
+  init(id: Int64?, director: User?, reactionCounters: [Emotion: Int64]?, created: Date?, mediaNodes: [Media]?,
+       edges: [Edge]?) {
     super.init(id: id)
-    self.userReaction = userReaction
     self.director = director
     self.created = created
-    self.viewed = viewed
     self.reactionCounters = reactionCounters
     self.mediaNodes = mediaNodes
-    for media in mediaNodes! {
-      if media.id == nil {
-        media.id = nextMediaId
-        nextMediaId += 1
+    if mediaNodes != nil {
+      for media in mediaNodes! {
+        if media.id == nil {
+          media.id = nextMediaId
+          nextMediaId += 1
+        }
       }
     }
     self.edges = edges
   }
   
-  convenience init(id: Int64?, userReaction: Emotion?, director: User?, reactionCounters: [Emotion: Int64]?,
-                   created: Date?, viewed: Bool?, media: Media?) {
-    var mediaNodes: [Media]? = nil
-    if media != nil {
-      mediaNodes = [media!]
-    }
-    self.init(id: id, userReaction: userReaction, director: director, reactionCounters: reactionCounters,
-              created: created, viewed: viewed, mediaNodes: mediaNodes, edges: nil)
+  convenience init(of media: Media) {
+    self.init(id: nil, director: App.authModule.current, reactionCounters: nil, created: Date(),
+              mediaNodes: [media], edges: nil)
   }
   
   required init(json: JSON) {
     super.init(json: json)
-    userReaction = Emotion.toEmotion(json["userReaction"].string)
     director = User(json: json["director"])
     created = DateHelper.utcDate(fromString: json["created"].string)
-    viewed = json["viewed"].bool
     reactionCounters = json["reactionCounters"].dictionary?.mapPairs { stringEmotion, counter in
       (Emotion.toEmotion(stringEmotion)!, counter.int64Value)
     }
@@ -113,9 +99,6 @@ class Scene: BaseModel {
   // MARK: overriden methods
   override func toDictionary() -> [String: Any] {
     var dictionary = super.toDictionary()
-    if userReaction != nil {
-      dictionary["userReaction"] = userReaction!.rawValue.snakeCased()!.uppercased()
-    }
     if director != nil {
       dictionary["director"] = director!.toDictionary()
     }
@@ -125,9 +108,6 @@ class Scene: BaseModel {
     }
     if created != nil {
       dictionary["created"] = DateHelper.utcDate(fromDate: created!)
-    }
-    if viewed != nil {
-      dictionary["viewed"] = viewed!
     }
     if mediaNodes != nil {
       dictionary["mediaNodes"] = mediaNodes!.map { $0.toDictionary() }
@@ -140,12 +120,6 @@ class Scene: BaseModel {
   }
   
   // MARK: Methods
-  
-  /// - Parameter user: for which to inquire.
-  /// - Returns: Whether `user` can react to this scene.
-  func canReact(user: User) -> Bool {
-    return userReaction == nil && (director == nil || user != director)
-  }
   
   /// Increase reaction counter of `reaction`.
   ///

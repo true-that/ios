@@ -18,6 +18,7 @@ class RepertoireApiTests: XCTestCase {
   var actual: [Scene]?
   var error: NSError?
   let user = User(id: nil, firstName: nil, lastName: nil, deviceId: nil)
+  var scene: Scene!
 
   override func setUp() {
     super.setUp()
@@ -26,6 +27,8 @@ class RepertoireApiTests: XCTestCase {
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
                                  headers: ["Content-Type": "application/json"])
     }
+    scene = Scene(id: 1, director: self.user, reactionCounters: nil, created: nil, mediaNodes: nil, edges: nil)
+    scenes = []
     actual = nil
     error = nil
   }
@@ -42,32 +45,7 @@ class RepertoireApiTests: XCTestCase {
   }
 
   func testSuccessfulFetch() {
-    scenes = [
-      Scene(id: 1, userReaction: .disgust,
-            director: user,
-            reactionCounters: [.disgust: 1000, .happy: 1234],
-            created: Date(), viewed: false, media: nil),
-      Scene(id: 2, userReaction: .happy,
-            director: user,
-            reactionCounters: [.disgust: 2000, .happy: 100_234],
-            created: Date(), viewed: true, media: nil)
-    ]
-    fetch()
-    expect(self.actual).toEventually(equal(scenes))
-  }
-
-  func testFetchMultipleTypes() {
-    scenes = [
-      Scene(id: 1, userReaction: .disgust,
-            director: user,
-            reactionCounters: [.disgust: 1000, .happy: 1234],
-            created: Date(), viewed: false, media: nil),
-      Scene(id: 2, userReaction: .happy,
-            director: user,
-            reactionCounters: [.disgust: 2000, .happy: 100_234],
-            created: Date(), viewed: true,
-            media: Photo(id: 0, url: "http://truethat-ipo.jpg"))
-    ]
+    scenes = [scene, scene]
     fetch()
     expect(self.actual).toEventually(equal(scenes))
   }
@@ -83,10 +61,7 @@ class RepertoireApiTests: XCTestCase {
       OHHTTPStubsResponse(error: NSError(domain: Bundle.main.bundleIdentifier!, code: 1,
                                          userInfo: nil))
     }
-    scenes = [Scene(id: 1, userReaction: .disgust,
-                    director: user,
-                    reactionCounters: [.disgust: 1000, .happy: 1234],
-                    created: Date(), viewed: false, media: nil)]
+    scenes = [scene]
     fetch()
     expect(self.error).toEventuallyNot(beNil())
   }

@@ -32,6 +32,7 @@ class SceneViewController: UIViewController {
 
   // MARK: Lifecycle
   override func viewDidLoad() {
+    App.log.debug("viewDidLoad")
     super.viewDidLoad()
 
     guard viewModel != nil else {
@@ -61,29 +62,18 @@ class SceneViewController: UIViewController {
       UITapGestureRecognizer(target: self, action: #selector(self.didReport)))
     reportLabel.isUserInteractionEnabled = true
     reportLabel.layer.cornerRadius = 5
-
-    // Loads media view controller
-    mediaViewController = MediaViewController.instantiate(with: viewModel.model.rootMedia)
-
-    guard mediaViewController != nil else {
-      // Scene does not have a media and so had been displayed.
-      viewModel.didDisplay()
-      return
-    }
-
-    self.addChildViewController(mediaViewController)
-    self.view.addSubview(mediaViewController.view)
-    mediaViewController.view.frame = self.view.bounds
-    mediaViewController.view.autoresizingMask = UIViewAutoresizing.flexibleWidth
-    mediaViewController.view.translatesAutoresizingMaskIntoConstraints = true
-    mediaViewController.delegate = self
-    // Send media to back
-    self.view.sendSubview(toBack: mediaViewController.view)
   }
 
   override func viewDidDisappear(_ animated: Bool) {
+    App.log.debug("viewDidDisappear")
     super.viewDidDisappear(animated)
     viewModel.didDisappear()
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    App.log.debug("viewDidAppear")
+    super.viewDidAppear(animated)
+    viewModel.didAppear()
   }
 
   // MARK: Actions
@@ -95,21 +85,6 @@ class SceneViewController: UIViewController {
   /// Reports the scene for offensive content.
   @objc private func didReport() {
     viewModel.didReport()
-  }
-}
-
-// MARK: MediaViewControllerDelegate
-extension SceneViewController: MediaViewControllerDelegate {
-  func didDownloadMedia() {
-    viewModel.didDisplay()
-  }
-
-  func showLoader() {
-    viewModel.loadingImageHidden.value = false
-  }
-
-  func hideLoader() {
-    viewModel.loadingImageHidden.value = true
   }
 }
 
@@ -131,5 +106,34 @@ extension SceneViewController: SceneViewDelegate {
     let okAction = UIAlertAction(title: okAction, style: .default, handler: nil)
     alertController.addAction(okAction)
     self.present(alertController, animated: true, completion: nil)
+  }
+  
+  func display(media: Media) {
+    if mediaViewController != nil {
+      mediaViewController.view.removeFromSuperview()
+      mediaViewController.removeFromParentViewController()
+    }
+    
+    mediaViewController = MediaViewController.instantiate(with: media)
+    mediaViewController.delegate = viewModel
+    
+    guard mediaViewController != nil else {
+      return
+    }
+    
+    self.addChildViewController(mediaViewController)
+    self.view.addSubview(mediaViewController.view)
+    mediaViewController.view.frame = self.view.bounds
+    mediaViewController.view.autoresizingMask = UIViewAutoresizing.flexibleWidth
+    mediaViewController.view.translatesAutoresizingMaskIntoConstraints = true
+    // Send media to back
+    self.view.sendSubview(toBack: mediaViewController.view)
+  }
+  
+  func mediaFinished() -> Bool {
+    if mediaViewController == nil {
+      return false
+    }
+    return mediaViewController!.finished
   }
 }

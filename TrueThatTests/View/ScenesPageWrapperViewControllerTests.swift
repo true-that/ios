@@ -17,10 +17,18 @@ import Nimble
 class ScenesPageWrapperViewControllerTests: BaseUITests {
   var fetchedScenes: [Scene] = []
   var viewController: ScenesPageWrapperViewController!
+  var scene: Scene!
 
   override func setUp() {
     super.setUp()
 
+    // Hasten media finish.
+    PhotoViewController.finishTimeoutSeconds = 0.1
+    
+    scene = Scene(id: 1, director: User(id: 1, firstName: "Mr", lastName: "Bean", deviceId: "iphone1"),
+                  reactionCounters: [.disgust: 1, .happy: 3], created: Date(),
+                  mediaNodes: [Photo(id: 1, url: "https://i.ytimg.com/vi/XrBTDbxOZE8/maxresdefault.jpg")], edges: nil)
+    
     stub(condition: isPath(TheaterApi.path)) { _ -> OHHTTPStubsResponse in
       let stubData = try! JSON(self.fetchedScenes.map { JSON(from: $0) }).rawData()
       self.fetchedScenes = []
@@ -44,12 +52,13 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     viewController.viewModel.fetchingDelegate = FetchScenesTestsDelegate()
   }
 
-  func assertDisplayed(scene: Scene) {
-    expect(self.viewController.scenesPage.currentViewController?.viewModel?.model.id)
-      .toEventually(equal(scene.id))
-    expect(self.viewController.scenesPage.currentViewController?.viewModel?.model.viewed)
-      .toEventually(beTrue(), timeout: 10.0)
-    if self.viewController.scenesPage.currentViewController?.viewModel?.model.rootMedia is Video {
+  func assertDisplayed(scene: Scene, mediaId: Int64) {
+    expect(self.viewController.scenesPage.currentViewController?.viewModel).toEventuallyNot(beNil())
+    let viewModel = viewController.scenesPage.currentViewController!.viewModel!
+    expect(viewModel.scene.id).toEventually(equal(scene.id))
+    expect(viewModel.currentMedia?.id).toEventually(equal(mediaId))
+    expect(viewModel.mediaViewed[viewModel.currentMedia!]).toEventually(beTrue(), timeout: 10.0)
+    if viewModel.currentMedia is Video {
       expect((self.viewController.scenesPage.currentViewController?.mediaViewController
           as! VideoViewController).player?.currentTime())
         .toEventuallyNot(equal(kCMTimeZero), timeout: 5.0)
@@ -59,11 +68,6 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
   }
 
   func testDisplayScene() {
-    let scene = Scene(id: 1, userReaction: .disgust,
-                      director: User(id: 1, firstName: "The", lastName: "Flinstons",
-                                     deviceId: "stonePhone"),
-                      reactionCounters: [.disgust: 1000, .happy: 1234],
-                      created: Date(), viewed: false, media: nil)
     fetchedScenes = [scene]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
@@ -72,20 +76,18 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     viewController.didAuthOk()
     // Loading image should be shown
     expect(self.viewController.loadingImage.isHidden).to(beFalse())
-    assertDisplayed(scene: scene)
+    assertDisplayed(scene: scene, mediaId: scene.mediaNodes![0].id!)
   }
 
   func testEmotionalReaction() {
-    let scene = Scene(id: 1, userReaction: nil,
-                      director: User(id: 1, firstName: "The", lastName: "Flinstons",
-                                     deviceId: "stonePhone"),
-                      reactionCounters: [.disgust: 4],
-                      created: Date(), viewed: false, media: nil)
     fetchedScenes = [scene]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
     viewController.didAuthOk()
-    assertDisplayed(scene: scene)
+    assertDisplayed(scene: scene, mediaId: scene.mediaNodes![0].id!)
+    // Wait for detection to start
+    expect(App.detecionModule.delegate).toEventuallyNot(beNil())
+    // Detect a reaction
     fakeDetectionModule.detect(.happy)
     expect(self.viewController.scenesPage.currentViewController!.reactionEmojiLabel.text)
       .to(equal(Emotion.happy.emoji))
@@ -95,11 +97,6 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
 
   // Should not fetch scenes before view appeared
   func testNotDisplayBeforePresent() {
-    let scene = Scene(id: 1, userReaction: .disgust,
-                      director: User(id: 1, firstName: "The", lastName: "Flinstons",
-                                     deviceId: "stonePhone"),
-                      reactionCounters: [.disgust: 1000, .happy: 1234],
-                      created: Date(), viewed: false, media: nil)
     fetchedScenes = [scene]
     // Trigger viewDidDisappear
     UIApplication.shared.keyWindow!.rootViewController = nil
@@ -109,11 +106,6 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
 
   // Should not fetch scenes before user is authenticated
   func testNotDisplayBeforeAuthOk() {
-    let scene = Scene(id: 1, userReaction: .disgust,
-                      director: User(id: 1, firstName: "The", lastName: "Flinstons",
-                                     deviceId: "stonePhone"),
-                      reactionCounters: [.disgust: 1000, .happy: 1234],
-                      created: Date(), viewed: false, media: nil)
     fetchedScenes = [scene]
     // Trigger viewDidAppear
     App.authModule.signOut()
@@ -124,99 +116,60 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
   }
 
   func testMultipleTypes() {
-    let scene = Scene(id: 1, userReaction: .disgust,
-                      director: User(id: 1, firstName: "Breaking", lastName: "Bad",
-                                     deviceId: "iphone"),
-                      reactionCounters: [.disgust: 1000, .happy: 1234],
-                      created: Date(), viewed: false, media: nil)
-    let photo = Scene(id: 2, userReaction: .happy,
-                      director: User(id: 1, firstName: "Emma", lastName: "Watson",
-                                     deviceId: "iphone2"),
-                      reactionCounters: [.happy: 5000, .disgust: 34], created: Date(),
-                      viewed: false,
-                      media: Photo(id: 0, url: "https://storage.googleapis.com/truethat-test-studio/testing/happy-selfie.jpg"))
-    let video = Scene(id: 3, userReaction: .happy,
-                      director: User(id: 1, firstName: "Harry", lastName: "Potter",
-                                     deviceId: "iphone2"),
+    let video = Scene(id: 3, director: User(id: 1, firstName: "Harry", lastName: "Potter", deviceId: "iphone2"),
                       reactionCounters: [.happy: 7, .disgust: 34], created: Date(),
-                      viewed: false,
-                      media: Video(id: 0, url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4"))
-    fetchedScenes = [scene, photo, video]
+                      mediaNodes: [Video(id: 0, url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4")], edges: nil)
+    fetchedScenes = [scene, video]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
     viewController.didAuthOk()
-    // Should display first scene
-    assertDisplayed(scene: scene)
+     assertDisplayed(scene: scene, mediaId: scene.mediaNodes![0].id!)
     // Navigate to next scene
     tester().swipeView(withAccessibilityLabel: "scene view", in: .right)
-    assertDisplayed(scene: photo)
-    // Navigate to next scene
-    tester().swipeView(withAccessibilityLabel: "scene view", in: .right)
-    assertDisplayed(scene: video)
+    assertDisplayed(scene: video, mediaId: video.mediaNodes![0].id!)
   }
-
-  func testScenesNavigation() {
-    let scene1 = Scene(id: 1, userReaction: .disgust,
-                       director: User(id: 1, firstName: "Breaking", lastName: "Bad",
-                                      deviceId: "iphone"),
-                       reactionCounters: [.disgust: 1000, .happy: 1234],
-                       created: Date(), viewed: false, media: nil)
-    let scene2 = Scene(id: 2, userReaction: .happy,
-                       director: User(id: 1, firstName: "Mr", lastName: "White",
-                                      deviceId: "iphone2"),
-                       reactionCounters: [.disgust: 5000, .happy: 34],
-                       created: Date(), viewed: true, media: nil)
-    fetchedScenes = [scene1, scene2]
+  
+  func testInteractiveScene() {
+    scene.mediaNodes = [Video(id: 1, url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4"), Photo(id: 0, url: "https://i.ytimg.com/vi/XrBTDbxOZE8/maxresdefault.jpg")]
+    scene.edges = [Edge(sourceId: 0, targetId: 1, reaction: .happy)]
+    fetchedScenes = [scene]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
     viewController.didAuthOk()
     // Should display first scene
-    assertDisplayed(scene: scene1)
-    // Navigate to next scene
-    tester().swipeView(withAccessibilityLabel: "scene view", in: .right)
-    assertDisplayed(scene: scene2)
-    // Navigate back to previous scene
-    tester().swipeView(withAccessibilityLabel: "scene view", in: .left)
-    assertDisplayed(scene: scene1)
+    assertDisplayed(scene: scene, mediaId: 0)
+    // Wait for detection to start
+    expect(App.detecionModule.delegate).toEventuallyNot(beNil())
+    // Detect reaction
+    fakeDetectionModule.detect(scene.edges![0].reaction!)
+    // Should display next media
+    assertDisplayed(scene: scene, mediaId: 1)
   }
 
   func testFetchNewScenes() {
-    let scene1 = Scene(id: 1, userReaction: .disgust,
-                       director: User(id: 1, firstName: "Breaking", lastName: "Bad",
-                                      deviceId: "iphone"),
-                       reactionCounters: [.disgust: 1000, .happy: 1234],
-                       created: Date(), viewed: false, media: nil)
-    let scene2 = Scene(id: 2, userReaction: .happy,
-                       director: User(id: 1, firstName: "Mr", lastName: "White",
-                                      deviceId: "iphone2"),
-                       reactionCounters: [.disgust: 5000, .happy: 34],
-                       created: Date(), viewed: false, media: nil)
-    fetchedScenes = [scene1]
+    let scene2 = Scene(id: 2, director: User(id: 1, firstName: "Mr", lastName: "White", deviceId: "iphone2"),
+                       reactionCounters: [.disgust: 5000, .happy: 34], created: Date(),
+                       mediaNodes: [Video(id: 0, url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4")], edges: nil)
+    fetchedScenes = [scene]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
     viewController.didAuthOk()
     // Should display first scene
-    assertDisplayed(scene: scene1)
+    assertDisplayed(scene: scene, mediaId: scene.mediaNodes![0].id!)
     // Navigate to next scene
     fetchedScenes = [scene2]
     tester().swipeView(withAccessibilityLabel: "scene view", in: .right)
     // Loading image should not be shown
     expect(self.viewController.loadingImage.isHidden).toNotEventually(beFalse())
-    assertDisplayed(scene: scene2)
+    assertDisplayed(scene: scene2, mediaId: scene2.mediaNodes![0].id!)
   }
 
   func testReport() {
-    let scene = Scene(id: 2, userReaction: .happy,
-                      director: User(id: 1, firstName: "Emma", lastName: "Watson",
-                                     deviceId: "iphone2"),
-                      reactionCounters: [.happy: 5000, .disgust: 34], created: Date(),
-                      viewed: false,
-                      media: Photo(id: 0, url: "https://storage.googleapis.com/truethat-test-studio/testing/happy-selfie.jpg"))
     fetchedScenes = [scene]
     // Displays the scene
     viewController.beginAppearanceTransition(true, animated: false)
     viewController.didAuthOk()
-    assertDisplayed(scene: scene)
+    assertDisplayed(scene: scene, mediaId: scene.mediaNodes![0].id!)
     expect(self.viewController.scenesPage.currentViewController!.optionsButton.isHidden)
       .toEventually(beFalse())
     // Exposes options menu

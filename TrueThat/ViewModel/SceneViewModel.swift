@@ -8,6 +8,7 @@ import ReactiveSwift
 import Result
 
 class SceneViewModel {
+  static var detetionDelaySeconds = 0.3
   public static let reportTitle = "Reported! 👮🏻"
   public static let reportOkText = "got it"
   public static let reportAlert = "Thank you for your alertness."
@@ -20,41 +21,69 @@ class SceneViewModel {
   public let optionsButtonHidden = MutableProperty(true)
   public let reportHidden = MutableProperty(true)
 
-  var model: Scene
+  /// The underlying data model
+  var scene: Scene
+  
+  /// The UI delegate of this view model.
   var delegate: SceneViewDelegate!
-  var curren: Media?
+  
+  /// The media the user is currently viewing.
+  var currentMedia: Media?
+  
+  /// The next media to display to the user. It is determined by his reaction to the current media.
+  var nextMedia: Media?
+  
+  /// The last detected reaction.
+  var lastReaction: Emotion?
+  
+  /// All detected reactions per displayed media.
+  var detectedReactions: [Media: Set<Emotion>] = [:]
+  
+  /// Timer to delay reaction detection.
+  var timer: Timer?
+  
+  /// Whether a media was viewed by the user.
+  var mediaViewed: [Media: Bool] = [:]
+  
+  /// Maintains media state and whether it can be immediately displayed to the user.
+  var mediaReady: [Media: Bool] = [:]
 
   // MARK: Initialization
   init(with scene: Scene) {
-    model = scene
+    self.scene = scene
     updateInfo()
-    updateReactionCounters()
+    updateReactionCounters(with: nil)
   }
 
+  // MARK: Methods
+  
   /// Updates displayed info about the scene.
   fileprivate func updateInfo() {
-    if let displayName = model.director?.displayName {
+    if let displayName = scene.director?.displayName {
       directorName.value = displayName
     }
-    if model.created != nil {
-      timeAgo.value = DateHelper.truncatedTimeAgo(from: model.created!)
+    if scene.created != nil {
+      timeAgo.value = DateHelper.truncatedTimeAgo(from: scene.created!)
     }
   }
 
+  
   /// Aggregates and truncates the reaction counters and sets a proper emoji icon.
-  fileprivate func updateReactionCounters() {
-    if model.reactionCounters != nil {
-      let totalReactions = Array(model.reactionCounters!.values).reduce(0, +)
+  ///
+  /// - Parameter reaction: to enforce an emoji to display
+  fileprivate func updateReactionCounters(with reaction: Emotion?) {
+    if scene.reactionCounters != nil {
+      let totalReactions = Array(scene.reactionCounters!.values).reduce(0, +)
       if totalReactions == 0 {
         reactionsCount.value = ""
         reactionEmoji.value = ""
       } else {
         reactionsCount.value = NumberHelper.truncate(totalReactions)
-        // If user already reacted use this emoji, otherwise use the most common one.
-        if model.userReaction != nil {
-          reactionEmoji.value = model.userReaction!.emoji
-        } else if model.reactionCounters!.count > 0 {
-          reactionEmoji.value = model.reactionCounters!.max { $0.0.value < $0.1.value }!.key.emoji
+        // If a reaction is provided use it, otherwise use the most common one.
+        if reaction != nil {
+          reactionEmoji.value = reaction!.emoji
+        } else if scene.reactionCounters!.count > 0 {
+          reactionEmoji.value = scene.reactionCounters!.max { $0.0.value < $0.1.value }!.key.emoji
         }
       }
     } else {
@@ -63,16 +92,16 @@ class SceneViewModel {
     }
   }
 
-  // Mark: Actions
-  public func didReport() {
+  func didReport() {
+    App.log.debug("didReport")
     reportHidden.value = true
-    if model.viewed == nil || !model.viewed! {
+    if currentMedia == nil || mediaViewed[currentMedia!] == nil || !mediaViewed[currentMedia!]! {
       App.log.warning("Tried to report a scene before viewing it.")
       return
     }
     let event = InteractionEvent(
       timestamp: Date(), userId: App.authModule.current!.id, reaction: nil,
-      eventType: .report, sceneId: model.id, mediaId: curren?.id)
+      eventType: .report, sceneId: scene.id, mediaId: currentMedia!.id)
     InteractionApi.save(interaction: event)
       .on(value: { _ in
         App.log.debug("Interaction event successfully saved.")
@@ -87,20 +116,33 @@ class SceneViewModel {
       })
       .start()
   }
-
-  // MARK: Lifecycle
-
-  /// Triggered when its corresponding {SceneViewController} is disappeared.
-  public func didDisappear() {
-    if App.detecionModule.delegate is SceneViewModel &&
-      App.detecionModule.delegate as! SceneViewModel === self {
-      App.detecionModule.delegate = nil
+  
+  
+  /// Prepares `media` for display.
+  ///
+  /// - Parameter media: to display.
+  func willDisplay(media: Media) {
+    App.log.debug("willDisplay media with ID \(media.id!)")
+    // Stops reaction detection temporarily until the new media is displayed.
+    App.detecionModule.delegate = nil
+    // Update state
+    currentMedia = media
+    nextMedia = nil
+    if detectedReactions[currentMedia!] == nil {
+      detectedReactions[currentMedia!] = []
     }
-    optionsButtonHidden.value = true
-    reportHidden.value = true
+    if mediaViewed[currentMedia!] == nil {
+      mediaViewed[currentMedia!] = false
+    }
+    if mediaReady[currentMedia!] == nil {
+      mediaReady[currentMedia!] = false
+    }
+    lastReaction = nil
+    // Performing the display
+    delegate.display(media: media)
   }
-
-  /// Triggered when the media of {model} is downloaded and displayed.
+  
+  /// Triggered when the media of {scene} is downloaded and displayed.
   public func didDisplay() {
     App.log.debug("didDisplay")
     // Show options button
@@ -108,11 +150,11 @@ class SceneViewModel {
     // Hide loading image
     loadingImageHidden.value = true
     // Send view event if needed
-    if model.viewed != true {
-      self.model.viewed = true
+    if !mediaViewed[currentMedia!]! {
+      mediaViewed[currentMedia!] = true
       let event = InteractionEvent(
         timestamp: Date(), userId: App.authModule.current!.id, reaction: nil,
-        eventType: .view, sceneId: model.id, mediaId: curren?.id)
+        eventType: .view, sceneId: scene.id, mediaId: currentMedia!.id)
       InteractionApi.save(interaction: event)
         .on(value: { _ in
           App.log.debug("Interaction event successfully saved.")
@@ -125,22 +167,46 @@ class SceneViewModel {
         .start()
     }
     // Sets the detection delegate to this scene.
-    App.detecionModule.delegate = self
+    timer = Timer.scheduledTimer(withTimeInterval: SceneViewModel.detetionDelaySeconds, repeats: false,
+                                 block: {_ in App.detecionModule.delegate = self})
+  }
+
+  // MARK: Lifecycle
+
+  /// Triggered when its corresponding {SceneViewController} appears.
+  func didAppear() {
+    if currentMedia == nil {
+      currentMedia = scene.rootMedia
+    }
+    guard currentMedia != nil else {
+      return
+    }
+    willDisplay(media: currentMedia!)
+  }
+  
+  /// Triggered when its corresponding {SceneViewController} is disappeared.
+  func didDisappear() {
+    if App.detecionModule.delegate is SceneViewModel &&
+      App.detecionModule.delegate as! SceneViewModel === self {
+      App.detecionModule.delegate = nil
+    }
+    optionsButtonHidden.value = true
+    reportHidden.value = true
+    timer?.invalidate()
   }
 }
 
 // MARK: ReactionDetectionDelegate
 extension SceneViewModel: ReactionDetectionDelegate {
   func didDetect(reaction: Emotion) {
-    App.detecionModule.delegate = nil
-    if model.canReact(user: App.authModule.current!) {
-      model.userReaction = reaction
-      model.increaseCounter(of: reaction)
-      updateReactionCounters()
-      delegate.animateReactionImage()
+    if detectedReactions[currentMedia!] == nil {
+      detectedReactions[currentMedia!] = []
+    }
+    if !detectedReactions[currentMedia!]!.contains(reaction) {
+      scene.increaseCounter(of: reaction)
       let event = InteractionEvent(
         timestamp: Date(), userId: App.authModule.current!.id, reaction: reaction,
-        eventType: .reaction, sceneId: model.id, mediaId: curren?.id)
+        eventType: .reaction, sceneId: scene.id, mediaId: currentMedia!.id)
       InteractionApi.save(interaction: event)
         .on(value: { _ in
           App.log.debug("Interaction event successfully saved.")
@@ -151,6 +217,24 @@ extension SceneViewModel: ReactionDetectionDelegate {
         })
         .start()
     }
+    // Calculate next media
+    if nextMedia == nil {
+      nextMedia = scene.next(of: currentMedia!, on: reaction)
+      if nextMedia != nil {
+        App.log.debug("Next media: \(nextMedia!)")
+      }
+    }
+    // Displays next media if the current one is finished.
+    if delegate.mediaFinished() && nextMedia != nil {
+      willDisplay(media: nextMedia!)
+    }
+    if lastReaction == nil || lastReaction! != reaction {
+      reactionEmoji.value = reaction.emoji
+      delegate.animateReactionImage()
+    }
+    updateReactionCounters(with: reaction)
+    lastReaction = reaction
+    detectedReactions[currentMedia!]!.insert(reaction)
   }
 }
 
@@ -166,4 +250,41 @@ protocol SceneViewDelegate {
   ///   - withTitle: title at the top of the dislogue
   ///   - okAction: what the user clicks to terminate the dialogue
   func show(alert: String, withTitle: String, okAction: String)
+  
+  /// Displays `media` to the user.
+  ///
+  /// - Parameter media: to display.
+  func display(media: Media)
+  
+  /// - Returns: Whether the currently displayed media has finished.
+  func mediaFinished() -> Bool
+}
+
+// MARK: MediaViewControllerDelegate
+extension SceneViewModel: MediaViewControllerDelegate {
+  func didDownloadMedia() {
+    App.log.debug("didDownloadMedia")
+    guard currentMedia != nil else {
+      App.log.warning("Media downloaded but current media is nil")
+      return
+    }
+    // Update media status
+    mediaReady[currentMedia!] = true
+    
+    didDisplay()
+  }
+  
+  func showLoader() {
+    loadingImageHidden.value = false
+  }
+  
+  func hideLoader() {
+    loadingImageHidden.value = true
+  }
+  
+  func didFinish() {
+    if nextMedia != nil {
+      willDisplay(media: nextMedia!)
+    }
+  }
 }

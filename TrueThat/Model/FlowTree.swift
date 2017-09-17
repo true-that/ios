@@ -18,9 +18,6 @@ class FlowTree {
   /// Retrieves a root node of the tree.
   var root: Media? {
     var node = nodes.first?.value
-    if node == nil {
-      return nil
-    }
     while node?.parent != nil {
       node = node!.parent
     }
@@ -94,7 +91,29 @@ class FlowTree {
   }
   
   func add(edge: Edge) {
-    nodes[edge.sourceId!]!.add(child: nodes[edge.targetId!]!, emotion: edge.reaction!)
+    if edge.sourceId == nil {
+      App.log.report("Edge is missing a source ID", withError: NSError(domain: Bundle.main.bundleIdentifier!,
+                                                                       code: ErrorCode.mediaTree.rawValue,
+                                                                       userInfo: edge.toDictionary()))
+    } else if edge.targetId == nil {
+      App.log.report("Edge is missing a target ID", withError: NSError(domain: Bundle.main.bundleIdentifier!,
+                                                                       code: ErrorCode.mediaTree.rawValue,
+                                                                       userInfo: edge.toDictionary()))
+    } else if edge.reaction == nil {
+      App.log.report("Edge is missing a reaction", withError: NSError(domain: Bundle.main.bundleIdentifier!,
+                                                                       code: ErrorCode.mediaTree.rawValue,
+                                                                       userInfo: edge.toDictionary()))
+    } else if nodes[edge.sourceId!] == nil {
+      App.log.report("Source ID (=\(edge.sourceId!)) does not exist in the tree",
+        withError: NSError(domain: Bundle.main.bundleIdentifier!, code: ErrorCode.mediaTree.rawValue,
+                           userInfo: edge.toDictionary()))
+    } else if nodes[edge.targetId!] == nil {
+      App.log.report("Target ID (=\(edge.targetId!)) does not exist in the tree",
+        withError: NSError(domain: Bundle.main.bundleIdentifier!, code: ErrorCode.mediaTree.rawValue,
+                           userInfo: edge.toDictionary()))
+    } else  {
+      nodes[edge.sourceId!]!.add(child: nodes[edge.targetId!]!, emotion: edge.reaction!)
+    }
   }
   
   class Node {

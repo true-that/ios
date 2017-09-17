@@ -14,34 +14,27 @@ import SwiftyJSON
 import Nimble
 
 class StudioApiTests: XCTestCase {
-  var responded = Scene(id: 1, userReaction: .happy,
-                        director: User(id: 1, firstName: "bon", lastName: "apetit",
-                                       deviceId: "say-waat"),
-                        reactionCounters: [.happy: 1], created: Date(), viewed: true,
-                        media: Photo(id: 0, url: "www.mcdonald.com"))
+  var scene = Scene(id: 1, director: User(id: 1, firstName: "bon", lastName: "apetit", deviceId: "say-waat"),
+                        reactionCounters: [.happy: 1], created: Date(),
+                        mediaNodes: [Photo(id: 0, url: "www.mcdonald.com")], edges: nil)
 
   override func setUp() {
     super.setUp()
     stub(condition: isPath(StudioApi.path)) { _ -> OHHTTPStubsResponse in
-      let stubData = try! JSON(self.responded.toDictionary()).rawData()
+      let stubData = try! JSON(self.scene.toDictionary()).rawData()
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
                                  headers: ["Content-Type": "application/json"])
     }
   }
 
   func testSuccessfulSave() {
-    let toSave = Scene(id: 1, userReaction: .happy,
-                       director: User(id: 1, firstName: "bon", lastName: "apetit",
-                                      deviceId: "say-waat"),
-                       reactionCounters: [.happy: 1], created: Date(), viewed: true,
-                       media: Photo(data: Data()))
     var actual: Scene?
-    _ = StudioApi.save(scene: toSave)
+    _ = StudioApi.save(scene: scene)
       .on(value: {
         actual = $0
       })
       .start()
-    expect(actual).toEventually(equal(responded))
+    expect(actual).toEventually(equal(scene))
   }
 
   func testBadResponse() {
@@ -50,7 +43,7 @@ class StudioApiTests: XCTestCase {
                                          userInfo: nil))
     }
     var responseError: NSError?
-    _ = StudioApi.save(scene: responded)
+    _ = StudioApi.save(scene: scene)
       .on(failed: { error in
         responseError = error
       })
@@ -64,7 +57,7 @@ class StudioApiTests: XCTestCase {
                           headers: ["Content-Type": "application/json"])
     }
     var responseError: NSError?
-    _ = StudioApi.save(scene: responded)
+    _ = StudioApi.save(scene: scene)
       .on(failed: { error in
         responseError = error
       })

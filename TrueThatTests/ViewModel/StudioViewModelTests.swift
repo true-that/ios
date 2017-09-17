@@ -21,8 +21,7 @@ class StudioViewModelTests: BaseTests {
     super.setUp()
     stub(condition: isPath(StudioApi.path)) { _ -> OHHTTPStubsResponse in
       let stubData = try! JSON(from: Scene(
-        id: 1, userReaction: nil, director: nil, reactionCounters: nil, created: nil, viewed: nil,
-        media: nil))
+        id: 1, director: nil, reactionCounters: nil, created: nil, mediaNodes: nil, edges: nil))
         .rawData()
       self.requestCount += 1
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,

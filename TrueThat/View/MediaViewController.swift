@@ -10,6 +10,7 @@ import UIKit
 
 class MediaViewController: UIViewController {
   var delegate: MediaViewControllerDelegate?
+  var finished = false
 
   public static func instantiate(with media: Media?) -> MediaViewController? {
     switch media {
@@ -33,4 +34,7 @@ protocol MediaViewControllerDelegate {
 
   /// Hide loading image
   func hideLoader()
+  
+  /// Invoked once the media is finished, such as when a video ends.
+  func didFinish()
 }

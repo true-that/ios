@@ -65,6 +65,7 @@ class VideoViewControllerTests: BaseUITests {
   class TestsMediaViewControllerDelegate: MediaViewControllerDelegate {
     var mediaDidDownload: Bool?
     var loaderHidden: Bool?
+    var finished = false
 
     func didDownloadMedia() {
       mediaDidDownload = true
@@ -76,6 +77,10 @@ class VideoViewControllerTests: BaseUITests {
 
     func hideLoader() {
       loaderHidden = true
+    }
+    
+    func didFinish() {
+      finished = true
     }
   }
 }

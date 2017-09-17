@@ -108,6 +108,8 @@ class VideoViewController: MediaViewController {
   /// - Parameter notification: to associate with the observer.
   @objc fileprivate func playerItemDidReachEnd(_ notification: Notification) {
     if player != nil {
+      finished = true
+      delegate?.didFinish()
       player!.seek(to: kCMTimeZero)
       player!.play()
     }

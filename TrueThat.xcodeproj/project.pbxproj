@@ -30,6 +30,7 @@
 		6F15228D1F3717D400BD0DC2 /* HardwareDeviceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F15228C1F3717D400BD0DC2 /* HardwareDeviceModule.swift */; };
 		6F15229D1F37609D00BD0DC2 /* StudioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F15229C1F37609D00BD0DC2 /* StudioViewModel.swift */; };
 		6F2B40BF1F5B726C0028A0E3 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2B40BE1F5B726C0028A0E3 /* UIHelper.swift */; };
+		6F303DCC1F6E9F6300EB3592 /* FlowTreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F303DCB1F6E9F6300EB3592 /* FlowTreeTests.swift */; };
 		6F3092D11F2DE91F00BD211A /* KIF+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3092D01F2DE91F00BD211A /* KIF+Extensions.swift */; };
 		6F3092D61F2DEA9100BD211A /* ScenesPageWrapperViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3092D51F2DEA9100BD211A /* ScenesPageWrapperViewControllerTests.swift */; };
 		6F3779F71F377611007C0945 /* AuthApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3779F41F377611007C0945 /* AuthApi.swift */; };
@@ -71,6 +72,7 @@
 		6F7DFC301F314EF5003DE099 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC2F1F314EF5003DE099 /* EventType.swift */; };
 		6F7DFC321F3154D9003DE099 /* InteractionEventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DFC311F3154D9003DE099 /* InteractionEventTests.swift */; };
 		6F8084BF1F6A9FA00061F4E8 /* Edge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8084BE1F6A9FA00061F4E8 /* Edge.swift */; };
+		6F8194591F6AD7ED00A09106 /* FlowTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8194581F6AD7ED00A09106 /* FlowTree.swift */; };
 		6F894B321F5985E600C1C73C /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F894B311F5985E600C1C73C /* Data+Extensions.swift */; };
 		6F89FBA61F4B232B002321CA /* KeychainModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F89FBA51F4B232B002321CA /* KeychainModule.swift */; };
 		6F89FBA81F4B23C7002321CA /* DeviceKeychainModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F89FBA71F4B23C7002321CA /* DeviceKeychainModule.swift */; };
@@ -145,6 +147,7 @@
 		6F15228C1F3717D400BD0DC2 /* HardwareDeviceModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HardwareDeviceModule.swift; sourceTree = "<group>"; };
 		6F15229C1F37609D00BD0DC2 /* StudioViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudioViewModel.swift; sourceTree = "<group>"; };
 		6F2B40BE1F5B726C0028A0E3 /* UIHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
+		6F303DCB1F6E9F6300EB3592 /* FlowTreeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowTreeTests.swift; sourceTree = "<group>"; };
 		6F3092D01F2DE91F00BD211A /* KIF+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KIF+Extensions.swift"; sourceTree = "<group>"; };
 		6F3092D21F2DE9D900BD211A /* TrueThatTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TrueThatTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		6F3092D51F2DEA9100BD211A /* ScenesPageWrapperViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ScenesPageWrapperViewControllerTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -192,6 +195,7 @@
 		6F7DFC2F1F314EF5003DE099 /* EventType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventType.swift; sourceTree = "<group>"; };
 		6F7DFC311F3154D9003DE099 /* InteractionEventTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractionEventTests.swift; sourceTree = "<group>"; };
 		6F8084BE1F6A9FA00061F4E8 /* Edge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Edge.swift; sourceTree = "<group>"; };
+		6F8194581F6AD7ED00A09106 /* FlowTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowTree.swift; sourceTree = "<group>"; };
 		6F894B311F5985E600C1C73C /* Data+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
 		6F89FBA51F4B232B002321CA /* KeychainModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainModule.swift; sourceTree = "<group>"; };
 		6F89FBA71F4B23C7002321CA /* DeviceKeychainModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceKeychainModule.swift; sourceTree = "<group>"; };
@@ -317,6 +321,7 @@
 				6FC32C7D1F618F7E00957959 /* Photo.swift */,
 				6FC32C7F1F61A6B100957959 /* Video.swift */,
 				6F8084BE1F6A9FA00061F4E8 /* Edge.swift */,
+				6F8194581F6AD7ED00A09106 /* FlowTree.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -557,6 +562,7 @@
 				6FC9A2AF1F2A076400E4BCF1 /* SceneTests.swift */,
 				6F7DFC311F3154D9003DE099 /* InteractionEventTests.swift */,
 				6FAC232B1F65BBA800062A4F /* MediaTests.swift */,
+				6F303DCB1F6E9F6300EB3592 /* FlowTreeTests.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -884,6 +890,7 @@
 				6F3779F91F377611007C0945 /* TheaterApi.swift in Sources */,
 				6F7DFC2E1F314EE8003DE099 /* InteractionEvent.swift in Sources */,
 				6FC32C7A1F6166B800957959 /* FakeDeviceModule.swift in Sources */,
+				6F8194591F6AD7ED00A09106 /* FlowTree.swift in Sources */,
 				6F89FBA61F4B232B002321CA /* KeychainModule.swift in Sources */,
 				6FE04F701F332F2700D5BF39 /* StringHelper.swift in Sources */,
 				6F15228B1F37178600BD0DC2 /* DeviceModule.swift in Sources */,
@@ -948,6 +955,7 @@
 				6FAD58571F4B3D2C0035A9ED /* AuthModuleTests.swift in Sources */,
 				6FE04F721F334F4800D5BF39 /* StringHelperTests.swift in Sources */,
 				6F921D801F32988800FFE76F /* BaseTests.swift in Sources */,
+				6F303DCC1F6E9F6300EB3592 /* FlowTreeTests.swift in Sources */,
 				6FAD61931F39A3DD003952F1 /* RepertoireViewControllerTests.swift in Sources */,
 				6FDBDA431F36CB2E00764F0F /* UITestsHelper.swift in Sources */,
 				6F05A3851F38CA26008D595A /* TheaterViewControllerTests.swift in Sources */,

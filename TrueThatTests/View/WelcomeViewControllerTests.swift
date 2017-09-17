@@ -20,8 +20,6 @@ class WelcomeViewControllerTests: BaseUITests {
     if UITestsHelper.currentViewController != nil
       && type(of: UITestsHelper.currentViewController!) != WelcomeViewController.self {
       // Wait for app to load
-      expect(UITestsHelper.currentViewController!)
-        .toEventually(beAnInstanceOf(TheaterViewController.self))
       expect(UITestsHelper.currentViewController!.view).toEventuallyNot(beNil())
     }
     // Sign out
