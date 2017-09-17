@@ -15,7 +15,7 @@ class PhotoViewController: MediaViewController {
   var photo: Photo?
   var timer: Timer?
   @IBOutlet weak var imageView: UIImageView!
-  
+
   // MARK: Initialization
   static func instantiate(_ photo: Photo) -> PhotoViewController {
     let viewController = UIStoryboard(name: "Main", bundle: nil)
@@ -24,7 +24,7 @@ class PhotoViewController: MediaViewController {
     viewController.photo = photo
     return viewController
   }
-  
+
   // MARK: Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -45,17 +45,17 @@ class PhotoViewController: MediaViewController {
       didDownload()
     }
   }
-  
+
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
     timer?.invalidate()
   }
-  
+
   fileprivate func didDownload() {
     timer = Timer.scheduledTimer(withTimeInterval: PhotoViewController.finishTimeoutSeconds, repeats: false,
                                  block: { _ in
-                                  self.finished = true
-                                  self.delegate?.didFinish()
+                                   self.finished = true
+                                   self.delegate?.didFinish()
     })
     delegate?.didDownloadMedia()
   }

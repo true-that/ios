@@ -15,12 +15,13 @@ import SwiftyJSON
 /// Authenticating a user against our [backend].
 class AuthApi {
   /// Subpath relative to base backend endpoint.
-  static public let path = "/auth"
+  public static let path = "/auth"
 
   /// Full URL of backend endpoint from which to fetch scenes.
   static var fullUrl: String {
     return Bundle.main.infoDictionary!["API_BASE_URL_ENDPOINT"] as! String + AuthApi.path
   }
+
   /// Authenticating a user against our [backend].
   ///
   /// - Parameter user: to authenticate.
@@ -30,7 +31,7 @@ class AuthApi {
       var request = try! URLRequest(url: AuthApi.fullUrl, method: .post)
       request.httpBody = try! JSON(from: user).rawData()
       // TODO: cancel request when view disappears
-      Alamofire.request(request).responseJSON(completionHandler: {response in
+      Alamofire.request(request).responseJSON(completionHandler: { response in
         switch response.result {
         case .success:
           observer.send(value: User(json: JSON(response.result.value!)))

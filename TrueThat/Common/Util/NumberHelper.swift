@@ -15,7 +15,7 @@ class NumberHelper {
     (1000, "k"),
     (1000 * 1000, "m"),
     (1000 * 1000 * 1000, "b"),
-    (1000 * 1000 * 1000 * 1000, "t")
+    (1000 * 1000 * 1000 * 1000, "t"),
   ]
 
   /// Truncates integers into short strings.

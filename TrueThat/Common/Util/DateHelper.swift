@@ -16,7 +16,7 @@ class DateHelper {
   /// Suffixes for various time magnitudes
   private static let suffixes = [
     (60, "m"), (60 * 60, "h"), (60 * 60 * 24, "d"),
-    (60 * 60 * 24 * 30, "mon"), (60 * 60 * 24 * 365, "y")
+    (60 * 60 * 24 * 30, "mon"), (60 * 60 * 24 * 365, "y"),
   ]
 
   /// Formats from and to UTC Date in a format that matches our backend.

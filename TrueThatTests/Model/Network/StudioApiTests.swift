@@ -15,8 +15,8 @@ import Nimble
 
 class StudioApiTests: XCTestCase {
   var scene = Scene(id: 1, director: User(id: 1, firstName: "bon", lastName: "apetit", deviceId: "say-waat"),
-                        reactionCounters: [.happy: 1], created: Date(),
-                        mediaNodes: [Photo(id: 0, url: "www.mcdonald.com")], edges: nil)
+                    reactionCounters: [.happy: 1], created: Date(),
+                    mediaNodes: [Photo(id: 0, url: "www.mcdonald.com")], edges: nil)
 
   override func setUp() {
     super.setUp()

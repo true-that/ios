@@ -9,7 +9,7 @@
 import Foundation
 
 class FlowTree {
-  
+
   // MARK: Properties
   var delegate: FlowTreeDelegate!
   /// Maps media IDs to their corresponding nodes.
@@ -23,7 +23,7 @@ class FlowTree {
     }
     return node?.media
   }
-  
+
   /// Whether the tree has at most a single root
   var isTree: Bool {
     var numRoots = 0
@@ -34,14 +34,14 @@ class FlowTree {
     }
     return numRoots <= 1
   }
-  
+
   // MARK: Initialization
   init(delegate: FlowTreeDelegate) {
     self.delegate = delegate
   }
-  
+
   // MARK: Methods
-  
+
   /// Removes the node that is associated with `mediaId` and all its children.
   ///
   /// - Parameter mediaId: to remove.
@@ -62,13 +62,13 @@ class FlowTree {
     }
     return parentMedia
   }
-  
+
   /// - Parameter mediaId: of the desired media.
   /// - Returns: the media in this tree that has `mediaId`.
   func media(by mediaId: Int64) -> Media? {
     return nodes[mediaId]?.media
   }
-  
+
   /// - Parameters:
   ///   - mediaId: of the parent node
   ///   - emotion: that resembles the edge color
@@ -82,14 +82,14 @@ class FlowTree {
   func parent(of mediaId: Int64) -> Media? {
     return nodes[mediaId]?.parent?.media
   }
-  
+
   /// Adds a node that contains `media`.
   ///
   /// - Parameter media: to create a node from.
   func add(media: Media) {
     nodes[media.id!] = Node(media: media)
   }
-  
+
   func add(edge: Edge) {
     if edge.sourceId == nil {
       App.log.report("Edge is missing a source ID", withError: NSError(domain: Bundle.main.bundleIdentifier!,
@@ -101,30 +101,30 @@ class FlowTree {
                                                                        userInfo: edge.toDictionary()))
     } else if edge.reaction == nil {
       App.log.report("Edge is missing a reaction", withError: NSError(domain: Bundle.main.bundleIdentifier!,
-                                                                       code: ErrorCode.mediaTree.rawValue,
-                                                                       userInfo: edge.toDictionary()))
+                                                                      code: ErrorCode.mediaTree.rawValue,
+                                                                      userInfo: edge.toDictionary()))
     } else if nodes[edge.sourceId!] == nil {
       App.log.report("Source ID (=\(edge.sourceId!)) does not exist in the tree",
-        withError: NSError(domain: Bundle.main.bundleIdentifier!, code: ErrorCode.mediaTree.rawValue,
-                           userInfo: edge.toDictionary()))
+                     withError: NSError(domain: Bundle.main.bundleIdentifier!, code: ErrorCode.mediaTree.rawValue,
+                                        userInfo: edge.toDictionary()))
     } else if nodes[edge.targetId!] == nil {
       App.log.report("Target ID (=\(edge.targetId!)) does not exist in the tree",
-        withError: NSError(domain: Bundle.main.bundleIdentifier!, code: ErrorCode.mediaTree.rawValue,
-                           userInfo: edge.toDictionary()))
-    } else  {
+                     withError: NSError(domain: Bundle.main.bundleIdentifier!, code: ErrorCode.mediaTree.rawValue,
+                                        userInfo: edge.toDictionary()))
+    } else {
       nodes[edge.sourceId!]!.add(child: nodes[edge.targetId!]!, emotion: edge.reaction!)
     }
   }
-  
+
   class Node {
     var media: Media!
     var parent: Node?
     var children: [Emotion: Node] = [:]
-    
+
     init(media: Media) {
       self.media = media
     }
-    
+
     /// Add a child to this node
     ///
     /// - Parameters:
@@ -134,7 +134,7 @@ class FlowTree {
       children[emotion] = child
       child.parent = self
     }
-    
+
     /// Removes a child node from this node.
     ///
     /// - Parameter node: to remove.
@@ -148,7 +148,7 @@ class FlowTree {
       }
       return nil
     }
-    
+
     public var description: String { return "Node of \(media.toDictionary())" }
   }
 }
@@ -159,12 +159,12 @@ func == (lhs: FlowTree.Node, rhs: FlowTree.Node) -> Bool {
 }
 
 protocol FlowTreeDelegate {
-  
+
   /// Deletes a media.
   ///
   /// - Parameter media: to delete.
   func delete(media: Media)
-  
+
   /// Deletes an edge.
   ///
   /// - Parameter edge: to delete.

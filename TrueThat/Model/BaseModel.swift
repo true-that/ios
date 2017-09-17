@@ -12,11 +12,11 @@ import SwiftyJSON
 class BaseModel: Equatable, CustomStringConvertible, Hashable {
   /// As stored in our backend.
   var id: Int64?
-  
+
   var hashValue: Int {
     return description.hashValue
   }
-  
+
   // MARK: Initiaizliation
   init(id: Int64?) {
     self.id = id

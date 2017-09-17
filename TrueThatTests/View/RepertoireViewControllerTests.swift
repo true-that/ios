@@ -19,7 +19,7 @@ class RepertoireViewControllerTests: BaseUITests {
 
   override func setUp() {
     super.setUp()
-    
+
     PhotoViewController.finishTimeoutSeconds = 0.1
 
     stub(condition: isPath(RepertoireApi.path)) { _ -> OHHTTPStubsResponse in
@@ -42,7 +42,7 @@ class RepertoireViewControllerTests: BaseUITests {
 
     // Test and load the View
     expect(self.viewController.view).toNot(beNil())
-    
+
     scene = Scene(id: 1, director: App.authModule.current,
                   reactionCounters: [.disgust: 1000, .happy: 1234],
                   created: Date(),

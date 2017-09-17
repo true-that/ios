@@ -14,13 +14,15 @@ import Nimble
 class SceneTests: BaseTests {
   func testJsonSerialization() {
     let scene = Scene(id: 1, director: User(id: 1, firstName: "android", lastName: "me no like", deviceId: "iphone"),
-                  reactionCounters: [.happy: 1200, .disgust: 800], created: Date(),
-                  mediaNodes: [Photo(id: 0, url: "1"), Video(id: 0, url: "2")],
-                  edges: [Edge(sourceId: 0, targetId: 1, reaction: .surprise),
-                          Edge(sourceId: 1, targetId: 2, reaction: .fear)])
+                      reactionCounters: [.happy: 1200, .disgust: 800], created: Date(),
+                      mediaNodes: [Photo(id: 0, url: "1"), Video(id: 0, url: "2")],
+                      edges: [
+                        Edge(sourceId: 0, targetId: 1, reaction: .surprise),
+                        Edge(sourceId: 1, targetId: 2, reaction: .fear),
+    ])
     expect(scene).to(equal(Scene(json: JSON(from: scene))))
   }
-  
+
   func testUpdateReactionCounters() {
     let reaction = Emotion.happy
     let nilCounters = Scene(id: 1, director: nil, reactionCounters: nil, created: nil, mediaNodes: nil, edges: nil)
@@ -37,7 +39,7 @@ class SceneTests: BaseTests {
     expect(firstReactionOfType.reactionCounters?[reaction]).to(equal(1))
     expect(shouldIncrement.reactionCounters?[reaction]).to(equal(2))
   }
-  
+
   func testAddAndRemoveMedia() {
     let photo = Photo(id: nil, url: "1")
     let video = Video(id: nil, url: "2")

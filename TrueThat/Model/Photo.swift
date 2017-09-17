@@ -12,7 +12,7 @@ import Alamofire
 /// [backend]: https://github.com/true-that/backend/blob/master/src/main/java/com/truethat/backend/model/Photo.java
 /// A data model of a photo. See [backend]
 class Photo: Media {
-  
+
   /// Data of the image.
   var data: Data?
 
@@ -36,7 +36,7 @@ class Photo: Media {
       multipartFormData.append(data!, withName: partName, mimeType: "image/jpg")
     }
   }
-  
+
   override var hashValue: Int {
     let superHash = super.hashValue
     if data != nil {

@@ -34,7 +34,7 @@ protocol MediaViewControllerDelegate {
 
   /// Hide loading image
   func hideLoader()
-  
+
   /// Invoked once the media is finished, such as when a video ends.
   func didFinish()
 }

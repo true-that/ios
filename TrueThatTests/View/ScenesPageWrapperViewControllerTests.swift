@@ -24,11 +24,11 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
 
     // Hasten media finish.
     PhotoViewController.finishTimeoutSeconds = 0.1
-    
+
     scene = Scene(id: 1, director: User(id: 1, firstName: "Mr", lastName: "Bean", deviceId: "iphone1"),
                   reactionCounters: [.disgust: 1, .happy: 3], created: Date(),
                   mediaNodes: [Photo(id: 1, url: "https://i.ytimg.com/vi/XrBTDbxOZE8/maxresdefault.jpg")], edges: nil)
-    
+
     stub(condition: isPath(TheaterApi.path)) { _ -> OHHTTPStubsResponse in
       let stubData = try! JSON(self.fetchedScenes.map { JSON(from: $0) }).rawData()
       self.fetchedScenes = []
@@ -123,12 +123,12 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
     viewController.didAuthOk()
-     assertDisplayed(scene: scene, mediaId: scene.mediaNodes![0].id!)
+    assertDisplayed(scene: scene, mediaId: scene.mediaNodes![0].id!)
     // Navigate to next scene
     tester().swipeView(withAccessibilityLabel: "scene view", in: .right)
     assertDisplayed(scene: video, mediaId: video.mediaNodes![0].id!)
   }
-  
+
   func testInteractiveScene() {
     scene.mediaNodes = [Video(id: 1, url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4"), Photo(id: 0, url: "https://i.ytimg.com/vi/XrBTDbxOZE8/maxresdefault.jpg")]
     scene.edges = [Edge(sourceId: 0, targetId: 1, reaction: .happy)]

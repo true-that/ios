@@ -78,7 +78,7 @@ class VideoViewControllerTests: BaseUITests {
     func hideLoader() {
       loaderHidden = true
     }
-    
+
     func didFinish() {
       finished = true
     }

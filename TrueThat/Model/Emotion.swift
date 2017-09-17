@@ -10,7 +10,7 @@ enum Emotion: String, Hashable {
   case happy, fear, surprise, disgust
 
   public var description: String { return self.rawValue }
-  
+
   var hashValue: Int {
     return self.rawValue.hashValue
   }

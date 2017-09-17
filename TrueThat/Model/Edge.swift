@@ -19,7 +19,7 @@ class Edge: BaseModel {
   var sourceId: Int64?
   var targetId: Int64?
   var reaction: Emotion?
-  
+
   // MARK: Initialization
   init(sourceId: Int64?, targetId: Int64?, reaction: Emotion?) {
     super.init(id: nil)
@@ -27,14 +27,14 @@ class Edge: BaseModel {
     self.targetId = targetId
     self.reaction = reaction
   }
-  
+
   required init(json: JSON) {
     super.init(json: json)
     sourceId = json["sourceId"].int64
     targetId = json["targetId"].int64
     reaction = Emotion.toEmotion(json["reaction"].string)
   }
-  
+
   // MARK: Overriden methods
   override func toDictionary() -> [String: Any] {
     var dictionary = super.toDictionary()

@@ -10,7 +10,7 @@ import Alamofire
 /// Scenes add spice to our users life, they are the an abstract pieces of media consumed by our
 /// users. See [backend]
 class Scene: BaseModel {
-  
+
   /// Creator of the scene.
   var director: User?
   /// Reaction counters.
@@ -24,7 +24,7 @@ class Scene: BaseModel {
   var edges: [Edge]?
   /// Allocates the next media ID.
   var nextMediaId: Int64 = 0
-  
+
   /// The flow of the user interaction with this scene. Each node represents a media item such as video or a photo and
   /// each edge describe which reaction leads from one media item to the next.
   var flowTree: FlowTree! {
@@ -43,20 +43,23 @@ class Scene: BaseModel {
       if !treeInstance.isTree {
         App.log.report("Invalid media tree", withError: NSError(domain: Bundle.main.bundleIdentifier!,
                                                                 code: ErrorCode.mediaTree.rawValue,
-                                                                userInfo: ["mediaNodes": mediaNodes ?? [],
-                                                                           "edges": edges ?? []]))
+                                                                userInfo: [
+                                                                  "mediaNodes": mediaNodes ?? [],
+                                                                  "edges": edges ?? [],
+        ]))
         return nil
       }
     }
     return treeInstance
   }
+
   var treeInstance: FlowTree!
-  
+
   /// The starting point of this scene. All users will begin viewing this media before all others.
   var rootMedia: Media? {
     return flowTree.root
   }
-  
+
   // MARK: Initialization
   init(id: Int64?, director: User?, reactionCounters: [Emotion: Int64]?, created: Date?, mediaNodes: [Media]?,
        edges: [Edge]?) {
@@ -75,12 +78,12 @@ class Scene: BaseModel {
     }
     self.edges = edges
   }
-  
+
   convenience init(of media: Media) {
     self.init(id: nil, director: App.authModule.current, reactionCounters: nil, created: Date(),
               mediaNodes: [media], edges: nil)
   }
-  
+
   required init(json: JSON) {
     super.init(json: json)
     director = User(json: json["director"])
@@ -89,13 +92,13 @@ class Scene: BaseModel {
       (Emotion.toEmotion(stringEmotion)!, counter.int64Value)
     }
     if json["mediaNodes"].array != nil {
-      mediaNodes = json["mediaNodes"].arrayValue.map{ Media.instantiate(with: $0)! }
+      mediaNodes = json["mediaNodes"].arrayValue.map { Media.instantiate(with: $0)! }
     }
     if json["edges"].array != nil {
-      edges = json["edges"].arrayValue.map{ Edge(json: $0) }
+      edges = json["edges"].arrayValue.map { Edge(json: $0) }
     }
   }
-  
+
   // MARK: overriden methods
   override func toDictionary() -> [String: Any] {
     var dictionary = super.toDictionary()
@@ -115,12 +118,12 @@ class Scene: BaseModel {
     if edges != nil {
       dictionary["edges"] = edges!.map { $0.toDictionary() }
     }
-    
+
     return dictionary
   }
-  
+
   // MARK: Methods
-  
+
   /// Increase reaction counter of `reaction`.
   ///
   /// - Parameter reaction: to update with
@@ -133,7 +136,7 @@ class Scene: BaseModel {
       reactionCounters![reaction] = 1 + reactionCounters![reaction]!
     }
   }
-  
+
   /// Adds `media` to the flow tree.
   ///
   /// - Parameters:
@@ -154,7 +157,7 @@ class Scene: BaseModel {
     flowTree.add(media: media)
     flowTree.add(edge: edge)
   }
-  
+
   /// - Parameters:
   ///   - media: what the user is currently viewing.
   ///   - reaction: how he reacted to it.
@@ -162,13 +165,13 @@ class Scene: BaseModel {
   func next(of media: Media, on reaction: Emotion) -> Media? {
     return flowTree.child(of: media.id!, emotion: reaction)
   }
-  
+
   /// - Parameter media: what the user is currently viewing
   /// - Returns: the media, if any, that led to the current one.
   func previous(of media: Media) -> Media? {
     return flowTree.parent(of: media.id!)
   }
-  
+
   /// Removes `media` from this scene.
   ///
   /// - Parameter media: to remove
@@ -176,9 +179,9 @@ class Scene: BaseModel {
   func remove(media: Media) -> Media? {
     return flowTree.remove(at: media.id!)
   }
-  
+
   // MARK: Network
-  
+
   /// Appends scene data to a multipart request
   ///
   /// - Parameter multipartFormData: to append to
@@ -188,12 +191,12 @@ class Scene: BaseModel {
       multipartFormData.append(sceneData!, withName: StudioApi.scenePart)
     }
     if mediaNodes != nil {
-      for i in 0 ..< mediaNodes!.count  {
+      for i in 0 ..< mediaNodes!.count {
         mediaNodes![i].appendTo(multipartFormData: multipartFormData, withName: partName(of: i))
       }
     }
   }
-  
+
   func partName(of: Int) -> String {
     return StudioApi.mediaPartPrefix + "\(of)"
   }
@@ -204,7 +207,7 @@ extension Scene: FlowTreeDelegate {
   func delete(media: Media) {
     mediaNodes?.remove(at: (mediaNodes?.index(of: media))!)
   }
-  
+
   func delete(edge: Edge) {
     edges?.remove(at: (edges?.index(of: edge))!)
   }

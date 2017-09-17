@@ -12,7 +12,7 @@ import Alamofire
 /// [backend]: https://github.com/true-that/backend/blob/master/src/main/java/com/truethat/backend/model/Video.java
 /// A data model of a video. See [backend]
 class Video: Media {
-  
+
   /// Local URL of the video
   var localUrl: URL?
 
@@ -39,7 +39,7 @@ class Video: Media {
       }
     }
   }
-  
+
   override var hashValue: Int {
     let superHash = super.hashValue
     if localUrl != nil {

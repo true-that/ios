@@ -77,14 +77,14 @@ class SceneViewModelTests: BaseTests {
     expect(self.viewModel.reactionEmoji.value).to(equal(""))
     expect(self.viewModel.reactionsCount.value).to(equal(""))
   }
-  
+
   func testDisplayScene_zeroReactionCounters() {
     scene.reactionCounters = [.happy: 0, .fear: 0]
     initViewModel(with: scene)
     expect(self.viewModel.reactionEmoji.value).to(equal(""))
     expect(self.viewModel.reactionsCount.value).to(equal(""))
   }
-  
+
   func testMultipleReactions() {
     let reaction1 = Emotion.happy
     let reaction2 = Emotion.fear
@@ -192,7 +192,7 @@ class SceneViewModelTests: BaseTests {
     viewModel.didDisappear()
     expect(App.detecionModule.delegate).to(beNil())
   }
-  
+
   func testInteractiveScene_reactionBeforeFininsh() {
     scene.mediaNodes = [photo1, photo2]
     scene.edges = [edge1, edge1a]
@@ -229,7 +229,7 @@ class SceneViewModelTests: BaseTests {
     // Should resume reaction detection
     expect(App.detecionModule.delegate).toEventuallyNot(beNil())
   }
-  
+
   func testInteractiveScene_finishBeforeReaction() {
     scene.mediaNodes = [photo1, photo2]
     scene.edges = [edge1]
@@ -246,7 +246,7 @@ class SceneViewModelTests: BaseTests {
     expect(self.viewModelDelegate.displayed).to(equal(photo2))
     expect(self.viewModel.nextMedia).to(beNil())
   }
-  
+
   func testInteractiveScene_multipleLevels() {
     scene.mediaNodes = [photo1, photo2, photo3]
     scene.edges = [edge1, edge2]
@@ -282,7 +282,7 @@ class SceneViewModelTests: BaseTests {
       finished = true
       viewModel.didFinish()
     }
-    
+
     func animateReactionImage() {
       animatedImage = true
     }
@@ -290,11 +290,11 @@ class SceneViewModelTests: BaseTests {
     func show(alert: String, withTitle: String, okAction: String) {
       didShow = true
     }
-    
+
     func display(media: Media) {
       displayed = media
     }
-    
+
     func mediaFinished() -> Bool {
       return finished
     }

@@ -23,28 +23,28 @@ class SceneViewModel {
 
   /// The underlying data model
   var scene: Scene
-  
+
   /// The UI delegate of this view model.
   var delegate: SceneViewDelegate!
-  
+
   /// The media the user is currently viewing.
   var currentMedia: Media?
-  
+
   /// The next media to display to the user. It is determined by his reaction to the current media.
   var nextMedia: Media?
-  
+
   /// The last detected reaction.
   var lastReaction: Emotion?
-  
+
   /// All detected reactions per displayed media.
   var detectedReactions: [Media: Set<Emotion>] = [:]
-  
+
   /// Timer to delay reaction detection.
   var timer: Timer?
-  
+
   /// Whether a media was viewed by the user.
   var mediaViewed: [Media: Bool] = [:]
-  
+
   /// Maintains media state and whether it can be immediately displayed to the user.
   var mediaReady: [Media: Bool] = [:]
 
@@ -56,7 +56,7 @@ class SceneViewModel {
   }
 
   // MARK: Methods
-  
+
   /// Updates displayed info about the scene.
   fileprivate func updateInfo() {
     if let displayName = scene.director?.displayName {
@@ -67,7 +67,6 @@ class SceneViewModel {
     }
   }
 
-  
   /// Aggregates and truncates the reaction counters and sets a proper emoji icon.
   ///
   /// - Parameter reaction: to enforce an emoji to display
@@ -116,8 +115,7 @@ class SceneViewModel {
       })
       .start()
   }
-  
-  
+
   /// Prepares `media` for display.
   ///
   /// - Parameter media: to display.
@@ -141,7 +139,7 @@ class SceneViewModel {
     // Performing the display
     delegate.display(media: media)
   }
-  
+
   /// Triggered when the media of {scene} is downloaded and displayed.
   public func didDisplay() {
     App.log.debug("didDisplay")
@@ -168,7 +166,7 @@ class SceneViewModel {
     }
     // Sets the detection delegate to this scene.
     timer = Timer.scheduledTimer(withTimeInterval: SceneViewModel.detetionDelaySeconds, repeats: false,
-                                 block: {_ in App.detecionModule.delegate = self})
+                                 block: { _ in App.detecionModule.delegate = self })
   }
 
   // MARK: Lifecycle
@@ -183,7 +181,7 @@ class SceneViewModel {
     }
     willDisplay(media: currentMedia!)
   }
-  
+
   /// Triggered when its corresponding {SceneViewController} is disappeared.
   func didDisappear() {
     if App.detecionModule.delegate is SceneViewModel &&
@@ -250,12 +248,12 @@ protocol SceneViewDelegate {
   ///   - withTitle: title at the top of the dislogue
   ///   - okAction: what the user clicks to terminate the dialogue
   func show(alert: String, withTitle: String, okAction: String)
-  
+
   /// Displays `media` to the user.
   ///
   /// - Parameter media: to display.
   func display(media: Media)
-  
+
   /// - Returns: Whether the currently displayed media has finished.
   func mediaFinished() -> Bool
 }
@@ -270,18 +268,18 @@ extension SceneViewModel: MediaViewControllerDelegate {
     }
     // Update media status
     mediaReady[currentMedia!] = true
-    
+
     didDisplay()
   }
-  
+
   func showLoader() {
     loadingImageHidden.value = false
   }
-  
+
   func hideLoader() {
     loadingImageHidden.value = true
   }
-  
+
   func didFinish() {
     if nextMedia != nil {
       willDisplay(media: nextMedia!)

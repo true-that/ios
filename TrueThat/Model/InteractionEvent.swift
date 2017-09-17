@@ -25,7 +25,7 @@ class InteractionEvent: BaseModel {
 
   /// Of the {Scene} that was interacted with.
   var sceneId: Int64?
-  
+
   /// ID of the media with which the user interacted.
   var mediaId: Int64?
 

@@ -14,7 +14,7 @@ extension String {
     let words = self.components(separatedBy: " ")
     let firstCharIndex = self.index(self.startIndex, offsetBy: 1)
     return words
-      .map {$0.substring(to: firstCharIndex).uppercased() + $0.substring(from: firstCharIndex).lowercased()}
+      .map { $0.substring(to: firstCharIndex).uppercased() + $0.substring(from: firstCharIndex).lowercased() }
       .joined(separator: " ")
   }
 
@@ -35,8 +35,8 @@ extension String {
       return self.lowercased()
     }
     let firstCharIndex = self.index(self.startIndex, offsetBy: 1)
-    let camelCasedWords = words[1...words.count - 1]
-      .map {$0.substring(to: firstCharIndex).uppercased() + $0.substring(from: firstCharIndex).lowercased()}
+    let camelCasedWords = words[1 ... words.count - 1]
+      .map { $0.substring(to: firstCharIndex).uppercased() + $0.substring(from: firstCharIndex).lowercased() }
     // Concatenate lowercased first word and title cased rest of the words.
     return ([words[0].lowercased()] + camelCasedWords).joined(separator: "")
   }

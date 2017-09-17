@@ -69,7 +69,7 @@ class SceneViewController: UIViewController {
     super.viewDidDisappear(animated)
     viewModel.didDisappear()
   }
-  
+
   override func viewDidAppear(_ animated: Bool) {
     App.log.debug("viewDidAppear")
     super.viewDidAppear(animated)
@@ -107,20 +107,20 @@ extension SceneViewController: SceneViewDelegate {
     alertController.addAction(okAction)
     self.present(alertController, animated: true, completion: nil)
   }
-  
+
   func display(media: Media) {
     if mediaViewController != nil {
       mediaViewController.view.removeFromSuperview()
       mediaViewController.removeFromParentViewController()
     }
-    
+
     mediaViewController = MediaViewController.instantiate(with: media)
     mediaViewController.delegate = viewModel
-    
+
     guard mediaViewController != nil else {
       return
     }
-    
+
     self.addChildViewController(mediaViewController)
     self.view.addSubview(mediaViewController.view)
     mediaViewController.view.frame = self.view.bounds
@@ -129,7 +129,7 @@ extension SceneViewController: SceneViewDelegate {
     // Send media to back
     self.view.sendSubview(toBack: mediaViewController.view)
   }
-  
+
   func mediaFinished() -> Bool {
     if mediaViewController == nil {
       return false
