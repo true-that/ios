@@ -120,6 +120,7 @@ class StudioViewControllerTests: BaseUITests {
     }
     viewController.beginAppearanceTransition(true, animated: false)
     tester().tapView(withAccessibilityLabel: "capture")
+    assertEdit()
     tester().tapView(withAccessibilityLabel: "send")
     assertWillSend()
     // Tap the failure dialogue
@@ -142,6 +143,16 @@ class StudioViewControllerTests: BaseUITests {
     assertEdit()
     // Swipe up
     tester().swipeView(withAccessibilityLabel: "video", in: .down)
+    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(TheaterViewController.self))
+  }
+  
+  func testNavigationWhilePhotoTaken() {
+    viewController.beginAppearanceTransition(true, animated: false)
+    assertCamera()
+    tester().tapView(withAccessibilityLabel: "capture")
+    assertEdit()
+    // Swipe up
+    tester().swipeView(withAccessibilityLabel: "studio view", in: .down)
     expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(TheaterViewController.self))
   }
 

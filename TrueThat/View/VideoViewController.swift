@@ -56,8 +56,7 @@ class VideoViewController: MediaViewController {
     // Add player control via touch
     let gesture = UILongPressGestureRecognizer(
       target: self, action: #selector(controlVideo(_:)))
-    gesture.minimumPressDuration = 0
-    gesture.allowableMovement = 10
+    gesture.minimumPressDuration = 0.1
     playerController!.view.addGestureRecognizer(gesture)
 
     // Show loader when buffering
