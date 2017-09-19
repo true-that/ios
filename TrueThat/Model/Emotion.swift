@@ -14,6 +14,8 @@ enum Emotion: String, Hashable {
   var hashValue: Int {
     return self.rawValue.hashValue
   }
+
+  static let values = [Emotion.happy, Emotion.fear, Emotion.surprise, Emotion.disgust]
 }
 
 // MARK: Initialization

@@ -110,6 +110,7 @@ extension SceneViewController: SceneViewDelegate {
 
   func display(media: Media) {
     if mediaViewController != nil {
+      mediaViewController.willMove(toParentViewController: nil)
       mediaViewController.view.removeFromSuperview()
       mediaViewController.removeFromParentViewController()
     }

@@ -45,7 +45,7 @@ class SceneTests: BaseTests {
     let video = Video(id: nil, url: "2")
     let newVideo = Video(id: nil, url: "3")
     // Creates a scene from a photo
-    let scene = Scene(of: photo)
+    let scene = Scene(from: photo)
     // Photo should be allocated an ID.
     expect(photo.id).toNot(beNil())
     // Adds a new video to the scene.

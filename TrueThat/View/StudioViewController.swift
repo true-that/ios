@@ -16,7 +16,8 @@ class StudioViewController: BaseViewController {
   // MARK: Peroperties
   var viewModel: StudioViewModel!
   var swiftyCam: SwiftyCamViewController!
-  var scenePreview: MediaViewController?
+  var scenePreview: UIViewController!
+  var mediaViewController: MediaViewController?
 
   @IBOutlet weak var captureButton: SwiftyCamButton!
   @IBOutlet weak var cancelButton: UIImageView!
@@ -79,7 +80,7 @@ class StudioViewController: BaseViewController {
     switchCameraButton.addGestureRecognizer(
       UITapGestureRecognizer(target: self, action: #selector(self.switchCamera)))
     sendButton.addGestureRecognizer(
-      UITapGestureRecognizer(target: self, action: #selector(self.didApprove)))
+      UITapGestureRecognizer(target: self, action: #selector(self.willSend)))
 
     // Initialize images
     viewModel.captureButtonImageName.producer.on {
@@ -100,6 +101,43 @@ class StudioViewController: BaseViewController {
 
     // Sets up loading image
     UIHelper.initLoadingImage(loadingImage)
+
+    // Initializes Scene preview
+    scenePreview = UIViewController()
+    scenePreview.view.reactive.isHidden <~ viewModel.scenePreviewHidden
+    addChildViewController(scenePreview)
+    view.addSubview(scenePreview.view)
+    view.sendSubview(toBack: scenePreview.view)
+    // Create reaction buttons
+    let reactionButtons: [UIButton] = Emotion.values.map { emotion in
+      let button = UIButton()
+      button.accessibilityLabel = "\(emotion.description) reaction"
+      button.setTitle(emotion.emoji, for: .normal)
+      button.addTarget(self, action: #selector(self.didChose(_:)), for: .touchUpInside)
+      return button
+    }
+    // Create previous media button
+    let previousButton = UIButton()
+    previousButton.reactive.isHidden <~ viewModel.previousMediaHidden
+    previousButton.setTitle("⏎", for: .normal)
+    previousButton.accessibilityLabel = "previous media"
+    previousButton.addTarget(self, action: #selector(self.displayingParentMedia), for: .touchUpInside)
+    // Add all of them to a stack view
+    let reactionsStackview = UIStackView(arrangedSubviews: reactionButtons + [previousButton])
+    reactionsStackview.axis = .vertical
+    reactionsStackview.spacing = 16
+    reactionsStackview.alignment = .fill
+    reactionsStackview.distribution = .fillEqually
+    // Center it vertically close to the view leading border.
+    reactionsStackview.translatesAutoresizingMaskIntoConstraints = false
+    scenePreview.view.addSubview(reactionsStackview)
+    scenePreview.view.bringSubview(toFront: reactionsStackview)
+    scenePreview.view.addConstraints([
+      NSLayoutConstraint(item: reactionsStackview, attribute: .centerY, relatedBy: .equal, toItem: scenePreview.view,
+                         attribute: .centerY, multiplier: 1, constant: 0),
+      NSLayoutConstraint(item: reactionsStackview, attribute: .leading, relatedBy: .equal, toItem: scenePreview.view,
+                         attribute: .leading, multiplier: 1, constant: 16),
+    ])
   }
 
   // MARK: View Controller Navigation
@@ -117,9 +155,10 @@ class StudioViewController: BaseViewController {
       animated: true, completion: nil)
   }
 
+  // MARK: Studio actions
   /// Triggered when the user cancels a scene that he directed (i.e. when he didn't the photo)
   @objc private func didCancel() {
-    viewModel.willDirect()
+    viewModel.didCancel()
   }
 
   /// Switches between back and front cameras.
@@ -127,8 +166,23 @@ class StudioViewController: BaseViewController {
     swiftyCam.switchCamera()
   }
 
-  @objc private func didApprove() {
+  /// Sends the current directed scene to our backend for saving.
+  @objc private func willSend() {
     viewModel.willSend()
+  }
+
+  /// Goes back to edit the previous media, from which the user can reach the current one.
+  @objc private func displayingParentMedia() {
+    viewModel.displayingParentMedia()
+  }
+
+  @objc private func didChose(_ sender: UIButton) {
+    let emotion = Emotion.values.filter { sender.title(for: .normal) == $0.emoji }.first
+    guard emotion != nil else {
+      App.log.error("Could not infer emotion.")
+      return
+    }
+    viewModel.didChose(reaction: emotion!)
   }
 }
 
@@ -141,26 +195,22 @@ extension StudioViewController: StudioViewModelDelegate {
       animated: true, completion: nil)
   }
 
-  func displayPreview(of scene: Scene?) {
+  func display(media: Media) {
     // Remove previous preview
-    if scenePreview != nil {
-      scenePreview!.willMove(toParentViewController: nil)
-      scenePreview!.view.removeFromSuperview()
-      scenePreview!.removeFromParentViewController()
-      scenePreview = nil
+    if mediaViewController != nil {
+      mediaViewController!.willMove(toParentViewController: nil)
+      mediaViewController!.view.removeFromSuperview()
+      mediaViewController!.removeFromParentViewController()
+      mediaViewController = nil
     }
-    guard scene != nil else {
+    // Add media preview
+    mediaViewController = MediaViewController.instantiate(with: media)
+    guard mediaViewController != nil else {
       return
     }
-    // Add scene preview
-    scenePreview = MediaViewController.instantiate(with: scene?.rootMedia)
-    guard scenePreview != nil else {
-      return
-    }
-    self.addChildViewController(scenePreview!)
-    self.view.addSubview(scenePreview!.view)
-    self.view.sendSubview(toBack: scenePreview!.view)
-    scenePreview!.view.reactive.isHidden <~ viewModel.scenePreviewHidden
+    scenePreview.addChildViewController(mediaViewController!)
+    scenePreview.view.addSubview(mediaViewController!.view)
+    scenePreview.view.sendSubview(toBack: mediaViewController!.view)
   }
 
   func didSend() {

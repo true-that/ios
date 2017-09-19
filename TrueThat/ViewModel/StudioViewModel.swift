@@ -23,17 +23,22 @@ class StudioViewModel {
   public let sendButtonHidden = MutableProperty(true)
   public let switchCameraButtonHidden = MutableProperty(false)
   public let loadingImageHidden = MutableProperty(true)
+  public let previousMediaHidden = MutableProperty(true)
   public let captureButtonImageName = MutableProperty(StudioViewModel.captureImageName)
-  var state = State.directing
+  var state = State.camera
   var delegate: StudioViewModelDelegate?
   var directed: Scene?
+  var currentMedia: Media?
+  var newMedia: Media?
+  var chosenReaction: Emotion?
 
-  public func didAppear() {
+  // MARK: Lifecycle
+  func didAppear() {
     switch state {
-    case .directing:
+    case .camera:
       self.willDirect()
-    case .approving:
-      self.willApprove()
+    case .edit:
+      self.willEdit()
     case .sent:
       self.willSend()
     case .published:
@@ -42,12 +47,56 @@ class StudioViewModel {
     }
   }
 
+  // MARK: Editing
+  /// The user chose `reaction` as the follow up to `currentMedia`.
+  ///
+  /// - Parameter reaction: that should trigger the transition from `currentMedia`.
+  func didChose(reaction: Emotion) {
+    guard directed != nil, currentMedia != nil else {
+      App.log.warning("Chose reaction before directed a scene.")
+      return
+    }
+    if directed!.next(of: currentMedia!, on: reaction) != nil {
+      currentMedia = directed!.next(of: currentMedia!, on: reaction)
+      willEdit()
+    } else {
+      chosenReaction = reaction
+      willDirect()
+    }
+  }
+
+  /// Goes back to edit the previous media, from which the user can reach the current one.
+  func displayingParentMedia() {
+    // Should reach here only if the current media node has a parent.
+    guard currentMedia != nil, directed?.parent(of: currentMedia!) != nil else {
+      App.log.warning("Trying to display parent media when no such media exists")
+      return
+    }
+    currentMedia = directed!.parent(of: currentMedia!)!
+    willEdit()
+  }
+
+  /// User had dissapproved `currentMedia`.
+  func didCancel() {
+    App.log.debug("didCancel")
+    guard directed != nil, currentMedia != nil else {
+      App.log.warning("Canceled media before directing a scene.")
+      return
+    }
+    currentMedia = directed!.remove(media: currentMedia!)
+    if currentMedia != nil {
+      willEdit()
+    } else {
+      directed = nil
+      willDirect()
+    }
+  }
+
+  // MARK: Studio states
   /// The state when directing had not been started yet (usually when the camera preview is live).
   func willDirect() {
-    App.log.debug("Studio state: \(State.directing)")
-    state = State.directing
-    directed = nil
-    delegate?.displayPreview(of: nil)
+    App.log.debug("Studio state: \(State.camera)")
+    state = State.camera
     // Show camera preview and control buttons
     captureButtonHidden.value = false
     cameraSessionHidden.value = false
@@ -61,16 +110,57 @@ class StudioViewModel {
   }
 
   /// After a scene is directed, it awaits for final approval from the user.
-  func willApprove() {
-    App.log.debug("Studio state: \(State.approving)")
-    guard directed != nil else {
-      App.log.warning("Reached approval state with a nil directed scene.")
-      willDirect()
-      return
+  func willEdit() {
+    App.log.debug("Studio state: \(State.edit)")
+    if newMedia == nil {
+      guard directed != nil else {
+        App.log.warning("Reached edit state with a nil directed scene and without a new media.")
+        willDirect()
+        return
+      }
+      guard currentMedia != nil else {
+        App.log.warning("Reached edit state with a nil current media and without a new media.")
+        if directed?.rootMedia != nil {
+          currentMedia = directed?.rootMedia
+          willEdit()
+        } else {
+          directed = nil
+          willDirect()
+        }
+        return
+      }
+    } else {
+      if directed == nil {
+        directed = Scene(from: newMedia!)
+        currentMedia = newMedia
+      } else {
+        guard currentMedia != nil, currentMedia?.id != nil else {
+          App.log.warning("Reached edit state with an invalid current media and without a new media.")
+          if directed?.rootMedia != nil {
+            currentMedia = directed?.rootMedia
+            willEdit()
+          } else {
+            directed = nil
+            willDirect()
+          }
+          return
+        }
+        guard chosenReaction != nil else {
+          App.log.warning("Trying to add a new media without a chosen reaction.")
+          newMedia = nil
+          willEdit()
+          return
+        }
+        directed?.add(media: newMedia!, from: currentMedia!.id!, on: chosenReaction!)
+        currentMedia = newMedia
+        chosenReaction = nil
+      }
+      newMedia = nil
     }
-    state = State.approving
-    // Displays preview
-    delegate?.displayPreview(of: directed!)
+    state = State.edit
+    // Displays preview of current media
+    delegate?.display(media: currentMedia!)
+    scenePreviewHidden.value = false
     // Hide camera preview and control buttons
     captureButtonHidden.value = true
     cameraSessionHidden.value = true
@@ -78,9 +168,10 @@ class StudioViewModel {
     // Show editting buttons, and hide directed scene
     cancelButtonHidden.value = false
     sendButtonHidden.value = false
-    scenePreviewHidden.value = false
     // Hide loading image
     loadingImageHidden.value = true
+    // Expose previous media button if not editing root media.
+    previousMediaHidden.value = currentMedia! == directed!.rootMedia!
   }
 
   /// After the user approved the scene it is sent to our backend.
@@ -89,7 +180,7 @@ class StudioViewModel {
     // Check that we have something to send
     if directed == nil {
       App.log.warning("Trying to send a non-existent scene.")
-      willApprove()
+      willEdit()
       return
     }
     state = State.sent
@@ -145,17 +236,18 @@ class StudioViewModel {
     self.delegate?.show(alert: StudioViewModel.saveFailedAlert,
                         withTitle: StudioViewModel.saveFailedTitle,
                         okAction: StudioViewModel.saveFailedOkText)
-    self.willApprove()
+    self.willEdit()
   }
 
   /// Invoked after a photo is captured and its data is available
   ///
   /// - Parameter imageData: of the fresh out of the oven image
   public func didCapture(imageData: Data) {
-    directed = Scene(of: Photo(data: imageData))
-    willApprove()
+    newMedia = Photo(data: imageData)
+    willEdit()
   }
 
+  // MARK: Camera callbacks
   /// Invoked when video recording has been started.
   func didStartRecordingVideo() {
     captureButtonImageName.value = StudioViewModel.recordVideoImageName
@@ -168,18 +260,18 @@ class StudioViewModel {
 
   /// Invoked once recorded video has been processed.
   func didFinishProcessVideo(url: URL) {
-    directed = Scene(of: Video(localUrl: url))
-    willApprove()
+    newMedia = Video(localUrl: url)
+    willEdit()
   }
 
   /// Studio various states
   ///
-  /// - directing: when the user directs (creates and edits) a scene.
-  /// - approving: when a scene is made and awaits for final approval from the user.
+  /// - camera: when the user directs (creates and edits) a scene.
+  /// - edit: when a scene is made and awaits for final approval from the user.
   /// - sent: when the user approved and sent the scene to our backend.
   /// - published: when the scene is successfully saved.
   enum State {
-    case directing, approving, sent, published
+    case camera, edit, sent, published
   }
 }
 
@@ -189,10 +281,10 @@ protocol StudioViewModelDelegate {
   /// Leave studio, usually following scene has been successfully saved.
   func leaveStudio()
 
-  /// Displays a preview of the directed scene.
+  /// Displays a preview of `currentMedia`
   ///
-  /// - Parameter scene: that has just been directed.
-  func displayPreview(of scene: Scene?)
+  /// - Parameter media: to display
+  func display(media: Media)
 
   /// Invoked once a HTTP request with the directed scene has been sent to the server.
   func didSend()

@@ -43,7 +43,7 @@ class Video: Media {
   override var hashValue: Int {
     let superHash = super.hashValue
     if localUrl != nil {
-      return 31 * superHash + localUrl!.hashValue
+      return 31 &* superHash &+ localUrl!.hashValue
     }
     return superHash
   }

@@ -79,7 +79,7 @@ class Scene: BaseModel {
     self.edges = edges
   }
 
-  convenience init(of media: Media) {
+  convenience init(from media: Media) {
     self.init(id: nil, director: App.authModule.current, reactionCounters: nil, created: Date(),
               mediaNodes: [media], edges: nil)
   }
@@ -137,6 +137,7 @@ class Scene: BaseModel {
     }
   }
 
+  // Mark: Media
   /// Adds `media` to the flow tree.
   ///
   /// - Parameters:
@@ -168,7 +169,7 @@ class Scene: BaseModel {
 
   /// - Parameter media: what the user is currently viewing
   /// - Returns: the media, if any, that led to the current one.
-  func previous(of media: Media) -> Media? {
+  func parent(of media: Media) -> Media? {
     return flowTree.parent(of: media.id!)
   }
 

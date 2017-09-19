@@ -40,7 +40,7 @@ class Photo: Media {
   override var hashValue: Int {
     let superHash = super.hashValue
     if data != nil {
-      return 31 * superHash + data!.hashValue
+      return 31 &* superHash &+ data!.hashValue
     }
     return superHash
   }

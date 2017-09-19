@@ -41,10 +41,9 @@ class StudioViewControllerTests: BaseUITests {
     viewController.captureButton.delegate = SwiftyCamButtonTestDelegate(viewModel: viewController.viewModel)
   }
 
-  func assertDirecting() {
-    expect(self.viewController.viewModel.state).toEventually(equal(StudioViewModel.State.directing))
+  func assertCamera() {
+    expect(self.viewController.viewModel.state).toEventually(equal(StudioViewModel.State.camera))
     expect(self.viewController.captureButton.isHidden).to(beFalse())
-    expect(self.viewController.scenePreview).to(beNil())
     expect(self.viewController.switchCameraButton.isHidden).to(beFalse())
     expect(self.viewController.cancelButton.isHidden).to(beTrue())
     expect(self.viewController.sendButton.isHidden).to(beTrue())
@@ -52,8 +51,8 @@ class StudioViewControllerTests: BaseUITests {
     expect(self.viewController.viewModel.cameraSessionHidden.value).to(beFalse())
   }
 
-  func assertApproving() {
-    expect(self.viewController.viewModel.state).toEventually(equal(StudioViewModel.State.approving))
+  func assertEdit() {
+    expect(self.viewController.viewModel.state).toEventually(equal(StudioViewModel.State.edit))
     expect(self.viewController.captureButton.isHidden).to(beTrue())
     expect(self.viewController.switchCameraButton.isHidden).to(beTrue())
     expect(self.viewController.cancelButton.isHidden).to(beFalse())
@@ -62,25 +61,25 @@ class StudioViewControllerTests: BaseUITests {
     expect(self.viewController.scenePreview?.view.isHidden).to(beFalse())
   }
 
-  func assertSending() {
+  func assertWillSend() {
     expect(self.viewController.loadingImage.isHidden).toEventually(beFalse())
     expect(self.requestSent).toEventually(beTrue())
   }
 
   func testCapturePhoto() {
     viewController.beginAppearanceTransition(true, animated: false)
-    assertDirecting()
+    assertCamera()
     tester().tapView(withAccessibilityLabel: "capture")
-    assertApproving()
+    assertEdit()
   }
 
   func testRecordVideo() {
     viewController.beginAppearanceTransition(true, animated: false)
-    assertDirecting()
+    assertCamera()
     tester().longPressView(withAccessibilityLabel: "capture", duration: 1.0)
-    assertApproving()
+    assertEdit()
     tester().tapView(withAccessibilityLabel: "send")
-    assertSending()
+    assertWillSend()
     expect(UITestsHelper.currentViewController!)
       .toEventually(beAnInstanceOf(TheaterViewController.self))
   }
@@ -88,24 +87,24 @@ class StudioViewControllerTests: BaseUITests {
   func testCancel() {
     viewController.beginAppearanceTransition(true, animated: false)
     tester().tapView(withAccessibilityLabel: "capture")
-    assertApproving()
+    assertEdit()
     tester().tapView(withAccessibilityLabel: "cancel")
-    assertDirecting()
+    assertCamera()
   }
 
   func testCancelVideo() {
     viewController.beginAppearanceTransition(true, animated: false)
     tester().longPressView(withAccessibilityLabel: "capture", duration: 1.0)
-    assertApproving()
+    assertEdit()
     tester().tapView(withAccessibilityLabel: "cancel")
-    assertDirecting()
+    assertCamera()
   }
 
   func testSend() {
     viewController.beginAppearanceTransition(true, animated: false)
     tester().tapView(withAccessibilityLabel: "capture")
     tester().tapView(withAccessibilityLabel: "send")
-    assertSending()
+    assertWillSend()
     expect(UITestsHelper.currentViewController!)
       .toEventually(beAnInstanceOf(TheaterViewController.self))
   }
@@ -121,10 +120,10 @@ class StudioViewControllerTests: BaseUITests {
     viewController.beginAppearanceTransition(true, animated: false)
     tester().tapView(withAccessibilityLabel: "capture")
     tester().tapView(withAccessibilityLabel: "send")
-    assertSending()
+    assertWillSend()
     // Tap the failure dialogue
     tester().tapView(withAccessibilityLabel: StudioViewModel.saveFailedOkText)
-    assertApproving()
+    assertEdit()
   }
 
   func testNavigationToTheater() {
@@ -141,6 +140,55 @@ class StudioViewControllerTests: BaseUITests {
     // Swipe up
     tester().swipeView(withAccessibilityLabel: "studio view", in: .up)
     expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(RepertoireViewController.self))
+  }
+
+  func testSendInteractiveFlow() {
+    // Take a picture
+    tester().tapView(withAccessibilityLabel: "capture")
+    // Should proceed to edit state
+    assertEdit()
+    // Chose a reaction
+    tester().tapView(withAccessibilityLabel: "surprise reaction")
+    // Should proceed to camera state.
+    assertCamera()
+    // Record a video
+    tester().longPressView(withAccessibilityLabel: "capture", duration: 1.0)
+    // Should proceed to edit state
+    assertEdit()
+    // Go back to root media to create an alternative
+    tester().tapView(withAccessibilityLabel: "previous media")
+    assertEdit()
+    // Chose a reaction
+    tester().tapView(withAccessibilityLabel: "happy reaction")
+    // Should proceed to camera state.
+    assertCamera()
+    // Take a picture
+    tester().tapView(withAccessibilityLabel: "capture")
+    // Should proceed to edit state
+    assertEdit()
+    // Redo the surprise ending
+    tester().tapView(withAccessibilityLabel: "previous media")
+    assertEdit()
+    // Chose a reaction
+    tester().tapView(withAccessibilityLabel: "surprise reaction")
+    assertEdit()
+    tester().tapView(withAccessibilityLabel: "cancel")
+    assertEdit()
+    // Chose a reaction
+    tester().tapView(withAccessibilityLabel: "surprise reaction")
+    // Should proceed to camera state.
+    assertCamera()
+    // Record a video
+    tester().longPressView(withAccessibilityLabel: "capture", duration: 1.0)
+    // Should proceed to edit state
+    assertEdit()
+    // Send the scene
+    tester().tapView(withAccessibilityLabel: "send")
+    // Should proceed to sent state
+    assertWillSend()
+    // Should proceed to published state
+    expect(UITestsHelper.currentViewController!)
+      .toEventually(beAnInstanceOf(TheaterViewController.self))
   }
 
   class SwiftyCamButtonTestDelegate: SwiftyCamButtonDelegate {
