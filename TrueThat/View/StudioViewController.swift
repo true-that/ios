@@ -90,7 +90,7 @@ class StudioViewController: BaseViewController {
     cancelButton.image = UIImage(named: "cross.png")
     view.bringSubview(toFront: cancelButton)
     switchCameraButton.image = UIImage(named: "switch_camera.png")
-    sendButton.image = UIImage(named: "send_scene.png")
+    sendButton.image = UIImage(named: "send.png")
 
     // Initialize visibility hooks
     captureButton.reactive.isHidden <~ viewModel.captureButtonHidden

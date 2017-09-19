@@ -6,6 +6,7 @@
 //  Copyright © 2017 TrueThat. All rights reserved.
 //
 
+import UIKit
 import KIF
 @testable import TrueThat
 import Nimble

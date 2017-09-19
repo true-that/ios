@@ -12,7 +12,7 @@ import Result
 
 class OnBoardingViewModel {
   // MARK: Properties
-  public static let reactionForDone = Emotion.happy
+  public static let reactionsForDone: Set<Emotion> = [Emotion.happy, Emotion.surprise]
   public static let invalidNameText = "invalid name"
   public static let signUpFailedText = "oopsie we had an error 😬"
   public let warningLabelHidden = MutableProperty(true)
@@ -96,7 +96,7 @@ protocol OnBoardingDelegate {
 // MARK: ReactionDetectionDelegate
 extension OnBoardingViewModel: ReactionDetectionDelegate {
   func didDetect(reaction: Emotion) {
-    if reaction == OnBoardingViewModel.reactionForDone {
+    if OnBoardingViewModel.reactionsForDone.contains(reaction) {
       loadingImageHidden.value = false
       signingUp(with: nameTextField.value)
       App.detecionModule.delegate = nil
