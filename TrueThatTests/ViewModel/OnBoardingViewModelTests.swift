@@ -59,7 +59,7 @@ class OnBoardingViewModelTests: BaseTests {
     // Should enter final on boarding stage
     assertFinalStage()
     // Detect a reaction
-    fakeDetectionModule.detect(OnBoardingViewModel.reactionsForDone[0])
+    fakeDetectionModule.detect(OnBoardingViewModel.reactionsForDone.first!)
     // Should show loading indicator
     expect(self.viewModel.loadingImageHidden.value).to(beFalse())
     // On boarding is finished successfully
@@ -81,7 +81,7 @@ class OnBoardingViewModelTests: BaseTests {
     // Should enter final on boarding stage
     assertFinalStage()
     // Detect a reaction
-    fakeDetectionModule.detect(OnBoardingViewModel.reactionsForDone[0])
+    fakeDetectionModule.detect(OnBoardingViewModel.reactionsForDone.first!)
     // Auth should fail
     expect(self.viewModelDelegate.authFail).toEventually(beTrue())
     // Should show correct warning
@@ -103,7 +103,7 @@ class OnBoardingViewModelTests: BaseTests {
     // Should enter final on boarding stage
     assertFinalStage()
     // Detect a reaction
-    fakeDetectionModule.detect(OnBoardingViewModel.reactionsForDone[0])
+    fakeDetectionModule.detect(OnBoardingViewModel.reactionsForDone.first!)
     // On boarding is finished successfully
     expect(self.viewModelDelegate.authOk).toEventually(beTrue())
   }

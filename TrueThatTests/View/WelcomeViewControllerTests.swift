@@ -19,8 +19,14 @@ class WelcomeViewControllerTests: BaseUITests {
     super.setUp()
     if UITestsHelper.currentViewController != nil
       && type(of: UITestsHelper.currentViewController!) != WelcomeViewController.self {
-      // Wait for app to load
-      expect(UITestsHelper.currentViewController!.view).toEventuallyNot(beNil())
+      let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+      viewController = storyboard.instantiateViewController(withIdentifier: "WelcomeScene")
+        as! WelcomeViewController
+      
+      UIApplication.shared.keyWindow!.rootViewController = viewController
+      
+      // Test and load the View
+      expect(self.viewController.view).toNot(beNil())
     }
     // Sign out
     App.authModule.signOut()
@@ -28,10 +34,10 @@ class WelcomeViewControllerTests: BaseUITests {
       .toEventually(beAnInstanceOf(WelcomeViewController.self))
     viewController = UITestsHelper.currentViewController as! WelcomeViewController
     expect(self.viewController.view).toNot(beNil())
-    expect(App.authModule.delegate).toEventually(beIdenticalTo(self.viewController))
+    App.authModule.delegate = viewController
   }
 
-  func testStartSignUp() {
+  func testSignUp() {
     tester().tapView(withAccessibilityLabel: "sign up")
     expect(UITestsHelper.currentViewController!)
       .toEventually(beAnInstanceOf(OnBoardingViewController.self))

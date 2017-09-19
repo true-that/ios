@@ -12,7 +12,7 @@ import Result
 
 class OnBoardingViewModel {
   // MARK: Properties
-  public static let reactionsForDone: Set<Emotion> = [Emotion.happy, Emotion.surprise]
+  public static let reactionsForDone = [Emotion.happy, Emotion.surprise]
   public static let invalidNameText = "invalid name"
   public static let signUpFailedText = "oopsie we had an error 😬"
   public let warningLabelHidden = MutableProperty(true)

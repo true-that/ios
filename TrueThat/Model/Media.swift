@@ -24,7 +24,13 @@ class Media: BaseModel {
 
   required init(json: JSON) {
     super.init(json: json)
+    if id == nil {
+      App.log.warning("Missing id.")
+    }
     url = json["url"].string
+    if url == nil {
+      App.log.warning("Missing url.")
+    }
   }
 
   static func instantiate(with json: JSON) -> Media? {
@@ -61,6 +67,5 @@ class Media: BaseModel {
   /// Appends media data to a multipart request
   ///
   /// - Parameter multipartFormData: to append to
-  /// - Parameter partName: of the HTTP multipart part
-  func appendTo(multipartFormData: MultipartFormData, withName partName: String) {}
+  func appendTo(multipartFormData: MultipartFormData) {}
 }

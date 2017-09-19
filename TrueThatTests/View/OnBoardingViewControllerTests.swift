@@ -16,6 +16,20 @@ class OnBoardingViewControllerTests: BaseUITests {
   let fullName = "Swa la lala"
   var viewController: OnBoardingViewController!
 
+  override func setUp() {
+    super.setUp()
+    
+    // Ensures our entry point is a view controller that requires auth.
+    let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+    let theater = storyboard.instantiateViewController(withIdentifier: "TheaterScene")
+      as! TheaterViewController
+    
+    UIApplication.shared.keyWindow!.rootViewController = theater
+    
+    // Test and load the View
+    expect(theater.view).toNot(beNil())
+  }
+  
   func testOnBoardingFlow() {
     let user = User(id: 1, firstName: "swa", lastName: "la lala",
                     deviceId: App.deviceModule.deviceId)
@@ -66,7 +80,7 @@ class OnBoardingViewControllerTests: BaseUITests {
     expect(App.detecionModule.delegate as! OnBoardingViewModel === self.viewController.viewModel).to(beTrue())
     expect(self.viewController.completionLabel.isHidden).to(beFalse())
     // Complete on boarding
-    fakeDetectionModule.detect(OnBoardingViewModel.reactionsForDone[0])
+    fakeDetectionModule.detect(OnBoardingViewModel.reactionsForDone.first!)
     // Should show loading image
     expect(self.viewController.loadingImage.isHidden).to(beFalse())
     expect(App.authModule.current).toEventually(equal(user))

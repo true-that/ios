@@ -54,9 +54,14 @@ extension BaseViewController: AuthDelegate {
 
   func didAuthFail() {
     App.log.debug("\(logTag): didAuthFail")
-    self.present(
-      UIStoryboard(name: "Main", bundle: self.nibBundle).instantiateViewController(
-        withIdentifier: "WelcomeScene"),
-      animated: true, completion: nil)
+    let welcomeViewController = UIStoryboard(name: "Main", bundle: nil)
+      .instantiateViewController(withIdentifier: "WelcomeScene")
+    let segue = UIStoryboardSegue(identifier: "WelcomeSegue", source: self,
+                                  destination: welcomeViewController,
+                                  performHandler: {
+                                    self.present(welcomeViewController, animated: true, completion: {})
+    })
+    prepare(for: segue, sender: self)
+    segue.perform()
   }
 }

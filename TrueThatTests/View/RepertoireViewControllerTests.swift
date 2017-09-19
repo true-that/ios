@@ -8,6 +8,7 @@
 
 import KIF
 @testable import TrueThat
+import AVFoundation
 import OHHTTPStubs
 import SwiftyJSON
 import Nimble
@@ -57,6 +58,11 @@ class RepertoireViewControllerTests: BaseUITests {
     expect(viewModel.scene.id).toEventually(equal(scene.id))
     expect(viewModel.currentMedia).toEventuallyNot(beNil())
     expect(viewModel.mediaViewed[viewModel.currentMedia!]).toEventually(beTrue(), timeout: 5.0)
+    if viewModel.currentMedia is Video {
+      expect((self.viewController.scenesPageWrapper.scenesPage.currentViewController?.mediaViewController
+        as! VideoViewController).player?.currentTime())
+        .toEventuallyNot(equal(kCMTimeZero), timeout: 5.0)
+    }
   }
 
   func testDisplayScene() {
@@ -76,14 +82,30 @@ class RepertoireViewControllerTests: BaseUITests {
       .toEventually(beAnInstanceOf(StudioViewController.self))
   }
 
-  func testNavigationWhenSceneDisplayed() {
+  func testNavigationWhenPhotoDisplayed() {
     fetchedScenes = [scene]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
     viewController.didAuthOk()
     assertDisplayed(scene: scene)
     // Swipe up
-    tester().swipeView(withAccessibilityLabel: "scene view", in: .down)
+    tester().swipeView(withAccessibilityLabel: "photo", in: .down)
+    expect(UITestsHelper.currentViewController)
+      .toEventually(beAnInstanceOf(StudioViewController.self))
+  }
+  
+  func testNavigationWhenVideoDisplayed() {
+    fetchedScenes = [Scene(id: 1, director: App.authModule.current,
+                           reactionCounters: [.disgust: 1000, .happy: 1234],
+                           created: Date(),
+                           mediaNodes: [Video(id: 1, url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4")],
+                           edges: nil)]
+    // Trigger viewDidAppear
+    viewController.beginAppearanceTransition(true, animated: false)
+    viewController.didAuthOk()
+    assertDisplayed(scene: scene)
+    // Swipe up
+    tester().swipeView(withAccessibilityLabel: "video", in: .down)
     expect(UITestsHelper.currentViewController)
       .toEventually(beAnInstanceOf(StudioViewController.self))
   }

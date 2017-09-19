@@ -134,6 +134,16 @@ class StudioViewControllerTests: BaseUITests {
     tester().swipeView(withAccessibilityLabel: "studio view", in: .down)
     expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(TheaterViewController.self))
   }
+  
+  func testNavigationWhileVideoEdited() {
+    viewController.beginAppearanceTransition(true, animated: false)
+    assertCamera()
+    tester().longPressView(withAccessibilityLabel: "capture", duration: 1.0)
+    assertEdit()
+    // Swipe up
+    tester().swipeView(withAccessibilityLabel: "video", in: .down)
+    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(TheaterViewController.self))
+  }
 
   func testNavigationToRepertoire() {
     // Trigger viewDidAppear

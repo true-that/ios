@@ -87,12 +87,23 @@ class Scene: BaseModel {
   required init(json: JSON) {
     super.init(json: json)
     director = User(json: json["director"])
+    if director == nil {
+      App.log.warning("Missing director.")
+    }
     created = DateHelper.utcDate(fromString: json["created"].string)
+    if created == nil {
+      App.log.warning("Missing created.")
+    }
     reactionCounters = json["reactionCounters"].dictionary?.mapPairs { stringEmotion, counter in
       (Emotion.toEmotion(stringEmotion)!, counter.int64Value)
     }
     if json["mediaNodes"].array != nil {
       mediaNodes = json["mediaNodes"].arrayValue.map { Media.instantiate(with: $0)! }
+    }
+    if mediaNodes == nil {
+      App.log.warning("Missing mediaNodes.")
+    } else if mediaNodes!.isEmpty {
+      App.log.warning("No media nodes.")
     }
     if json["edges"].array != nil {
       edges = json["edges"].arrayValue.map { Edge(json: $0) }
@@ -192,14 +203,10 @@ class Scene: BaseModel {
       multipartFormData.append(sceneData!, withName: StudioApi.scenePart)
     }
     if mediaNodes != nil {
-      for i in 0 ..< mediaNodes!.count {
-        mediaNodes![i].appendTo(multipartFormData: multipartFormData, withName: partName(of: i))
+      for media in mediaNodes! {
+        media.appendTo(multipartFormData: multipartFormData)
       }
     }
-  }
-
-  func partName(of: Int) -> String {
-    return StudioApi.mediaPartPrefix + "\(of)"
   }
 }
 

@@ -85,10 +85,7 @@ extension OnBoardingViewController: OnBoardingDelegate {
 extension OnBoardingViewController {
   override func didAuthOk() {
     super.didAuthOk()
-    self.present(
-      UIStoryboard(name: "Main", bundle: self.nibBundle).instantiateViewController(
-        withIdentifier: "TheaterScene"),
-      animated: true, completion: nil)
+    performSegue(withIdentifier: "TheaterSegue", sender: self)
   }
 
   override func didAuthFail() {

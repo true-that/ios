@@ -30,12 +30,14 @@ class Video: Media {
     super.init(json: json)
   }
 
-  override func appendTo(multipartFormData: MultipartFormData, withName partName: String) {
-    super.appendTo(multipartFormData: multipartFormData, withName: partName)
+  override func appendTo(multipartFormData: MultipartFormData) {
+    super.appendTo(multipartFormData: multipartFormData)
     if localUrl != nil {
       let data = try? Data(contentsOf: localUrl!)
       if data != nil {
-        multipartFormData.append(data!, withName: partName, mimeType: "video/mp4")
+        multipartFormData.append(data!, withName: StudioApi.mediaPartPrefix + String(id!), mimeType: "video/mp4")
+      } else {
+        App.log.warning("Missing data.")
       }
     }
   }

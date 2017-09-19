@@ -30,10 +30,12 @@ class Photo: Media {
     super.init(json: json)
   }
 
-  override func appendTo(multipartFormData: MultipartFormData, withName partName: String) {
-    super.appendTo(multipartFormData: multipartFormData, withName: partName)
+  override func appendTo(multipartFormData: MultipartFormData) {
+    super.appendTo(multipartFormData: multipartFormData)
     if data != nil {
-      multipartFormData.append(data!, withName: partName, mimeType: "image/jpg")
+      multipartFormData.append(data!, withName: StudioApi.mediaPartPrefix + String(id!), mimeType: "image/jpg")
+    } else {
+      App.log.warning("Missing data.")
     }
   }
 

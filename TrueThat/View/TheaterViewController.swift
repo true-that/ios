@@ -12,12 +12,13 @@ import ReactiveCocoa
 import SwiftyBeaver
 
 class TheaterViewController: BaseViewController {
-
+  // MARK: Properties
   var scenesPageWrapper: ScenesPageWrapperViewController!
-
+  
+  // MARK: Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
-
+    
     // Loads scenes container
     scenesPageWrapper = ScenesPageWrapperViewController.instantiate(doDetection: true)
     self.addChildViewController(scenesPageWrapper)
@@ -29,18 +30,15 @@ class TheaterViewController: BaseViewController {
     swipeUp.direction = .up
     self.view.addGestureRecognizer(swipeUp)
   }
-
+  
   override func didAuthOk() {
     super.didAuthOk()
     scenesPageWrapper.didAuthOk()
   }
-
+  
   // MARK: View Controller Navigation
   @objc private func navigateToStudio() {
-    self.present(
-      UIStoryboard(name: "Main", bundle: self.nibBundle).instantiateViewController(
-        withIdentifier: "StudioScene"),
-      animated: true, completion: nil)
+    performSegue(withIdentifier: "StudioSegue", sender: self)
   }
 }
 

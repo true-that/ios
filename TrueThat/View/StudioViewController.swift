@@ -140,19 +140,13 @@ class StudioViewController: BaseViewController {
     ])
   }
 
-  // MARK: View Controller Navigation
+  // MARK: Navigation
   @objc private func navigateToTheater() {
-    self.present(
-      UIStoryboard(name: "Main", bundle: self.nibBundle).instantiateViewController(
-        withIdentifier: "TheaterScene"),
-      animated: true, completion: nil)
+    performSegue(withIdentifier: "TheaterSegue", sender: self)
   }
 
   @objc private func navigateToRepertoire() {
-    self.present(
-      UIStoryboard(name: "Main", bundle: self.nibBundle).instantiateViewController(
-        withIdentifier: "RepertoireScene"),
-      animated: true, completion: nil)
+    performSegue(withIdentifier: "RepertoireSegue", sender: self)
   }
 
   // MARK: Studio actions
@@ -189,10 +183,7 @@ class StudioViewController: BaseViewController {
 // MARK: StudioViewModelDelegate
 extension StudioViewController: StudioViewModelDelegate {
   func leaveStudio() {
-    self.present(
-      UIStoryboard(name: "Main", bundle: self.nibBundle).instantiateViewController(
-        withIdentifier: "TheaterScene"),
-      animated: true, completion: nil)
+    performSegue(withIdentifier: "TheaterSegue", sender: self)
   }
 
   func display(media: Media) {

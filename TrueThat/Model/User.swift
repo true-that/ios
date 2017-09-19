@@ -30,8 +30,18 @@ class User: BaseModel {
 
   required init(json: JSON) {
     super.init(json: json)
+    if id == nil {
+      App.log.warning("Missing id.")
+    }
     firstName = json["firstName"].string
+    if firstName == nil {
+      App.log.warning("Missing first name.")
+    }
     lastName = json["lastName"].string
+    if lastName == nil {
+      App.log.warning("Missing last name.")
+    }
+    deviceId = json["deviceId"].string
   }
 
   override func toDictionary() -> [String: Any] {
@@ -41,6 +51,9 @@ class User: BaseModel {
     }
     if lastName != nil {
       dictionary["lastName"] = lastName!
+    }
+    if deviceId != nil {
+      dictionary["deviceId"] = deviceId!
     }
     return dictionary
   }

@@ -38,10 +38,7 @@ class RepertoireViewController: BaseViewController {
 
   // MARK: View Controller Navigation
   @objc private func navigateToStudio() {
-    self.present(
-      UIStoryboard(name: "Main", bundle: self.nibBundle).instantiateViewController(
-        withIdentifier: "StudioScene"),
-      animated: true, completion: nil)
+    performSegue(withIdentifier: "StudioSegue", sender: self)
   }
 }
 

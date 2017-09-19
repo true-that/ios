@@ -49,10 +49,8 @@ class WelcomeViewController: BaseViewController {
   }
 
   @objc private func signUp() {
-    self.present(
-      UIStoryboard(name: "Main", bundle: self.nibBundle).instantiateViewController(
-        withIdentifier: "OnBoardingScene"),
-      animated: true, completion: nil)
+    App.log.debug("sign up - fresh meat!")
+    performSegue(withIdentifier: "OnBoardingSegue", sender: self)
   }
 
   @objc private func signIn() {
@@ -64,10 +62,7 @@ class WelcomeViewController: BaseViewController {
 extension WelcomeViewController {
   override func didAuthOk() {
     super.didAuthOk()
-    self.present(
-      UIStoryboard(name: "Main", bundle: self.nibBundle).instantiateViewController(
-        withIdentifier: "TheaterScene"),
-      animated: true, completion: nil)
+    performSegue(withIdentifier: "TheaterSegue", sender: self)
   }
 
   override func didAuthFail() {

@@ -25,6 +25,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration" label="theater view"/>
                     </view>
+                    <connections>
+                        <segue destination="MQF-n5-Jik" kind="presentation" identifier="StudioSegue" id="D4d-7a-aQn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w6e-pg-08W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -115,6 +118,8 @@
                         <outlet property="loadingImage" destination="5Qm-yN-rbn" id="zIP-sw-UPb"/>
                         <outlet property="sendButton" destination="qAp-Hd-bpU" id="kSk-yt-hmF"/>
                         <outlet property="switchCameraButton" destination="rdf-9e-5Vn" id="3ME-bw-Uyw"/>
+                        <segue destination="PwO-HX-N1u" kind="presentation" identifier="TheaterSegue" id="LAM-lt-bx3"/>
+                        <segue destination="xQO-xT-r78" kind="presentation" identifier="RepertoireSegue" id="aEv-pD-5in"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="44v-9h-dEG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -135,6 +140,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration" label="repertoire view"/>
                     </view>
+                    <connections>
+                        <segue destination="MQF-n5-Jik" kind="presentation" identifier="StudioSegue" id="mto-n8-qTh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KsC-AN-BMM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -154,6 +162,7 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ON2-sC-LEK" userLabel="Pose Image">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <accessibility key="accessibilityConfiguration" label="photo"/>
                             </imageView>
                         </subviews>
                         <constraints>
@@ -362,6 +371,7 @@
                         <outlet property="nameTextField" destination="arb-nn-cE3" id="AUs-lG-4VL"/>
                         <outlet property="warningLabel" destination="E7g-A8-SGZ" id="UPG-2F-wXr"/>
                         <outlet property="whatsYourNameLabel" destination="fZn-8w-Vbs" id="ynt-Lr-OWS"/>
+                        <segue destination="PwO-HX-N1u" kind="presentation" identifier="TheaterSegue" id="srD-rV-iKT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="05f-1q-xXS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -532,6 +542,8 @@
                         <outlet property="signUpImage" destination="PZ7-V7-zAg" id="V6r-Jq-7YR"/>
                         <outlet property="signUpLabel" destination="StF-dm-FL5" id="Jkx-LI-QsG"/>
                         <outlet property="signUpStackView" destination="ofx-KU-14c" id="TKx-Xg-nJH"/>
+                        <segue destination="rEG-vJ-Jqn" kind="presentation" identifier="OnBoardingSegue" id="opP-2b-6Vi"/>
+                        <segue destination="PwO-HX-N1u" kind="presentation" identifier="TheaterSegue" id="7Hd-ik-m5f"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tqw-v7-JgS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -539,4 +551,8 @@
             <point key="canvasLocation" x="-706.39999999999998" y="-974.6626686656673"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="D4d-7a-aQn"/>
+        <segue reference="srD-rV-iKT"/>
+    </inferredMetricsTieBreakers>
 </document>
