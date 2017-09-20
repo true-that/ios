@@ -36,8 +36,8 @@ class StudioApi {
     // TODO: cancel request when view disappears
     return SignalProducer { observer, _ in
       let request = try! URLRequest(url: StudioApi.fullUrl, method: .post)
+      App.log.info("MULTIPART \(StudioApi.fullUrl)")
       Alamofire.upload(multipartFormData: { multipartFormData in
-        App.log.info("MULTIPART \(StudioApi.fullUrl)")
         scene.appendTo(multipartFormData: multipartFormData)
       }, with: request,
       encodingCompletion: { result in

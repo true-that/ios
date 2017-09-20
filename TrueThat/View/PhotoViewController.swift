@@ -41,7 +41,8 @@ class PhotoViewController: MediaViewController {
         }
       })
     } else if photo?.data != nil {
-      imageView.image = UIImage(data: photo!.data!)
+      // If displaying photo from camera, then flip it.
+      imageView.image = UIImage(data: photo!.data!)?.imageFlippedForRightToLeftLayoutDirection()
       didDownload()
     }
   }

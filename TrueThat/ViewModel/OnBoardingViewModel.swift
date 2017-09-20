@@ -12,6 +12,7 @@ import Result
 
 class OnBoardingViewModel {
   // MARK: Properties
+  public static var detectionDelaySeconds = 0.5
   public static let reactionsForDone = [Emotion.happy, Emotion.surprise]
   public static let invalidNameText = "invalid name"
   public static let signUpFailedText = "oopsie we had an error 😬"
@@ -22,6 +23,8 @@ class OnBoardingViewModel {
   public let nameTextFieldBorderColor = MutableProperty(Color.shadow)
   public let nameTextField = MutableProperty("")
   var delegate: OnBoardingDelegate!
+  /// Timer to delay reaction detection.
+  var timer: Timer?
 
   init() {
     nameTextField.producer.on(value: { _ in self.nameFieldTextDidChange() }).start()
@@ -40,6 +43,7 @@ class OnBoardingViewModel {
 
   func didDisappear() {
     App.detecionModule.stop()
+    timer?.invalidate()
   }
 
   // MARK: Methods
@@ -77,7 +81,8 @@ class OnBoardingViewModel {
 
   func finalStage() {
     App.detecionModule.start()
-    App.detecionModule.delegate = self
+    timer = Timer.scheduledTimer(withTimeInterval: OnBoardingViewModel.detectionDelaySeconds, repeats: false,
+                                 block: { _ in App.detecionModule.delegate = self })
     completionLabelHidden.value = false
     warningLabelHidden.value = true
   }

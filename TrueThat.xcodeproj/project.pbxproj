@@ -29,7 +29,6 @@
 		6F15228B1F37178600BD0DC2 /* DeviceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F15228A1F37178600BD0DC2 /* DeviceModule.swift */; };
 		6F15228D1F3717D400BD0DC2 /* HardwareDeviceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F15228C1F3717D400BD0DC2 /* HardwareDeviceModule.swift */; };
 		6F15229D1F37609D00BD0DC2 /* StudioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F15229C1F37609D00BD0DC2 /* StudioViewModel.swift */; };
-		6F2B40BF1F5B726C0028A0E3 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2B40BE1F5B726C0028A0E3 /* UIHelper.swift */; };
 		6F303DCC1F6E9F6300EB3592 /* FlowTreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F303DCB1F6E9F6300EB3592 /* FlowTreeTests.swift */; };
 		6F3092D11F2DE91F00BD211A /* KIF+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3092D01F2DE91F00BD211A /* KIF+Extensions.swift */; };
 		6F3092D61F2DEA9100BD211A /* ScenesPageWrapperViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3092D51F2DEA9100BD211A /* ScenesPageWrapperViewControllerTests.swift */; };
@@ -99,6 +98,8 @@
 		6FD5A9A11F48B71600FB16C1 /* DataRequest+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD5A9A01F48B71600FB16C1 /* DataRequest+Extensions.swift */; };
 		6FDBDA411F36C9E600764F0F /* WelcomeViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBDA401F36C9E600764F0F /* WelcomeViewControllerTests.swift */; };
 		6FDBDA431F36CB2E00764F0F /* UITestsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBDA421F36CB2E00764F0F /* UITestsHelper.swift */; };
+		6FDC889E1F71D610006AE06A /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDC889D1F71D610006AE06A /* UIImage+Extensions.swift */; };
+		6FDC88A01F71D70E006AE06A /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDC889F1F71D70E006AE06A /* UIHelper.swift */; };
 		6FE04F611F331CF500D5BF39 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE04F601F331CF500D5BF39 /* OnBoardingViewController.swift */; };
 		6FE04F631F331DA500D5BF39 /* OnBoardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE04F621F331DA500D5BF39 /* OnBoardingViewModel.swift */; };
 		6FE04F651F3322D000D5BF39 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE04F641F3322D000D5BF39 /* WelcomeViewController.swift */; };
@@ -146,7 +147,6 @@
 		6F15228A1F37178600BD0DC2 /* DeviceModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceModule.swift; sourceTree = "<group>"; };
 		6F15228C1F3717D400BD0DC2 /* HardwareDeviceModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HardwareDeviceModule.swift; sourceTree = "<group>"; };
 		6F15229C1F37609D00BD0DC2 /* StudioViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudioViewModel.swift; sourceTree = "<group>"; };
-		6F2B40BE1F5B726C0028A0E3 /* UIHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		6F303DCB1F6E9F6300EB3592 /* FlowTreeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowTreeTests.swift; sourceTree = "<group>"; };
 		6F3092D01F2DE91F00BD211A /* KIF+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KIF+Extensions.swift"; sourceTree = "<group>"; };
 		6F3092D21F2DE9D900BD211A /* TrueThatTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TrueThatTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -222,6 +222,8 @@
 		6FD5A9A01F48B71600FB16C1 /* DataRequest+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataRequest+Extensions.swift"; sourceTree = "<group>"; };
 		6FDBDA401F36C9E600764F0F /* WelcomeViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewControllerTests.swift; sourceTree = "<group>"; };
 		6FDBDA421F36CB2E00764F0F /* UITestsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITestsHelper.swift; sourceTree = "<group>"; };
+		6FDC889D1F71D610006AE06A /* UIImage+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
+		6FDC889F1F71D70E006AE06A /* UIHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		6FE04F601F331CF500D5BF39 /* OnBoardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
 		6FE04F621F331DA500D5BF39 /* OnBoardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnBoardingViewModel.swift; sourceTree = "<group>"; };
 		6FE04F641F3322D000D5BF39 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
@@ -286,7 +288,6 @@
 		3407B756687EDE643FBC18D4 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				6F2B40BD1F5B725C0028A0E3 /* Helpers */,
 				6F58F92D1F498362002DD015 /* SwiftyCam */,
 				6FE04F681F3325A900D5BF39 /* Style */,
 				3407B4EB81D58211759AE8B8 /* ScenesPageViewController.swift */,
@@ -373,14 +374,6 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		6F2B40BD1F5B725C0028A0E3 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				6F2B40BE1F5B726C0028A0E3 /* UIHelper.swift */,
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
 		6F3092CD1F2DE80A00BD211A /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -416,6 +409,7 @@
 				6F521B9F1F4C0311009BADE2 /* String+Extensions.swift */,
 				6F894B311F5985E600C1C73C /* Data+Extensions.swift */,
 				6F43BEE71F5C559200DEB8ED /* SwiftyBeaver+Extensions.swift */,
+				6FDC889D1F71D610006AE06A /* UIImage+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -508,6 +502,7 @@
 				6F7981101F2FCDEC00A055DD /* DateHelper.swift */,
 				6F7981171F2FD99F00A055DD /* NumberHelper.swift */,
 				6FE04F6F1F332F2700D5BF39 /* StringHelper.swift */,
+				6FDC889F1F71D70E006AE06A /* UIHelper.swift */,
 			);
 			name = Helpers;
 			path = Util;
@@ -680,7 +675,7 @@
 					};
 					6F48263C1F1284F50066394D = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = QQ3CD38Z54;
+						DevelopmentTeam = 9U6QZAC8R3;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 6F4826281F1284F50066394D;
@@ -888,8 +883,10 @@
 				6F58F92F1F498376002DD015 /* SwiftyCamViewController.swift in Sources */,
 				6F3779F81F377611007C0945 /* InteractionApi.swift in Sources */,
 				6F3779F91F377611007C0945 /* TheaterApi.swift in Sources */,
+				6FDC88A01F71D70E006AE06A /* UIHelper.swift in Sources */,
 				6F7DFC2E1F314EE8003DE099 /* InteractionEvent.swift in Sources */,
 				6FC32C7A1F6166B800957959 /* FakeDeviceModule.swift in Sources */,
+				6FDC889E1F71D610006AE06A /* UIImage+Extensions.swift in Sources */,
 				6F8194591F6AD7ED00A09106 /* FlowTree.swift in Sources */,
 				6F89FBA61F4B232B002321CA /* KeychainModule.swift in Sources */,
 				6FE04F701F332F2700D5BF39 /* StringHelper.swift in Sources */,
@@ -934,7 +931,6 @@
 				3407B32EDEB4EF28BF7C5961 /* SceneViewModel.swift in Sources */,
 				6F8084BF1F6A9FA00061F4E8 /* Edge.swift in Sources */,
 				6F58F9331F498404002DD015 /* SwiftyCamButton.swift in Sources */,
-				6F2B40BF1F5B726C0028A0E3 /* UIHelper.swift in Sources */,
 				6F7DFC231F3121CA003DE099 /* PhotoViewController.swift in Sources */,
 				3407B037FF8CD50C59BFDF62 /* SceneViewController.swift in Sources */,
 				6F89FBA81F4B23C7002321CA /* DeviceKeychainModule.swift in Sources */,
@@ -1157,7 +1153,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = QQ3CD38Z54;
+				DEVELOPMENT_TEAM = 9U6QZAC8R3;
 				INFOPLIST_FILE = TrueThatTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -1185,7 +1181,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = QQ3CD38Z54;
+				DEVELOPMENT_TEAM = 9U6QZAC8R3;
 				INFOPLIST_FILE = TrueThatTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.truethat.TrueThatTests;
@@ -1249,7 +1245,7 @@
 				APPSEE_API_KEY = 8f3b34050a22433ab923fced71a10e50;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TrueThat/TrueThat.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 9U6QZAC8R3;
 				DISPLAY_NAME = "Beta $(PRODUCT_NAME)";
@@ -1271,7 +1267,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = QQ3CD38Z54;
+				DEVELOPMENT_TEAM = 9U6QZAC8R3;
 				INFOPLIST_FILE = TrueThatTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.truethat.TrueThatTests;

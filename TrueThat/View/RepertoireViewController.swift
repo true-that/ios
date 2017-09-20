@@ -38,7 +38,9 @@ class RepertoireViewController: BaseViewController {
 
   // MARK: View Controller Navigation
   @objc private func navigateToStudio() {
-    performSegue(withIdentifier: "StudioSegue", sender: self)
+    if App.authModule.isAuthOk {
+      performSegue(withIdentifier: "StudioSegue", sender: self)
+    }
   }
 }
 

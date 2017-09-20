@@ -142,11 +142,15 @@ class StudioViewController: BaseViewController {
 
   // MARK: Navigation
   @objc private func navigateToTheater() {
-    performSegue(withIdentifier: "TheaterSegue", sender: self)
+    if App.authModule.isAuthOk {
+      performSegue(withIdentifier: "TheaterSegue", sender: self)
+    }
   }
 
   @objc private func navigateToRepertoire() {
-    performSegue(withIdentifier: "RepertoireSegue", sender: self)
+    if App.authModule.isAuthOk {
+      performSegue(withIdentifier: "RepertoireSegue", sender: self)
+    }
   }
 
   // MARK: Studio actions
@@ -222,7 +226,7 @@ extension StudioViewController: StudioViewModelDelegate {
 // MARK: SwiftCamViewControllerDelegate
 extension StudioViewController: SwiftyCamViewControllerDelegate {
   func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
-    viewModel.didCapture(imageData: UIImageJPEGRepresentation(photo, 0.7)!)
+    viewModel.didCapture(imageData: UIImageJPEGRepresentation(photo.fixOrientation(), 0.7)!)
   }
 
   func swiftyCam(_ swiftyCam: SwiftyCamViewController,

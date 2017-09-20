@@ -34,11 +34,10 @@ class OnBoardingViewModelTests: BaseTests {
     viewModelDelegate = OnBoardingTestDelegate(viewModel)
     viewModel.delegate = viewModelDelegate
     App.authModule.delegate = viewModelDelegate
+    OnBoardingViewModel.detectionDelaySeconds = 0.1
   }
 
   func assertFinalStage() {
-    // Should be listening to reaction detection.
-    expect(App.detecionModule.delegate as! OnBoardingViewModel === self.viewModel).to(beTrue())
     // Should show "smile to complete" text
     expect(self.viewModel.completionLabelHidden.value).to(beFalse())
     // Warning should be hidden
@@ -47,6 +46,11 @@ class OnBoardingViewModelTests: BaseTests {
     expect(self.viewModel.loadingImageHidden.value).to(beTrue())
     // Show visual indicator of a valid name
     expect(self.viewModel.nameTextFieldBorderColor.value.value).to(equal(Color.success.value))
+    // Detection should not start right away
+    expect(self.fakeDetectionModule.delegate).to(beNil())
+    // Wait for detection to start
+    expect(self.fakeDetectionModule.delegate).toEventuallyNot(beNil())
+    expect(App.detecionModule.delegate as! OnBoardingViewModel === self.viewModel).to(beTrue())
   }
 
   func testSuccessfulOnBoarding() {

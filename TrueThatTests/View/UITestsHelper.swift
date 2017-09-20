@@ -10,7 +10,7 @@ import UIKit
 @testable import TrueThat
 
 class UITestsHelper {
-  public static var currentViewController: UIViewController? {
+  static var currentViewController: UIViewController? {
     if var topController = UIApplication.shared.keyWindow?.rootViewController {
       while let presentedViewController = topController.presentedViewController {
         topController = presentedViewController

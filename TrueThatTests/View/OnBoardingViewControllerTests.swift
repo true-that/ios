@@ -76,7 +76,9 @@ class OnBoardingViewControllerTests: BaseUITests {
     expect(App.detecionModule.delegate).to(beNil())
     tester().tapView(withAccessibilityLabel: "Join")
     expect(self.viewController.nameTextField.isFirstResponder).toEventually(beFalse())
-    // Start final stage
+    // Wait for detection to start
+    expect(App.detecionModule.delegate).toEventuallyNot(beNil())
+    // Assert final stage
     expect(App.detecionModule.delegate as! OnBoardingViewModel === self.viewController.viewModel).to(beTrue())
     expect(self.viewController.completionLabel.isHidden).to(beFalse())
     // Complete on boarding

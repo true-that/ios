@@ -89,7 +89,7 @@ class RepertoireViewControllerTests: BaseUITests {
     viewController.didAuthOk()
     assertDisplayed(scene: scene)
     // Swipe up
-    tester().swipeView(withAccessibilityLabel: "photo", in: .down)
+    tester().swipeView(withAccessibilityLabel: "scene view", in: .down)
     expect(UITestsHelper.currentViewController)
       .toEventually(beAnInstanceOf(StudioViewController.self))
   }
