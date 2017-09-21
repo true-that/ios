@@ -9,7 +9,7 @@
 import Affdex
 
 class AffectivaReactionDetectionModule: ReactionDetectionModule {
-  fileprivate static let emotionThreshold = 0.2 as CGFloat
+  fileprivate static let detectionThreshold = 0.2 as CGFloat
   var detector: AFDXDetector?
 
   override init() {
@@ -48,19 +48,17 @@ extension AffectivaReactionDetectionModule: AFDXDetectorDelegate {
       for (_, face) in hasResults! {
         let affdexFace = face as! AFDXFace
         // Convert detected image to our enum
-        var detected: Emotion?
-        if affdexFace.emotions.surprise > AffectivaReactionDetectionModule.emotionThreshold {
-          detected = .surprise
-        } else if affdexFace.emotions.joy > AffectivaReactionDetectionModule.emotionThreshold {
-          detected = .happy
-        } else if affdexFace.emotions.fear > AffectivaReactionDetectionModule.emotionThreshold / 2 {
-          detected = .fear
-        } else if affdexFace.emotions.disgust > AffectivaReactionDetectionModule.emotionThreshold {
-          detected = .disgust
-        }
+        let emotionToLikelihood = [
+          Emotion.happy: affdexFace.emotions.joy,
+          Emotion.surprise: affdexFace.emotions.surprise,
+          // Fear is harder to detect, and so it is amplified
+          Emotion.fear: affdexFace.emotions.fear * 2,
+          Emotion.disgust: affdexFace.emotions.disgust
+        ]
+        let detected = emotionToLikelihood.filter{ $1 > AffectivaReactionDetectionModule.detectionThreshold }
+          .max(by: { $0.value > $1.value } )
         if detected != nil && delegate != nil {
-          App.log.verbose("Detected \(detected!)")
-          delegate?.didDetect(reaction: detected!)
+          delegate?.didDetect(reaction: detected!.key)
         }
       }
     } else {

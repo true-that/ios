@@ -59,7 +59,7 @@ class InteractionEvent: BaseModel {
     if reaction != nil { dictionary["reaction"] = reaction?.rawValue.snakeCased()!.uppercased() }
     if eventType != nil { dictionary["eventType"] = eventType?.rawValue.snakeCased()!.uppercased() }
     if sceneId != nil { dictionary["sceneId"] = sceneId }
-    if mediaId != nil { dictionary["mediaId"] = sceneId }
+    if mediaId != nil { dictionary["mediaId"] = mediaId }
     return dictionary
   }
 }
