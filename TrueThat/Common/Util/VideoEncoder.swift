@@ -15,7 +15,7 @@ class VideoEncoder {
     let avAsset = AVURLAsset(url: videoUrl)
     let resultFileName = "\(UUID()).mp4"
     let exportSession = AVAssetExportSession(asset: avAsset, presetName: AVAssetExportPresetMediumQuality)
-    
+
     let resultDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] as URL
     let resultPath = resultDir.appendingPathComponent(resultFileName)
 
@@ -26,7 +26,7 @@ class VideoEncoder {
     let start = CMTimeMakeWithSeconds(0.0, 0)
     let range = CMTimeRange(start: start, duration: avAsset.duration)
     exportSession?.timeRange = range
-    
+
     return SignalProducer { observer, _ in
       guard exportSession != nil else {
         App.log.error("Failed to create export seession.")
@@ -57,3 +57,4 @@ class VideoEncoder {
     }
   }
 }
+
