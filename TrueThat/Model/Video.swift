@@ -35,12 +35,12 @@ class Video: Media {
         self.isPrepared = true
         self.delegate?.didPrepare()
       })
-      .on(failed: {error in
+      .on(failed: { error in
         App.log.report(
           "Video encoding failed becuase of \(error)",
           withError: error)
       })
-    .start()
+      .start()
   }
 
   required init(json: JSON) {
@@ -50,7 +50,7 @@ class Video: Media {
   override func appendTo(multipartFormData: MultipartFormData) {
     super.appendTo(multipartFormData: multipartFormData)
     if localUrl != nil {
-      
+
       let data = try? Data(contentsOf: localUrl!)
       if data != nil {
         multipartFormData.append(data!, withName: StudioApi.mediaPartPrefix + String(id!), mimeType: "video/mp4")

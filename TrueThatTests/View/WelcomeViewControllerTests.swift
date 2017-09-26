@@ -22,9 +22,9 @@ class WelcomeViewControllerTests: BaseUITests {
       let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
       viewController = storyboard.instantiateViewController(withIdentifier: "WelcomeScene")
         as! WelcomeViewController
-      
+
       UIApplication.shared.keyWindow!.rootViewController = viewController
-      
+
       // Test and load the View
       expect(self.viewController.view).toNot(beNil())
     }

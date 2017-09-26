@@ -18,18 +18,18 @@ class OnBoardingViewControllerTests: BaseUITests {
 
   override func setUp() {
     super.setUp()
-    
+
     // Ensures our entry point is a view controller that requires auth.
     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
     let theater = storyboard.instantiateViewController(withIdentifier: "TheaterScene")
       as! TheaterViewController
-    
+
     UIApplication.shared.keyWindow!.rootViewController = theater
-    
+
     // Test and load the View
     expect(theater.view).toNot(beNil())
   }
-  
+
   func testOnBoardingFlow() {
     let user = User(id: 1, firstName: "swa", lastName: "la lala",
                     deviceId: App.deviceModule.deviceId)

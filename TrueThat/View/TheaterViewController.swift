@@ -14,11 +14,11 @@ import SwiftyBeaver
 class TheaterViewController: BaseViewController {
   // MARK: Properties
   var scenesPageWrapper: ScenesPageWrapperViewController!
-  
+
   // MARK: Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+
     // Loads scenes container
     scenesPageWrapper = ScenesPageWrapperViewController.instantiate(doDetection: true)
     self.addChildViewController(scenesPageWrapper)
@@ -30,12 +30,12 @@ class TheaterViewController: BaseViewController {
     swipeUp.direction = .up
     self.view.addGestureRecognizer(swipeUp)
   }
-  
+
   override func didAuthOk() {
     super.didAuthOk()
     scenesPageWrapper.didAuthOk()
   }
-  
+
   // MARK: View Controller Navigation
   @objc private func navigateToStudio() {
     if App.authModule.isAuthOk {

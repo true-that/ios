@@ -15,10 +15,10 @@ class Media: BaseModel {
   // MARK: Properties
   /// Of the media, where it is stored on our backend.
   var url: String?
-  
+
   /// Whether the media is prepared for being sent over the network.
   var isPrepared = false
-  
+
   /// A delegate to notify once this media is ready for network requests.
   var delegate: MediaPreparedDelegate?
 
@@ -77,7 +77,7 @@ class Media: BaseModel {
 
 /// Used to notify `Scene` objects that their media fields are ready for network requests.
 protocol MediaPreparedDelegate {
-  
+
   /// Invoked once a media content is prepared for network requests.
   func didPrepare()
 }

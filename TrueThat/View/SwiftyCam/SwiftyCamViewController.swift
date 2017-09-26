@@ -378,7 +378,8 @@ open class SwiftyCamViewController: UIViewController {
 
         // Start recording to a temporary file.
         let outputFileName = UUID().uuidString
-        let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mov")!)
+        let outputFilePath = (NSTemporaryDirectory() as NSString)
+          .appendingPathComponent((outputFileName as NSString).appendingPathExtension("mov")!)
         movieFileOutput.startRecording(toOutputFileURL: URL(fileURLWithPath: outputFilePath), recordingDelegate: self)
         self.isVideoRecording = true
         DispatchQueue.main.async {
@@ -636,23 +637,23 @@ open class SwiftyCamViewController: UIViewController {
   }
 
   fileprivate func getVideoOrientation() -> AVCaptureVideoOrientation {
+    var videoOrientation: AVCaptureVideoOrientation!
     if shouldUseDeviceOrientation && deviceOrientation != nil {
       switch deviceOrientation! {
       case .landscapeLeft:
-        return .landscapeRight
+        videoOrientation = .landscapeRight
       case .landscapeRight:
-        return .landscapeLeft
+        videoOrientation = .landscapeLeft
       case .portraitUpsideDown:
-        return .portraitUpsideDown
+        videoOrientation = .portraitUpsideDown
       default:
-        return .portrait
+        videoOrientation = .portrait
+      }
+    } else {
+      DispatchQueue.main.sync {
+        videoOrientation = self.previewLayer!.videoPreviewLayer.connection.videoOrientation
       }
     }
-    var videoOrientation: AVCaptureVideoOrientation!
-    DispatchQueue.main.sync {
-      videoOrientation = self.previewLayer!.videoPreviewLayer.connection.videoOrientation
-    }
-
     return videoOrientation
   }
 

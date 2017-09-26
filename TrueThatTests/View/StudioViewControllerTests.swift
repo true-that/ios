@@ -135,7 +135,7 @@ class StudioViewControllerTests: BaseUITests {
     tester().swipeView(withAccessibilityLabel: "studio view", in: .down)
     expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(TheaterViewController.self))
   }
-  
+
   func testNavigationWhileVideoEdited() {
     viewController.beginAppearanceTransition(true, animated: false)
     assertCamera()
@@ -145,7 +145,7 @@ class StudioViewControllerTests: BaseUITests {
     tester().swipeView(withAccessibilityLabel: "video", in: .down)
     expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(TheaterViewController.self))
   }
-  
+
   func testNavigationWhilePhotoTaken() {
     viewController.beginAppearanceTransition(true, animated: false)
     assertCamera()

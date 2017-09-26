@@ -13,7 +13,7 @@ import ReactiveSwift
 class VideoEncoder {
   static func encode(videoUrl: URL) -> SignalProducer<URL, NSError> {
     let avAsset = AVURLAsset(url: videoUrl)
-    let resultFileName = "\(UUID()).mp4"
+    let resultFileName = "\(UUID().uuidString).mp4"
     let exportSession = AVAssetExportSession(asset: avAsset, presetName: AVAssetExportPresetMediumQuality)
 
     let resultDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] as URL
@@ -34,8 +34,8 @@ class VideoEncoder {
                                      userInfo: nil))
         return
       }
-      exportSession!.exportAsynchronously{() -> Void in
-        switch exportSession!.status{
+      exportSession!.exportAsynchronously { () -> Void in
+        switch exportSession!.status {
         case .failed:
           observer.send(error: exportSession!.error! as NSError)
         case .cancelled:
@@ -57,4 +57,3 @@ class VideoEncoder {
     }
   }
 }
-

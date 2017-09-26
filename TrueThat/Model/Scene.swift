@@ -25,7 +25,7 @@ class Scene: BaseModel {
   var edges: [Edge]?
   /// Allocates the next media ID.
   var nextMediaId: Int64 = 0
-  
+
   /// Whether the media items are ready tobe sent over the network
   var isPrepared: Bool {
     if mediaNodes == nil {
@@ -38,7 +38,7 @@ class Scene: BaseModel {
     }
     return true
   }
-  
+
   /// Producer that is used to save this scene on our backend.
   var savingProducer: SignalProducer<Scene, NSError>?
 
@@ -227,7 +227,7 @@ class Scene: BaseModel {
       }
     }
   }
-  
+
   /// Save this scene on our backend.
   func save() -> SignalProducer<Scene, NSError> {
     savingProducer = SignalProducer { observer, _ in
@@ -274,7 +274,7 @@ extension Scene: FlowTreeDelegate {
   }
 }
 
-//MARK: MediaPreparedDelegate
+// MARK: MediaPreparedDelegate
 extension Scene: MediaPreparedDelegate {
   func didPrepare() {
     if savingProducer != nil && isPrepared {

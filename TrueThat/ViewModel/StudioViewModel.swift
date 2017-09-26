@@ -242,7 +242,7 @@ class StudioViewModel {
   }
 
   // MARK: Camera callbacks
-  
+
   /// Invoked after a photo is captured and its data is available
   ///
   /// - Parameter imageData: of the fresh out of the oven image
@@ -250,7 +250,7 @@ class StudioViewModel {
     newMedia = Photo(data: imageData)
     willEdit()
   }
-  
+
   /// Invoked when video recording has been started.
   func didStartRecordingVideo() {
     captureButtonImageName.value = StudioViewModel.recordVideoImageName

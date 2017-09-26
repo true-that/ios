@@ -11,20 +11,20 @@ import Affdex
 class AffectivaReactionDetectionModule: ReactionDetectionModule {
   fileprivate static let detectionThreshold = 0.2 as CGFloat
   var detector: AFDXDetector?
-  
+
   override init() {
     super.init()
     detector = AFDXDetector(delegate: self, using: AFDX_CAMERA_FRONT, maximumFaces: 1)
     detector?.setDetectAllEmotions(true)
   }
-  
+
   override func start() {
     super.start()
     if let error = detector?.start() {
       App.log.report("AFDXDetector: \(error)", withError: error as NSError)
     }
   }
-  
+
   override func stop() {
     super.stop()
     if let error = detector?.stop() {
@@ -36,10 +36,10 @@ class AffectivaReactionDetectionModule: ReactionDetectionModule {
 extension AffectivaReactionDetectionModule: AFDXDetectorDelegate {
   func detectorDidStartDetectingFace(face: AFDXFace) {
   }
-  
+
   func detectorDidStopDetectingFace(face: AFDXFace) {
   }
-  
+
   func detector(_ detector: AFDXDetector, hasResults: NSMutableDictionary?, for forImage: UIImage,
                 atTime: TimeInterval) {
     // handle processed and unprocessed images here
@@ -54,10 +54,10 @@ extension AffectivaReactionDetectionModule: AFDXDetectorDelegate {
           // Fear is harder to detect, and so it is amplified
           Emotion.fear: affdexFace.emotions.fear * 2,
           // Disgust is too easy to detect, and so it is decreased
-          Emotion.disgust: affdexFace.emotions.disgust / 2
+          Emotion.disgust: affdexFace.emotions.disgust / 2,
         ]
-        let detected = emotionToLikelihood.filter{ $1 > AffectivaReactionDetectionModule.detectionThreshold }
-          .max(by: { $0.value > $1.value } )
+        let detected = emotionToLikelihood.filter { $1 > AffectivaReactionDetectionModule.detectionThreshold }
+          .max(by: { $0.value > $1.value })
         if detected != nil && delegate != nil {
           delegate?.didDetect(reaction: detected!.key)
         }

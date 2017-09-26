@@ -60,7 +60,7 @@ class RepertoireViewControllerTests: BaseUITests {
     expect(viewModel.mediaViewed[viewModel.currentMedia!]).toEventually(beTrue(), timeout: 5.0)
     if viewModel.currentMedia is Video {
       expect((self.viewController.scenesPageWrapper.scenesPage.currentViewController?.mediaViewController
-        as! VideoViewController).player?.currentTime())
+          as! VideoViewController).player?.currentTime())
         .toEventuallyNot(equal(kCMTimeZero), timeout: 5.0)
     }
   }
@@ -93,7 +93,7 @@ class RepertoireViewControllerTests: BaseUITests {
     expect(UITestsHelper.currentViewController)
       .toEventually(beAnInstanceOf(StudioViewController.self))
   }
-  
+
   func testNavigationWhenVideoDisplayed() {
     fetchedScenes = [Scene(id: 1, director: App.authModule.current,
                            reactionCounters: [.disgust: 1000, .happy: 1234],
