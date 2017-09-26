@@ -54,6 +54,8 @@ class StudioViewModelTests: BaseTests {
     if viewModel.directed != nil {
       expect(self.viewModel.chosenReaction).toNot(beNil())
     }
+    // Displayed media should be nil
+    expect(self.viewModelDelegate.displayed).to(beNil())
   }
 
   func assertEdit() {
@@ -280,6 +282,7 @@ class StudioViewModelTests: BaseTests {
   }
 
   class StudioViewModelTestsDelegate: StudioViewModelDelegate {
+
     var leftStudio = false
     var sent = false
     var displayed: Media?
@@ -287,6 +290,10 @@ class StudioViewModelTests: BaseTests {
 
     func leaveStudio() {
       leftStudio = true
+    }
+
+    func hideMedia() {
+      displayed = nil
     }
 
     func display(media: Media) {
