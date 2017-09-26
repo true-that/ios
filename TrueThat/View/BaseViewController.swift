@@ -11,9 +11,11 @@ import UIKit
 
 /// Base view controller class for encapsulating poses (such as OnBoarding or Theater)
 class BaseViewController: UIViewController {
+  // MARK: Properties
   var doAuth = true
   var logTag = "BaseViewController"
 
+  // MARK: Lifecycle
   override func viewDidLoad() {
     logTag = String(describing: type(of: self))
     super.viewDidLoad()

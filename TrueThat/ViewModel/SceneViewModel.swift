@@ -201,6 +201,7 @@ extension SceneViewModel: ReactionDetectionDelegate {
       detectedReactions[currentMedia!] = []
     }
     if !detectedReactions[currentMedia!]!.contains(reaction) {
+      App.log.debug("Detected \(reaction)")
       scene.increaseCounter(of: reaction)
       let event = InteractionEvent(
         timestamp: Date(), userId: App.authModule.current!.id, reaction: reaction,

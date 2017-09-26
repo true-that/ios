@@ -1,4 +1,4 @@
-platform :ios, '10.0'
+platform :ios, '11.0'
 use_frameworks!
 
 target 'TrueThat' do
@@ -29,6 +29,10 @@ post_install do |installer|
       target.build_configurations.each do |config|
         config.build_settings['BITCODE_GENERATION_MODE'] = 'bitcode'
       end
+    end
+    target.build_configurations.each do |config|
+      config.build_settings['SWIFT_VERSION'] = '3.2'
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '11.0'
     end
   end
 end

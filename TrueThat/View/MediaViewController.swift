@@ -9,9 +9,12 @@
 import UIKit
 
 class MediaViewController: UIViewController {
+  // MARK: Properties
   var delegate: MediaViewControllerDelegate?
   var finished = false
+  var logTag = "MediaViewController"
 
+  // MARK: Initialization
   public static func instantiate(with media: Media?) -> MediaViewController? {
     switch media {
     case is Video:
@@ -21,6 +24,33 @@ class MediaViewController: UIViewController {
     default:
       return nil
     }
+  }
+
+  // MARK: Lifecycle
+  override func viewDidLoad() {
+    logTag = String(describing: type(of: self))
+    super.viewDidLoad()
+    App.log.debug("\(logTag): viewDidLoad")
+  }
+
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    App.log.debug("\(logTag): viewWillAppear")
+  }
+
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    App.log.debug("\(logTag): viewDidAppear")
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    App.log.debug("\(logTag): viewWillDisappear")
+  }
+
+  override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    App.log.debug("\(logTag): viewDidDisappear")
   }
 }
 

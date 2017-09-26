@@ -4,6 +4,7 @@
 //
 
 import SwiftyJSON
+import ReactiveSwift
 import Alamofire
 
 /// [backend]: https://github.com/true-that/backend/blob/master/src/main/java/com/truethat/backend/model/Scene.java
@@ -24,6 +25,22 @@ class Scene: BaseModel {
   var edges: [Edge]?
   /// Allocates the next media ID.
   var nextMediaId: Int64 = 0
+  
+  /// Whether the media items are ready tobe sent over the network
+  var isPrepared: Bool {
+    if mediaNodes == nil {
+      return true
+    }
+    for media in mediaNodes! {
+      if !media.isPrepared {
+        return false
+      }
+    }
+    return true
+  }
+  
+  /// Producer that is used to save this scene on our backend.
+  var savingProducer: SignalProducer<Scene, NSError>?
 
   /// The flow of the user interaction with this scene. Each node represents a media item such as video or a photo and
   /// each edge describe which reaction leads from one media item to the next.
@@ -82,6 +99,7 @@ class Scene: BaseModel {
   convenience init(from media: Media) {
     self.init(id: nil, director: App.authModule.current, reactionCounters: nil, created: Date(),
               mediaNodes: [media], edges: nil)
+    media.delegate = self
   }
 
   required init(json: JSON) {
@@ -156,6 +174,7 @@ class Scene: BaseModel {
   ///   - parentId: desired parent media ID.
   ///   - reaction: that should trigger transition from parent to child media.
   func add(media: Media, from parentId: Int64, on reaction: Emotion) {
+    media.delegate = self
     if media.id == nil {
       media.id = nextMediaId
       nextMediaId += 1
@@ -208,15 +227,58 @@ class Scene: BaseModel {
       }
     }
   }
+  
+  /// Save this scene on our backend.
+  func save() -> SignalProducer<Scene, NSError> {
+    savingProducer = SignalProducer { observer, _ in
+      _ = StudioApi.save(scene: self)
+        .on(value: { saved in
+          if saved.id != nil {
+            App.log.info("Scene \(saved.id!) saved successfully.")
+            observer.send(value: self)
+            observer.sendCompleted()
+          } else {
+            let error = NSError(domain: Bundle.main.bundleIdentifier!,
+                                code: ErrorCode.badResponseData.rawValue,
+                                userInfo: nil)
+            App.log.report("Scene saved without ID.", withError: error)
+            observer.send(error: error)
+          }
+        })
+        .on(failed: { error in
+          App.log.report("Failed to save scene \(self) because of \(error)", withError: error)
+          observer.send(error: error)
+        })
+        .start()
+    }
+    if isPrepared {
+      savingProducer?.start()
+    }
+    return savingProducer!
+  }
 }
 
 // MARK: FlowTreeDelegate
 extension Scene: FlowTreeDelegate {
   func delete(media: Media) {
-    mediaNodes?.remove(at: (mediaNodes?.index(of: media))!)
+    let toRemoveIndex = mediaNodes?.index(of: media)
+    guard toRemoveIndex != nil else {
+      App.log.error("Media node \(media) is not a part of this scene \(self)")
+      return
+    }
+    mediaNodes?.remove(at: toRemoveIndex!)
   }
 
   func delete(edge: Edge) {
     edges?.remove(at: (edges?.index(of: edge))!)
+  }
+}
+
+//MARK: MediaPreparedDelegate
+extension Scene: MediaPreparedDelegate {
+  func didPrepare() {
+    if savingProducer != nil && isPrepared {
+      savingProducer?.start()
+    }
   }
 }

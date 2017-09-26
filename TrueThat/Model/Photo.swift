@@ -24,6 +24,10 @@ class Photo: Media {
   init(data: Data?) {
     super.init(id: nil, url: nil)
     self.data = data
+    if data != nil {
+      isPrepared = true
+      delegate?.didPrepare()
+    }
   }
 
   required init(json: JSON) {

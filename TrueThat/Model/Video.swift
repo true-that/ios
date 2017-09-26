@@ -24,6 +24,23 @@ class Video: Media {
   init(localUrl: URL?) {
     super.init(id: nil, url: nil)
     self.localUrl = localUrl
+    guard localUrl != nil else {
+      App.log.error("local URL is nil")
+      return
+    }
+    VideoEncoder.encode(videoUrl: localUrl!)
+      .on(value: {
+        FileHelper.delete(file: self.localUrl!)
+        self.localUrl = $0
+        self.isPrepared = true
+        self.delegate?.didPrepare()
+      })
+      .on(failed: {error in
+        App.log.report(
+          "Video encoding failed becuase of \(error)",
+          withError: error)
+      })
+    .start()
   }
 
   required init(json: JSON) {
@@ -33,6 +50,7 @@ class Video: Media {
   override func appendTo(multipartFormData: MultipartFormData) {
     super.appendTo(multipartFormData: multipartFormData)
     if localUrl != nil {
+      
       let data = try? Data(contentsOf: localUrl!)
       if data != nil {
         multipartFormData.append(data!, withName: StudioApi.mediaPartPrefix + String(id!), mimeType: "video/mp4")

@@ -8,12 +8,20 @@
 
 import Foundation
 
-/// Errors enumeration.
-// next available - 4
+/// Error enumeration for NSError creation.
+///
+/// - decoding: response decoding into JSON failed.
+/// - badResponseData: responsed data is bad.
+/// - mediaTree: failed to create a media tree from provided nodes and edges.
+/// - exportSession: failed to create export session.
+/// - videoEncoding: failed to encode video into mp4 format.
 enum ErrorCode: Int {
   // MARK: Network
   case decoding = 1
   case badResponseData = 2
   // MARK: Invalid data
   case mediaTree = 3
-}
+  // MARK: Encoding
+  case exportSession = 4
+  case videoEncoding = 5
+} // next available - 6

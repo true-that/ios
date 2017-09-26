@@ -107,6 +107,8 @@ class StudioViewModel {
     scenePreviewHidden.value = true
     // Hide loading image
     loadingImageHidden.value = true
+    // Hides media preview
+    delegate?.hideMedia()
   }
 
   /// After a scene is directed, it awaits for final approval from the user.
@@ -244,7 +246,7 @@ class StudioViewModel {
   /// Invoked after a photo is captured and its data is available
   ///
   /// - Parameter imageData: of the fresh out of the oven image
-  public func didCapture(imageData: Data) {
+  func didCapture(imageData: Data) {
     newMedia = Photo(data: imageData)
     willEdit()
   }
@@ -286,6 +288,9 @@ protocol StudioViewModelDelegate {
   ///
   /// - Parameter media: to display
   func display(media: Media)
+
+  /// Hides any media preview.
+  func hideMedia()
 
   /// Invoked once a HTTP request with the directed scene has been sent to the server.
   func didSend()

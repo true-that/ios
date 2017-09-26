@@ -15,6 +15,12 @@ class Media: BaseModel {
   // MARK: Properties
   /// Of the media, where it is stored on our backend.
   var url: String?
+  
+  /// Whether the media is prepared for being sent over the network.
+  var isPrepared = false
+  
+  /// A delegate to notify once this media is ready for network requests.
+  var delegate: MediaPreparedDelegate?
 
   // Mark: Initialization
   init(id: Int64?, url: String?) {
@@ -52,7 +58,6 @@ class Media: BaseModel {
   }
 
   // Mark: JSON
-
   override func toDictionary() -> [String: Any] {
     var dictionary = super.toDictionary()
     if url != nil {
@@ -68,4 +73,11 @@ class Media: BaseModel {
   ///
   /// - Parameter multipartFormData: to append to
   func appendTo(multipartFormData: MultipartFormData) {}
+}
+
+/// Used to notify `Scene` objects that their media fields are ready for network requests.
+protocol MediaPreparedDelegate {
+  
+  /// Invoked once a media content is prepared for network requests.
+  func didPrepare()
 }

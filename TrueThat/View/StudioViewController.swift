@@ -83,8 +83,10 @@ class StudioViewController: BaseViewController {
       UITapGestureRecognizer(target: self, action: #selector(self.willSend)))
 
     // Initialize images
-    viewModel.captureButtonImageName.producer.on {
-      self.captureButton.setBackgroundImage(UIImage(named: $0), for: UIControlState.normal)
+    viewModel.captureButtonImageName.producer.on { imageName in
+      DispatchQueue.main.async {
+        self.captureButton.setBackgroundImage(UIImage(named: imageName), for: UIControlState.normal)
+      }
     }.start()
     captureButton.layer.backgroundColor = Color.shadow.withAlpha(0.0).cgColor
     cancelButton.image = UIImage(named: "cross.png")
@@ -190,7 +192,7 @@ extension StudioViewController: StudioViewModelDelegate {
     performSegue(withIdentifier: "TheaterSegue", sender: self)
   }
 
-  func display(media: Media) {
+  func hideMedia() {
     // Remove previous preview
     if mediaViewController != nil {
       mediaViewController!.willMove(toParentViewController: nil)
@@ -198,6 +200,9 @@ extension StudioViewController: StudioViewModelDelegate {
       mediaViewController!.removeFromParentViewController()
       mediaViewController = nil
     }
+  }
+
+  func display(media: Media) {
     // Add media preview
     mediaViewController = MediaViewController.instantiate(with: media)
     guard mediaViewController != nil else {

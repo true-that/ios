@@ -1,19 +1,19 @@
 PODS:
   - AffdexSDK-iOS (3.2.0):
     - AWSKinesis
-  - Alamofire (4.5.0)
-  - Appsee (2.3.4)
-  - AWSCore (2.5.9)
-  - AWSKinesis (2.5.9):
-    - AWSCore (= 2.5.9)
+  - Alamofire (4.5.1)
+  - Appsee (2.3.5)
+  - AWSCore (2.6.1)
+  - AWSKinesis (2.6.1):
+    - AWSCore (= 2.6.1)
   - Crashlytics (3.8.6):
     - Fabric (~> 1.6.3)
-  - Fabric (1.6.12)
-  - KeychainAccess (3.0.2)
-  - KIF (3.5.2):
-    - KIF/Core (= 3.5.2)
-  - KIF/Core (3.5.2)
-  - Kingfisher (3.10.4)
+  - Fabric (1.6.13)
+  - KeychainAccess (3.1.0)
+  - KIF (3.6.0):
+    - KIF/Core (= 3.6.0)
+  - KIF/Core (3.6.0)
+  - Kingfisher (3.13.1)
   - Nimble (7.0.1)
   - OHHTTPStubs (6.0.0):
     - OHHTTPStubs/Default (= 6.0.0)
@@ -30,12 +30,12 @@ PODS:
   - OHHTTPStubs/OHPathHelpers (6.0.0)
   - OHHTTPStubs/Swift (6.0.0):
     - OHHTTPStubs/Default
-  - ReactiveCocoa (6.0.0):
+  - ReactiveCocoa (6.0.2):
     - ReactiveSwift (~> 2.0)
-  - ReactiveSwift (2.0.0):
+  - ReactiveSwift (2.0.1):
     - Result (~> 3.2)
   - Result (3.2.3)
-  - SwiftyBeaver (1.3.0)
+  - SwiftyBeaver (1.4.1)
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
@@ -56,23 +56,23 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AffdexSDK-iOS: 6c81dfdc813507de029584291c7d08a1a983e376
-  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
-  Appsee: be7e8199ddf914dc4e2adb4cb7ed7f162c74e7a9
-  AWSCore: c71840dd51f271dc0af8de8fd6f352767ebde8b4
-  AWSKinesis: 55631b3f235d363afbe172a08862f13ce3f9b929
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  Appsee: 7643d74bad4921c4df40e6977c756909365bd851
+  AWSCore: e7d37fa0715def975acf1b0d75556576780088b8
+  AWSKinesis: c63805f4fe943515e0291532cf6ff7f4269002ef
   Crashlytics: 95d05f4e4c19a771250c4bd9ce344d996de32bbf
-  Fabric: f050464eac45a2ce5a8e6e6a07e977c0df32fe28
-  KeychainAccess: a986406022dfc7c634c691ad3bec670cc6a32002
-  KIF: f2a6025bb3f11692df675054a134d43a9ec2d7db
-  Kingfisher: dc3a4983e86d2dfa89513664983a82340c11a289
+  Fabric: 2fb5676bc811af011a04513451f463dac6803206
+  KeychainAccess: 94c5540b32eabf7bc32bfb976a268e8ea05fd6da
+  KIF: bd770edd8ce49bc7308501e4871e58a02d137be3
+  Kingfisher: ed9707a409cc47fddafbcd12a43a9757e3600af5
   Nimble: 657d000e11df8aebe27cdaf9d244de7f30ed87f7
   OHHTTPStubs: 752f9b11fd810a15162d50f11c06ff94f8e012eb
-  ReactiveCocoa: ca689e37b6a922f0273918220d735c43368de550
-  ReactiveSwift: 36339167e571774d936482d0f6512f5118a74731
+  ReactiveCocoa: 9dcbd8275374f35a6e5fcce01a93b860a7b92c44
+  ReactiveSwift: 60a29ff35988a964fd2bb759755cb6594de523fc
   Result: 128640a6347e8d2ae48b142556739a2d13f90ce6
-  SwiftyBeaver: d4b551ba34b4206c52cc4684ae90444b8aaa5afd
+  SwiftyBeaver: f04f739cca6826c5fb0f575fed8fa3293f76b83e
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: 47df9dbc642580898091e139ec72a40424560f36
+PODFILE CHECKSUM: 89213b9d0138430f1779bf76d915e33b2af30be4
 
 COCOAPODS: 1.3.1
