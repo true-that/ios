@@ -12,7 +12,12 @@ import Kingfisher
 class PhotoViewController: MediaViewController {
   static var finishTimeoutSeconds = 1.0
   // MARK: Properties
-  var photo: Photo?
+  var photo: Photo? {
+    if media != nil {
+      return media as? Photo
+    }
+    return nil
+  }
   var timer: Timer?
   @IBOutlet weak var imageView: UIImageView!
 
@@ -21,7 +26,6 @@ class PhotoViewController: MediaViewController {
     let viewController = UIStoryboard(name: "Main", bundle: nil)
       .instantiateViewController(withIdentifier: "PhotoScene")
       as! PhotoViewController
-    viewController.photo = photo
     return viewController
   }
 
@@ -45,6 +49,8 @@ class PhotoViewController: MediaViewController {
       imageView.image = UIImage(data: photo!.data!)?.imageFlippedForRightToLeftLayoutDirection()
       didDownload()
     }
+
+    imageView.isUserInteractionEnabled = true
   }
 
   override func viewDidDisappear(_ animated: Bool) {
@@ -59,5 +65,10 @@ class PhotoViewController: MediaViewController {
                                    self.delegate?.didFinish()
     })
     delegate?.didDownloadMedia()
+  }
+
+  // MARK: View Controller Navigation
+  @objc private func navigateToStudio() {
+    App.log.warning("trying to segue")
   }
 }

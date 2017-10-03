@@ -12,7 +12,12 @@ import AVKit
 
 class VideoViewController: MediaViewController {
   // MARK: Properties
-  var video: Video?
+  var video: Video? {
+    if media != nil {
+      return media as? Video
+    }
+    return nil
+  }
   weak var player: AVPlayer?
   var playerController: AVPlayerViewController?
 
@@ -21,7 +26,6 @@ class VideoViewController: MediaViewController {
     let viewController = UIStoryboard(name: "Main", bundle: nil)
       .instantiateViewController(withIdentifier: "VideoScene")
       as! VideoViewController
-    viewController.video = video
     return viewController
   }
 
@@ -65,8 +69,8 @@ class VideoViewController: MediaViewController {
     player?.currentItem?.addObserver(self, forKeyPath: "playbackBufferFull", options: .new, context: nil)
   }
 
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
+  override func viewDidShow() {
+    super.viewDidShow()
     if player != nil {
       App.log.debug("playing video")
       player?.play()
@@ -75,6 +79,10 @@ class VideoViewController: MediaViewController {
     }
   }
 
+  override func viewDidHide() {
+    super.viewDidHide()
+    player?.pause()
+  }
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     player?.pause()

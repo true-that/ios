@@ -56,6 +56,11 @@ class ScenesPageWrapperViewController: UIViewController {
     UIHelper.initLoadingImage(loadingImage)
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    App.log.debug("viewWillAppear")
+  }
+
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     App.log.debug("viewDidAppear")
@@ -69,6 +74,11 @@ class ScenesPageWrapperViewController: UIViewController {
     super.viewWillDisappear(animated)
     App.log.debug("viewWillDisappear")
     App.detecionModule.stop()
+  }
+
+  override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    App.log.debug("viewDidDisappear")
   }
 
   func didAuthOk() {

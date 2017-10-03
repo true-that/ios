@@ -8,49 +8,36 @@
 
 import UIKit
 
-class MediaViewController: UIViewController {
+class MediaViewController: NestedViewController {
   // MARK: Properties
   var delegate: MediaViewControllerDelegate?
   var finished = false
-  var logTag = "MediaViewController"
+  var media: Media!
 
   // MARK: Initialization
   public static func instantiate(with media: Media?) -> MediaViewController? {
+    var viewController: MediaViewController?
     switch media {
     case is Video:
-      return VideoViewController.instantiate(media as! Video)
+      viewController = VideoViewController.instantiate(media as! Video)
     case is Photo:
-      return PhotoViewController.instantiate(media as! Photo)
+      viewController = PhotoViewController.instantiate(media as! Photo)
     default:
       return nil
     }
+    if viewController != nil {
+      viewController!.media = media!
+    }
+    return viewController
   }
 
-  // MARK: Lifecycle
   override func viewDidLoad() {
-    logTag = String(describing: type(of: self))
     super.viewDidLoad()
-    App.log.debug("\(logTag): viewDidLoad")
-  }
-
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    App.log.debug("\(logTag): viewWillAppear")
-  }
-
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    App.log.debug("\(logTag): viewDidAppear")
-  }
-
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    App.log.debug("\(logTag): viewWillDisappear")
-  }
-
-  override func viewDidDisappear(_ animated: Bool) {
-    super.viewDidDisappear(animated)
-    App.log.debug("\(logTag): viewDidDisappear")
+    guard media.id != nil else {
+      App.log.warning("media missing ID")
+      return
+    }
+    logTag += " \(media.id!)"
   }
 }
 

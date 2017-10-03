@@ -67,9 +67,21 @@ class ScenesPageViewModel {
 
   /// Append the fetched scenes to `scenes` and notify the view controller.
   ///
-  /// - Parameter newScenes: freshly baked scenes, obvuala!
-  private func adding(_ newScenes: [Scene]) {
+  /// - Parameter fetchedScenes: freshly baked scenes, obvuala!
+  private func adding(_ fetchedScenes: [Scene]) {
     loadingImageHidden.value = true
+    var newScenes: [Scene] = []
+    for fetched in fetchedScenes {
+      var isNew = true
+      for scene in scenes {
+        if scene.id == fetched.id {
+          isNew = false
+        }
+      }
+      if isNew {
+        newScenes += [fetched]
+      }
+    }
     if newScenes.count > 0 {
       let shouldScroll = scenes.count > 0
       currentIndex = scenes.count

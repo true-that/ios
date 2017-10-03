@@ -62,6 +62,8 @@ class OnBoardingViewModelTests: BaseTests {
     expect(self.viewModel.nameFieldDidReturn()).to(beTrue())
     // Should enter final on boarding stage
     assertFinalStage()
+    // Wait for detection to start
+    expect(App.detecionModule.delegate).toEventuallyNot(beNil())
     // Detect a reaction
     fakeDetectionModule.detect(OnBoardingViewModel.reactionsForDone.first!)
     // Should show loading indicator

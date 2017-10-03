@@ -7,7 +7,7 @@ import UIKit
 import ReactiveCocoa
 import ReactiveSwift
 
-class SceneViewController: UIViewController {
+class SceneViewController: NestedViewController {
   // MARK: Properties
   public var viewModel: SceneViewModel!
   var mediaViewController: MediaViewController!
@@ -32,12 +32,12 @@ class SceneViewController: UIViewController {
 
   // MARK: Lifecycle
   override func viewDidLoad() {
-    App.log.debug("viewDidLoad")
     super.viewDidLoad()
 
-    guard viewModel != nil else {
+    guard viewModel != nil && viewModel.scene.id != nil else {
       return
     }
+    logTag += " \(viewModel.scene.id!)"
 
     // Performs data binding
     directorLabel.reactive.text <~ viewModel.directorName
@@ -65,15 +65,18 @@ class SceneViewController: UIViewController {
   }
 
   override func viewDidDisappear(_ animated: Bool) {
-    App.log.debug("viewDidDisappear")
     super.viewDidDisappear(animated)
     viewModel.didDisappear()
   }
 
-  override func viewDidAppear(_ animated: Bool) {
-    App.log.debug("viewDidAppear")
-    super.viewDidAppear(animated)
+  override func viewDidShow() {
+    super.viewDidShow()
     viewModel.didAppear()
+  }
+
+  override func viewDidHide() {
+    super.viewDidShow()
+    viewModel.didDisappear()
   }
 
   // MARK: Actions
@@ -109,11 +112,7 @@ extension SceneViewController: SceneViewDelegate {
   }
 
   func display(media: Media) {
-    if mediaViewController != nil {
-      mediaViewController.willMove(toParentViewController: nil)
-      mediaViewController.view.removeFromSuperview()
-      mediaViewController.removeFromParentViewController()
-    }
+    hideMedia()
 
     mediaViewController = MediaViewController.instantiate(with: media)
     mediaViewController.delegate = viewModel
@@ -129,6 +128,7 @@ extension SceneViewController: SceneViewDelegate {
     mediaViewController.view.translatesAutoresizingMaskIntoConstraints = true
     // Send media to back
     self.view.sendSubview(toBack: mediaViewController.view)
+    mediaViewController.isVisible = true
   }
 
   func mediaFinished() -> Bool {
@@ -136,5 +136,15 @@ extension SceneViewController: SceneViewDelegate {
       return false
     }
     return mediaViewController!.finished
+  }
+
+  func hideMedia() {
+    if mediaViewController != nil {
+      mediaViewController.isVisible = false
+      mediaViewController.willMove(toParentViewController: nil)
+      mediaViewController.view.removeFromSuperview()
+      mediaViewController.removeFromParentViewController()
+      mediaViewController = nil
+    }
   }
 }

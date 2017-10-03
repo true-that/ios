@@ -29,6 +29,8 @@ class VideoViewControllerTests: BaseUITests {
     expect(self.viewController.view).toNot(beNil())
     // Mutes the video
     viewController.player?.volume = 0
+    // Triggers didShow
+    viewController.viewDidShow()
   }
 
   func testVideoIsPlaying() {

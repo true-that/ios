@@ -35,11 +35,39 @@ class ScenesPageViewController: UIPageViewController {
     delegate = self
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    App.log.debug("viewWillAppear")
+  }
+
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    App.log.debug("viewDidAppear")
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    App.log.debug("viewWillDisappear")
+    if currentViewController != nil {
+      currentViewController!.isVisible = false
+    }
+  }
+
+  override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    App.log.debug("viewDidDisappear")
+  }
+
+  // MARK: Page View Controller
   /// Notifies the delegate that the current page index was updated.
-  fileprivate func notifyScenesPageDelegateOfNewIndex() {
+  fileprivate func notifyScenesPageDelegateOfNewIndex(previousViewControllers: [UIViewController]) {
     if currentViewController != nil,
       let currentIndex = orderedViewControllers.index(of: currentViewController!) {
       pagerDelegate?.ScenesPageViewController(self, didUpdatePageIndex: currentIndex)
+      for previous in previousViewControllers {
+        (previous as! NestedViewController).isVisible = false
+      }
+      currentViewController!.isVisible = true
       viewModel.currentIndex = currentIndex
     }
   }
@@ -81,7 +109,7 @@ extension ScenesPageViewController: UIPageViewControllerDelegate {
                           didFinishAnimating finished: Bool,
                           previousViewControllers: [UIViewController],
                           transitionCompleted completed: Bool) {
-    notifyScenesPageDelegateOfNewIndex()
+    notifyScenesPageDelegateOfNewIndex(previousViewControllers: previousViewControllers)
   }
 }
 
@@ -100,7 +128,7 @@ extension ScenesPageViewController: ScenesPageDelegate {
                            // Setting the view controller programmatically does not fire
                            // any delegate methods, so we have to manually notify the
                            // 'pagerDelegate' of the new index.
-                           self.notifyScenesPageDelegateOfNewIndex()
+                          self.notifyScenesPageDelegateOfNewIndex(previousViewControllers: [])
       })
     } else {
       App.log.error("Trying to display \(index)-th scene while only hanving \(orderedViewControllers.count).")

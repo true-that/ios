@@ -7,6 +7,7 @@
 //
 
 import Affdex
+import UIKit
 
 class AffectivaReactionDetectionModule: ReactionDetectionModule {
   fileprivate static let detectionThreshold = 0.2 as CGFloat

@@ -270,7 +270,11 @@ extension Scene: FlowTreeDelegate {
   }
 
   func delete(edge: Edge) {
-    edges?.remove(at: (edges?.index(of: edge))!)
+    let toRemove = edges?.index(of: edge)
+    if toRemove != nil {
+      edges!.remove(at: toRemove!)
+    }
+
   }
 }
 

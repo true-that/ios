@@ -195,6 +195,7 @@ extension StudioViewController: StudioViewModelDelegate {
   func hideMedia() {
     // Remove previous preview
     if mediaViewController != nil {
+      mediaViewController!.isVisible = false
       mediaViewController!.willMove(toParentViewController: nil)
       mediaViewController!.view.removeFromSuperview()
       mediaViewController!.removeFromParentViewController()
@@ -211,6 +212,7 @@ extension StudioViewController: StudioViewModelDelegate {
     scenePreview.addChildViewController(mediaViewController!)
     scenePreview.view.addSubview(mediaViewController!.view)
     scenePreview.view.sendSubview(toBack: mediaViewController!.view)
+    mediaViewController!.isVisible = true
   }
 
   func didSend() {

@@ -142,6 +142,28 @@ class ScenesPageViewModelTests: BaseTests {
     expect(self.viewModelDelegate.currentIndex).to(equal(1))
   }
 
+  func testDontFetchDuplicateIds() {
+    let scene = Scene(id: 1, director: User(id: 1, firstName: "Todo", lastName: "Bom", deviceId: "android"),
+                      reactionCounters: [.disgust: 1000, .happy: 1234],
+                      created: Date(), mediaNodes: nil, edges: nil)
+    fetchedScenes = [scene]
+    viewModel.fetchingData()
+    expect(self.viewModel.scenes).toEventually(haveCount(1))
+    expect(self.viewModel.currentIndex).to(equal(0))
+    // Prepares new fetch
+    scene.director!.id! += 1
+    fetchedScenes = [scene]
+    // Navigating next (should not alter index)
+    expect(self.viewModel.navigateNext()).to(beNil())
+    expect(self.viewModel.currentIndex).to(equal(0))
+    // Loading image should now be hidden
+    expect(self.viewModel.loadingImageHidden.value).to(beTrue())
+    expect(self.viewModel.scenes).toNotEventually(haveCount(2))
+    // Should not navigate
+    expect(self.viewModel.currentIndex).to(equal(0))
+    expect(self.viewModelDelegate.currentIndex).to(equal(0))
+  }
+
   func testNavigatePrevious() {
     let scene1 = Scene(id: 1, director: User(id: 1, firstName: "Todo", lastName: "Bom", deviceId: "android"),
                        reactionCounters: [.disgust: 1000, .happy: 1234],

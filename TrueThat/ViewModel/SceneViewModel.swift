@@ -56,7 +56,6 @@ class SceneViewModel {
   }
 
   // MARK: Methods
-
   /// Updates displayed info about the scene.
   fileprivate func updateInfo() {
     if let displayName = scene.director?.displayName {
@@ -191,6 +190,7 @@ class SceneViewModel {
     optionsButtonHidden.value = true
     reportHidden.value = true
     timer?.invalidate()
+    delegate.hideMedia()
   }
 }
 
@@ -257,6 +257,9 @@ protocol SceneViewDelegate {
 
   /// - Returns: Whether the currently displayed media has finished.
   func mediaFinished() -> Bool
+
+  /// Hides the displayed media if any.
+  func hideMedia()
 }
 
 // MARK: MediaViewControllerDelegate

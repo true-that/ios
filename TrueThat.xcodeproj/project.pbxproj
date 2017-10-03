@@ -29,6 +29,7 @@
 		6F15228B1F37178600BD0DC2 /* DeviceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F15228A1F37178600BD0DC2 /* DeviceModule.swift */; };
 		6F15228D1F3717D400BD0DC2 /* HardwareDeviceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F15228C1F3717D400BD0DC2 /* HardwareDeviceModule.swift */; };
 		6F15229D1F37609D00BD0DC2 /* StudioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F15229C1F37609D00BD0DC2 /* StudioViewModel.swift */; };
+		6F1D40381F8386B40012DC69 /* NestedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1D40371F8386B40012DC69 /* NestedViewController.swift */; };
 		6F303DCC1F6E9F6300EB3592 /* FlowTreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F303DCB1F6E9F6300EB3592 /* FlowTreeTests.swift */; };
 		6F3092D11F2DE91F00BD211A /* KIF+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3092D01F2DE91F00BD211A /* KIF+Extensions.swift */; };
 		6F3092D61F2DEA9100BD211A /* ScenesPageWrapperViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3092D51F2DEA9100BD211A /* ScenesPageWrapperViewControllerTests.swift */; };
@@ -149,6 +150,7 @@
 		6F15228A1F37178600BD0DC2 /* DeviceModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceModule.swift; sourceTree = "<group>"; };
 		6F15228C1F3717D400BD0DC2 /* HardwareDeviceModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HardwareDeviceModule.swift; sourceTree = "<group>"; };
 		6F15229C1F37609D00BD0DC2 /* StudioViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudioViewModel.swift; sourceTree = "<group>"; };
+		6F1D40371F8386B40012DC69 /* NestedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedViewController.swift; sourceTree = "<group>"; };
 		6F303DCB1F6E9F6300EB3592 /* FlowTreeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowTreeTests.swift; sourceTree = "<group>"; };
 		6F3092D01F2DE91F00BD211A /* KIF+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KIF+Extensions.swift"; sourceTree = "<group>"; };
 		6F3092D21F2DE9D900BD211A /* TrueThatTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TrueThatTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 				6F45D8401F4EAF6E009602F0 /* ScenesPageWrapperViewController.swift */,
 				6F0B45291F536C7C0063B937 /* VideoViewController.swift */,
 				6F0B452B1F5373580063B937 /* MediaViewController.swift */,
+				6F1D40371F8386B40012DC69 /* NestedViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -918,6 +921,7 @@
 				6F45D8411F4EAF6E009602F0 /* ScenesPageWrapperViewController.swift in Sources */,
 				6FCF7F971F7A939000680BE3 /* DateHelper.swift in Sources */,
 				6FE04F651F3322D000D5BF39 /* WelcomeViewController.swift in Sources */,
+				6F1D40381F8386B40012DC69 /* NestedViewController.swift in Sources */,
 				3407BEFBE7E749559ECAA941 /* ScenesPageViewController.swift in Sources */,
 				6FC32C801F61A6B100957959 /* Video.swift in Sources */,
 				6FE04F611F331CF500D5BF39 /* OnBoardingViewController.swift in Sources */,

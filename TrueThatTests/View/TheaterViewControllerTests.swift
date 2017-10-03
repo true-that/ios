@@ -15,6 +15,7 @@ import Nimble
 class TheaterViewControllerTests: BaseUITests {
   var fetchedScenes: [Scene] = []
   var viewController: TheaterViewController!
+  var eventCount = 0
 
   override func setUp() {
     super.setUp()
@@ -23,6 +24,14 @@ class TheaterViewControllerTests: BaseUITests {
       let stubData = try! JSON(self.fetchedScenes.map { JSON(from: $0) }).rawData()
       self.fetchedScenes = []
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
+                                 headers: ["Content-Type": "application/json"])
+    }
+    eventCount = 0
+    stub(condition: isPath(InteractionApi.path)) { request -> OHHTTPStubsResponse in
+      let requestEvent = InteractionEvent(json: JSON(Data(fromStream: request.httpBodyStream!)))
+      let data = try? JSON(from: requestEvent).rawData()
+      self.eventCount += 1
+      return OHHTTPStubsResponse(data: data!, statusCode: 200,
                                  headers: ["Content-Type": "application/json"])
     }
     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
@@ -35,20 +44,21 @@ class TheaterViewControllerTests: BaseUITests {
     expect(self.viewController.view).toNot(beNil())
   }
 
-  func assertDisplayed(scene: Scene) {
+  func assert(displayed scene: Scene) {
     expect(self.viewController.scenesPageWrapper.scenesPage.currentViewController?
       .viewModel?.scene).toEventually(equal(scene))
+    expect(self.eventCount).toEventually(equal(1))
   }
 
   func testDisplayScene() {
-    let scene = Scene(id: 1, director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
-                      reactionCounters: [.disgust: 1000, .happy: 1234],
-                      created: Date(), mediaNodes: nil, edges: nil)
-    fetchedScenes = [scene]
+    let photo = Scene(id: 1, director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
+                      reactionCounters: [.disgust: 1000, .happy: 1234], created: Date(),
+                      mediaNodes: [Photo(id: 0, url: "https://www.bbcgoodfood.com/sites/default/files/styles/carousel_medium/public/chicken-main_0.jpg")], edges: nil)
+    fetchedScenes = [photo]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
     viewController.didAuthOk()
-    assertDisplayed(scene: scene)
+    assert(displayed: photo)
   }
 
   func testNavigation() {
@@ -60,16 +70,21 @@ class TheaterViewControllerTests: BaseUITests {
       .toEventually(beAnInstanceOf(StudioViewController.self))
   }
 
+
+  // Ignoring test because of KIF bug https://github.com/kif-framework/KIF/issues/601
   func testNavigationWhenSceneDisplayed() {
-    let scene = Scene(id: 1, director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
+    let photo = Scene(id: 1, director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
                       reactionCounters: [.disgust: 1000, .happy: 1234], created: Date(),
                       mediaNodes: [Photo(id: 0, url: "https://www.bbcgoodfood.com/sites/default/files/styles/carousel_medium/public/chicken-main_0.jpg")], edges: nil)
-    fetchedScenes = [scene]
+    let video = Scene(id: 2, director: User(id: 1, firstName: "The", lastName: "Flinstons", deviceId: "stonePhone"),
+                      reactionCounters: [.disgust: 1000, .happy: 1234], created: Date(),
+                      mediaNodes: [Video(id: 1, url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4")], edges: nil)
+    fetchedScenes = [video, photo]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
-    assertDisplayed(scene: scene)
+    assert(displayed: video)
     // Swipe up
-    tester().swipeView(withAccessibilityLabel: "scene view", in: .up)
+    tester().swipeView(withAccessibilityLabel: "video", in: .up)
     expect(UITestsHelper.currentViewController)
       .toEventually(beAnInstanceOf(StudioViewController.self))
   }

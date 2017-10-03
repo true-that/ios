@@ -298,5 +298,9 @@ class SceneViewModelTests: BaseTests {
     func mediaFinished() -> Bool {
       return finished
     }
+
+    func hideMedia() {
+      displayed = nil
+    }
   }
 }
