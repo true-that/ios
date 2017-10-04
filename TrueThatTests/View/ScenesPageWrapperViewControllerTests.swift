@@ -35,6 +35,12 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
                                  headers: ["Content-Type": "application/json"])
     }
+    stub(condition: isPath(InteractionApi.path)) { request -> OHHTTPStubsResponse in
+      let requestEvent = InteractionEvent(json: JSON(Data(fromStream: request.httpBodyStream!)))
+      let data = try? JSON(from: requestEvent).rawData()
+      return OHHTTPStubsResponse(data: data!, statusCode: 200,
+                                 headers: ["Content-Type": "application/json"])
+    }
     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
     viewController = storyboard.instantiateViewController(
       withIdentifier: "ScenesPageWrapperScene") as! ScenesPageWrapperViewController
@@ -143,7 +149,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
   func testFetchNewScenes() {
     let scene2 = Scene(id: 2, director: User(id: 1, firstName: "Mr", lastName: "White", deviceId: "iphone2"),
                        reactionCounters: [.disgust: 5000, .happy: 34], created: Date(),
-                       mediaNodes: [Video(id: 0, url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4")], edges: nil)
+                       mediaNodes: [Video(id: 2, url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4")], edges: nil)
     fetchedScenes = [scene]
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
@@ -152,7 +158,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     assertDisplayed(scene: scene, mediaId: scene.mediaNodes![0].id!)
     // Navigate to next scene
     fetchedScenes = [scene2]
-    tester().swipeView(withAccessibilityLabel: "scene view", in: .right)
+    tester().swipeView(withAccessibilityLabel: "photo", in: .right)
     // Loading image should not be shown
     expect(self.viewController.loadingImage.isHidden).toNotEventually(beFalse())
     assertDisplayed(scene: scene2, mediaId: scene2.mediaNodes![0].id!)
