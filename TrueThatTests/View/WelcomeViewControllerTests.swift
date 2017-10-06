@@ -14,6 +14,7 @@ import Nimble
 
 class WelcomeViewControllerTests: BaseUITests {
   var viewController: WelcomeViewController!
+  let phoneNumber = "+2385472"
 
   override func setUp() {
     super.setUp()
@@ -44,7 +45,8 @@ class WelcomeViewControllerTests: BaseUITests {
   }
 
   func testAlreadyAuthOk() {
-    App.authModule.current = User(id: 1, firstName: "Mr", lastName: "Navon", deviceId: "345345")
+    App.authModule.current = User(id: 1, firstName: "Mr", lastName: "Navon", deviceId: "345345",
+                                  phoneNumber: phoneNumber)
     // Trigger viewDidAppear
     viewController.beginAppearanceTransition(true, animated: false)
     App.authModule.auth()
@@ -53,16 +55,17 @@ class WelcomeViewControllerTests: BaseUITests {
   }
 
   func testSignIn() {
+
     // Signs up a user
     let responded = User(id: 1, firstName: "dellores", lastName: "hidyhoe",
-                         deviceId: App.deviceModule.deviceId)
+                         deviceId: App.deviceModule.deviceId, phoneNumber: phoneNumber)
     stub(condition: isPath(AuthApi.path)) { _ -> OHHTTPStubsResponse in
       let stubData = try! JSON(responded.toDictionary()).rawData()
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
                                  headers: ["Content-Type": "application/json"])
     }
     App.authModule.delegate = nil
-    App.authModule.signUp(fullName: "dellores hidyhoe")
+    App.authModule.signUp(fullName: "dellores hidyhoe", phoneNumber: phoneNumber)
     expect(App.authModule.isAuthOk).toEventually(beTrue())
     // Signs out, but keeps session data
     App.authModule.current = nil

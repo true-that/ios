@@ -14,7 +14,7 @@ import SwiftyJSON
 import Nimble
 
 class AuthApiTests: XCTestCase {
-  var responded = User(id: 1, firstName: "Bill", lastName: "Burr", deviceId: "iPhone-3")
+  var responded = User(id: 1, firstName: "Bill", lastName: "Burr", deviceId: "iPhone-3", phoneNumber: "+1911")
 
   override func setUp() {
     super.setUp()

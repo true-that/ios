@@ -9,6 +9,7 @@ target 'TrueThat' do
   pod 'Crashlytics'
   pod 'KeychainAccess'
   pod 'Kingfisher', '~> 3.0'
+  pod 'PhoneNumberKit'
   pod 'ReactiveCocoa', '~> 6.0'
   pod 'SwiftyBeaver'
   pod 'SwiftyJSON'
@@ -22,6 +23,8 @@ target 'TrueThat' do
   end
 end
 
+swift4Targets = ['PhoneNumberKit']
+
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     if (target.name == 'AWSCore') || (target.name == 'AWSKinesis')
@@ -30,8 +33,12 @@ post_install do |installer|
         config.build_settings['BITCODE_GENERATION_MODE'] = 'bitcode'
       end
     end
+    swift_version = '3.2'
+    if swift4Targets.include?(target.name)
+      swift_version = '4.0'
+    end
     target.build_configurations.each do |config|
-      config.build_settings['SWIFT_VERSION'] = '3.2'
+      config.build_settings['SWIFT_VERSION'] = swift_version
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '11.0'
     end
   end

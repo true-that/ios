@@ -17,6 +17,7 @@ class TheaterApiTests: XCTestCase {
   var scenes: [Scene] = []
   var actual: [Scene]?
   var error: NSError?
+  let director = User(id: 1, firstName: "copa", lastName: "cabana", deviceId: "android", phoneNumber: nil)
 
   override func setUp() {
     super.setUp()
@@ -42,10 +43,10 @@ class TheaterApiTests: XCTestCase {
 
   func testSuccessfulFetch() {
     scenes = [
-      Scene(id: 1, director: User(id: 1, firstName: "copa", lastName: "cabana", deviceId: "android"),
+      Scene(id: 1, director: director,
             reactionCounters: [.disgust: 1000, .happy: 1234],
             created: Date(), mediaNodes: [Photo(id: 0, url: "brazil.jpg")], edges: nil),
-      Scene(id: 2, director: User(id: 1, firstName: "barry", lastName: "manilow", deviceId: "android"),
+      Scene(id: 2, director: director,
             reactionCounters: [.disgust: 2000, .happy: 100_234],
             created: Date(), mediaNodes: [Photo(id: 0, url: "carnaval.jpg")], edges: nil),
     ]
@@ -55,10 +56,10 @@ class TheaterApiTests: XCTestCase {
 
   func testFetchMultipleTypes() {
     scenes = [
-      Scene(id: 1, director: User(id: 1, firstName: "copa", lastName: "cabana", deviceId: "android"),
+      Scene(id: 1, director: director,
             reactionCounters: [.disgust: 1000, .happy: 1234],
             created: Date(), mediaNodes: [Photo(id: 0, url: "brazil.jpg")], edges: nil),
-      Scene(id: 2, director: User(id: 1, firstName: "barry", lastName: "manilow", deviceId: "android"),
+      Scene(id: 2, director: director,
             reactionCounters: [.disgust: 2000, .happy: 100_234],
             created: Date(), mediaNodes: [Video(id: 0, url: "http://truethat-ipo.mp4")], edges: nil),
     ]
@@ -77,7 +78,7 @@ class TheaterApiTests: XCTestCase {
       OHHTTPStubsResponse(error: NSError(domain: Bundle.main.bundleIdentifier!, code: 1,
                                          userInfo: nil))
     }
-    scenes = [Scene(id: 1, director: User(id: 1, firstName: "copa", lastName: "cabana", deviceId: "android"),
+    scenes = [Scene(id: 1, director: director,
                     reactionCounters: [.disgust: 1000, .happy: 1234], created: Date(), mediaNodes: nil, edges: nil)]
     fetch()
     expect(self.error).toEventuallyNot(beNil())

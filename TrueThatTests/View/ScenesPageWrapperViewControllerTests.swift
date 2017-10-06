@@ -18,6 +18,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
   var fetchedScenes: [Scene] = []
   var viewController: ScenesPageWrapperViewController!
   var scene: Scene!
+  let director = User(id: 1, firstName: "Mr", lastName: "Bean", deviceId: "iphone1", phoneNumber: "+3497535545")
 
   override func setUp() {
     super.setUp()
@@ -25,8 +26,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     // Hasten media finish.
     PhotoViewController.finishTimeoutSeconds = 0.1
 
-    scene = Scene(id: 1, director: User(id: 1, firstName: "Mr", lastName: "Bean", deviceId: "iphone1"),
-                  reactionCounters: [.disgust: 1, .happy: 3], created: Date(),
+    scene = Scene(id: 1, director: director, reactionCounters: [.disgust: 1, .happy: 3], created: Date(),
                   mediaNodes: [Photo(id: 1, url: "https://i.ytimg.com/vi/XrBTDbxOZE8/maxresdefault.jpg")], edges: nil)
 
     stub(condition: isPath(TheaterApi.path)) { _ -> OHHTTPStubsResponse in
@@ -116,8 +116,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
   }
 
   func testMultipleTypes() {
-    let video = Scene(id: 3, director: User(id: 1, firstName: "Harry", lastName: "Potter", deviceId: "iphone2"),
-                      reactionCounters: [.happy: 7, .disgust: 34], created: Date(),
+    let video = Scene(id: 3, director: director, reactionCounters: [.happy: 7, .disgust: 34], created: Date(),
                       mediaNodes: [Video(id: 0, url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4")], edges: nil)
     fetchedScenes = [scene, video]
     // Trigger viewDidAppear
@@ -147,8 +146,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
   }
 
   func testFetchNewScenes() {
-    let scene2 = Scene(id: 2, director: User(id: 1, firstName: "Mr", lastName: "White", deviceId: "iphone2"),
-                       reactionCounters: [.disgust: 5000, .happy: 34], created: Date(),
+    let scene2 = Scene(id: 2, director: director, reactionCounters: [.disgust: 5000, .happy: 34], created: Date(),
                        mediaNodes: [Video(id: 2, url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4")], edges: nil)
     fetchedScenes = [scene]
     // Trigger viewDidAppear

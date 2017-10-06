@@ -32,7 +32,7 @@ class OnBoardingViewControllerTests: BaseUITests {
 
   func testOnBoardingFlow() {
     let user = User(id: 1, firstName: "swa", lastName: "la lala",
-                    deviceId: App.deviceModule.deviceId)
+                    deviceId: App.deviceModule.deviceId, phoneNumber: "+1 4155552671")
     // Sets up stub backend response
     stub(condition: isPath(AuthApi.path)) { request -> OHHTTPStubsResponse in
       let requestUser = User(json: JSON(Data(fromStream: request.httpBodyStream!)))
@@ -50,7 +50,23 @@ class OnBoardingViewControllerTests: BaseUITests {
     viewController = UITestsHelper.currentViewController as! OnBoardingViewController
     expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(OnBoardingViewController.self))
     viewController = UITestsHelper.currentViewController as! OnBoardingViewController
-    // Should focus text field
+    // Should focus number field
+    expect(self.viewController.numberTextField.isFirstResponder).toEventually(beTrue())
+    // Type first digit
+    tester().enterText(intoCurrentFirstResponder: "4")
+    // Try to hit done
+    tester().tapView(withAccessibilityLabel: "Done")
+    // Indicator of invalid phone number
+    expect(self.viewController.numberTextField.layer.borderColor).to(equal(Color.error.value.cgColor))
+    expect(self.viewController.warningLabel.isHidden).to(beFalse())
+    expect(self.viewController.warningLabel.text).to(equal(OnBoardingViewModel.invalidNumberText))
+    // Should still have focus
+    expect(self.viewController.numberTextField.isFirstResponder).to(beTrue())
+    // Type rest of the number
+    tester().enterText(intoCurrentFirstResponder: "155552671")
+    // Try to hit done
+    tester().tapView(withAccessibilityLabel: "Done")
+    // Should focus name field
     expect(self.viewController.nameTextField.isFirstResponder).toEventually(beTrue())
     // Warning should be hidden
     expect(self.viewController.warningLabel.isHidden).to(beTrue())
@@ -72,6 +88,7 @@ class OnBoardingViewControllerTests: BaseUITests {
     // Visual indicator of a valid full name
     expect(self.viewController.nameTextField.layer.borderColor).to(equal(Color.success.value.cgColor))
     expect(self.viewController.warningLabel.isHidden).to(beTrue())
+    expect(self.viewController.warningLabel.text).to(equal(OnBoardingViewModel.invalidNameText))
     // Dont start detection just yet, wait for hitting "done"
     expect(App.detecionModule.delegate).to(beNil())
     tester().tapView(withAccessibilityLabel: "Join")

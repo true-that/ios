@@ -38,4 +38,10 @@ class StringHelperTests: XCTestCase {
     expect(StringHelper.isAlpha("a23b")).to(beFalse())
     expect(StringHelper.isAlpha("23b")).to(beFalse())
   }
+
+  func testMatches() {
+    expect(StringHelper.matches(for: "a", in: "a")).to(equal(["a"]))
+    expect(StringHelper.matches(for: "a", in: "b").isEmpty).to(beTrue())
+    expect(StringHelper.matches(for: "(a)", in: "ab")).to(equal(["a"]))
+  }
 }

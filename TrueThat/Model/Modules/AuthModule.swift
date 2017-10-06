@@ -32,11 +32,13 @@ class AuthModule {
   /// Signs up a new user and registers it on our backend.
   ///
   /// - Parameter fullName: of new user
-  public func signUp(fullName: String) {
+  /// - Parameter phoneNumber: of the user's device. expected to be prettified.
+  public func signUp(fullName: String, phoneNumber: String) {
     App.log.debug("They all sign up eventually")
     let toAuth = User(id: nil, firstName: StringHelper.extractFirstName(of: fullName),
                       lastName: StringHelper.extractLastName(of: fullName),
-                      deviceId: App.deviceModule.deviceId)
+                      deviceId: App.deviceModule.deviceId,
+                      phoneNumber: phoneNumber)
     authRequest(for: toAuth)
   }
 
@@ -50,7 +52,7 @@ class AuthModule {
     }
     var toSignIn = lastSession
     if toSignIn == nil {
-      toSignIn = User(id: nil, firstName: nil, lastName: nil, deviceId: App.deviceModule.deviceId)
+      toSignIn = User(id: nil, firstName: nil, lastName: nil, deviceId: App.deviceModule.deviceId, phoneNumber: nil)
     }
     if toSignIn != nil {
       authRequest(for: toSignIn!)

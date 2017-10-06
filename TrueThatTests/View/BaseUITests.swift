@@ -23,7 +23,7 @@ class BaseUITests: KIFTestCase {
 
     App.keychainModule = fakeKeychainModule
     App.authModule.current = User(id: 1, firstName: "Donald", lastName: "Trump",
-                                  deviceId: fakeDeviceModule.deviceId)
+                                  deviceId: fakeDeviceModule.deviceId, phoneNumber: "+1 4155552671")
     App.detecionModule = fakeDetectionModule
     App.deviceModule = fakeDeviceModule
     KIFTestActor.setDefaultTimeout(1.0)

@@ -19,7 +19,7 @@ class SceneViewModelTests: BaseTests {
   let edge1 = Edge(sourceId: 1, targetId: 2, reaction: .surprise)
   let edge1a = Edge(sourceId: 1, targetId: 3, reaction: .fear)
   let edge2 = Edge(sourceId: 2, targetId: 3, reaction: .fear)
-  let director = User(id: 1, firstName: "Mr", lastName: "Bean", deviceId: "iphone1")
+  let director = User(id: 1, firstName: "Mr", lastName: "Bean", deviceId: "iphone1", phoneNumber: "+4985734345")
   var scene: Scene!
   var viewModel: SceneViewModel!
   var viewModelDelegate: TestsSceneViewDelegate!

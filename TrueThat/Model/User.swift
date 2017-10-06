@@ -15,17 +15,20 @@ class User: BaseModel {
   var lastName: String?
   /// For future authentication.
   var deviceId: String?
+  /// Phone number, so that we can find it in other user's contact lists.
+  var phoneNumber: String?
   /// Whether this user instance is authenticated from a client perspective.
   public var isAuthOk: Bool {
     return id != nil && firstName != nil && lastName != nil
   }
 
   // Mark: Initialization
-  init(id: Int64?, firstName: String?, lastName: String?, deviceId: String?) {
+  init(id: Int64?, firstName: String?, lastName: String?, deviceId: String?, phoneNumber: String?) {
     super.init(id: id)
     self.firstName = firstName
     self.lastName = lastName
     self.deviceId = deviceId
+    self.phoneNumber = phoneNumber
   }
 
   required init(json: JSON) {
@@ -42,6 +45,7 @@ class User: BaseModel {
       App.log.warning("Missing last name.")
     }
     deviceId = json["deviceId"].string
+    phoneNumber = json["phoneNumber"].string
   }
 
   override func toDictionary() -> [String: Any] {
@@ -54,6 +58,9 @@ class User: BaseModel {
     }
     if deviceId != nil {
       dictionary["deviceId"] = deviceId!
+    }
+    if phoneNumber != nil {
+      dictionary["phoneNumber"] = phoneNumber!
     }
     return dictionary
   }

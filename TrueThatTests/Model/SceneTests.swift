@@ -13,7 +13,8 @@ import Nimble
 
 class SceneTests: BaseTests {
   func testJsonSerialization() {
-    let scene = Scene(id: 1, director: User(id: 1, firstName: "android", lastName: "me no like", deviceId: "iphone"),
+    let scene = Scene(id: 1, director: User(id: 1, firstName: "android", lastName: "me no like",
+                                            deviceId: "iphone", phoneNumber: "+349857"),
                       reactionCounters: [.happy: 1200, .disgust: 800], created: Date(),
                       mediaNodes: [Photo(id: 0, url: "1"), Video(id: 0, url: "2")],
                       edges: [

@@ -18,6 +18,7 @@ class AuthModuleTests: BaseTests {
   var authModule: AuthModule!
   var user: User!
   var didBackendCall: Bool!
+  let phoneNumber = "+1123456789"
 
   override func setUp() {
     super.setUp()
@@ -33,7 +34,8 @@ class AuthModuleTests: BaseTests {
     authModule.delegate = authDelegate
     fakeKeychain = FakeKeychainModule()
     App.keychainModule = fakeKeychain
-    user = User(id: 1, firstName: "dellores", lastName: "hidyhoe", deviceId: App.deviceModule.deviceId)
+    user = User(id: 1, firstName: "dellores", lastName: "hidyhoe", deviceId: App.deviceModule.deviceId,
+                phoneNumber: phoneNumber)
   }
 
   func resetState() {
@@ -117,7 +119,7 @@ class AuthModuleTests: BaseTests {
   }
 
   func testSuccessfulSignUp() {
-    authModule.signUp(fullName: user.displayName)
+    authModule.signUp(fullName: user.displayName, phoneNumber: phoneNumber)
     assertAuthOk()
   }
 
@@ -126,7 +128,7 @@ class AuthModuleTests: BaseTests {
       OHHTTPStubsResponse(error: NSError(domain: Bundle.main.bundleIdentifier!,
                                          code: 1, userInfo: nil))
     }
-    authModule.signUp(fullName: user.displayName)
+    authModule.signUp(fullName: user.displayName, phoneNumber: phoneNumber)
     assertAuthFailed()
   }
 
@@ -135,7 +137,7 @@ class AuthModuleTests: BaseTests {
       OHHTTPStubsResponse(data: Data(), statusCode: 200,
                           headers: ["Content-Type": "application/json"])
     }
-    authModule.signUp(fullName: user.displayName)
+    authModule.signUp(fullName: user.displayName, phoneNumber: phoneNumber)
     assertAuthFailed()
   }
 

@@ -17,7 +17,7 @@ class RepertoireApiTests: XCTestCase {
   var scenes: [Scene] = []
   var actual: [Scene]?
   var error: NSError?
-  let user = User(id: nil, firstName: nil, lastName: nil, deviceId: nil)
+  let user = User(id: nil, firstName: nil, lastName: nil, deviceId: nil, phoneNumber: nil)
   var scene: Scene!
 
   override func setUp() {

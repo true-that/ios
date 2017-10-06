@@ -14,7 +14,8 @@ import SwiftyJSON
 import Nimble
 
 class StudioApiTests: XCTestCase {
-  var scene = Scene(id: 1, director: User(id: 1, firstName: "bon", lastName: "apetit", deviceId: "say-waat"),
+  var scene = Scene(id: 1, director: User(id: 1, firstName: "bon", lastName: "apetit", deviceId: "say-waat",
+                                          phoneNumber: nil),
                     reactionCounters: [.happy: 1], created: Date(),
                     mediaNodes: [Photo(id: 0, url: "www.mcdonald.com")], edges: nil)
 
