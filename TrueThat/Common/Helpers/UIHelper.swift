@@ -11,11 +11,11 @@ import UIKit
 public class UIHelper {
   public static func initLoadingImage(_ imageView: UIImageView) {
     var images: [UIImage] = []
-    for i in 0 ... 11 {
-      images.append(UIImage(named: "anim_loader_\(i)")!)
+    for i in 0 ... 44 {
+      images.append(UIImage(named: "anim_loading_\(i)")!)
     }
     imageView.animationImages = images
-    imageView.animationDuration = 1.0
+    imageView.animationDuration = 0.8
     imageView.startAnimating()
     // Brings loading image to front
     imageView.superview?.bringSubview(toFront: imageView)
