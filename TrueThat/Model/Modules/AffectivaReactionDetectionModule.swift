@@ -43,28 +43,61 @@ extension AffectivaReactionDetectionModule: AFDXDetectorDelegate {
 
   func detector(_ detector: AFDXDetector, hasResults: NSMutableDictionary?, for forImage: UIImage,
                 atTime: TimeInterval) {
-    // handle processed and unprocessed images here
     if hasResults != nil {
-      // enumrate the dictionary of faces
       for (_, face) in hasResults! {
         let affdexFace = face as! AFDXFace
         // Convert detected image to our enum
         let emotionToLikelihood = [
-          Emotion.happy: affdexFace.emotions.joy,
-          Emotion.surprise: affdexFace.emotions.surprise,
+          AffectivaEmotion.joy: affdexFace.emotions.joy,
+          AffectivaEmotion.surprise: affdexFace.emotions.surprise,
+          AffectivaEmotion.anger: affdexFace.emotions.anger,
+          AffectivaEmotion.sadness: affdexFace.emotions.sadness,
           // Fear is harder to detect, and so it is amplified
-          Emotion.fear: affdexFace.emotions.fear * 2,
+          AffectivaEmotion.fear: affdexFace.emotions.fear * 2,
           // Disgust is too easy to detect, and so it is decreased
-          Emotion.disgust: affdexFace.emotions.disgust / 2,
+          AffectivaEmotion.disgust: affdexFace.emotions.disgust / 2,
         ]
-        let detected = emotionToLikelihood.filter { $1 > AffectivaReactionDetectionModule.detectionThreshold }
-          .max(by: { $0.value > $1.value })
-        if detected != nil && delegate != nil {
-          delegate?.didDetect(reaction: detected!.key)
+        let significantEnough = emotionToLikelihood.filter { $1 > AffectivaReactionDetectionModule.detectionThreshold }
+        if significantEnough.isEmpty {
+          return
+        }
+        let mostLikely = significantEnough.max(by: { $0.value > $1.value })
+        if mostLikely != nil && delegate != nil {
+          delegate?.didDetect(reaction: mostLikely!.key.toEmotion()!, mostLikely: true)
+        }
+        for emotionLikelihoodEntry in significantEnough {
+          if emotionLikelihoodEntry.key != mostLikely!.key {
+            delegate?.didDetect(reaction: emotionLikelihoodEntry.key.toEmotion()!, mostLikely: false)
+          }
         }
       }
-    } else {
-      // handle unprocessed image in this block of code
+    }
+  }
+}
+
+enum AffectivaEmotion: Int, Hashable {
+  case joy, surprise, anger, sadness, fear, disgust
+
+  var hashValue: Int {
+    return self.rawValue.hashValue
+  }
+
+  func toEmotion() -> Emotion? {
+    switch self {
+    case .joy:
+      return .happy
+    case .surprise:
+      return .omg
+    case .fear:
+      return .omg
+    case .anger:
+      return .disgust
+    case .disgust:
+      return .disgust
+    case .sadness:
+      return .disgust
+    default:
+      return nil
     }
   }
 }

@@ -13,8 +13,9 @@ class FakeReactionDetectionModule: ReactionDetectionModule {
   /// Fakes a detection of reaction.
   ///
   /// - Parameter reaction: that was detected.
-  func detect(_ reaction: Emotion) {
+  /// - Parameter mostLikely: see `ReactionDetectionModule#didDetect`
+  func detect(_ reaction: Emotion, mostLikely: Bool = true) {
     App.log.verbose("Detected \(reaction)")
-    delegate?.didDetect(reaction: reaction)
+    delegate?.didDetect(reaction: reaction, mostLikely: mostLikely)
   }
 }

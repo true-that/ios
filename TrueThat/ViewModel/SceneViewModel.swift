@@ -196,7 +196,15 @@ class SceneViewModel {
 
 // MARK: ReactionDetectionDelegate
 extension SceneViewModel: ReactionDetectionDelegate {
-  func didDetect(reaction: Emotion) {
+  func didDetect(reaction: Emotion, mostLikely: Bool) {
+    if currentMedia == nil {
+      return
+    }
+    // non most likely reactions are ignored when there are multiple next media options or the current reaction could
+    // not lead to a next media.
+    if !mostLikely && (scene.next(of: currentMedia!, on: reaction) == nil || scene.hasMultipleNext(for: currentMedia!)) {
+      return
+    }
     if detectedReactions[currentMedia!] == nil {
       detectedReactions[currentMedia!] = []
     }

@@ -76,7 +76,25 @@ class OnBoardingViewModelTests: BaseTests {
     // Wait for detection to start
     expect(App.detecionModule.delegate).toEventuallyNot(beNil())
     // Detect a reaction
-    fakeDetectionModule.detect(OnBoardingViewModel.reactionsForDone.first!)
+    fakeDetectionModule.detect(OnBoardingViewModel.reactionsForDone)
+    // Should show loading indicator
+    expect(self.viewModel.loadingImageHidden.value).to(beFalse())
+    // On boarding is finished successfully
+    expect(self.viewModelDelegate.authOk).toEventually(beTrue())
+  }
+
+  func testSuccessfulOnBoarding_notMostLikely() {
+    // Load view
+    viewModel.didAppear()
+    doingFirstStage()
+    // Hit "done" on keyboard
+    expect(self.viewModel.nameFieldDidReturn()).to(beTrue())
+    // Should enter final on boarding stage
+    assertFinalStage()
+    // Wait for detection to start
+    expect(App.detecionModule.delegate).toEventuallyNot(beNil())
+    // Detect a reaction
+    fakeDetectionModule.detect(OnBoardingViewModel.reactionsForDone, mostLikely: false)
     // Should show loading indicator
     expect(self.viewModel.loadingImageHidden.value).to(beFalse())
     // On boarding is finished successfully
@@ -97,7 +115,7 @@ class OnBoardingViewModelTests: BaseTests {
     // Should enter final on boarding stage
     assertFinalStage()
     // Detect a reaction
-    fakeDetectionModule.detect(OnBoardingViewModel.reactionsForDone.first!)
+    fakeDetectionModule.detect(OnBoardingViewModel.reactionsForDone)
     // Auth should fail
     expect(self.viewModelDelegate.authFail).toEventually(beTrue())
     // Should show correct warning
@@ -119,7 +137,7 @@ class OnBoardingViewModelTests: BaseTests {
     // Should enter final on boarding stage
     assertFinalStage()
     // Detect a reaction
-    fakeDetectionModule.detect(OnBoardingViewModel.reactionsForDone.first!)
+    fakeDetectionModule.detect(OnBoardingViewModel.reactionsForDone)
     // On boarding is finished successfully
     expect(self.viewModelDelegate.authOk).toEventually(beTrue())
   }

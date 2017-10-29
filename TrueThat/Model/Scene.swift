@@ -197,6 +197,15 @@ class Scene: BaseModel {
     return flowTree.child(of: media.id!, emotion: reaction)
   }
 
+  /// - Parameter media: current media
+  /// - Returns: whether `for` has multiple next media options.
+  func hasMultipleNext(for media: Media) -> Bool {
+    if flowTree.nodes[media.id!] == nil {
+      return false
+    }
+    return flowTree.nodes[media.id!]!.children.count > 1
+  }
+
   /// - Parameter media: what the user is currently viewing
   /// - Returns: the media, if any, that led to the current one.
   func parent(of media: Media) -> Media? {

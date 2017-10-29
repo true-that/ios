@@ -99,7 +99,7 @@ class OnBoardingViewControllerTests: BaseUITests {
     expect(App.detecionModule.delegate as! OnBoardingViewModel === self.viewController.viewModel).to(beTrue())
     expect(self.viewController.completionLabel.isHidden).to(beFalse())
     // Complete on boarding
-    fakeDetectionModule.detect(OnBoardingViewModel.reactionsForDone.first!)
+    fakeDetectionModule.detect(OnBoardingViewModel.reactionsForDone)
     // Should show loading image
     expect(self.viewController.loadingImage.isHidden).to(beFalse())
     expect(App.authModule.current).toEventually(equal(user))

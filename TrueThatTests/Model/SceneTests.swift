@@ -18,8 +18,8 @@ class SceneTests: BaseTests {
                       reactionCounters: [.happy: 1200, .disgust: 800], created: Date(),
                       mediaNodes: [Photo(id: 0, url: "1"), Video(id: 0, url: "2")],
                       edges: [
-                        Edge(sourceId: 0, targetId: 1, reaction: .surprise),
-                        Edge(sourceId: 1, targetId: 2, reaction: .fear),
+                        Edge(sourceId: 0, targetId: 1, reaction: .omg),
+                        Edge(sourceId: 1, targetId: 2, reaction: .omg),
     ])
     expect(scene).to(equal(Scene(json: JSON(from: scene))))
   }
@@ -27,7 +27,7 @@ class SceneTests: BaseTests {
   func testUpdateReactionCounters() {
     let reaction = Emotion.happy
     let nilCounters = Scene(id: 1, director: nil, reactionCounters: nil, created: nil, mediaNodes: nil, edges: nil)
-    let firstReactionOfType = Scene(id: 1, director: nil, reactionCounters: [.fear: 1], created: nil, mediaNodes: nil,
+    let firstReactionOfType = Scene(id: 1, director: nil, reactionCounters: [.omg: 1], created: nil, mediaNodes: nil,
                                     edges: nil)
     let shouldIncrement = Scene(id: 1, director: nil, reactionCounters: [.happy: 1], created: nil, mediaNodes: nil,
                                 edges: nil)
@@ -57,8 +57,8 @@ class SceneTests: BaseTests {
     // Removes video from the scene
     expect(scene.remove(media: video)).to(equal(photo))
     // Adds a new video to the scene
-    scene.add(media: newVideo, from: photo.id!, on: .surprise)
+    scene.add(media: newVideo, from: photo.id!, on: .omg)
     // new video should follow photo.
-    expect(scene.next(of: photo, on: .surprise)).to(equal(newVideo))
+    expect(scene.next(of: photo, on: .omg)).to(equal(newVideo))
   }
 }

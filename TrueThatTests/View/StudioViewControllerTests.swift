@@ -170,7 +170,7 @@ class StudioViewControllerTests: BaseUITests {
     // Should proceed to edit state
     assertEdit()
     // Chose a reaction
-    tester().tapView(withAccessibilityLabel: "surprise reaction")
+    tester().tapView(withAccessibilityLabel: "omg reaction")
     // Should proceed to camera state.
     assertCamera()
     // Record a video
@@ -188,16 +188,16 @@ class StudioViewControllerTests: BaseUITests {
     tester().tapView(withAccessibilityLabel: "capture")
     // Should proceed to edit state
     assertEdit()
-    // Redo the surprise ending
+    // Redo the omg ending
     tester().tapView(withAccessibilityLabel: "previous media")
     assertEdit()
     // Chose a reaction
-    tester().tapView(withAccessibilityLabel: "surprise reaction")
+    tester().tapView(withAccessibilityLabel: "omg reaction")
     assertEdit()
     tester().tapView(withAccessibilityLabel: "cancel")
     assertEdit()
     // Chose a reaction
-    tester().tapView(withAccessibilityLabel: "surprise reaction")
+    tester().tapView(withAccessibilityLabel: "omg reaction")
     // Should proceed to camera state.
     assertCamera()
     // Record a video

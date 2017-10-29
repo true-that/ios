@@ -13,7 +13,7 @@ import Result
 class OnBoardingViewModel {
   // MARK: Properties
   public static var detectionDelaySeconds = 0.5
-  public static let reactionsForDone = [Emotion.happy, Emotion.surprise]
+  public static let reactionsForDone = Emotion.happy
   public static let invalidNameText = "invalid name"
   public static let invalidNumberText = "invalid number"
   public static let signUpFailedText = "oopsie we had an error 😬"
@@ -152,8 +152,8 @@ protocol OnBoardingDelegate {
 
 // MARK: ReactionDetectionDelegate
 extension OnBoardingViewModel: ReactionDetectionDelegate {
-  func didDetect(reaction: Emotion) {
-    if OnBoardingViewModel.reactionsForDone.contains(reaction) {
+  func didDetect(reaction: Emotion, mostLikely: Bool) {
+    if reaction == OnBoardingViewModel.reactionsForDone {
       loadingImageHidden.value = false
       signingUp()
       App.detecionModule.delegate = nil

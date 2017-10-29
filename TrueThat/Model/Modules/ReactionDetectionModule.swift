@@ -30,5 +30,8 @@ protocol ReactionDetectionDelegate {
   /// Callback for detected reactions handling.
   ///
   /// - Parameter reaction: that was detected.
-  func didDetect(reaction: Emotion)
+  /// - Parameter mostLikely: whether `reaction` is the most likely reaction or just significant enough (i.e. in cases
+  ///                         where multiple reactions apply, say the user is suprised and smiles, one of the detected
+  ///                         emotions will have `mostLikely = false`.
+  func didDetect(reaction: Emotion, mostLikely: Bool)
 }

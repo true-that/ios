@@ -192,7 +192,7 @@ class StudioViewModelTests: BaseTests {
     viewModel.displayingParentMedia()
     expect(self.viewModel.currentMedia).to(equal(viewModel.directed!.rootMedia!))
     // Chose a different follow up reaction
-    viewModel.didChose(reaction: .fear)
+    viewModel.didChose(reaction: .omg)
     assertCamera()
     viewModel.didCapture(imageData: "4".data(using: .utf8)!)
     assertEdit()
@@ -201,15 +201,15 @@ class StudioViewModelTests: BaseTests {
     viewModel.didChose(reaction: .disgust)
     assertEdit()
     // Chose a new reaction
-    viewModel.didChose(reaction: .surprise)
+    viewModel.didChose(reaction: .omg)
     assertCamera()
     viewModel.didCapture(imageData: "5".data(using: .utf8)!)
     // Verify flow tree
     expect(self.viewModel.directed?.mediaNodes?.count).to(equal(5))
     let scene = viewModel.directed!
     expect(scene.next(of: scene.next(of: scene.rootMedia!, on: .disgust)!, on: .happy)).toNot(beNil())
-    expect(scene.next(of: scene.next(of: scene.rootMedia!, on: .disgust)!, on: .surprise)).toNot(beNil())
-    expect(scene.next(of: scene.rootMedia!, on: .fear)).toNot(beNil())
+    expect(scene.next(of: scene.next(of: scene.rootMedia!, on: .disgust)!, on: .omg)).toNot(beNil())
+    expect(scene.next(of: scene.rootMedia!, on: .omg)).toNot(beNil())
   }
 
   func testPreviousMedia() {

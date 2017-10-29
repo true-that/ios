@@ -15,7 +15,7 @@ class FlowTreeTests: XCTestCase {
   let photo1 = Photo(id: 1, url: "1")
   let photo2 = Photo(id: 2, url: "2")
   let photo3 = Photo(id: 3, url: "3")
-  let edge1 = Edge(sourceId: 1, targetId: 2, reaction: .fear)
+  let edge1 = Edge(sourceId: 1, targetId: 2, reaction: .omg)
   let edge2 = Edge(sourceId: 2, targetId: 3, reaction: .happy)
 
   var tree: FlowTree!

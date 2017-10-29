@@ -16,9 +16,9 @@ class SceneViewModelTests: BaseTests {
   let photo1 = Photo(id: 1, url: "1")
   let photo2 = Photo(id: 2, url: "2")
   let photo3 = Photo(id: 3, url: "3")
-  let edge1 = Edge(sourceId: 1, targetId: 2, reaction: .surprise)
-  let edge1a = Edge(sourceId: 1, targetId: 3, reaction: .fear)
-  let edge2 = Edge(sourceId: 2, targetId: 3, reaction: .fear)
+  let edge1to2 = Edge(sourceId: 1, targetId: 2, reaction: .omg)
+  let edge1to3 = Edge(sourceId: 1, targetId: 3, reaction: .happy)
+  let edge2to3 = Edge(sourceId: 2, targetId: 3, reaction: .omg)
   let director = User(id: 1, firstName: "Mr", lastName: "Bean", deviceId: "iphone1", phoneNumber: "+4985734345")
   var scene: Scene!
   var viewModel: SceneViewModel!
@@ -79,7 +79,7 @@ class SceneViewModelTests: BaseTests {
   }
 
   func testDisplayScene_zeroReactionCounters() {
-    scene.reactionCounters = [.happy: 0, .fear: 0]
+    scene.reactionCounters = [.happy: 0, .omg: 0]
     initViewModel(with: scene)
     expect(self.viewModel.reactionEmoji.value).to(equal(""))
     expect(self.viewModel.reactionsCount.value).to(equal(""))
@@ -87,8 +87,8 @@ class SceneViewModelTests: BaseTests {
 
   func testMultipleReactions() {
     let reaction1 = Emotion.happy
-    let reaction2 = Emotion.fear
-    let reaction3 = Emotion.surprise
+    let reaction2 = Emotion.omg
+    let reaction3 = Emotion.omg
     scene.reactionCounters = [reaction3: 2]
     initViewModel(with: scene)
     expect(self.viewModel.reactionEmoji.value).to(equal(reaction3.emoji))
@@ -135,6 +135,57 @@ class SceneViewModelTests: BaseTests {
     expect(self.viewModelDelegate.animatedImage).to(beTrue())
     viewModelDelegate.animatedImage = false
     expect(self.viewModel.reactionEmoji.value).to(equal(reaction1.emoji))
+  }
+
+  func testReactionIgnored_withMultipleNextMedia() {
+    scene = Scene(id: 1, director: director, reactionCounters: [edge1to2.reaction!: 1], created: Date(),
+                 mediaNodes: [photo1, photo2, photo3], edges: [edge1to2, edge1to3])
+    initViewModel(with: scene)
+    viewModel.didDownloadMedia()
+    // Expect a view event to be sent
+    expect(self.eventCount).toEventually(equal(1))
+    expect(self.lastEvent.eventType).to(equal(EventType.view))
+    // Wait for detection to start
+    expect(App.detecionModule.delegate).toEventuallyNot(beNil())
+    // Fake a detection
+    expect(App.detecionModule.delegate).toEventually(beIdenticalTo(viewModel))
+    fakeDetectionModule.detect(edge1to2.reaction!, mostLikely: false)
+    // Should not post a reaction event
+    expect(self.eventCount).toNotEventually(equal(2))
+  }
+
+  func testReactionIgnored_withoutNextMedia() {
+    scene = Scene(id: 1, director: director, reactionCounters: [edge1to2.reaction!: 1], created: Date(),
+                  mediaNodes: [photo1, photo2], edges: [edge1to2])
+    initViewModel(with: scene)
+    viewModel.didDownloadMedia()
+    // Expect a view event to be sent
+    expect(self.eventCount).toEventually(equal(1))
+    expect(self.lastEvent.eventType).to(equal(EventType.view))
+    // Wait for detection to start
+    expect(App.detecionModule.delegate).toEventuallyNot(beNil())
+    // Fake a detection
+    expect(App.detecionModule.delegate).toEventually(beIdenticalTo(viewModel))
+    fakeDetectionModule.detect(edge1to3.reaction!, mostLikely: false)
+    // Should not post a reaction event
+    expect(self.eventCount).toNotEventually(equal(2))
+  }
+
+  func testReactionDetected_withSingleNextMedia() {
+    scene = Scene(id: 1, director: director, reactionCounters: [edge1to2.reaction!: 1], created: Date(),
+                  mediaNodes: [photo1, photo2], edges: [edge1to2])
+    initViewModel(with: scene)
+    viewModel.didDownloadMedia()
+    // Expect a view event to be sent
+    expect(self.eventCount).toEventually(equal(1))
+    expect(self.lastEvent.eventType).to(equal(EventType.view))
+    // Wait for detection to start
+    expect(App.detecionModule.delegate).toEventuallyNot(beNil())
+    // Fake a detection
+    expect(App.detecionModule.delegate).toEventually(beIdenticalTo(viewModel))
+    fakeDetectionModule.detect(edge1to2.reaction!, mostLikely: false)
+    // Should post a reaction event
+    expect(self.eventCount).toEventually(equal(2))
   }
 
   func testInteractionEvents() {
@@ -195,7 +246,7 @@ class SceneViewModelTests: BaseTests {
 
   func testInteractiveScene_reactionBeforeFininsh() {
     scene.mediaNodes = [photo1, photo2]
-    scene.edges = [edge1, edge1a]
+    scene.edges = [edge1to2, edge1to3]
     initViewModel(with: scene)
     expect(self.viewModel.currentMedia).to(equal(photo1))
     expect(self.viewModelDelegate.displayed).to(equal(photo1))
@@ -206,7 +257,7 @@ class SceneViewModelTests: BaseTests {
     // Wait for detection to start
     expect(App.detecionModule.delegate).toEventuallyNot(beNil())
     // Detect a reaction
-    fakeDetectionModule.detect(edge1.reaction!)
+    fakeDetectionModule.detect(edge1to2.reaction!)
     // Wait for reaction event
     expect(self.eventCount).toEventually(equal(2))
     expect(self.lastEvent.eventType).to(equal(EventType.reaction))
@@ -232,7 +283,7 @@ class SceneViewModelTests: BaseTests {
 
   func testInteractiveScene_finishBeforeReaction() {
     scene.mediaNodes = [photo1, photo2]
-    scene.edges = [edge1]
+    scene.edges = [edge1to2]
     initViewModel(with: scene)
     // Finishes media
     viewModel.didDownloadMedia()
@@ -240,7 +291,7 @@ class SceneViewModelTests: BaseTests {
     // Wait for detection to start
     expect(App.detecionModule.delegate).toEventuallyNot(beNil())
     // Detect a reaction
-    fakeDetectionModule.detect(edge1.reaction!)
+    fakeDetectionModule.detect(edge1to2.reaction!)
     // Should navigate to next media
     expect(self.viewModel.currentMedia).toEventually(equal(photo2))
     expect(self.viewModelDelegate.displayed).to(equal(photo2))
@@ -249,7 +300,7 @@ class SceneViewModelTests: BaseTests {
 
   func testInteractiveScene_multipleLevels() {
     scene.mediaNodes = [photo1, photo2, photo3]
-    scene.edges = [edge1, edge2]
+    scene.edges = [edge1to2, edge2to3]
     initViewModel(with: scene)
     // Finishes media
     viewModel.didDownloadMedia()
@@ -257,7 +308,7 @@ class SceneViewModelTests: BaseTests {
     // Wait for detection to start
     expect(App.detecionModule.delegate).toEventuallyNot(beNil())
     // Detect a reaction
-    fakeDetectionModule.detect(edge1.reaction!)
+    fakeDetectionModule.detect(edge1to2.reaction!)
     // Should navigate to next media
     expect(self.viewModel.currentMedia).toEventually(equal(photo2))
     // Finishes media
@@ -266,7 +317,7 @@ class SceneViewModelTests: BaseTests {
     // Wait for detection to start
     expect(App.detecionModule.delegate).toEventuallyNot(beNil())
     // Detect a reaction
-    fakeDetectionModule.detect(edge2.reaction!)
+    fakeDetectionModule.detect(edge2to3.reaction!)
     // Should navigate to next media
     expect(self.viewModel.currentMedia).toEventually(equal(photo3))
   }
