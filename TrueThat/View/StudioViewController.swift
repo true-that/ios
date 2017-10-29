@@ -20,10 +20,11 @@ class StudioViewController: BaseViewController {
   var mediaViewController: MediaViewController?
 
   @IBOutlet weak var captureButton: SwiftyCamButton!
-  @IBOutlet weak var cancelButton: UIImageView!
   @IBOutlet weak var switchCameraButton: UIImageView!
   @IBOutlet weak var sendButton: UIImageView!
   @IBOutlet weak var loadingImage: UIImageView!
+  @IBOutlet weak var cancelButton: UILabel!
+
 
   // MARK: Lifecycle
   override func viewDidLoad() {
@@ -89,8 +90,7 @@ class StudioViewController: BaseViewController {
       }
     }.start()
     captureButton.layer.backgroundColor = Color.shadow.withAlpha(0.0).cgColor
-    cancelButton.image = UIImage(named: "cross.png")
-    view.bringSubview(toFront: cancelButton)
+
     switchCameraButton.image = UIImage(named: "switch_camera.png")
     sendButton.image = UIImage(named: "send.png")
 
@@ -115,6 +115,7 @@ class StudioViewController: BaseViewController {
       let button = UIButton()
       button.accessibilityLabel = "\(emotion.description) reaction"
       button.setTitle(emotion.emoji, for: .normal)
+      button.titleLabel!.font = button.titleLabel!.font.withSize(20)
       button.addTarget(self, action: #selector(self.didChose(_:)), for: .touchUpInside)
       return button
     }
@@ -124,6 +125,10 @@ class StudioViewController: BaseViewController {
     previousButton.setTitle("⏎", for: .normal)
     previousButton.accessibilityLabel = "previous media"
     previousButton.addTarget(self, action: #selector(self.displayingParentMedia), for: .touchUpInside)
+    previousButton.layer.shadowColor = Color.shadow.value.cgColor
+    previousButton.layer.shadowOpacity = 0.4
+    previousButton.layer.shadowOffset = CGSize.zero
+    previousButton.layer.shadowRadius = 4
     // Add all of them to a stack view
     let reactionsStackview = UIStackView(arrangedSubviews: reactionButtons + [previousButton])
     reactionsStackview.axis = .vertical
