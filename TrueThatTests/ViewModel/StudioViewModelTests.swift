@@ -304,7 +304,7 @@ class StudioViewModelTests: BaseTests {
       sent = true
     }
 
-    func show(alert: String, withTitle: String, okAction: String) {
+    func show(alert: String, title: String, okAction: String) {
       alertDidShow = true
     }
   }

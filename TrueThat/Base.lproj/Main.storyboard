@@ -499,62 +499,44 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ofx-KU-14c">
-                                <rect key="frame" x="122.5" y="92" width="130.5" height="67"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="DSL-fq-NVj">
+                                <rect key="frame" x="117" y="574.5" width="142" height="66.5"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="StF-dm-FL5">
-                                        <rect key="frame" x="0.0" y="0.0" width="47.5" height="67"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PZ7-V7-zAg">
-                                        <rect key="frame" x="63.5" y="0.0" width="67" height="67"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="PZ7-V7-zAg" secondAttribute="height" multiplier="1:1" id="lkg-mO-EX2"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
-                            </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="NI3-GX-sAa">
-                                <rect key="frame" x="87.5" y="526.5" width="200" height="49.5"/>
-                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RTs-XR-LQQ">
+                                        <rect key="frame" x="0.0" y="0.0" width="142" height="30"/>
+                                        <accessibility key="accessibilityConfiguration" label="sign up"/>
+                                        <state key="normal" title="Join"/>
+                                    </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Already one of us?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bac-Lc-K7G">
-                                        <rect key="frame" x="0.0" y="0.0" width="200" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="46" width="142" height="20.5"/>
                                         <accessibility key="accessibilityConfiguration" label="sign in"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oopsie sign in failed, create your account by click join above" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z7i-HG-T2t">
-                                        <rect key="frame" x="0.0" y="20.5" width="200" height="29"/>
-                                        <accessibility key="accessibilityConfiguration">
-                                            <accessibilityTraits key="traits" staticText="YES" notEnabled="YES"/>
-                                        </accessibility>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.59998394691780821" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="0Bp-rV-KCo"/>
-                                </constraints>
                             </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TrueThat" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ksd-Hd-N4J">
+                                <rect key="frame" x="136" y="44" width="104" height="37"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="37" id="Jto-wo-DjF"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="ofx-KU-14c" firstAttribute="centerX" secondItem="Xpt-1g-FhM" secondAttribute="centerX" id="KB7-dL-JMo"/>
-                            <constraint firstItem="ofx-KU-14c" firstAttribute="top" secondItem="LAE-Vm-s7k" secondAttribute="bottom" constant="72" id="ekt-qU-r5J"/>
-                            <constraint firstItem="NI3-GX-sAa" firstAttribute="centerX" secondItem="Xpt-1g-FhM" secondAttribute="centerX" id="osO-iY-5vk"/>
-                            <constraint firstItem="t0K-9a-dAi" firstAttribute="top" secondItem="NI3-GX-sAa" secondAttribute="bottom" constant="91" id="tyT-FO-wPD"/>
+                            <constraint firstItem="ksd-Hd-N4J" firstAttribute="centerX" secondItem="DSL-fq-NVj" secondAttribute="centerX" id="INV-dI-PNr"/>
+                            <constraint firstItem="ksd-Hd-N4J" firstAttribute="top" secondItem="LAE-Vm-s7k" secondAttribute="bottom" constant="24" id="Um2-x7-gUo"/>
+                            <constraint firstItem="ksd-Hd-N4J" firstAttribute="centerX" secondItem="Xpt-1g-FhM" secondAttribute="centerX" id="qHZ-ge-qgm"/>
+                            <constraint firstItem="t0K-9a-dAi" firstAttribute="top" secondItem="DSL-fq-NVj" secondAttribute="bottom" constant="26" id="wUX-tc-a8F"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="errorLabel" destination="Z7i-HG-T2t" id="TTC-7d-Et3"/>
+                        <outlet property="joinButton" destination="RTs-XR-LQQ" id="3Lc-RB-T9l"/>
                         <outlet property="signInLabel" destination="bac-Lc-K7G" id="L3V-y2-tOs"/>
-                        <outlet property="signUpImage" destination="PZ7-V7-zAg" id="V6r-Jq-7YR"/>
-                        <outlet property="signUpLabel" destination="StF-dm-FL5" id="Jkx-LI-QsG"/>
-                        <outlet property="signUpStackView" destination="ofx-KU-14c" id="TKx-Xg-nJH"/>
                         <segue destination="rEG-vJ-Jqn" kind="presentation" identifier="OnBoardingSegue" id="opP-2b-6Vi"/>
                         <segue destination="PwO-HX-N1u" kind="presentation" identifier="TheaterSegue" id="7Hd-ik-m5f"/>
                     </connections>
@@ -566,6 +548,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="D4d-7a-aQn"/>
-        <segue reference="LAM-lt-bx3"/>
+        <segue reference="7Hd-ik-m5f"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -33,11 +33,9 @@ class MediaViewController: NestedViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    guard media.id != nil else {
-      App.log.warning("media missing ID")
-      return
+    if media.id != nil {
+      logTag += " \(media.id!)"
     }
-    logTag += " \(media.id!)"
   }
 }
 

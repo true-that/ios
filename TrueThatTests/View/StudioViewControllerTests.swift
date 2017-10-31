@@ -68,14 +68,14 @@ class StudioViewControllerTests: BaseUITests {
   }
 
   func testCapturePhoto() {
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     assertCamera()
     tester().tapView(withAccessibilityLabel: "capture")
     assertEdit()
   }
 
   func testRecordVideo() {
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     assertCamera()
     tester().longPressView(withAccessibilityLabel: "capture", duration: 1.0)
     assertEdit()
@@ -86,7 +86,7 @@ class StudioViewControllerTests: BaseUITests {
   }
 
   func testCancel() {
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     tester().tapView(withAccessibilityLabel: "capture")
     assertEdit()
     tester().tapView(withAccessibilityLabel: "cancel")
@@ -94,7 +94,7 @@ class StudioViewControllerTests: BaseUITests {
   }
 
   func testCancelVideo() {
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     tester().longPressView(withAccessibilityLabel: "capture", duration: 1.0)
     assertEdit()
     tester().tapView(withAccessibilityLabel: "cancel")
@@ -102,7 +102,7 @@ class StudioViewControllerTests: BaseUITests {
   }
 
   func testSend() {
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     tester().tapView(withAccessibilityLabel: "capture")
     tester().tapView(withAccessibilityLabel: "send")
     assertWillSend()
@@ -118,7 +118,7 @@ class StudioViewControllerTests: BaseUITests {
       return OHHTTPStubsResponse(data: Data(), statusCode: 500,
                                  headers: ["Content-Type": "application/json"])
     }
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     tester().tapView(withAccessibilityLabel: "capture")
     assertEdit()
     tester().tapView(withAccessibilityLabel: "send")
@@ -130,14 +130,14 @@ class StudioViewControllerTests: BaseUITests {
 
   func testNavigationToTheater() {
     // Trigger viewDidAppear
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     // Swipe up
     tester().swipeView(withAccessibilityLabel: "studio view", in: .down)
     expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(TheaterViewController.self))
   }
 
   func testNavigationWhileVideoEdited() {
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     assertCamera()
     tester().longPressView(withAccessibilityLabel: "capture", duration: 1.0)
     assertEdit()
@@ -147,7 +147,7 @@ class StudioViewControllerTests: BaseUITests {
   }
 
   func testNavigationWhilePhotoTaken() {
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     assertCamera()
     tester().tapView(withAccessibilityLabel: "capture")
     assertEdit()
@@ -158,7 +158,7 @@ class StudioViewControllerTests: BaseUITests {
 
   func testNavigationToRepertoire() {
     // Trigger viewDidAppear
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     // Swipe up
     tester().swipeView(withAccessibilityLabel: "studio view", in: .up)
     expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(RepertoireViewController.self))

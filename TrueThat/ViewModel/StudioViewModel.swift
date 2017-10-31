@@ -236,7 +236,7 @@ class StudioViewModel {
   /// Invoked after a network request to save `directed` had been failed.
   func saveDidFail() {
     self.delegate?.show(alert: StudioViewModel.saveFailedAlert,
-                        withTitle: StudioViewModel.saveFailedTitle,
+                        title: StudioViewModel.saveFailedTitle,
                         okAction: StudioViewModel.saveFailedOkText)
     self.willEdit()
   }
@@ -295,11 +295,5 @@ protocol StudioViewModelDelegate {
   /// Invoked once a HTTP request with the directed scene has been sent to the server.
   func didSend()
 
-  /// Shows `alert` to the user, to inform him of errors and warnings.
-  ///
-  /// - Parameters:
-  ///   - alert: message body of alert
-  ///   - withTitle: title at the top of the dislogue
-  ///   - okAction: what the user clicks to terminate the dialogue
-  func show(alert: String, withTitle: String, okAction: String)
+  func show(alert: String, title: String, okAction: String)
 }

@@ -104,7 +104,7 @@ class SceneViewModel {
       .on(value: { _ in
         App.log.debug("Interaction event successfully saved.")
         self.delegate?.show(alert: SceneViewModel.reportAlert,
-                            withTitle: SceneViewModel.reportTitle,
+                            title: SceneViewModel.reportTitle,
                             okAction: SceneViewModel.reportOkText)
       })
       .on(failed: { error in
@@ -254,9 +254,9 @@ protocol SceneViewDelegate {
   ///
   /// - Parameters:
   ///   - alert: message body of alert
-  ///   - withTitle: title at the top of the dislogue
+  ///   - title: title at the top of the dislogue
   ///   - okAction: what the user clicks to terminate the dialogue
-  func show(alert: String, withTitle: String, okAction: String)
+  func show(alert: String, title: String, okAction: String)
 
   /// Displays `media` to the user.
   ///

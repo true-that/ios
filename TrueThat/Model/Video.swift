@@ -43,6 +43,11 @@ class Video: Media {
       .start()
   }
 
+  init(resourceName: String) {
+    super.init(id: nil, url: nil)
+    self.localUrl = URL(fileURLWithPath: Bundle.main.path(forResource: resourceName, ofType:"mp4")!)
+  }
+
   required init(json: JSON) {
     super.init(json: json)
   }
@@ -61,10 +66,10 @@ class Video: Media {
   }
 
   override var hashValue: Int {
-    let superHash = super.hashValue
+    var hash = super.hashValue
     if localUrl != nil {
-      return 31 &* superHash &+ localUrl!.hashValue
+      hash = 31 &* hash &+ localUrl!.hashValue
     }
-    return superHash
+    return hash
   }
 }

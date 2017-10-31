@@ -56,14 +56,14 @@ class TheaterViewControllerTests: BaseUITests {
                       mediaNodes: [Photo(id: 0, url: "https://www.bbcgoodfood.com/sites/default/files/styles/carousel_medium/public/chicken-main_0.jpg")], edges: nil)
     fetchedScenes = [photo]
     // Trigger viewDidAppear
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     viewController.didAuthOk()
     assert(displayed: photo)
   }
 
   func testNavigation() {
     // Trigger viewDidAppear
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     // Swipe up
     tester().swipeView(withAccessibilityLabel: "theater view", in: .up)
     expect(UITestsHelper.currentViewController)
@@ -79,7 +79,7 @@ class TheaterViewControllerTests: BaseUITests {
                       mediaNodes: [Video(id: 1, url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4")], edges: nil)
     fetchedScenes = [video, photo]
     // Trigger viewDidAppear
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     assert(displayed: video)
     // Swipe up
     tester().swipeView(withAccessibilityLabel: "video", in: .up)

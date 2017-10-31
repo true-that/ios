@@ -103,8 +103,8 @@ extension SceneViewController: SceneViewDelegate {
     })
   }
 
-  func show(alert: String, withTitle: String, okAction: String) {
-    let alertController = UIAlertController(title: withTitle, message: alert,
+  func show(alert: String, title: String, okAction: String) {
+    let alertController = UIAlertController(title: title, message: alert,
                                             preferredStyle: .alert)
     let okAction = UIAlertAction(title: okAction, style: .default, handler: nil)
     alertController.addAction(okAction)

@@ -9,13 +9,16 @@
 import UIKit
 
 class WelcomeViewController: BaseViewController {
+  // MARK: Properties
+static let failedSignInDialogOkAction = "Alrighty"
+  static let failedSignInDialogTitle = "Good lord!"
+  static let failedSignInDialogMessage = "Sign in failed. Invited to join us!"
 
-  @IBOutlet weak var signUpLabel: UILabel!
-  @IBOutlet weak var signUpImage: UIImageView!
-  @IBOutlet weak var signUpStackView: UIStackView!
+  var videoViewController: VideoViewController!
   @IBOutlet weak var signInLabel: UILabel!
-  @IBOutlet weak var errorLabel: UILabel!
+  @IBOutlet weak var joinButton: UIButton!
 
+  // MARK: Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -23,31 +26,36 @@ class WelcomeViewController: BaseViewController {
     doAuth = false
 
     // Colors
-    signUpLabel.textColor = Color.theme.value
     signInLabel.textColor = Color.theme.value
-    errorLabel.textColor = Color.error.value
-
-    // Styling
-    signUpImage.layer.cornerRadius = 6.0
-    signUpImage.clipsToBounds = true
-    signUpImage.image = UIImage(named: "AppIcon60x60.png")
 
     // Tap gesture hooks
-    signUpStackView.isUserInteractionEnabled = true
-    signUpStackView.accessibilityLabel = "sign up"
-    signUpStackView.addGestureRecognizer(
+    joinButton.addGestureRecognizer(
       UITapGestureRecognizer(target: self, action: #selector(self.signUp)))
     signInLabel.isUserInteractionEnabled = true
     signInLabel.addGestureRecognizer(
       UITapGestureRecognizer(target: self, action: #selector(self.signIn)))
+
+    // Init background video
+    videoViewController = MediaViewController.instantiate(with: Video(resourceName: "welcome")) as! VideoViewController
+    addChildViewController(videoViewController)
+    view.addSubview(videoViewController.view)
+    view.sendSubview(toBack: videoViewController.view)
   }
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    // Hide warning
-    errorLabel.isHidden = true
+    videoViewController.viewDidShow()
+    if App.authModule.isAuthOk {
+      performSegue(withIdentifier: "TheaterSegue", sender: self)
+    }
   }
 
+  override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    videoViewController.viewDidHide()
+  }
+
+  // MARK: Actions
   @objc private func signUp() {
     App.log.debug("sign up - fresh meat!")
     performSegue(withIdentifier: "OnBoardingSegue", sender: self)
@@ -67,7 +75,9 @@ extension WelcomeViewController {
 
   override func didAuthFail() {
     App.log.debug("\(logTag): didAuthFail")
-    // Show warning
-    errorLabel.isHidden = false
+    // Show error dialog
+    presentAlert(title: WelcomeViewController.failedSignInDialogTitle,
+                 message: WelcomeViewController.failedSignInDialogMessage,
+                 okAction: WelcomeViewController.failedSignInDialogOkAction)
   }
 }

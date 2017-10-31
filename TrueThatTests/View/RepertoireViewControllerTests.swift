@@ -68,14 +68,14 @@ class RepertoireViewControllerTests: BaseUITests {
   func testDisplayScene() {
     fetchedScenes = [scene]
     // Trigger viewDidAppear
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     viewController.didAuthOk()
     assertDisplayed(scene: scene)
   }
 
   func testNavigation() {
     // Trigger viewDidAppear
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     // Swipe up
     tester().swipeView(withAccessibilityLabel: "repertoire view", in: .down)
     expect(UITestsHelper.currentViewController)
@@ -85,7 +85,7 @@ class RepertoireViewControllerTests: BaseUITests {
   func testNavigationWhenPhotoDisplayed() {
     fetchedScenes = [scene]
     // Trigger viewDidAppear
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     viewController.didAuthOk()
     assertDisplayed(scene: scene)
     // Swipe up
@@ -101,7 +101,7 @@ class RepertoireViewControllerTests: BaseUITests {
                            mediaNodes: [Video(id: 1, url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4")],
                            edges: nil)]
     // Trigger viewDidAppear
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     viewController.didAuthOk()
     assertDisplayed(scene: scene)
     // Swipe up

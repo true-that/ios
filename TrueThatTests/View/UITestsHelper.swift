@@ -19,4 +19,9 @@ class UITestsHelper {
     }
     return nil
   }
+
+  static func triggeringViewAppearance(_ viewController: UIViewController) {
+    viewController.beginAppearanceTransition(true, animated: false)
+    viewController.endAppearanceTransition()
+  }
 }

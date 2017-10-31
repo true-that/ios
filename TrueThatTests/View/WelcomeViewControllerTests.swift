@@ -18,44 +18,33 @@ class WelcomeViewControllerTests: BaseUITests {
 
   override func setUp() {
     super.setUp()
-    if UITestsHelper.currentViewController != nil
-      && type(of: UITestsHelper.currentViewController!) != WelcomeViewController.self {
-      let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-      viewController = storyboard.instantiateViewController(withIdentifier: "WelcomeScene")
-        as! WelcomeViewController
-
-      UIApplication.shared.keyWindow!.rootViewController = viewController
-
-      // Test and load the View
-      expect(self.viewController.view).toNot(beNil())
-    }
     // Sign out
     App.authModule.signOut()
     expect(UITestsHelper.currentViewController!)
       .toEventually(beAnInstanceOf(WelcomeViewController.self))
     viewController = UITestsHelper.currentViewController as! WelcomeViewController
     expect(self.viewController.view).toNot(beNil())
+    // Makes sure auth delegate is set to the current view controller.
     App.authModule.delegate = viewController
   }
 
   func testSignUp() {
+    UITestsHelper.triggeringViewAppearance(viewController)
     tester().tapView(withAccessibilityLabel: "sign up")
     expect(UITestsHelper.currentViewController!)
       .toEventually(beAnInstanceOf(OnBoardingViewController.self))
+    UITestsHelper.currentViewController!.dismiss(animated: false, completion: nil)
   }
 
   func testAlreadyAuthOk() {
-    App.authModule.current = User(id: 1, firstName: "Mr", lastName: "Navon", deviceId: "345345",
+    App.authModule.current = User(id: 1, firstName: "Mr", lastName: "Navon", deviceId: App.deviceModule.deviceId,
                                   phoneNumber: phoneNumber)
-    // Trigger viewDidAppear
-    viewController.beginAppearanceTransition(true, animated: false)
-    App.authModule.auth()
+    UITestsHelper.triggeringViewAppearance(viewController)
     expect(UITestsHelper.currentViewController!)
       .toEventually(beAnInstanceOf(TheaterViewController.self))
   }
 
   func testSignIn() {
-
     // Signs up a user
     let responded = User(id: 1, firstName: "dellores", lastName: "hidyhoe",
                          deviceId: App.deviceModule.deviceId, phoneNumber: phoneNumber)
@@ -64,21 +53,22 @@ class WelcomeViewControllerTests: BaseUITests {
       return OHHTTPStubsResponse(data: stubData, statusCode: 200,
                                  headers: ["Content-Type": "application/json"])
     }
-    App.authModule.delegate = nil
-    App.authModule.signUp(fullName: "dellores hidyhoe", phoneNumber: phoneNumber)
-    expect(App.authModule.isAuthOk).toEventually(beTrue())
-    // Signs out, but keeps session data
-    App.authModule.current = nil
-    expect(App.authModule.isAuthOk).to(beFalse())
-    // Trigger viewDidAppear
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     tester().tapView(withAccessibilityLabel: "sign in")
     expect(App.authModule.isAuthOk).toEventually(beTrue())
   }
 
   func testWarningLabel() {
-    App.authModule.signOut()
-    App.authModule.signIn()
-    expect(self.viewController.errorLabel.isHidden).toEventually(beFalse())
+    // Sets up a bad backend
+    stub(condition: isPath(AuthApi.path)) { _ -> OHHTTPStubsResponse in
+      let stubData = try! JSON([:]).rawData()
+      return OHHTTPStubsResponse(data: stubData, statusCode: 500,
+                                 headers: ["Content-Type": "application/json"])
+    }
+    UITestsHelper.triggeringViewAppearance(viewController)
+    // Sign in should fail because there is no proper background
+    tester().tapView(withAccessibilityLabel: "sign in")
+    // Failure dialog should appear
+    tester().tapView(withAccessibilityLabel: WelcomeViewController.failedSignInDialogOkAction)
   }
 }

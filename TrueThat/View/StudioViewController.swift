@@ -226,12 +226,8 @@ extension StudioViewController: StudioViewModelDelegate {
     }
   }
 
-  func show(alert: String, withTitle: String, okAction: String) {
-    let alertController = UIAlertController(title: withTitle, message: alert,
-                                            preferredStyle: .alert)
-    let okAction = UIAlertAction(title: okAction, style: .default, handler: nil)
-    alertController.addAction(okAction)
-    self.present(alertController, animated: true, completion: nil)
+  func show(alert: String, title: String, okAction: String) {
+    presentAlert(title: title, message: alert, okAction: okAction)
   }
 }
 

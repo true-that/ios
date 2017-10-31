@@ -70,7 +70,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
   func testDisplayScene() {
     fetchedScenes = [scene]
     // Trigger viewDidAppear
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     // Loading image should be shown
     expect(self.viewController.loadingImage.isHidden).to(beFalse())
     viewController.didAuthOk()
@@ -82,7 +82,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
   func testEmotionalReaction() {
     fetchedScenes = [scene]
     // Trigger viewDidAppear
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     viewController.didAuthOk()
     assertDisplayed(scene: scene, mediaId: scene.mediaNodes![0].id!)
     // Wait for detection to start
@@ -109,7 +109,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     fetchedScenes = [scene]
     // Trigger viewDidAppear
     App.authModule.signOut()
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     // Loading image should be shown
     expect(self.viewController.loadingImage.isHidden).to(beFalse())
     expect(self.viewController.scenesPage.currentViewController == nil).toNotEventually(beFalse())
@@ -120,7 +120,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
                       mediaNodes: [Video(id: 0, url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4")], edges: nil)
     fetchedScenes = [scene, video]
     // Trigger viewDidAppear
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     viewController.didAuthOk()
     assertDisplayed(scene: scene, mediaId: scene.mediaNodes![0].id!)
     // Navigate to next scene
@@ -133,7 +133,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     scene.edges = [Edge(sourceId: 0, targetId: 1, reaction: .happy)]
     fetchedScenes = [scene]
     // Trigger viewDidAppear
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     viewController.didAuthOk()
     // Should display first scene
     assertDisplayed(scene: scene, mediaId: 0)
@@ -150,7 +150,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
                        mediaNodes: [Video(id: 2, url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4")], edges: nil)
     fetchedScenes = [scene]
     // Trigger viewDidAppear
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     viewController.didAuthOk()
     // Should display first scene
     assertDisplayed(scene: scene, mediaId: scene.mediaNodes![0].id!)
@@ -165,7 +165,7 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
   func testReport() {
     fetchedScenes = [scene]
     // Displays the scene
-    viewController.beginAppearanceTransition(true, animated: false)
+    UITestsHelper.triggeringViewAppearance(viewController)
     viewController.didAuthOk()
     assertDisplayed(scene: scene, mediaId: scene.mediaNodes![0].id!)
     expect(self.viewController.scenesPage.currentViewController!.optionsButton.isHidden)
