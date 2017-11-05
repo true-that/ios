@@ -93,12 +93,15 @@ class OnBoardingViewModel {
   }
 
   /// Invoked when "Done" is hit on the number field
-  func numberFieldDidReturn() {
+  func numberFieldDidReturn() -> Bool {
     if delegate.isNumberValid() {
       delegate.makeNameTextFieldFirstResponder()
+      warningLabelHidden.value = true
+      return true
     } else {
       warningLabelText.value = OnBoardingViewModel.invalidNumberText
       warningLabelHidden.value = false
+      return false
     }
   }
 

@@ -22,9 +22,6 @@ static let failedSignInDialogOkAction = "Alrighty"
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    // Skip auth
-    doAuth = false
-
     // Colors
     signInLabel.textColor = Color.theme.value
 
@@ -44,9 +41,10 @@ static let failedSignInDialogOkAction = "Alrighty"
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    App.authModule.delegate = self
     videoViewController.viewDidShow()
     if App.authModule.isAuthOk {
-      performSegue(withIdentifier: "TheaterSegue", sender: self)
+      performSegue(withIdentifier: "WelcomeToMainSegue", sender: self)
     }
   }
 
@@ -67,13 +65,13 @@ static let failedSignInDialogOkAction = "Alrighty"
 }
 
 // MARK: AuthDelegate
-extension WelcomeViewController {
-  override func didAuthOk() {
-    super.didAuthOk()
-    performSegue(withIdentifier: "TheaterSegue", sender: self)
+extension WelcomeViewController: AuthDelegate {
+  func didAuthOk() {
+    App.log.debug("\(logTag): didAuthOk")
+    performSegue(withIdentifier: "WelcomeToMainSegue", sender: self)
   }
 
-  override func didAuthFail() {
+  func didAuthFail() {
     App.log.debug("\(logTag): didAuthFail")
     // Show error dialog
     presentAlert(title: WelcomeViewController.failedSignInDialogTitle,

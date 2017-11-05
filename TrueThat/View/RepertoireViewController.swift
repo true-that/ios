@@ -24,23 +24,6 @@ class RepertoireViewController: BaseViewController {
     self.addChildViewController(scenesPageWrapper)
     self.view.addSubview(scenesPageWrapper.view)
     scenesPageWrapper.viewModel.fetchingDelegate = self
-
-    // Navigation swipe gesture
-    let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.navigateToStudio))
-    swipeDown.direction = .down
-    self.view.addGestureRecognizer(swipeDown)
-  }
-
-  override func didAuthOk() {
-    super.didAuthOk()
-    scenesPageWrapper.didAuthOk()
-  }
-
-  // MARK: View Controller Navigation
-  @objc private func navigateToStudio() {
-    if App.authModule.isAuthOk {
-      performSegue(withIdentifier: "StudioSegue", sender: self)
-    }
   }
 }
 

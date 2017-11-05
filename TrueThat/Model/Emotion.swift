@@ -7,7 +7,7 @@ import Foundation
 
 /// Emotions to describe emotional reaction to scenes.
 enum Emotion: String, Hashable {
-  case happy, omg, disgust
+  case happy, fear /* deprecated */, surprised /* deprecated */, omg, disgust
 
   public var description: String { return self.rawValue }
 
@@ -29,6 +29,10 @@ extension Emotion {
         return Emotion.omg
       case String(describing: Emotion.disgust):
         return Emotion.disgust
+      case String(describing: Emotion.fear):
+        return Emotion.fear
+      case String(describing: Emotion.surprised):
+        return Emotion.surprised
       default:
         return nil
       }
@@ -43,10 +47,12 @@ extension Emotion {
     switch self {
     case .happy:
       return "😁"
-    case .omg:
-      return "😱"
     case .disgust:
       return "😖"
+    case .omg:
+      return "😱"
+    default:
+      return "😱"
     }
   }
 }

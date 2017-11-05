@@ -44,6 +44,10 @@
 		6F377A031F3776BB007C0945 /* StudioApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F377A021F3776BB007C0945 /* StudioApi.swift */; };
 		6F377A051F382F14007C0945 /* StudioViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F377A041F382F14007C0945 /* StudioViewModelTests.swift */; };
 		6F377A071F3839CD007C0945 /* StudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F377A061F3839CD007C0945 /* StudioViewController.swift */; };
+		6F3C39661FAB7526003DC307 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3C39651FAB7526003DC307 /* MainTabController.swift */; };
+		6F3C39681FAB8568003DC307 /* MainViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3C39671FAB8568003DC307 /* MainViewControllerTests.swift */; };
+		6F3C396A1FAB95C6003DC307 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3C39691FAB95C6003DC307 /* LaunchViewController.swift */; };
+		6F3C396C1FAB972C003DC307 /* LaunchViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3C396B1FAB972C003DC307 /* LaunchViewControllerTests.swift */; };
 		6F43BEE81F5C559200DEB8ED /* SwiftyBeaver+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F43BEE71F5C559200DEB8ED /* SwiftyBeaver+Extensions.swift */; };
 		6F45D8411F4EAF6E009602F0 /* ScenesPageWrapperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F45D8401F4EAF6E009602F0 /* ScenesPageWrapperViewController.swift */; };
 		6F4826341F1284F50066394D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6F4826331F1284F50066394D /* Assets.xcassets */; };
@@ -167,6 +171,10 @@
 		6F377A021F3776BB007C0945 /* StudioApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudioApi.swift; sourceTree = "<group>"; };
 		6F377A041F382F14007C0945 /* StudioViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudioViewModelTests.swift; sourceTree = "<group>"; };
 		6F377A061F3839CD007C0945 /* StudioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudioViewController.swift; sourceTree = "<group>"; };
+		6F3C39651FAB7526003DC307 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
+		6F3C39671FAB8568003DC307 /* MainViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewControllerTests.swift; sourceTree = "<group>"; };
+		6F3C39691FAB95C6003DC307 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
+		6F3C396B1FAB972C003DC307 /* LaunchViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewControllerTests.swift; sourceTree = "<group>"; };
 		6F43BEE71F5C559200DEB8ED /* SwiftyBeaver+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftyBeaver+Extensions.swift"; sourceTree = "<group>"; };
 		6F45D8401F4EAF6E009602F0 /* ScenesPageWrapperViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ScenesPageWrapperViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6F4826291F1284F50066394D /* TrueThat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrueThat.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -312,6 +320,8 @@
 				6F0B45291F536C7C0063B937 /* VideoViewController.swift */,
 				6F0B452B1F5373580063B937 /* MediaViewController.swift */,
 				6F1D40371F8386B40012DC69 /* NestedViewController.swift */,
+				6F3C39651FAB7526003DC307 /* MainTabController.swift */,
+				6F3C39691FAB95C6003DC307 /* LaunchViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -405,6 +415,8 @@
 				6F05A3841F38CA26008D595A /* TheaterViewControllerTests.swift */,
 				6FAD61921F39A3DD003952F1 /* RepertoireViewControllerTests.swift */,
 				6F0B452D1F537D520063B937 /* VideoViewControllerTests.swift */,
+				6F3C39671FAB8568003DC307 /* MainViewControllerTests.swift */,
+				6F3C396B1FAB972C003DC307 /* LaunchViewControllerTests.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -899,6 +911,7 @@
 				6FCF7F9A1F7A939000680BE3 /* StringHelper.swift in Sources */,
 				6F6255731F17EA8700F895CE /* ScenesPageViewModel.swift in Sources */,
 				6FC32C7C1F618EE600957959 /* Media.swift in Sources */,
+				6F3C39661FAB7526003DC307 /* MainTabController.swift in Sources */,
 				6FE04F6A1F3325AF00D5BF39 /* Colors.swift in Sources */,
 				6FCF7F991F7A939000680BE3 /* NumberHelper.swift in Sources */,
 				6FC9566F1F36F8B700B772D3 /* BaseViewController.swift in Sources */,
@@ -907,6 +920,7 @@
 				6F58F92F1F498376002DD015 /* SwiftyCamViewController.swift in Sources */,
 				6FCF7F9B1F7A939000680BE3 /* UIHelper.swift in Sources */,
 				6F3779F81F377611007C0945 /* InteractionApi.swift in Sources */,
+				6F3C396A1FAB95C6003DC307 /* LaunchViewController.swift in Sources */,
 				6F3779F91F377611007C0945 /* TheaterApi.swift in Sources */,
 				6F7DFC2E1F314EE8003DE099 /* InteractionEvent.swift in Sources */,
 				6FC32C7A1F6166B800957959 /* FakeDeviceModule.swift in Sources */,
@@ -973,6 +987,7 @@
 				6FD593071F29E50500CC9FA6 /* UserTests.swift in Sources */,
 				6F921D821F32997A00FFE76F /* BaseUITests.swift in Sources */,
 				6FCF7FA41F7A93B900680BE3 /* StringHelperTests.swift in Sources */,
+				6F3C39681FAB8568003DC307 /* MainViewControllerTests.swift in Sources */,
 				6FCF7FA21F7A93B900680BE3 /* DateHelperTests.swift in Sources */,
 				6FAD58571F4B3D2C0035A9ED /* AuthModuleTests.swift in Sources */,
 				6F921D801F32988800FFE76F /* BaseTests.swift in Sources */,
@@ -997,6 +1012,7 @@
 				6F0B452E1F537D520063B937 /* VideoViewControllerTests.swift in Sources */,
 				6F521BA51F4C046B009BADE2 /* DictionaryExtensionsTests.swift in Sources */,
 				6F79811C1F2FE8FC00A055DD /* SceneViewModelTests.swift in Sources */,
+				6F3C396C1FAB972C003DC307 /* LaunchViewControllerTests.swift in Sources */,
 				6FAC232C1F65BBA800062A4F /* MediaTests.swift in Sources */,
 				6FB150151F33C0E600A008DC /* OnBoardingViewControllerTests.swift in Sources */,
 			);

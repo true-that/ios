@@ -36,14 +36,6 @@ class StudioViewController: BaseViewController {
       viewModel.delegate = self
     }
 
-    // Navigation swipe gestures
-    let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.navigateToRepertoire))
-    swipeUp.direction = .up
-    self.view.addGestureRecognizer(swipeUp)
-    let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.navigateToTheater))
-    swipeDown.direction = .down
-    self.view.addGestureRecognizer(swipeDown)
-
     initUI()
     #if (arch(i386) || arch(x86_64)) && os(iOS)
       // Dont initialize camera on Simulator
@@ -58,9 +50,6 @@ class StudioViewController: BaseViewController {
       swiftyCam.view.reactive.isHidden <~ viewModel.cameraSessionHidden
       // Send preview to back
       self.view.sendSubview(toBack: swiftyCam.view)
-      // Add navigation gestures
-      swiftyCam.view.addGestureRecognizer(swipeUp)
-      swiftyCam.view.addGestureRecognizer(swipeDown)
       swiftyCam.cameraDelegate = self
       // Capture button
       captureButton.delegate = swiftyCam
@@ -105,6 +94,9 @@ class StudioViewController: BaseViewController {
     UIHelper.initLoadingImage(loadingImage)
 
     // Initializes Scene preview
+    if scenePreview != nil {
+      UIHelper.remove(viewController: scenePreview)
+    }
     scenePreview = UIViewController()
     scenePreview.view.reactive.isHidden <~ viewModel.scenePreviewHidden
     addChildViewController(scenePreview)
@@ -147,19 +139,6 @@ class StudioViewController: BaseViewController {
     ])
   }
 
-  // MARK: Navigation
-  @objc private func navigateToTheater() {
-    if App.authModule.isAuthOk {
-      performSegue(withIdentifier: "TheaterSegue", sender: self)
-    }
-  }
-
-  @objc private func navigateToRepertoire() {
-    if App.authModule.isAuthOk {
-      performSegue(withIdentifier: "RepertoireSegue", sender: self)
-    }
-  }
-
   // MARK: Studio actions
   /// Triggered when the user cancels a scene that he directed (i.e. when he didn't the photo)
   @objc private func didCancel() {
@@ -194,16 +173,13 @@ class StudioViewController: BaseViewController {
 // MARK: StudioViewModelDelegate
 extension StudioViewController: StudioViewModelDelegate {
   func leaveStudio() {
-    performSegue(withIdentifier: "TheaterSegue", sender: self)
+    tabBarController?.selectedIndex = MainTabController.theaterIndex
   }
 
   func hideMedia() {
     // Remove previous preview
     if mediaViewController != nil {
-      mediaViewController!.isVisible = false
-      mediaViewController!.willMove(toParentViewController: nil)
-      mediaViewController!.view.removeFromSuperview()
-      mediaViewController!.removeFromParentViewController()
+      UIHelper.remove(viewController: mediaViewController!)
       mediaViewController = nil
     }
   }

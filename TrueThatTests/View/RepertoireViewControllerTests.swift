@@ -69,44 +69,6 @@ class RepertoireViewControllerTests: BaseUITests {
     fetchedScenes = [scene]
     // Trigger viewDidAppear
     UITestsHelper.triggeringViewAppearance(viewController)
-    viewController.didAuthOk()
     assertDisplayed(scene: scene)
-  }
-
-  func testNavigation() {
-    // Trigger viewDidAppear
-    UITestsHelper.triggeringViewAppearance(viewController)
-    // Swipe up
-    tester().swipeView(withAccessibilityLabel: "repertoire view", in: .down)
-    expect(UITestsHelper.currentViewController)
-      .toEventually(beAnInstanceOf(StudioViewController.self))
-  }
-
-  func testNavigationWhenPhotoDisplayed() {
-    fetchedScenes = [scene]
-    // Trigger viewDidAppear
-    UITestsHelper.triggeringViewAppearance(viewController)
-    viewController.didAuthOk()
-    assertDisplayed(scene: scene)
-    // Swipe up
-    tester().swipeView(withAccessibilityLabel: "scene view", in: .down)
-    expect(UITestsHelper.currentViewController)
-      .toEventually(beAnInstanceOf(StudioViewController.self))
-  }
-
-  func testNavigationWhenVideoDisplayed() {
-    fetchedScenes = [Scene(id: 1, director: App.authModule.current,
-                           reactionCounters: [.disgust: 1000, .happy: 1234],
-                           created: Date(),
-                           mediaNodes: [Video(id: 1, url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4")],
-                           edges: nil)]
-    // Trigger viewDidAppear
-    UITestsHelper.triggeringViewAppearance(viewController)
-    viewController.didAuthOk()
-    assertDisplayed(scene: scene)
-    // Swipe up
-    tester().swipeView(withAccessibilityLabel: "video", in: .down)
-    expect(UITestsHelper.currentViewController)
-      .toEventually(beAnInstanceOf(StudioViewController.self))
   }
 }

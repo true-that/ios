@@ -1,19 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="PwO-HX-N1u">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9ji-8x-6Iw">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Theater View Controller-->
+        <!--Main-->
+        <scene sceneID="kWs-nb-exq">
+            <objects>
+                <tabBarController storyboardIdentifier="MainScene" title="Main" id="eW4-XR-OoS" customClass="MainTabController" customModule="TrueThat" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="d1J-rb-m7f">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="xQO-xT-r78" kind="relationship" relationship="viewControllers" id="TWO-uo-NYM"/>
+                        <segue destination="MQF-n5-Jik" kind="relationship" relationship="viewControllers" id="XQ4-zA-HyJ"/>
+                        <segue destination="PwO-HX-N1u" kind="relationship" relationship="viewControllers" id="iuW-ml-poo"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XdD-eU-wa0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3503" y="-975"/>
+        </scene>
+        <!--Launch View Controller-->
+        <scene sceneID="rSa-Rm-jEa">
+            <objects>
+                <viewController storyboardIdentifier="LaunchScene" id="9ji-8x-6Iw" customClass="LaunchViewController" customModule="TrueThat" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6qq-IE-1Tg"/>
+                        <viewControllerLayoutGuide type="bottom" id="tNF-n0-bnA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="iEi-Ts-zQw">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LrN-Wx-Xmi">
+                                <rect key="frame" x="142" y="288" width="90" height="90"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="90" id="XI5-Kc-SaP"/>
+                                    <constraint firstAttribute="height" constant="90" id="o72-eF-83b"/>
+                                    <constraint firstAttribute="width" secondItem="LrN-Wx-Xmi" secondAttribute="height" multiplier="1:1" id="xyj-6B-w2u"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="LrN-Wx-Xmi" firstAttribute="centerX" secondItem="iEi-Ts-zQw" secondAttribute="centerX" id="3al-N9-kaU"/>
+                            <constraint firstItem="LrN-Wx-Xmi" firstAttribute="width" secondItem="LrN-Wx-Xmi" secondAttribute="height" multiplier="1:1" id="Rd8-Vy-f76"/>
+                            <constraint firstItem="LrN-Wx-Xmi" firstAttribute="centerY" secondItem="iEi-Ts-zQw" secondAttribute="centerY" id="taF-Jt-FVS"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="loadingImage" destination="LrN-Wx-Xmi" id="x4J-yd-gCM"/>
+                        <segue destination="K9Y-NH-K0F" kind="presentation" identifier="WelcomeSegue" id="lQT-DU-6Cc"/>
+                        <segue destination="eW4-XR-OoS" kind="presentation" identifier="MainSegue" id="723-4W-1JZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IYu-V5-xdy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2172" y="-1771"/>
+        </scene>
+        <!--Theater-->
         <scene sceneID="hHE-2G-DCv">
             <objects>
-                <viewController storyboardIdentifier="TheaterScene" id="PwO-HX-N1u" customClass="TheaterViewController" customModule="TrueThat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TheaterScene" title="Theater" id="PwO-HX-N1u" customClass="TheaterViewController" customModule="TrueThat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rgW-v2-vji"/>
                         <viewControllerLayoutGuide type="bottom" id="L2m-9z-Aq1"/>
@@ -24,18 +81,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration" label="theater view"/>
                     </view>
-                    <connections>
-                        <segue destination="MQF-n5-Jik" kind="presentation" identifier="StudioSegue" id="D4d-7a-aQn"/>
-                    </connections>
+                    <tabBarItem key="tabBarItem" tag="2" title="Theater" image="theater" id="ALq-ld-4qx"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w6e-pg-08W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-706" y="-287"/>
+            <point key="canvasLocation" x="-2490" y="-81"/>
         </scene>
-        <!--Studio View Controller-->
+        <!--Studio-->
         <scene sceneID="enc-Nu-K1U">
             <objects>
-                <viewController storyboardIdentifier="StudioScene" id="MQF-n5-Jik" customClass="StudioViewController" customModule="TrueThat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="StudioScene" title="Studio" id="MQF-n5-Jik" customClass="StudioViewController" customModule="TrueThat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="CPp-xm-equ"/>
                         <viewControllerLayoutGuide type="bottom" id="lLa-88-0kp"/>
@@ -56,7 +111,7 @@
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qAp-Hd-bpU">
-                                <rect key="frame" x="314" y="592" width="45" height="45"/>
+                                <rect key="frame" x="314" y="543" width="45" height="45"/>
                                 <accessibility key="accessibilityConfiguration" label="send">
                                     <bool key="isElement" value="YES"/>
                                 </accessibility>
@@ -67,7 +122,7 @@
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Miw-Tq-v8m" customClass="SwiftyCamButton" customModule="TrueThat" customModuleProvider="target">
-                                <rect key="frame" x="150" y="562" width="75" height="75"/>
+                                <rect key="frame" x="150" y="513" width="75" height="75"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" label="capture"/>
                                 <constraints>
@@ -77,7 +132,7 @@
                                 </constraints>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5Qm-yN-rbn">
-                                <rect key="frame" x="142" y="288" width="90" height="90"/>
+                                <rect key="frame" x="142" y="288.5" width="90" height="90"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="90" id="8B0-UL-jbd"/>
                                     <constraint firstAttribute="height" constant="90" id="BB2-Sk-AbU"/>
@@ -112,24 +167,23 @@
                             <constraint firstItem="rdf-9e-5Vn" firstAttribute="trailing" secondItem="EfB-Hi-I0h" secondAttribute="trailingMargin" id="y9A-t0-3rS"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" tag="1" title="Studio" image="studio" id="1nJ-yC-Jhj"/>
                     <connections>
                         <outlet property="cancelButton" destination="wSG-qE-DA8" id="pw7-Eu-zop"/>
                         <outlet property="captureButton" destination="Miw-Tq-v8m" id="wTy-ro-Sha"/>
                         <outlet property="loadingImage" destination="5Qm-yN-rbn" id="zIP-sw-UPb"/>
                         <outlet property="sendButton" destination="qAp-Hd-bpU" id="kSk-yt-hmF"/>
                         <outlet property="switchCameraButton" destination="rdf-9e-5Vn" id="3ME-bw-Uyw"/>
-                        <segue destination="PwO-HX-N1u" kind="presentation" identifier="TheaterSegue" id="LAM-lt-bx3"/>
-                        <segue destination="xQO-xT-r78" kind="presentation" identifier="RepertoireSegue" id="aEv-pD-5in"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="44v-9h-dEG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-708" y="415.14242878560725"/>
+            <point key="canvasLocation" x="-3503" y="-81"/>
         </scene>
-        <!--Repertoire View Controller-->
+        <!--Repertoire-->
         <scene sceneID="inh-kb-DXD">
             <objects>
-                <viewController storyboardIdentifier="RepertoireScene" id="xQO-xT-r78" customClass="RepertoireViewController" customModule="TrueThat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RepertoireScene" title="Repertoire" id="xQO-xT-r78" customClass="RepertoireViewController" customModule="TrueThat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="iqJ-BM-Hkg"/>
                         <viewControllerLayoutGuide type="bottom" id="E9P-84-AgZ"/>
@@ -140,13 +194,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration" label="repertoire view"/>
                     </view>
-                    <connections>
-                        <segue destination="MQF-n5-Jik" kind="presentation" identifier="StudioSegue" id="mto-n8-qTh"/>
-                    </connections>
+                    <tabBarItem key="tabBarItem" title="Repertoire" image="repertoire" id="twf-X5-YKS"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KsC-AN-BMM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-706" y="1113"/>
+            <point key="canvasLocation" x="-4470" y="-81"/>
         </scene>
         <!--Photo View Controller-->
         <scene sceneID="VpM-vi-yrd">
@@ -178,7 +230,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BCA-K7-oQA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2052" y="-277"/>
+            <point key="canvasLocation" x="1830" y="-81"/>
         </scene>
         <!--Scene View Controller-->
         <scene sceneID="eNa-5d-aeo">
@@ -290,7 +342,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yog-Fl-QT0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1389.5999999999999" y="-278.41079460269867"/>
+            <point key="canvasLocation" x="889" y="-81"/>
         </scene>
         <!--On Boarding View Controller-->
         <scene sceneID="aod-8U-BIJ">
@@ -394,7 +446,7 @@
                         <outlet property="warningLabel" destination="E7g-A8-SGZ" id="UPG-2F-wXr"/>
                         <outlet property="whatsYourNameLabel" destination="fZn-8w-Vbs" id="ynt-Lr-OWS"/>
                         <outlet property="whatsYourNumberLabel" destination="EYC-ly-ajC" id="lr4-Gv-Yfv"/>
-                        <segue destination="PwO-HX-N1u" kind="presentation" identifier="TheaterSegue" id="srD-rV-iKT"/>
+                        <segue destination="eW4-XR-OoS" kind="presentation" identifier="OnBoardingToMainSegue" id="Bga-Sn-yOV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="05f-1q-xXS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -404,10 +456,10 @@
         <!--Scenes Page View Controller-->
         <scene sceneID="IzW-zk-JIA">
             <objects>
-                <pageViewController storyboardIdentifier="ScenesPageScene" autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="none" doubleSided="YES" id="tKe-dz-ncR" customClass="ScenesPageViewController" customModule="TrueThat" customModuleProvider="target" sceneMemberID="viewController"/>
+                <pageViewController storyboardIdentifier="ScenesPageScene" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="vertical" spineLocation="none" id="tKe-dz-ncR" customClass="ScenesPageViewController" customModule="TrueThat" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="88v-zj-2fJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="716" y="-277"/>
+            <point key="canvasLocation" x="55" y="-81"/>
         </scene>
         <!--Video View Controller-->
         <scene sceneID="m0L-u4-10e">
@@ -425,7 +477,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="diR-I2-qGb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2751" y="-277"/>
+            <point key="canvasLocation" x="2790" y="-81"/>
         </scene>
         <!--Scenes Page Wrapper View Controller-->
         <scene sceneID="89A-gV-9h2">
@@ -485,7 +537,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xGN-YB-jpE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="24.800000000000001" y="-276.61169415292358"/>
+            <point key="canvasLocation" x="-706" y="-81"/>
         </scene>
         <!--Welcome View Controller-->
         <scene sceneID="wB4-R4-97b">
@@ -538,7 +590,7 @@
                         <outlet property="joinButton" destination="RTs-XR-LQQ" id="3Lc-RB-T9l"/>
                         <outlet property="signInLabel" destination="bac-Lc-K7G" id="L3V-y2-tOs"/>
                         <segue destination="rEG-vJ-Jqn" kind="presentation" identifier="OnBoardingSegue" id="opP-2b-6Vi"/>
-                        <segue destination="PwO-HX-N1u" kind="presentation" identifier="TheaterSegue" id="7Hd-ik-m5f"/>
+                        <segue destination="eW4-XR-OoS" kind="presentation" identifier="WelcomeToMainSegue" id="3wU-ic-m69"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tqw-v7-JgS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -546,8 +598,12 @@
             <point key="canvasLocation" x="-706.39999999999998" y="-974.6626686656673"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="repertoire" width="30" height="30"/>
+        <image name="studio" width="30" height="30"/>
+        <image name="theater" width="30" height="30"/>
+    </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="D4d-7a-aQn"/>
-        <segue reference="7Hd-ik-m5f"/>
+        <segue reference="Bga-Sn-yOV"/>
     </inferredMetricsTieBreakers>
 </document>

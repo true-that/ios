@@ -81,10 +81,6 @@ class ScenesPageWrapperViewController: UIViewController {
     App.log.debug("viewDidDisappear")
   }
 
-  func didAuthOk() {
-    fetchIfEmpty()
-  }
-
   func fetchIfEmpty() {
     if viewModel.scenes.count == 0 {
       viewModel.fetchingData()

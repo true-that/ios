@@ -20,7 +20,7 @@ class VideoViewControllerTests: BaseUITests {
     super.setUp()
 
     delegate = TestsMediaViewControllerDelegate()
-    viewController = VideoViewController.instantiate(video)
+    viewController = MediaViewController.instantiate(with: video) as! VideoViewController
     viewController.delegate = delegate
 
     UIApplication.shared.keyWindow!.rootViewController = viewController

@@ -16,21 +16,22 @@ class OnBoardingViewControllerTests: BaseUITests {
   let fullName = "Swa la lala"
   var viewController: OnBoardingViewController!
 
-  override func setUp() {
-    super.setUp()
-
-    // Ensures our entry point is a view controller that requires auth.
-    let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-    let theater = storyboard.instantiateViewController(withIdentifier: "TheaterScene")
-      as! TheaterViewController
-
-    UIApplication.shared.keyWindow!.rootViewController = theater
-
-    // Test and load the View
-    expect(theater.view).toNot(beNil())
-  }
-
   func testOnBoardingFlow() {
+    // Sets up english locale
+    UserDefaults.standard.set(["en"], forKey: "AppleLanguages")
+    UserDefaults.standard.synchronize()
+    // Sign out
+    App.authModule.delegate = nil
+    App.authModule.signOut()
+    // Init view controller
+    let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+    viewController = storyboard.instantiateViewController(
+      withIdentifier: "OnBoardingScene") as! OnBoardingViewController
+    UIApplication.shared.keyWindow!.rootViewController = viewController
+    // Test and load the View
+    expect(self.viewController.view).toNot(beNil())
+    UITestsHelper.triggeringViewAppearance(viewController)
+
     let user = User(id: 1, firstName: "swa", lastName: "la lala",
                     deviceId: App.deviceModule.deviceId, phoneNumber: "+1 4155552671")
     // Sets up stub backend response
@@ -41,15 +42,6 @@ class OnBoardingViewControllerTests: BaseUITests {
       return OHHTTPStubsResponse(data: data!, statusCode: 200,
                                  headers: ["Content-Type": "application/json"])
     }
-    App.authModule.signOut()
-    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(WelcomeViewController.self))
-    // Navigate to on boarding
-    tester().tapView(withAccessibilityLabel: "sign up")
-    expect(UITestsHelper.currentViewController!)
-      .toEventually(beAnInstanceOf(OnBoardingViewController.self))
-    viewController = UITestsHelper.currentViewController as! OnBoardingViewController
-    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(OnBoardingViewController.self))
-    viewController = UITestsHelper.currentViewController as! OnBoardingViewController
     // Should focus number field
     expect(self.viewController.numberTextField.isFirstResponder).toEventually(beTrue())
     // Type first digit
@@ -86,7 +78,7 @@ class OnBoardingViewControllerTests: BaseUITests {
     // type last name
     tester().enterText(intoCurrentFirstResponder: " " + user.lastName!)
     // Visual indicator of a valid full name
-    expect(self.viewController.nameTextField.layer.borderColor).to(equal(Color.success.value.cgColor))
+    expect(self.viewController.nameTextField.layer.borderColor).toEventually(equal(Color.success.value.cgColor))
     expect(self.viewController.warningLabel.isHidden).to(beTrue())
     expect(self.viewController.warningLabel.text).to(equal(OnBoardingViewModel.invalidNameText))
     // Dont start detection just yet, wait for hitting "done"
@@ -103,7 +95,7 @@ class OnBoardingViewControllerTests: BaseUITests {
     // Should show loading image
     expect(self.viewController.loadingImage.isHidden).to(beFalse())
     expect(App.authModule.current).toEventually(equal(user))
-    // Should navigate to theater
-    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(TheaterViewController.self))
+    // Should navigate to main views.
+    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(MainTabController.self))
   }
 }

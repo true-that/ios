@@ -16,6 +16,7 @@ import Nimble
 
 class ScenesPageWrapperViewControllerTests: BaseUITests {
   var fetchedScenes: [Scene] = []
+  var mainTabController: MainTabController!
   var viewController: ScenesPageWrapperViewController!
   var scene: Scene!
   let director = User(id: 1, firstName: "Mr", lastName: "Bean", deviceId: "iphone1", phoneNumber: "+3497535545")
@@ -26,9 +27,11 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     // Hasten media finish.
     PhotoViewController.finishTimeoutSeconds = 0.1
 
+    // Default scene
     scene = Scene(id: 1, director: director, reactionCounters: [.disgust: 1, .happy: 3], created: Date(),
                   mediaNodes: [Photo(id: 1, url: "https://i.ytimg.com/vi/XrBTDbxOZE8/maxresdefault.jpg")], edges: nil)
 
+    // Set up backend
     stub(condition: isPath(TheaterApi.path)) { _ -> OHHTTPStubsResponse in
       let stubData = try! JSON(self.fetchedScenes.map { JSON(from: $0) }).rawData()
       self.fetchedScenes = []
@@ -41,15 +44,36 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
       return OHHTTPStubsResponse(data: data!, statusCode: 200,
                                  headers: ["Content-Type": "application/json"])
     }
-    let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-    viewController = storyboard.instantiateViewController(
-      withIdentifier: "ScenesPageWrapperScene") as! ScenesPageWrapperViewController
 
-    UIApplication.shared.keyWindow!.rootViewController = viewController
+    // If current view is not main one, then create a new main one.
+    if !(UITestsHelper.currentViewController! is MainTabController) {
+      let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+      mainTabController = storyboard.instantiateViewController(withIdentifier: "MainScene")
+        as! MainTabController
+      UIApplication.shared.keyWindow!.rootViewController = mainTabController
+      // Test and load the View
+      expect(self.mainTabController.view).toNot(beNil())
+      UITestsHelper.triggeringViewAppearance(mainTabController)
+    }
+    // Sets the proper index
+    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(MainTabController.self))
+    mainTabController = UITestsHelper.currentViewController as! MainTabController
+    mainTabController.selectedIndex = MainTabController.theaterIndex
 
-    // Test and load the View
-    expect(self.viewController.view).toNot(beNil())
+    viewController = (mainTabController.selectedViewController as! TheaterViewController).scenesPageWrapper
+
     viewController.viewModel.fetchingDelegate = FetchScenesTestsDelegate()
+  }
+
+  override func tearDown() {
+    super.tearDown()
+    if viewController != nil {
+      // Little hack to "restart" the view controller
+      viewController.beginAppearanceTransition(false, animated: false)
+      viewController.endAppearanceTransition()
+      viewController.viewModel = nil
+      viewController.viewDidLoad()
+    }
   }
 
   func assertDisplayed(scene: Scene, mediaId: Int64) {
@@ -73,7 +97,6 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     UITestsHelper.triggeringViewAppearance(viewController)
     // Loading image should be shown
     expect(self.viewController.loadingImage.isHidden).to(beFalse())
-    viewController.didAuthOk()
     // Loading image should be shown
     expect(self.viewController.loadingImage.isHidden).to(beFalse())
     assertDisplayed(scene: scene, mediaId: scene.mediaNodes![0].id!)
@@ -83,7 +106,6 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     fetchedScenes = [scene]
     // Trigger viewDidAppear
     UITestsHelper.triggeringViewAppearance(viewController)
-    viewController.didAuthOk()
     assertDisplayed(scene: scene, mediaId: scene.mediaNodes![0].id!)
     // Wait for detection to start
     expect(App.detecionModule.delegate).toEventuallyNot(beNil())
@@ -100,18 +122,6 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     fetchedScenes = [scene]
     // Trigger viewDidDisappear
     UIApplication.shared.keyWindow!.rootViewController = nil
-    viewController.didAuthOk()
-    expect(self.viewController.scenesPage.currentViewController == nil).toNotEventually(beFalse())
-  }
-
-  // Should not fetch scenes before user is authenticated
-  func testNotDisplayBeforeAuthOk() {
-    fetchedScenes = [scene]
-    // Trigger viewDidAppear
-    App.authModule.signOut()
-    UITestsHelper.triggeringViewAppearance(viewController)
-    // Loading image should be shown
-    expect(self.viewController.loadingImage.isHidden).to(beFalse())
     expect(self.viewController.scenesPage.currentViewController == nil).toNotEventually(beFalse())
   }
 
@@ -121,10 +131,9 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     fetchedScenes = [scene, video]
     // Trigger viewDidAppear
     UITestsHelper.triggeringViewAppearance(viewController)
-    viewController.didAuthOk()
     assertDisplayed(scene: scene, mediaId: scene.mediaNodes![0].id!)
     // Navigate to next scene
-    tester().swipeView(withAccessibilityLabel: "scene view", in: .right)
+    tester().scrollView(withAccessibilityLabel: "scene view", byFractionOfSizeHorizontal: 0.0, vertical: 0.6)
     assertDisplayed(scene: video, mediaId: video.mediaNodes![0].id!)
   }
 
@@ -134,7 +143,6 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     fetchedScenes = [scene]
     // Trigger viewDidAppear
     UITestsHelper.triggeringViewAppearance(viewController)
-    viewController.didAuthOk()
     // Should display first scene
     assertDisplayed(scene: scene, mediaId: 0)
     // Wait for detection to start
@@ -151,12 +159,11 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     fetchedScenes = [scene]
     // Trigger viewDidAppear
     UITestsHelper.triggeringViewAppearance(viewController)
-    viewController.didAuthOk()
     // Should display first scene
     assertDisplayed(scene: scene, mediaId: scene.mediaNodes![0].id!)
     // Navigate to next scene
     fetchedScenes = [scene2]
-    tester().swipeView(withAccessibilityLabel: "photo", in: .right)
+    tester().scrollView(withAccessibilityLabel: "scene view", byFractionOfSizeHorizontal: 0.0, vertical: 0.6)
     // Loading image should not be shown
     expect(self.viewController.loadingImage.isHidden).toNotEventually(beFalse())
     assertDisplayed(scene: scene2, mediaId: scene2.mediaNodes![0].id!)
@@ -166,7 +173,6 @@ class ScenesPageWrapperViewControllerTests: BaseUITests {
     fetchedScenes = [scene]
     // Displays the scene
     UITestsHelper.triggeringViewAppearance(viewController)
-    viewController.didAuthOk()
     assertDisplayed(scene: scene, mediaId: scene.mediaNodes![0].id!)
     expect(self.viewController.scenesPage.currentViewController!.optionsButton.isHidden)
       .toEventually(beFalse())

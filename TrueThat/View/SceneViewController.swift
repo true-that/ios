@@ -140,10 +140,7 @@ extension SceneViewController: SceneViewDelegate {
 
   func hideMedia() {
     if mediaViewController != nil {
-      mediaViewController.isVisible = false
-      mediaViewController.willMove(toParentViewController: nil)
-      mediaViewController.view.removeFromSuperview()
-      mediaViewController.removeFromParentViewController()
+      UIHelper.remove(viewController: mediaViewController!)
       mediaViewController = nil
     }
   }

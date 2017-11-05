@@ -15,6 +15,7 @@ import SwiftyJSON
 
 class StudioViewControllerTests: BaseUITests {
   var viewController: StudioViewController!
+  var mainTabController: MainTabController!
   var requestSent: Bool!
 
   override func setUp() {
@@ -31,15 +32,34 @@ class StudioViewControllerTests: BaseUITests {
                                  headers: ["Content-Type": "application/json"])
     }
 
-    let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-    viewController = storyboard.instantiateViewController(withIdentifier: "StudioScene")
-      as! StudioViewController
+    // if current view is not main one, then create a new main one.
+    if !(UITestsHelper.currentViewController! is MainTabController) {
+      let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+      mainTabController = storyboard.instantiateViewController(withIdentifier: "MainScene")
+        as! MainTabController
+      UIApplication.shared.keyWindow!.rootViewController = mainTabController
+      // Test and load the View
+      expect(self.mainTabController.view).toNot(beNil())
+      UITestsHelper.triggeringViewAppearance(mainTabController)
+    }
 
-    UIApplication.shared.keyWindow!.rootViewController = viewController
-
-    // Test and load the View
-    expect(self.viewController.view).toNot(beNil())
+    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(MainTabController.self))
+    mainTabController = UITestsHelper.currentViewController as! MainTabController
+    mainTabController.selectedIndex = MainTabController.studioIndex
+    viewController = mainTabController.selectedViewController as! StudioViewController
     viewController.captureButton.delegate = SwiftyCamButtonTestDelegate(viewModel: viewController.viewModel)
+  }
+
+  override func tearDown() {
+    super.tearDown()
+    if viewController != nil {
+      // Little hack to "restart" the view controller
+      viewController.beginAppearanceTransition(false, animated: false)
+      viewController.endAppearanceTransition()
+      viewController.viewModel = nil
+      viewController.viewDidLoad()
+      UITestsHelper.triggeringViewAppearance(viewController)
+    }
   }
 
   func assertCamera() {
@@ -68,25 +88,21 @@ class StudioViewControllerTests: BaseUITests {
   }
 
   func testCapturePhoto() {
-    UITestsHelper.triggeringViewAppearance(viewController)
     assertCamera()
     tester().tapView(withAccessibilityLabel: "capture")
     assertEdit()
   }
 
   func testRecordVideo() {
-    UITestsHelper.triggeringViewAppearance(viewController)
     assertCamera()
     tester().longPressView(withAccessibilityLabel: "capture", duration: 1.0)
     assertEdit()
     tester().tapView(withAccessibilityLabel: "send")
     assertWillSend()
-    expect(UITestsHelper.currentViewController!)
-      .toEventually(beAnInstanceOf(TheaterViewController.self))
+    expect(self.mainTabController.selectedIndex).toEventually(equal(MainTabController.theaterIndex))
   }
 
   func testCancel() {
-    UITestsHelper.triggeringViewAppearance(viewController)
     tester().tapView(withAccessibilityLabel: "capture")
     assertEdit()
     tester().tapView(withAccessibilityLabel: "cancel")
@@ -94,7 +110,6 @@ class StudioViewControllerTests: BaseUITests {
   }
 
   func testCancelVideo() {
-    UITestsHelper.triggeringViewAppearance(viewController)
     tester().longPressView(withAccessibilityLabel: "capture", duration: 1.0)
     assertEdit()
     tester().tapView(withAccessibilityLabel: "cancel")
@@ -102,12 +117,10 @@ class StudioViewControllerTests: BaseUITests {
   }
 
   func testSend() {
-    UITestsHelper.triggeringViewAppearance(viewController)
     tester().tapView(withAccessibilityLabel: "capture")
     tester().tapView(withAccessibilityLabel: "send")
     assertWillSend()
-    expect(UITestsHelper.currentViewController!)
-      .toEventually(beAnInstanceOf(TheaterViewController.self))
+    expect(self.mainTabController.selectedIndex).toEventually(equal(MainTabController.theaterIndex))
   }
 
   func testFailedSend() {
@@ -118,7 +131,6 @@ class StudioViewControllerTests: BaseUITests {
       return OHHTTPStubsResponse(data: Data(), statusCode: 500,
                                  headers: ["Content-Type": "application/json"])
     }
-    UITestsHelper.triggeringViewAppearance(viewController)
     tester().tapView(withAccessibilityLabel: "capture")
     assertEdit()
     tester().tapView(withAccessibilityLabel: "send")
@@ -126,42 +138,6 @@ class StudioViewControllerTests: BaseUITests {
     // Tap the failure dialogue
     tester().tapView(withAccessibilityLabel: StudioViewModel.saveFailedOkText)
     assertEdit()
-  }
-
-  func testNavigationToTheater() {
-    // Trigger viewDidAppear
-    UITestsHelper.triggeringViewAppearance(viewController)
-    // Swipe up
-    tester().swipeView(withAccessibilityLabel: "studio view", in: .down)
-    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(TheaterViewController.self))
-  }
-
-  func testNavigationWhileVideoEdited() {
-    UITestsHelper.triggeringViewAppearance(viewController)
-    assertCamera()
-    tester().longPressView(withAccessibilityLabel: "capture", duration: 1.0)
-    assertEdit()
-    // Swipe up
-    tester().swipeView(withAccessibilityLabel: "video", in: .down)
-    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(TheaterViewController.self))
-  }
-
-  func testNavigationWhilePhotoTaken() {
-    UITestsHelper.triggeringViewAppearance(viewController)
-    assertCamera()
-    tester().tapView(withAccessibilityLabel: "capture")
-    assertEdit()
-    // Swipe up
-    tester().swipeView(withAccessibilityLabel: "studio view", in: .down)
-    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(TheaterViewController.self))
-  }
-
-  func testNavigationToRepertoire() {
-    // Trigger viewDidAppear
-    UITestsHelper.triggeringViewAppearance(viewController)
-    // Swipe up
-    tester().swipeView(withAccessibilityLabel: "studio view", in: .up)
-    expect(UITestsHelper.currentViewController).toEventually(beAnInstanceOf(RepertoireViewController.self))
   }
 
   func testSendInteractiveFlow() {
@@ -209,8 +185,7 @@ class StudioViewControllerTests: BaseUITests {
     // Should proceed to sent state
     assertWillSend()
     // Should proceed to published state
-    expect(UITestsHelper.currentViewController!)
-      .toEventually(beAnInstanceOf(TheaterViewController.self))
+    expect(self.mainTabController.selectedIndex).toEventually(equal(MainTabController.theaterIndex))
   }
 
   class SwiftyCamButtonTestDelegate: SwiftyCamButtonDelegate {

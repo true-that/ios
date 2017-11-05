@@ -57,33 +57,6 @@ class TheaterViewControllerTests: BaseUITests {
     fetchedScenes = [photo]
     // Trigger viewDidAppear
     UITestsHelper.triggeringViewAppearance(viewController)
-    viewController.didAuthOk()
     assert(displayed: photo)
-  }
-
-  func testNavigation() {
-    // Trigger viewDidAppear
-    UITestsHelper.triggeringViewAppearance(viewController)
-    // Swipe up
-    tester().swipeView(withAccessibilityLabel: "theater view", in: .up)
-    expect(UITestsHelper.currentViewController)
-      .toEventually(beAnInstanceOf(StudioViewController.self))
-  }
-
-
-  // Ignoring test because of KIF bug https://github.com/kif-framework/KIF/issues/601
-  func testNavigationWhenSceneDisplayed() {
-    let photo = Scene(id: 1, director: director, reactionCounters: [.disgust: 1000, .happy: 1234], created: Date(),
-                      mediaNodes: [Photo(id: 0, url: "https://www.bbcgoodfood.com/sites/default/files/styles/carousel_medium/public/chicken-main_0.jpg")], edges: nil)
-    let video = Scene(id: 2, director: director, reactionCounters: [.disgust: 1000, .happy: 1234], created: Date(),
-                      mediaNodes: [Video(id: 1, url: "https://storage.googleapis.com/truethat-test-studio/testing/Ohad_wink_compressed.mp4")], edges: nil)
-    fetchedScenes = [video, photo]
-    // Trigger viewDidAppear
-    UITestsHelper.triggeringViewAppearance(viewController)
-    assert(displayed: video)
-    // Swipe up
-    tester().swipeView(withAccessibilityLabel: "video", in: .up)
-    expect(UITestsHelper.currentViewController)
-      .toEventually(beAnInstanceOf(StudioViewController.self))
   }
 }

@@ -33,9 +33,6 @@ class OnBoardingViewController: BaseViewController {
       viewModel.delegate = self
     }
 
-    // Skip auth
-    doAuth = false
-
     // Initializes phone kit
     phoneNumberKit = PhoneNumberKit()
 
@@ -50,12 +47,14 @@ class OnBoardingViewController: BaseViewController {
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    App.authModule.delegate = self
     viewModel.didAppear()
   }
 
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
     viewModel.didDisappear()
+    resignResponders()
   }
 
   // MARK: Initialization
@@ -71,13 +70,17 @@ class OnBoardingViewController: BaseViewController {
 
   /// Initialize text fields
   func initTextFields() {
+    // Init name field
     nameTextField.layer.borderWidth = 1.0
     nameTextField.layer.cornerRadius = 3.0
     viewModel.nameTextFieldBorderColor.producer
       .on(value: { self.nameTextField.layer.borderColor = $0.value.cgColor })
       .start()
     nameTextField.delegate = self
+    // Disable predictive autocomplete
+    nameTextField.autocorrectionType = .no
 
+    // Init number field
     numberTextField.layer.borderWidth = 1.0
     numberTextField.layer.cornerRadius = 3.0
     viewModel.numberTextFieldBorderColor.producer
@@ -141,14 +144,14 @@ extension OnBoardingViewController: OnBoardingDelegate {
 }
 
 // MARK: AuthDelegate
-extension OnBoardingViewController {
-  override func didAuthOk() {
-    super.didAuthOk()
-    performSegue(withIdentifier: "TheaterSegue", sender: self)
+extension OnBoardingViewController: AuthDelegate {
+  func didAuthOk() {
+    App.log.debug("\(logTag): didAuthOk")
+    performSegue(withIdentifier: "OnBoardingToMainSegue", sender: self)
   }
 
-  override func didAuthFail() {
-    App.log.verbose("didAuthFail")
+  func didAuthFail() {
+    App.log.debug("\(logTag): didAuthFail")
     viewModel.signUpDidFail()
   }
 }
@@ -180,6 +183,11 @@ extension OnBoardingViewController: UITextFieldDelegate {
     if textField == nameTextField {
       if viewModel.nameFieldDidReturn() {
         nameTextField.resignFirstResponder()
+        return true
+      }
+    } else if textField == numberTextField {
+      if viewModel.numberFieldDidReturn() {
+        numberTextField.resignFirstResponder()
         return true
       }
     }

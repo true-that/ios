@@ -12,7 +12,6 @@ import UIKit
 /// Base view controller class for encapsulating poses (such as OnBoarding or Theater)
 class BaseViewController: UIViewController {
   // MARK: Properties
-  var doAuth = true
   var logTag = "BaseViewController"
 
   // MARK: Lifecycle
@@ -30,10 +29,7 @@ class BaseViewController: UIViewController {
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     App.log.debug("\(logTag): viewDidAppear")
-    App.authModule.delegate = self
-    if doAuth {
-      App.authModule.auth()
-    }
+
     Crashlytics.sharedInstance().setObjectValue(
       logTag, forKey: LoggingKey.viewController.rawValue.snakeCased()!.uppercased())
   }
@@ -86,24 +82,5 @@ class BaseViewController: UIViewController {
       self.addDismissControl(alertController.view)
       completion?()
     })
-  }
-}
-
-extension BaseViewController: AuthDelegate {
-  func didAuthOk() {
-    App.log.debug("\(logTag): didAuthOk")
-  }
-
-  func didAuthFail() {
-    App.log.debug("\(logTag): didAuthFail")
-    let welcomeViewController = UIStoryboard(name: "Main", bundle: nil)
-      .instantiateViewController(withIdentifier: "WelcomeScene")
-    let segue = UIStoryboardSegue(identifier: "WelcomeSegue", source: self,
-                                  destination: welcomeViewController,
-                                  performHandler: {
-                                    self.present(welcomeViewController, animated: true, completion: {})
-    })
-    prepare(for: segue, sender: self)
-    segue.perform()
   }
 }
