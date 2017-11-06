@@ -3,6 +3,8 @@
 // Copyright (c) 2017 TrueThat. All rights reserved.
 //
 
+import AVFoundation
+import AudioToolbox
 import UIKit
 import ReactiveCocoa
 import ReactiveSwift
@@ -11,6 +13,7 @@ class SceneViewController: NestedViewController {
   // MARK: Properties
   public var viewModel: SceneViewModel!
   var mediaViewController: MediaViewController!
+  var player : AVAudioPlayer?
 
   @IBOutlet weak var directorLabel: UILabel!
   @IBOutlet weak var timeAgoLabel: UILabel!
@@ -77,6 +80,10 @@ class SceneViewController: NestedViewController {
   override func viewDidHide() {
     super.viewDidShow()
     viewModel.didDisappear()
+    if player != nil {
+      player?.stop()
+      player = nil
+    }
   }
 
   // MARK: Actions
@@ -101,6 +108,18 @@ extension SceneViewController: SceneViewDelegate {
         self.reactionEmojiLabel.transform = CGAffineTransform.identity
       })
     })
+
+    let path = Bundle.main.path(forResource: "react", ofType:"mp3")!
+    let url = URL(fileURLWithPath: path)
+
+    do {
+      self.player = try AVAudioPlayer(contentsOf: url)
+      self.player?.numberOfLoops = 1
+      self.player?.prepareToPlay()
+      self.player?.play()
+    } catch let error as NSError {
+      App.log.report("Couldn't play react sound.", withError: error)
+    }
   }
 
   func show(alert: String, title: String, okAction: String) {

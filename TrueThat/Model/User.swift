@@ -19,7 +19,7 @@ class User: BaseModel {
   var phoneNumber: String?
   /// Whether this user instance is authenticated from a client perspective.
   public var isAuthOk: Bool {
-    return id != nil && firstName != nil && lastName != nil
+    return id != nil// && firstName != nil && lastName != nil
   }
 
   // Mark: Initialization

@@ -25,7 +25,8 @@ class MainTabController: UITabBarController {
       item.title = ""
       item.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
     }
-    tabBar.tintColor = Color.theme.withAlpha(0.8)
+    tabBar.tintColor = Color.theme.value
+    tabBar.backgroundImage = UIImage()
   }
 
   override func viewWillAppear(_ animated: Bool) {

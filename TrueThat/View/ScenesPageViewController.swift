@@ -43,6 +43,9 @@ class ScenesPageViewController: UIPageViewController {
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     App.log.debug("viewDidAppear")
+    if currentViewController != nil {
+      currentViewController!.isVisible = true
+    }
   }
 
   override func viewWillDisappear(_ animated: Bool) {
@@ -63,7 +66,7 @@ class ScenesPageViewController: UIPageViewController {
   fileprivate func notifyScenesPageDelegateOfNewIndex(previousViewControllers: [UIViewController]) {
     if currentViewController != nil,
       let currentIndex = orderedViewControllers.index(of: currentViewController!) {
-      pagerDelegate?.ScenesPageViewController(self, didUpdatePageIndex: currentIndex)
+      pagerDelegate?.scenesPageViewController(self, didUpdatePageIndex: currentIndex)
       for previous in previousViewControllers {
         (previous as! NestedViewController).isVisible = false
       }
@@ -149,7 +152,7 @@ extension ScenesPageViewController: ScenesPageDelegate {
     App.log.debug("\(newScenes.count) new scenes.")
     self.orderedViewControllers +=
       newScenes.map { SceneViewController.instantiate(with: $0) }
-    self.pagerDelegate?.ScenesPageViewController(
+    self.pagerDelegate?.scenesPageViewController(
       self, didUpdatePageCount: self.orderedViewControllers.count)
   }
 }
@@ -159,18 +162,18 @@ protocol ScenesPageViewControllerDelegate: class {
   /**
    Called when the number of pages is updated.
 
-   - parameter ScenesPageViewController: the ScenesPageViewController instance
+   - parameter scenesPageViewController: the ScenesPageViewController instance
    - parameter count: the total number of pages.
    */
-  func ScenesPageViewController(_ ScenesPageViewController: ScenesPageViewController,
+  func scenesPageViewController(_ scenesPageViewController: ScenesPageViewController,
                                 didUpdatePageCount count: Int)
 
   /**
    Called when the current index is updated.
 
-   - parameter ScenesPageViewController: the ScenesPageViewController instance
+   - parameter scenesPageViewController: the ScenesPageViewController instance
    - parameter index: the index of the currently visible page.
    */
-  func ScenesPageViewController(_ ScenesPageViewController: ScenesPageViewController,
+  func scenesPageViewController(_ scenesPageViewController: ScenesPageViewController,
                                 didUpdatePageIndex index: Int)
 }

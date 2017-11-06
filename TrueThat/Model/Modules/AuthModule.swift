@@ -51,6 +51,7 @@ class AuthModule {
       return
     }
     var toSignIn = lastSession
+    toSignIn?.id = nil
     if toSignIn == nil {
       toSignIn = User(id: nil, firstName: nil, lastName: nil, deviceId: App.deviceModule.deviceId, phoneNumber: nil)
     }

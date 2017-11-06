@@ -56,6 +56,11 @@ class StudioViewController: BaseViewController {
     #endif
   }
 
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    viewModel.didAppear()
+  }
+
   // MARK: Initialization
   private func initUI() {
     // Enable for interaction
@@ -102,41 +107,41 @@ class StudioViewController: BaseViewController {
     addChildViewController(scenePreview)
     view.addSubview(scenePreview.view)
     view.sendSubview(toBack: scenePreview.view)
-    // Create reaction buttons
-    let reactionButtons: [UIButton] = Emotion.values.map { emotion in
-      let button = UIButton()
-      button.accessibilityLabel = "\(emotion.description) reaction"
-      button.setTitle(emotion.emoji, for: .normal)
-      button.titleLabel!.font = button.titleLabel!.font.withSize(20)
-      button.addTarget(self, action: #selector(self.didChose(_:)), for: .touchUpInside)
-      return button
-    }
-    // Create previous media button
-    let previousButton = UIButton()
-    previousButton.reactive.isHidden <~ viewModel.previousMediaHidden
-    previousButton.setTitle("⏎", for: .normal)
-    previousButton.accessibilityLabel = "previous media"
-    previousButton.addTarget(self, action: #selector(self.displayingParentMedia), for: .touchUpInside)
-    previousButton.layer.shadowColor = Color.shadow.value.cgColor
-    previousButton.layer.shadowOpacity = 0.4
-    previousButton.layer.shadowOffset = CGSize.zero
-    previousButton.layer.shadowRadius = 4
-    // Add all of them to a stack view
-    let reactionsStackview = UIStackView(arrangedSubviews: reactionButtons + [previousButton])
-    reactionsStackview.axis = .vertical
-    reactionsStackview.spacing = 16
-    reactionsStackview.alignment = .fill
-    reactionsStackview.distribution = .fillEqually
-    // Center it vertically close to the view leading border.
-    reactionsStackview.translatesAutoresizingMaskIntoConstraints = false
-    scenePreview.view.addSubview(reactionsStackview)
-    scenePreview.view.bringSubview(toFront: reactionsStackview)
-    scenePreview.view.addConstraints([
-      NSLayoutConstraint(item: reactionsStackview, attribute: .centerY, relatedBy: .equal, toItem: scenePreview.view,
-                         attribute: .centerY, multiplier: 1, constant: 0),
-      NSLayoutConstraint(item: reactionsStackview, attribute: .leading, relatedBy: .equal, toItem: scenePreview.view,
-                         attribute: .leading, multiplier: 1, constant: 16),
-    ])
+//    // Create reaction buttons
+//    let reactionButtons: [UIButton] = Emotion.values.map { emotion in
+//      let button = UIButton()
+//      button.accessibilityLabel = "\(emotion.description) reaction"
+//      button.setTitle(emotion.emoji, for: .normal)
+//      button.titleLabel!.font = button.titleLabel!.font.withSize(20)
+//      button.addTarget(self, action: #selector(self.didChose(_:)), for: .touchUpInside)
+//      return button
+//    }
+//    // Create previous media button
+//    let previousButton = UIButton()
+//    previousButton.reactive.isHidden <~ viewModel.previousMediaHidden
+//    previousButton.setTitle("⏎", for: .normal)
+//    previousButton.accessibilityLabel = "previous media"
+//    previousButton.addTarget(self, action: #selector(self.displayingParentMedia), for: .touchUpInside)
+//    previousButton.layer.shadowColor = Color.shadow.value.cgColor
+//    previousButton.layer.shadowOpacity = 0.4
+//    previousButton.layer.shadowOffset = CGSize.zero
+//    previousButton.layer.shadowRadius = 4
+//    // Add all of them to a stack view
+//    let reactionsStackview = UIStackView(arrangedSubviews: reactionButtons + [previousButton])
+//    reactionsStackview.axis = .vertical
+//    reactionsStackview.spacing = 16
+//    reactionsStackview.alignment = .fill
+//    reactionsStackview.distribution = .fillEqually
+//    // Center it vertically close to the view leading border.
+//    reactionsStackview.translatesAutoresizingMaskIntoConstraints = false
+//    scenePreview.view.addSubview(reactionsStackview)
+//    scenePreview.view.bringSubview(toFront: reactionsStackview)
+//    scenePreview.view.addConstraints([
+//      NSLayoutConstraint(item: reactionsStackview, attribute: .centerY, relatedBy: .equal, toItem: scenePreview.view,
+//                         attribute: .centerY, multiplier: 1, constant: 0),
+//      NSLayoutConstraint(item: reactionsStackview, attribute: .leading, relatedBy: .equal, toItem: scenePreview.view,
+//                         attribute: .leading, multiplier: 1, constant: 16),
+//    ])
   }
 
   // MARK: Studio actions
@@ -215,16 +220,16 @@ extension StudioViewController: SwiftyCamViewControllerDelegate {
 
   func swiftyCam(_ swiftyCam: SwiftyCamViewController,
                  didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
-    viewModel.didStartRecordingVideo()
+//    viewModel.didStartRecordingVideo()
   }
 
   func swiftyCam(_ swiftyCam: SwiftyCamViewController,
                  didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
-    viewModel.didFinishRecordingVideo()
+//    viewModel.didFinishRecordingVideo()
   }
 
   func swiftyCam(_ swiftyCam: SwiftyCamViewController,
                  didFinishProcessVideoAt url: URL) {
-    viewModel.didFinishProcessVideo(url: url)
+//    viewModel.didFinishProcessVideo(url: url)
   }
 }

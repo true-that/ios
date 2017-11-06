@@ -17,7 +17,7 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="d1J-rb-m7f">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
                         <segue destination="xQO-xT-r78" kind="relationship" relationship="viewControllers" id="TWO-uo-NYM"/>
@@ -220,8 +220,9 @@
                         <constraints>
                             <constraint firstItem="ON2-sC-LEK" firstAttribute="leading" secondItem="obe-C3-P7Q" secondAttribute="leading" id="Fag-To-pBs"/>
                             <constraint firstAttribute="trailing" secondItem="ON2-sC-LEK" secondAttribute="trailing" id="HWr-T0-YKM"/>
-                            <constraint firstItem="ON2-sC-LEK" firstAttribute="bottom" secondItem="BBg-ac-jRS" secondAttribute="top" id="V60-7N-WuP"/>
+                            <constraint firstItem="ON2-sC-LEK" firstAttribute="centerX" secondItem="obe-C3-P7Q" secondAttribute="centerX" id="NeU-0b-Gcz"/>
                             <constraint firstItem="ON2-sC-LEK" firstAttribute="top" secondItem="obe-C3-P7Q" secondAttribute="top" id="hjc-UW-ss2"/>
+                            <constraint firstItem="ON2-sC-LEK" firstAttribute="centerY" secondItem="obe-C3-P7Q" secondAttribute="centerY" id="z4X-qy-u8V"/>
                         </constraints>
                     </view>
                     <connections>
@@ -245,17 +246,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="znr-H3-vAR" userLabel="Reactions Stack">
-                                <rect key="frame" x="16" y="623" width="66.5" height="24"/>
+                                <rect key="frame" x="16" y="611" width="75.5" height="36"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="😁" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q0j-Jb-J4F">
-                                        <rect key="frame" x="0.0" y="0.0" width="25" height="24"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="34" height="36"/>
                                         <accessibility key="accessibilityConfiguration" label="reactionEmojiLabel"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.2K" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kl4-4Z-qAE" userLabel="Reactions Count">
-                                        <rect key="frame" x="33" y="0.0" width="33.5" height="24"/>
+                                        <rect key="frame" x="42" y="0.0" width="33.5" height="36"/>
                                         <accessibility key="accessibilityConfiguration" label="reactionsCountLabel"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -307,7 +308,7 @@
                                 <rect key="frame" x="259" y="569" width="100" height="40"/>
                                 <accessibility key="accessibilityConfiguration" label="report"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="OFV-eu-JKw"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="OFV-eu-JKw"/>
                                     <constraint firstAttribute="height" constant="40" id="dZ8-qD-SeZ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -318,12 +319,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration" label="scene view"/>
                         <constraints>
+                            <constraint firstItem="3x3-fZ-aHw" firstAttribute="top" secondItem="znr-H3-vAR" secondAttribute="bottom" constant="20" id="4H2-5j-Iha"/>
                             <constraint firstItem="U2o-LV-Fo9" firstAttribute="leading" secondItem="ieF-0C-5DO" secondAttribute="leadingMargin" id="MAP-qO-7Hy"/>
+                            <constraint firstItem="oyI-Ta-tNd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ieF-0C-5DO" secondAttribute="leading" constant="20" symbolic="YES" id="Pgz-qi-QTy"/>
                             <constraint firstItem="U2o-LV-Fo9" firstAttribute="top" secondItem="76r-xD-bTE" secondAttribute="bottom" constant="8" symbolic="YES" id="YQL-uP-1x3"/>
                             <constraint firstItem="lar-sb-R2H" firstAttribute="trailing" secondItem="ieF-0C-5DO" secondAttribute="trailingMargin" id="eJq-Yd-W8U"/>
                             <constraint firstItem="atJ-Ro-yqi" firstAttribute="centerX" secondItem="ieF-0C-5DO" secondAttribute="centerX" id="lnu-eS-vg6"/>
                             <constraint firstItem="lar-sb-R2H" firstAttribute="bottom" secondItem="znr-H3-vAR" secondAttribute="bottom" id="nFS-dS-3vQ"/>
-                            <constraint firstAttribute="bottom" secondItem="znr-H3-vAR" secondAttribute="bottom" constant="20" symbolic="YES" id="pIo-8V-Qge"/>
                             <constraint firstItem="U2o-LV-Fo9" firstAttribute="leading" secondItem="znr-H3-vAR" secondAttribute="leading" id="qP0-6b-qzf"/>
                             <constraint firstItem="atJ-Ro-yqi" firstAttribute="centerY" secondItem="ieF-0C-5DO" secondAttribute="centerY" id="r2D-c2-ax9"/>
                             <constraint firstItem="oyI-Ta-tNd" firstAttribute="trailing" secondItem="lar-sb-R2H" secondAttribute="trailing" id="x36-gq-cM7"/>
@@ -604,6 +606,6 @@
         <image name="theater" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Bga-Sn-yOV"/>
+        <segue reference="723-4W-1JZ"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -21,7 +21,8 @@ class LaunchViewController: BaseViewController {
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     App.authModule.delegate = self
-    App.authModule.auth()
+//    App.authModule.auth()
+    App.authModule.signIn()
   }
 }
 

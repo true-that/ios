@@ -17,6 +17,7 @@
 		3407B8BA11DD82F89A064BB1 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3407B61AD1CDCD949A8DD2C4 /* Scene.swift */; };
 		3407BEFBE7E749559ECAA941 /* ScenesPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3407B4EB81D58211759AE8B8 /* ScenesPageViewController.swift */; };
 		3407BFBE59D04413006DD617 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3407B9CA9B12A5DEF0AC9484 /* LaunchScreen.storyboard */; };
+		6F04DB801FB04C130026E7D6 /* react.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6F04DB7F1FB04C120026E7D6 /* react.mp3 */; };
 		6F05A37D1F385A15008D595A /* StudioViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F05A37C1F385A15008D595A /* StudioViewControllerTests.swift */; };
 		6F05A37F1F38B048008D595A /* RepertoireViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F05A37E1F38B048008D595A /* RepertoireViewController.swift */; };
 		6F05A3811F38B26C008D595A /* RepertoireApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F05A3801F38B26C008D595A /* RepertoireApi.swift */; };
@@ -143,6 +144,7 @@
 		3407BC14CD35B51CB02C6DDE /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3407BF628D894D084344C3C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6C74B33475F7129BCE7F5AFD /* Pods_TrueThatTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrueThatTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F04DB7F1FB04C120026E7D6 /* react.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = react.mp3; sourceTree = "<group>"; };
 		6F05A37C1F385A15008D595A /* StudioViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudioViewControllerTests.swift; sourceTree = "<group>"; };
 		6F05A37E1F38B048008D595A /* RepertoireViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RepertoireViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6F05A3801F38B26C008D595A /* RepertoireApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepertoireApi.swift; sourceTree = "<group>"; };
@@ -396,6 +398,7 @@
 		6F3047291FA6155800B07408 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6F04DB7F1FB04C120026E7D6 /* react.mp3 */,
 				6F30472A1FA6157F00B07408 /* welcome.mp4 */,
 			);
 			path = Resources;
@@ -738,6 +741,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F4826341F1284F50066394D /* Assets.xcassets in Resources */,
+				6F04DB801FB04C130026E7D6 /* react.mp3 in Resources */,
 				3407BFBE59D04413006DD617 /* LaunchScreen.storyboard in Resources */,
 				6F30472B1FA6157F00B07408 /* welcome.mp4 in Resources */,
 				3407B02EB67D119040115080 /* Main.storyboard in Resources */,
@@ -1161,7 +1165,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7C529EE61E4EDE5C6839B6F2 /* Pods-TrueThat.debug.xcconfig */;
 			buildSettings = {
-				API_BASE_URL_ENDPOINT = "http://10.0.0.27:8080";
+				API_BASE_URL_ENDPOINT = "http://10.0.0.1:8080";
 				APPSEE_API_KEY = "";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TrueThat/TrueThat.entitlements;

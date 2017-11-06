@@ -200,9 +200,12 @@ extension SceneViewModel: ReactionDetectionDelegate {
     if currentMedia == nil {
       return
     }
-    // non most likely reactions are ignored when there are multiple next media options or the current reaction could
-    // not lead to a next media.
-    if !mostLikely && (scene.next(of: currentMedia!, on: reaction) == nil || scene.hasMultipleNext(for: currentMedia!)) {
+//    // non most likely reactions are ignored when there are multiple next media options or the current reaction could
+//    // not lead to a next media.
+//    if !mostLikely && (scene.next(of: currentMedia!, on: reaction) == nil || scene.hasMultipleNext(for: currentMedia!)) {
+//      return
+//    }
+    if reaction != Emotion.happy {
       return
     }
     if detectedReactions[currentMedia!] == nil {

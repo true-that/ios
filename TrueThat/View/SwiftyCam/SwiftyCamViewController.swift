@@ -220,9 +220,6 @@ open class SwiftyCamViewController: UIViewController {
       // already been asked. Denied access
       setupResult = .notAuthorized
     }
-    sessionQueue.async { [unowned self] in
-      self.configureSession()
-    }
   }
 
   // MARK: ViewDidLayoutSubviews
@@ -231,7 +228,6 @@ open class SwiftyCamViewController: UIViewController {
 
   open override func viewDidLayoutSubviews() {
     previewLayer.frame = view.bounds
-
     super.viewDidLayoutSubviews()
   }
 
@@ -241,6 +237,10 @@ open class SwiftyCamViewController: UIViewController {
   open override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     App.log.debug("viewDidAppear")
+
+    sessionQueue.async { [unowned self] in
+      self.configureSession()
+    }
 
     // Subscribe to device rotation notifications
     if shouldUseDeviceOrientation {
@@ -286,6 +286,10 @@ open class SwiftyCamViewController: UIViewController {
     if self.isSessionRunning == true {
       self.session.stopRunning()
       self.isSessionRunning = false
+    }
+    // Removes inputs
+    for input in self.session.inputs {
+      self.session.removeInput(input as! AVCaptureInput)
     }
 
     // Disble flash if it is currently enabled
@@ -924,7 +928,6 @@ extension SwiftyCamViewController {
       // Ignore taps
       return
     }
-
     let screenSize = previewLayer!.bounds.size
     let tapPoint = tap.location(in: previewLayer!)
     let x = tapPoint.y / screenSize.height
