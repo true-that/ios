@@ -24,6 +24,13 @@ class NestedViewController: UIViewController {
   }
   var logTag = "NestedViewController"
 
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    if view.superview != nil {
+      view.frame = view.superview!.bounds
+    }
+  }
+
   // MARK: Lifecycle
   override func viewDidLoad() {
     logTag = String(describing: type(of: self))

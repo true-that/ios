@@ -22,7 +22,8 @@ class LaunchViewController: BaseViewController {
     super.viewDidAppear(animated)
     App.authModule.delegate = self
 //    App.authModule.auth()
-    App.authModule.signIn()
+//    App.authModule.signIn()
+    didAuthOk()
   }
 }
 

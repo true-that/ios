@@ -132,7 +132,7 @@
                                 </constraints>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5Qm-yN-rbn">
-                                <rect key="frame" x="142" y="288.5" width="90" height="90"/>
+                                <rect key="frame" x="142" y="289" width="90" height="90"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="90" id="8B0-UL-jbd"/>
                                     <constraint firstAttribute="height" constant="90" id="BB2-Sk-AbU"/>
@@ -151,15 +151,28 @@
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.42101883561643838" colorSpace="calibratedRGB"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="😁" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="42V-Kc-sfn">
+                                <rect key="frame" x="16" y="531" width="57" height="57"/>
+                                <accessibility key="accessibilityConfiguration" label="reactionEmojiLabel"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="57" id="Fny-jf-eyt"/>
+                                    <constraint firstAttribute="height" constant="57" id="Kb5-fu-Tzm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration" label="studio view"/>
                         <constraints>
                             <constraint firstItem="Miw-Tq-v8m" firstAttribute="centerX" secondItem="EfB-Hi-I0h" secondAttribute="centerX" id="62o-5F-lUh"/>
+                            <constraint firstItem="42V-Kc-sfn" firstAttribute="leading" secondItem="EfB-Hi-I0h" secondAttribute="leadingMargin" id="93U-2K-GA3"/>
                             <constraint firstItem="5Qm-yN-rbn" firstAttribute="centerX" secondItem="Miw-Tq-v8m" secondAttribute="centerX" id="Hph-YQ-hrj"/>
                             <constraint firstItem="lLa-88-0kp" firstAttribute="top" secondItem="qAp-Hd-bpU" secondAttribute="bottom" constant="30" id="JJX-GE-LwF"/>
                             <constraint firstItem="wSG-qE-DA8" firstAttribute="top" secondItem="rdf-9e-5Vn" secondAttribute="top" id="Nfk-MU-Kyk"/>
                             <constraint firstItem="rdf-9e-5Vn" firstAttribute="top" secondItem="CPp-xm-equ" secondAttribute="bottom" id="QUl-KE-a3h"/>
+                            <constraint firstItem="lLa-88-0kp" firstAttribute="top" secondItem="42V-Kc-sfn" secondAttribute="bottom" constant="30" id="VoD-tD-XMI"/>
                             <constraint firstItem="5Qm-yN-rbn" firstAttribute="centerY" secondItem="EfB-Hi-I0h" secondAttribute="centerY" id="Vtm-uO-4s6"/>
                             <constraint firstItem="Miw-Tq-v8m" firstAttribute="bottom" secondItem="qAp-Hd-bpU" secondAttribute="bottom" id="XcP-rb-k6V"/>
                             <constraint firstItem="qAp-Hd-bpU" firstAttribute="trailing" secondItem="rdf-9e-5Vn" secondAttribute="trailing" id="iU7-q3-gMg"/>
@@ -172,13 +185,14 @@
                         <outlet property="cancelButton" destination="wSG-qE-DA8" id="pw7-Eu-zop"/>
                         <outlet property="captureButton" destination="Miw-Tq-v8m" id="wTy-ro-Sha"/>
                         <outlet property="loadingImage" destination="5Qm-yN-rbn" id="zIP-sw-UPb"/>
+                        <outlet property="reactionLabel" destination="42V-Kc-sfn" id="6Mv-Jc-BZ2"/>
                         <outlet property="sendButton" destination="qAp-Hd-bpU" id="kSk-yt-hmF"/>
                         <outlet property="switchCameraButton" destination="rdf-9e-5Vn" id="3ME-bw-Uyw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="44v-9h-dEG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3503" y="-81"/>
+            <point key="canvasLocation" x="-3503.1999999999998" y="-81.409295352323838"/>
         </scene>
         <!--Repertoire-->
         <scene sceneID="inh-kb-DXD">
@@ -606,6 +620,6 @@
         <image name="theater" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="723-4W-1JZ"/>
+        <segue reference="3wU-ic-m69"/>
     </inferredMetricsTieBreakers>
 </document>

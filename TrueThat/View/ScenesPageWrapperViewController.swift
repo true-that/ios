@@ -10,7 +10,7 @@ import UIKit
 import ReactiveSwift
 import ReactiveCocoa
 
-class ScenesPageWrapperViewController: UIViewController {
+class ScenesPageWrapperViewController: BaseViewController {
   // MARK: Propertoes
   var viewModel: ScenesPageViewModel!
   var scenesPage: ScenesPageViewController!
@@ -29,6 +29,11 @@ class ScenesPageWrapperViewController: UIViewController {
       as! ScenesPageWrapperViewController
     viewController.doDetection = doDetection
     return viewController
+  }
+
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    view.frame = view.superview!.bounds
   }
 
   // MARK: Lifecycle

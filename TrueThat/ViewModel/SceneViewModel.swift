@@ -8,7 +8,7 @@ import ReactiveSwift
 import Result
 
 class SceneViewModel {
-  static var detetionDelaySeconds = 0.3
+  static var detetionDelaySeconds = 0.1
   public static let reportTitle = "Reported! 👮🏻"
   public static let reportOkText = "got it"
   public static let reportAlert = "Thank you for your alertness."

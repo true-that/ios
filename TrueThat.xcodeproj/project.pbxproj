@@ -1165,7 +1165,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7C529EE61E4EDE5C6839B6F2 /* Pods-TrueThat.debug.xcconfig */;
 			buildSettings = {
-				API_BASE_URL_ENDPOINT = "http://10.0.0.1:8080";
+				API_BASE_URL_ENDPOINT = "http://172.20.10.2:8080";
 				APPSEE_API_KEY = "";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TrueThat/TrueThat.entitlements;

@@ -35,6 +35,13 @@ class ScenesPageViewController: UIPageViewController {
     delegate = self
   }
 
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    if view.superview != nil {
+      view.frame = view.superview!.bounds
+    }
+  }
+
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     App.log.debug("viewWillAppear")

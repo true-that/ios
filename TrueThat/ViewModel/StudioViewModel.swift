@@ -169,7 +169,7 @@ class StudioViewModel {
     switchCameraButtonHidden.value = true
     // Show editting buttons, and hide directed scene
     cancelButtonHidden.value = false
-    sendButtonHidden.value = false
+//    sendButtonHidden.value = false
     // Hide loading image
     loadingImageHidden.value = true
     // Expose previous media button if not editing root media.

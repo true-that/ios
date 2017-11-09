@@ -14,6 +14,13 @@ class BaseViewController: UIViewController {
   // MARK: Properties
   var logTag = "BaseViewController"
 
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    if view.superview != nil {
+      view.frame = view.superview!.bounds
+    }
+  }
+  
   // MARK: Lifecycle
   override func viewDidLoad() {
     logTag = String(describing: type(of: self))

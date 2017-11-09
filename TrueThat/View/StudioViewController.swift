@@ -18,6 +18,7 @@ class StudioViewController: BaseViewController {
   var swiftyCam: SwiftyCamViewController!
   var scenePreview: UIViewController!
   var mediaViewController: MediaViewController?
+  var player : AVAudioPlayer?
 
   @IBOutlet weak var captureButton: SwiftyCamButton!
   @IBOutlet weak var switchCameraButton: UIImageView!
@@ -25,6 +26,7 @@ class StudioViewController: BaseViewController {
   @IBOutlet weak var loadingImage: UIImageView!
   @IBOutlet weak var cancelButton: UILabel!
 
+  @IBOutlet weak var reactionLabel: UILabel!
 
   // MARK: Lifecycle
   override func viewDidLoad() {
@@ -36,24 +38,30 @@ class StudioViewController: BaseViewController {
       viewModel.delegate = self
     }
 
+    App.detecionModule.delegate = self
+
     initUI()
     #if (arch(i386) || arch(x86_64)) && os(iOS)
       // Dont initialize camera on Simulator
       self.view.backgroundColor = Color.shadow.value
       // Button delegate shaould be defined externally
     #else
-      swiftyCam = SwiftyCamViewController()
-      swiftyCam.defaultCamera = .front
-      // Camera preview
-      self.addChildViewController(swiftyCam)
-      self.view.addSubview(swiftyCam.view)
-      swiftyCam.view.reactive.isHidden <~ viewModel.cameraSessionHidden
-      // Send preview to back
-      self.view.sendSubview(toBack: swiftyCam.view)
-      swiftyCam.cameraDelegate = self
-      // Capture button
-      captureButton.delegate = swiftyCam
+//      initSwiftyCam()
     #endif
+  }
+
+  func initSwiftyCam() {
+    swiftyCam = SwiftyCamViewController()
+    swiftyCam.defaultCamera = .front
+    // Camera preview
+    self.addChildViewController(swiftyCam)
+    self.view.addSubview(swiftyCam.view)
+    swiftyCam.view.reactive.isHidden <~ viewModel.cameraSessionHidden
+    // Send preview to back
+    self.view.sendSubview(toBack: swiftyCam.view)
+    swiftyCam.cameraDelegate = self
+    // Capture button
+    captureButton.delegate = swiftyCam
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -63,6 +71,7 @@ class StudioViewController: BaseViewController {
 
   // MARK: Initialization
   private func initUI() {
+    reactionLabel.isHidden = true
     // Enable for interaction
     captureButton.isUserInteractionEnabled = true
     cancelButton.isUserInteractionEnabled = true
@@ -178,7 +187,7 @@ class StudioViewController: BaseViewController {
 // MARK: StudioViewModelDelegate
 extension StudioViewController: StudioViewModelDelegate {
   func leaveStudio() {
-    tabBarController?.selectedIndex = MainTabController.theaterIndex
+    tabBarController?.selectedIndex = MainTabController.repertoireIndex
   }
 
   func hideMedia() {
@@ -187,6 +196,11 @@ extension StudioViewController: StudioViewModelDelegate {
       UIHelper.remove(viewController: mediaViewController!)
       mediaViewController = nil
     }
+    App.detecionModule.stop()
+    reactionLabel.isHidden = true
+
+    Timer.scheduledTimer(withTimeInterval: SceneViewModel.detetionDelaySeconds, repeats: false,
+                         block: { _ in self.initSwiftyCam() })
   }
 
   func display(media: Media) {
@@ -199,6 +213,14 @@ extension StudioViewController: StudioViewModelDelegate {
     scenePreview.view.addSubview(mediaViewController!.view)
     scenePreview.view.sendSubview(toBack: mediaViewController!.view)
     mediaViewController!.isVisible = true
+
+    // Delete swifty cam
+    UIHelper.remove(viewController: swiftyCam)
+    swiftyCam = nil
+
+    // Starts detection
+    Timer.scheduledTimer(withTimeInterval: SceneViewModel.detetionDelaySeconds, repeats: false,
+                         block: { _ in App.detecionModule.start() })
   }
 
   func didSend() {
@@ -231,5 +253,25 @@ extension StudioViewController: SwiftyCamViewControllerDelegate {
   func swiftyCam(_ swiftyCam: SwiftyCamViewController,
                  didFinishProcessVideoAt url: URL) {
 //    viewModel.didFinishProcessVideo(url: url)
+  }
+}
+
+extension StudioViewController: ReactionDetectionDelegate {
+  func didDetect(reaction: Emotion, mostLikely: Bool) {
+    if reaction != Emotion.happy  || !reactionLabel.isHidden {
+      return
+    }
+    let path = Bundle.main.path(forResource: "react", ofType:"mp3")!
+    let url = URL(fileURLWithPath: path)
+    do {
+      self.player = try AVAudioPlayer(contentsOf: url)
+      self.player?.numberOfLoops = 1
+      self.player?.prepareToPlay()
+      self.player?.play()
+    } catch let error as NSError {
+      App.log.report("Couldn't play react sound.", withError: error)
+    }
+    reactionLabel.isHidden = false
+    view.bringSubview(toFront: reactionLabel)
   }
 }
