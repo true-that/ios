@@ -10,8 +10,34 @@ import Affdex
 import UIKit
 
 class AffectivaReactionDetectionModule: ReactionDetectionModule {
-  fileprivate static let detectionThreshold = 0.2 as CGFloat
+  fileprivate static let sumThreshold = 200 as CGFloat
+  fileprivate static let iterationThreshold = 20 as CGFloat
   var detector: AFDXDetector?
+
+  var emotionToLikelihood: [AffectivaEmotion: CGFloat] = [
+    AffectivaEmotion.joy: 0,
+    AffectivaEmotion.surprise: 0,
+    AffectivaEmotion.anger: 0,
+    AffectivaEmotion.sadness: 0,
+    AffectivaEmotion.fear: 0,
+    AffectivaEmotion.disgust: 0,
+    ]
+  fileprivate func resetLikelihood() {
+    emotionToLikelihood = [
+      AffectivaEmotion.joy: 0,
+      AffectivaEmotion.surprise: 0,
+      AffectivaEmotion.anger: 0,
+      AffectivaEmotion.sadness: 0,
+      AffectivaEmotion.fear: 0,
+      AffectivaEmotion.disgust: 0,
+    ]
+  }
+
+  override var delegate: ReactionDetectionDelegate? {
+    didSet{
+      resetLikelihood()
+    }
+  }
 
   override init() {
     super.init()
@@ -20,6 +46,7 @@ class AffectivaReactionDetectionModule: ReactionDetectionModule {
   }
 
   override func start() {
+    resetLikelihood()
     super.start()
     if let error = detector?.start() {
       App.log.report("AFDXDetector: \(error)", withError: error as NSError)
@@ -27,6 +54,7 @@ class AffectivaReactionDetectionModule: ReactionDetectionModule {
   }
 
   override func stop() {
+    resetLikelihood()
     super.stop()
     if let error = detector?.stop() {
       App.log.report("AFDXDetector: \(error)", withError: error as NSError)
@@ -36,9 +64,13 @@ class AffectivaReactionDetectionModule: ReactionDetectionModule {
 
 extension AffectivaReactionDetectionModule: AFDXDetectorDelegate {
   func detectorDidStartDetectingFace(face: AFDXFace) {
+    print ("found face")
+    resetLikelihood()
   }
 
   func detectorDidStopDetectingFace(face: AFDXFace) {
+    print ("lost face")
+    resetLikelihood()
   }
 
   func detector(_ detector: AFDXDetector, hasResults: NSMutableDictionary?, for forImage: UIImage,
@@ -46,29 +78,34 @@ extension AffectivaReactionDetectionModule: AFDXDetectorDelegate {
     if hasResults != nil {
       for (_, face) in hasResults! {
         let affdexFace = face as! AFDXFace
-        // Convert detected image to our enum
-        let emotionToLikelihood = [
+        let currentLikelihood = [
           AffectivaEmotion.joy: affdexFace.emotions.joy,
           AffectivaEmotion.surprise: affdexFace.emotions.surprise,
           AffectivaEmotion.anger: affdexFace.emotions.anger,
-          AffectivaEmotion.sadness: affdexFace.emotions.sadness,
           // Fear is harder to detect, and so it is amplified
-          AffectivaEmotion.fear: affdexFace.emotions.fear * 2,
-          // Disgust is too easy to detect, and so it is decreased
+          AffectivaEmotion.fear: affdexFace.emotions.fear * 3,
+          // Negative emotions are too easy to detect, and so it is decreased
+          AffectivaEmotion.sadness: affdexFace.emotions.sadness / 2,
           AffectivaEmotion.disgust: affdexFace.emotions.disgust / 2,
-        ]
-        let significantEnough = emotionToLikelihood.filter { $1 > AffectivaReactionDetectionModule.detectionThreshold }
+          ].filter{ $0.value > AffectivaReactionDetectionModule.iterationThreshold }
+        currentLikelihood.forEach{ emotionToLikelihood[$0.key] = emotionToLikelihood[$0.key]! + $0.value }
+        print ("\(currentLikelihood)")
+
+        let significantEnough = emotionToLikelihood.filter { $1 > AffectivaReactionDetectionModule.sumThreshold }
         if significantEnough.isEmpty {
           return
         }
         let mostLikely = significantEnough.max(by: { $0.value > $1.value })
-        if mostLikely != nil && delegate != nil {
+        if mostLikely != nil {
           delegate?.didDetect(reaction: mostLikely!.key.toEmotion()!, mostLikely: true)
         }
         for emotionLikelihoodEntry in significantEnough {
           if emotionLikelihoodEntry.key != mostLikely!.key {
             delegate?.didDetect(reaction: emotionLikelihoodEntry.key.toEmotion()!, mostLikely: false)
           }
+        }
+        if mostLikely != nil {
+          resetLikelihood()
         }
       }
     }

@@ -258,9 +258,10 @@ extension StudioViewController: SwiftyCamViewControllerDelegate {
 
 extension StudioViewController: ReactionDetectionDelegate {
   func didDetect(reaction: Emotion, mostLikely: Bool) {
-    if reaction != Emotion.happy  || !reactionLabel.isHidden {
+    if !reactionLabel.isHidden || !mostLikely {
       return
     }
+    reactionLabel.text = reaction.emoji
     let path = Bundle.main.path(forResource: "react", ofType:"mp3")!
     let url = URL(fileURLWithPath: path)
     do {

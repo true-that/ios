@@ -1172,10 +1172,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 9U6QZAC8R3;
-				DISPLAY_NAME = "Debug $(PRODUCT_NAME)";
+				DISPLAY_NAME = "Demo $(PRODUCT_NAME)";
 				INFOPLIST_FILE = TrueThat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.truethat.appstore.debug;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.truethat.ios.demo-detection";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
