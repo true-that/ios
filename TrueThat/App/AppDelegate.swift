@@ -7,19 +7,27 @@
 //
 
 import UIKit
+import UserNotifications
 import Alamofire
 import Appsee
 import Fabric
 import Crashlytics
+import SendBirdSDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
+  var receivedPushChannelUrl: String?
 
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     App.log.debug("Application loaded")
+    // Register notifications
+    let center  = UNUserNotificationCenter.current()
+    center.delegate = self
+    center.requestAuthorization(options: [.sound,.alert,.badge]) { (granted, error) in}
+    application.registerForRemoteNotifications()
     // Override point for customization after application launch.
     #if DEBUG
       let configuration = URLSessionConfiguration.default
@@ -27,10 +35,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       configuration.timeoutIntervalForResource = 10
       configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
       _ = Alamofire.SessionManager(configuration: configuration)
+      SBDMain.setLogLevel(SBDLogLevel.info)
+    #else
+      SBDMain.setLogLevel(SBDLogLevel.error)
     #endif
 
     // Fabric tools
     Fabric.with([Crashlytics.self, Appsee.self])
+
+    // Init SendBird
+    SBDMain.initWithApplicationId("5A2C83D8-3C58-47CE-B31A-ED758808A79F")
+    SBDOptions.setUseMemberAsMessageSender(true)
 
     return true
   }
@@ -63,5 +78,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func applicationWillTerminate(_ application: UIApplication) {
     // Called when the application is about to terminate. Save data if appropriate.
     // See also applicationDidEnterBackground:.
+  }
+
+  func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    SBDMain.registerDevicePushToken(deviceToken, unique: true) { (status, error) in
+      if error == nil {
+        if status == SBDPushTokenRegistrationStatus.pending {
+
+        }
+        else {
+
+        }
+      }
+      else {
+
+      }
+    }
+  }
+
+  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+    if userInfo["sendbird"] != nil {
+      let sendBirdPayload = userInfo["sendbird"] as! Dictionary<String, Any>
+      let channel = (sendBirdPayload["channel"]  as! Dictionary<String, Any>)["channel_url"] as! String
+      let channelType = sendBirdPayload["channel_type"] as! String
+      if channelType == "group_messaging" {
+        self.receivedPushChannelUrl = channel
+      }
+    }
+  }
+}
+
+// MARK: UNUserNotificationCenterDelegate
+extension AppDelegate: UNUserNotificationCenterDelegate {
+  func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    let sendBirdInfo = response.notification.request.content.userInfo["sendbird"]
+    if sendBirdInfo != nil {
+      let sendBirdPayload = sendBirdInfo as! Dictionary<String, Any>
+      let channel = (sendBirdPayload["channel"]  as! Dictionary<String, Any>)["channel_url"] as! String
+      let channelType = sendBirdPayload["channel_type"] as! String
+      if channelType == "group_messaging" {
+        self.receivedPushChannelUrl = channel
+      }
+    }
   }
 }

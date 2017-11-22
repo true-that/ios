@@ -11,7 +11,7 @@ class User: BaseModel {
 
   /// How her mother calls her.
   var firstName: String?
-  /// How his friends calls him.
+  /// How his army friends calls him.
   var lastName: String?
   /// For future authentication.
   var deviceId: String?

@@ -53,9 +53,11 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>We use the camera to see how you feel! How cool is that? ;)</string>
+	<string>To see how you feel! How cool is that? ;)</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To hear your pretty voice with videos</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>To send to your friend.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

@@ -8,11 +8,18 @@
 
 import Crashlytics
 import SwiftyJSON
+import SendBirdSDK
 
 /// Manages authentication and autherization for the application.
 class AuthModule {
   /// Keychain user session key
-  static let userKey = "LAST_USER_SESSION"
+  static let userKey = "last_user_session"
+
+  /// User defaults user id
+  static let userDefaultsUserId = "user_id"
+
+  /// User defaults nickname
+  static let userDefaultsNickname = "nickname"
 
   public var delegate: AuthDelegate?
 
@@ -96,10 +103,33 @@ class AuthModule {
   func authRequest(for user: User) {
     Crashlytics.sharedInstance().setObjectValue(
       user, forKey: LoggingKey.authUser.rawValue.snakeCased()!.uppercased())
-    _ = AuthApi.auth(for: user)
-      .on(value: {
-        if $0.isAuthOk {
-          self.current = $0
+    SBDMain.connect(withUserId: user.phoneNumber!, completionHandler: { (sendBirdUser, connectError) in
+      if connectError != nil {
+        self.delegate?.didAuthFail()
+        return
+      }
+      if SBDMain.getPendingPushToken() != nil {
+        SBDMain.registerDevicePushToken(SBDMain.getPendingPushToken()!, unique: true, completionHandler: { (status, statusError) in
+          if statusError == nil {
+            if status == SBDPushTokenRegistrationStatus.pending {
+              App.log.verbose("Push registeration is pending.")
+            } else {
+              App.log.info("APNS Token is registered.")
+            }
+          } else {
+            App.log.warning("APNS registration failed.")
+          }
+        })
+      }
+
+      SBDMain.updateCurrentUserInfo(
+        withNickname: user.displayName, profileUrl: nil, completionHandler: { updateError in
+          if updateError != nil {
+            App.log.report("Failed to update nickname.", withError: updateError!)
+            SBDMain.disconnect(completionHandler: {})
+            self.delegate?.didAuthFail()
+            return
+          }
           App.log.debug("Auth OK: we missed ya \(self.current!.displayName) already!")
           do {
             try App.keychainModule.save(JSON(from: self.current!).rawData(), key: AuthModule.userKey)
@@ -109,18 +139,8 @@ class AuthModule {
           Crashlytics.sharedInstance().setUserIdentifier(String(describing: self.current!.id!))
           Crashlytics.sharedInstance().setUserName(self.current!.displayName)
           self.delegate?.didAuthOk()
-        } else {
-          App.log.warning("Responsed user is not auth OK: \($0)")
-          self.current = nil
-          self.delegate?.didAuthFail()
-        }
       })
-      .on(failed: { error in
-        App.log.report("Failed auth request for \(user), with error \(error)", withError: error)
-        self.current = nil
-        self.delegate?.didAuthFail()
-      })
-      .start()
+    })
   }
 
   fileprivate var lastSession: User? {

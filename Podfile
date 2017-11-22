@@ -1,16 +1,19 @@
-platform :ios, '11.0'
+platform :ios, '10.0'
 use_frameworks!
 
 target 'TrueThat' do
   pod 'AffdexSDK-iOS'
   pod 'Alamofire', '~> 4.4'
   pod 'Appsee'
+  pod 'Chatto'
+  pod 'ChattoAdditions'
   pod 'Fabric'
   pod 'Crashlytics'
   pod 'KeychainAccess'
   pod 'Kingfisher', '~> 3.0'
   pod 'PhoneNumberKit'
   pod 'ReactiveCocoa', '~> 6.0'
+  pod 'SendBirdSDK'
   pod 'SwiftyBeaver'
   pod 'SwiftyJSON'
   
